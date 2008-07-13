@@ -3,6 +3,7 @@ package test.d3;
 import java.util.Vector;
 
 import ddddbb.comb.Cell;
+import ddddbb.comb.CellComplex;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.DiAxisModel;
 import ddddbb.gen.DoubleModel;
@@ -376,24 +377,25 @@ public final class Opt {
 		planes.add(xyDiag);
 		planes.add(zPlane);
 		planes.add(yPlane);
-		Vector<Cell> cubes = new Vector<Cell>();
+		CellComplex cubes = new CellComplex();
 		Cell cube2 = new Cell(_cube2);
 		cube2.computeSpacesIN();
 		Cell cube1 = new Cell(_cube1);
 		cube1.computeSpacesIN();
-		cubes.add(cube2);
-		cubes.add(cube1);
+		cubes.cells.add(cube2);
+		cubes.cells.add(cube1);
 		
 		Cell cube3 = new Cell(_cube3);
 		
 		cube3.computeSpacesIN();
 		Cell tet3 = new Cell(_tet3);
 		tet3.computeSpacesIN();
-		Vector<Cell> cutout = Cell.cutOut(cubes,tet3);
-		System.out.println(cutout.size());
+		cubes.cutOut(tet3);
+		cubes.cells.add(tet3);
+		System.out.println(cubes.cells.size());
 		
 		scene = new Scene3d();
-		for (Cell i:cutout) {
+		for (Cell i:cubes.cells) {
 			scene.top3d.add(i); 
 		}
 //		scene.top3d.add(tet3);

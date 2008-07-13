@@ -107,28 +107,39 @@ public class OCell extends BCell implements Iterable<OCell> {
 		return true;
 	}
 	
-	public static boolean opposite(OCell a,OCell b) {
-		if (a.cell!=b.cell) { return false; }
-		return setEqual(a.parent.halfSpaces(),b.parent.halfSpaces());
+	public static boolean adjacent(OCell a,OCell b) {
+		return a.cell == b.cell;
 	}
 	
-	public OCell snappedTo() {
-		if (snappedToSet) { return snappedTo; }
-		if (dim()+1>=spaceDim()) { return null; }
+	/**
+	 * Two OCells are opposite if they reference the same Cell
+	 * (i.e. occupy the same space)
+	 * and their parent Cells lie in the same space (same SpaceId).
+	 * In this case they are not visible per default.
+	 */
+	public static boolean opposite(OCell a, OCell b) {
+		return adjacent(a,b) && a.parent.spaceId == b.parent.spaceId;
+	}
+		
+	public OCell opposite() {
+		if (dim()>=spaceDim()) { return null; }
 		Vector<OCell> candidates = cell.ocells;
 		for (OCell c:candidates) {
-			if (c!=this) {
-				assert parent != null;
-				if (parent.halfSpaces()!=null && c.parent.halfSpaces()!=null) 
-					if	(setEqual(parent.halfSpaces(),c.parent.halfSpaces())) {
-						snapTo(c);
-						return c;
-					}
-			}
+			if (c==this) continue;
+			assert parent != null;
+			if (OCell.opposite(this,c)) 
+				return c;
 		}
 		return null;
 	}
 
+	public OCell snappedTo() {
+		if (snappedToSet) {
+			return snappedTo;
+		}
+		return opposite();
+	}
+	
 	@Override
 	public List<? extends BCell> facets() {
 		return cell.facets;
@@ -144,23 +155,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 		return cell.location();
 	}
 
-	public static Vector<OCell> d2o(Iterable<DCell> dcells, Camera4d camera4d) {
-		Vector<OCell> ocells = new Vector<OCell>();
-		for (DCell dc:dcells) {
-			initDCopy(dc);
-		}
-		for (DCell df: dcells) {
-			OCell oc = new OCell(df, camera4d);
-			ocells.add(oc);
-			oc.cell().computeSpacesIN();
-		}
-		for (OCell oc : ocells) {
-			oc.adjustSnapAfterDCopy();
-		}
-		return ocells;
-	}
-	
-	private OCell(DCell dc, Camera4d c4) {
+	OCell(DCell dc, Camera4d c4) {
 		boolean proj3d = false;
 		if (c4!=null) { proj3d = true; }
 		
@@ -177,20 +172,13 @@ public class OCell extends BCell implements Iterable<OCell> {
 				fcell.connectParent(cell);
 			}
 		}
+		cell.spaceId = SpaceId.from(dc.location);
 		
 		src = dc;
 		dc.dst = this;		
 	}
 
-	private static void initDCopy(DCell dc) {
-		dc.location._dst = null;
-		dc.dst = null;
-		for (DCell dc2:dc.facets()) {
-			initDCopy(dc2);
-		}		
-	}
-	
-	private void adjustSnapAfterDCopy() {
+	void adjustSnapAfterDCopy() {
 		if (src.snappedTo()!=null) {
 			snappedTo = src.snappedTo().dst;
 			snappedToSet = true;
@@ -229,18 +217,18 @@ public class OCell extends BCell implements Iterable<OCell> {
 		//not splitted
 		assert !cell().isSplitted() :
 			cell;
-		if (snappedTo() != null) {
-			if (snappedTo().cell!=cell) {
+		if (snappedTo != null) {
+			if (snappedTo.cell!=cell) {
 //				snappedTo.fixSnapAfterSplit();
 			}
-			assert snappedTo().cell == cell || snappedTo().snappedTo().isSplitted():
-				snappedTo().cell == cell || snappedTo().snappedTo().isSplitted();
-			assert snappedTo().cell == cell || snappedTo().isSplitted();
-			assert snappedTo().cell() == cell() || snappedTo().inner.cell == cell || snappedTo().outer.cell == cell;
-			assert snappedTo().snappedTo() == this : 
-				snappedTo().snappedTo();
-			assert !snappedTo().isSplitted() :
-				snappedTo();
+			assert snappedTo.cell == cell || snappedTo.snappedTo.isSplitted():
+				snappedTo.cell == cell || snappedTo.snappedTo.isSplitted();
+			assert snappedTo.cell == cell || snappedTo.isSplitted();
+			assert snappedTo.cell() == cell() || snappedTo.inner.cell == cell || snappedTo.outer.cell == cell;
+			assert snappedTo.snappedTo == this : 
+				snappedTo.snappedTo;
+			assert !snappedTo.isSplitted() :
+				snappedTo;
 		}
 		for ( OCell f : cell.facets ) {
 			assert f.checkSnap();
@@ -248,12 +236,12 @@ public class OCell extends BCell implements Iterable<OCell> {
 		return true;
 	}
 	
-	public void snapTo(OCell _dst) {
-		snappedTo = _dst;
-		_dst.snappedTo = this;
-		snappedToSet = true;
-		snappedTo.snappedToSet = true;
-	}
+//	private void snapTo(OCell _dst) {
+//		snappedTo = _dst;
+//		_dst.snappedTo = this;
+//		snappedToSet = true;
+//		snappedTo.snappedToSet = true;
+//	}
 	
 	public void unsnap() {
 		snappedToSet = true;
@@ -304,13 +292,6 @@ public class OCell extends BCell implements Iterable<OCell> {
 		return true;
 	}
 
-	public static boolean checkSnap(List<OCell> cells) {
-		for ( OCell c : cells ) {
-			if ( ! c.checkSnap() ) { return false; }
-		}
-		return true;
-	}
-	
 	/* checks that each facets is contained in at most one parent 
 	 */
 	@Override
@@ -363,6 +344,20 @@ public class OCell extends BCell implements Iterable<OCell> {
 		};
 	}
 	
+	/**
+	 * An OCell is internal if
+	 * a) it's parent is internal
+	 * b) it's parent is non-internal and its snappedTo something with non-internal parent 
+	 */
+	boolean isInternal() {
+		if (parent()!=null && parent().isInternal()) return true;
+		//(has no parent or) is visible
+		if (snappedTo()==null) return false;
+		if (snappedTo().parent().isInternal()) return false; 
+		assert snappedTo().snappedTo() == this : dim();
+		return true;
+	}
+	
 	public void paint(D3Graphics g3, boolean woInternals) {
 		cell.paint(g3,woInternals);
 		if (!Param.debug.isSelected()) return;
@@ -376,5 +371,5 @@ public class OCell extends BCell implements Iterable<OCell> {
 			return;
 		}
 	}
-	
+
 }

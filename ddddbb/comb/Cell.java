@@ -22,6 +22,7 @@ public class Cell extends ACell {
 	protected Vector<OCell> ocells = new Vector<OCell>(); //dim
 	
 	Location location;
+	SpaceId spaceId;
 
 	protected Cell inner; // dim
 	protected Cell outer; // dim
@@ -47,7 +48,8 @@ public class Cell extends ACell {
 	}
 
 	private Cell(Cell[][][] _facets, Vector<Cell> f2, Vector<Cell> f1, Vector<Cell> f0) {
-		location = new Location(_facets[0][0][0].dim(),3);
+		location = new Location(_facets[0][0][0].spaceDim(),3);
+		spaceId = new SpaceId();
 		for (Cell[][] f: _facets) {
 			Cell c = lookup(f2,new Cell(f,f1,f0));
 			new OCell(c,this);//this is twice
@@ -56,7 +58,8 @@ public class Cell extends ACell {
 	}
 	
 	private Cell(Cell[][] _facets, Vector<Cell> f1, Vector<Cell> f0) {
-		location = new Location(_facets[0][0].dim(),2);
+		location = new Location(_facets[0][0].spaceDim(),2);
+		spaceId = new SpaceId();
 		for (Cell[] f: _facets) {
 			Cell c = lookup(f1,new Cell(f,f0));
 			OCell fcell = new OCell(c,this);//this is twice
@@ -70,7 +73,8 @@ public class Cell extends ACell {
 	}
 
 	private Cell(Cell[] ab, Vector<Cell> f0) {
-		location = new Location(ab[0].dim(),1);
+		location = new Location(ab[0].spaceDim(),1);
+		spaceId = new SpaceId();
 		assert ab.length == 2 : ab.length;
 		new OCell(lookup(f0,ab[0]),this);
 		new OCell(lookup(f0,ab[1]),this);
@@ -109,15 +113,16 @@ public class Cell extends ACell {
 			res[i] = new Cell[x[i].length][2];
 			for (int j=0;j<x[i].length;j++) {
 				assert x[i][j].length == 6;
-				res[i][j][0] = new Cell(new Point3d(x[i][j][0],x[i][j][1],x[i][j][2]));
-				res[i][j][1] = new Cell(new Point3d(x[i][j][3],x[i][j][4],x[i][j][5]));
+				res[i][j][0] = new Cell(new Point3d(x[i][j][0],x[i][j][1],x[i][j][2]),new SpaceId());
+				res[i][j][1] = new Cell(new Point3d(x[i][j][3],x[i][j][4],x[i][j][5]),new SpaceId());
 			}
 		}
 		return res;
 	}
 	
-	public Cell(Point3d point) {
+	public Cell(Point3d point, SpaceId _spaceId) {
 		location = new Location(point,true);
+		spaceId = _spaceId;
 	}
 	
 	protected Cell() {}
@@ -153,12 +158,13 @@ public class Cell extends ACell {
 //		assert dim() != 1 || facets().size() == 2 : facets().size();
 //	}
 //	
-	public static Cell create(Collection<OCell> facets) {
+	public static Cell create(Collection<OCell> facets, SpaceId _spaceId) {
 		Cell c = new Cell();
 		assert ! facets.isEmpty();
 		assert facets.iterator().next() != null :
 			null;
 		c.location = new Location(3,facets.iterator().next().dim()+1);
+		c.spaceId = _spaceId;
 		
 		for (OCell of: facets) {
 			of.connectParent(c);
@@ -171,9 +177,10 @@ public class Cell extends ACell {
 		return c;
 	}
 
-	private Cell(Collection<Cell> _facets) { //weird: Java can not distinguish between List<Cell> and List<OCell>
+	private Cell(Collection<Cell> _facets, SpaceId _spaceId) { //weird: Java can not distinguish between List<Cell> and List<OCell>
 		assert ! _facets.isEmpty();
 		location = new Location(3,_facets.iterator().next().dim()+1);
+		spaceId = _spaceId;
 		for (Cell f :_facets) {
 			new OCell(f,this);
 		}
@@ -224,7 +231,7 @@ public class Cell extends ACell {
 	//public Space2d space2d;
 
 	public void computeSpacesIN() {
-		assert spaceDim() == 3;
+		assert spaceDim() == 3 : spaceDim();
 		assert dim() == 3;
 		Collection<ALocation> locations = getPointLocations(false);
 		for (OCell f2:facets) {
@@ -291,6 +298,7 @@ public class Cell extends ACell {
 //	}
 	
 	public void split(OHalfSpace e,OCell ocell) {
+		assert spaceId !=null : dim();
 		assert ocell==null || ocells.contains(ocell);
 		assert e != null;
 		if ( isSplitted()) { return; }
@@ -302,9 +310,9 @@ public class Cell extends ACell {
 		OCell innerCut = null;
 		OCell outerCut = null;
 		
-		//if this cell was splitted, it will no more be used
+		//if this cell was split, it will no more be used
 		//if it however was only touched, it will be reused and so we have to
-		//acertain that the variables are in the initial state
+		//ascertain that the variables are in the initial state
 		cut = null;
 		inner = null;
 		outer = null;
@@ -339,14 +347,14 @@ public class Cell extends ACell {
 			int sideA = e.outer(a);
 			int sideB = e.outer(b);
 			if      (sideA==-1 && sideB== 1) {
-				cut = new Cell(cutPoint(e));
+				cut = new Cell(cutPoint(e),spaceId.cut(e));
 				inner_facets.add(af);
 				outer_facets.add(bf);
 				splitCellIs = SPLITTED;
 				//continue below
 			}
 			else if (sideA== 1 && sideB==-1) {
-				cut = new Cell(cutPoint(e));
+				cut = new Cell(cutPoint(e),spaceId.cut(e));
 				inner_facets.add(bf);
 				outer_facets.add(af);
 				splitCellIs = SPLITTED;
@@ -433,7 +441,7 @@ public class Cell extends ACell {
 				return;
 			}
 			else if ((! inner_facets.isEmpty()) && (! outer_facets.isEmpty())) {
-				cut = new Cell(cut_facets);
+				cut = new Cell(cut_facets,spaceId.cut(e));
 				splitCellIs = SPLITTED;
 				//continue below
 			}
@@ -447,12 +455,12 @@ public class Cell extends ACell {
 
 		innerCut = new OCell(cut);
 		outerCut = new OCell(cut);
-
+		
 		inner_facets.add(innerCut);
 		outer_facets.add(outerCut);
 
-		inner = create(inner_facets);
-		outer = create(outer_facets);
+		inner = create(inner_facets,spaceId);
+		outer = create(outer_facets,spaceId);
 		
 		if (dim()+1==spaceDim()) {
 			inner.location.setHalfSpace(halfSpace());
@@ -465,7 +473,8 @@ public class Cell extends ACell {
 			innerCut.orientation = e.orientation();
 		}
 
-		innerCut.snapTo(outerCut);
+		assert OCell.opposite(innerCut, outerCut);
+		assert innerCut.snappedTo() == outerCut;
 
 		assert ocell==null || ocells.contains(ocell);
 
@@ -478,24 +487,7 @@ public class Cell extends ACell {
 				oc.parent().facets.add(oc.outer);
 			}
 		}
-		for (OCell oc:ocells) {
-			assert oc.inner != null && oc.outer != null;
-			if (oc.snappedTo()!=null) {
-				assert ocells.contains(oc.snappedTo());
-				assert oc.snappedTo().inner != null;
-				assert oc.snappedTo().outer != null;
-				oc.inner.snapTo(oc.snappedTo().inner);
-				oc.outer.snapTo(oc.snappedTo().outer);
-			}
-		}
 
-
-		assert innerCut.snappedTo()!=null:
-			innerCut.snappedTo();
-//			"D"+innerCut.dim()+":"+innerCut;
-		assert innerCut.snappedTo().cell() == innerCut.cell():
-			null;
-		assert outerCut.snappedTo().cell() == outerCut.cell();
 		assert innerCut.location() == outerCut.location();
 		assert inner_facets.iterator().next().dim() == innerCut.dim() : inner_facets.iterator().next().dim() + "," + innerCut.dim();
 		
@@ -596,101 +588,45 @@ public class Cell extends ACell {
 		return center;
 	}
 
-	public Vector<Cell> cutOut(Iterable<OHalfSpace> planes) {
-		Vector<Cell> res = new Vector<Cell>();
-		
-		/* If this cell is outside one of the planes there is nothing to do*/
-		for (OHalfSpace e:planes) {
-			if (e.side(this) == Cell.OUTER) {
-				res.add(this);
-				return res;
-			}
-		}
-		
-		/* Otherwise it will be cut into pieces */
-
-		Cell innerCell = this;
-
-		for (OHalfSpace e:planes) {
-			innerCell.split(e,null);
-			res.add(innerCell.outer);
-			innerCell = innerCell.inner;
-			assert innerCell.checkPointRefs() :
-				innerCell.getPointLocations();
-		}
-		
-		assert innerCell != null;
-		innerCell.snapOut();
-		return res;
-	}
+//	public Vector<Cell> cutOut(Iterable<OHalfSpace> planes) {
+//		Vector<Cell> res = new Vector<Cell>();
+//		
+//		/* If this cell is outside one of the planes there is nothing to do*/
+//		for (OHalfSpace e:planes) {
+//			if (e.side(this) == Cell.OUTER) {
+//				res.add(this);
+//				return res;
+//			}
+//		}
+//		
+//		/* Otherwise it will be cut into pieces */
+//
+//		Cell innerCell = this;
+//
+//		for (OHalfSpace e:planes) {
+//			innerCell.split(e,null);
+//			res.add(innerCell.outer);
+//			innerCell = innerCell.inner;
+//			assert innerCell.checkPointRefs() :
+//				innerCell.getPointLocations();
+//		}
+//		
+//		assert innerCell != null;
+//		innerCell.snapOut();
+//		return res;
+//	}
 	
-	public static Vector<Cell> cutOut(Iterable<Cell> cells, Iterable<OHalfSpace> planes) {
-		Vector<Cell> res = new Vector<Cell>();
-		Vector<Cell> affected = new Vector<Cell>();
+	boolean isInternal() {
 		
-		for (Cell c:cells) {
-			//if c is outside one of the planes put it into res
-			boolean aff = true;
-			for (OHalfSpace e:planes) {
-				if (e.side(c) == Cell.OUTER) {
-					res.add(c);
-					aff = false;
-					break;
-				}
-			}
-			if (aff) { affected.add(c); }
-		}
-		
-		Vector<Cell> innerCells = new Vector<Cell>(affected);
-		Vector<Cell> innerCells2;
-		for (OHalfSpace e:planes) {
-			innerCells2 = new Vector<Cell>();
-			for (Cell innerCell:innerCells) {
-				innerCell.split(e,null);
-				if ( innerCell.isSplitted() ) {
-					res.add(innerCell.outer);
-					innerCells2.add(innerCell.inner);
-				}
-				if ( innerCell.isInner()) {
-					innerCells2.add(innerCell);
-				}
-				if ( innerCell.isOuter()) {
-					res.add(innerCell);
-				}
-			}
-			innerCells = innerCells2;
-		}
-		
-		for (Cell innerCell:innerCells) {
-			innerCell.remove();
-		}
-		
-		return res;
-	}
-	
-	public static Vector<Cell> cutOut(List<Cell> top3d, Cell c) {
-		assert c.spaceDim() == 3;
-		assert c.dim() == 3;
-		Vector<OHalfSpace> hyperPlanes = new Vector<OHalfSpace>();
-		for (OCell f:c.facets ) {
-			OHalfSpace s = new OHalfSpace(f.cell().halfSpace(),f.orientation);
-			hyperPlanes.add(s);
-		}
-		return cutOut(top3d,hyperPlanes);
-	}
-
-	
-	public boolean isInternal() {
+		// if it is not referenced from anywhere it is a top level cell and visible
 		if (ocells.size()==0) { return false; }
+		
+		/* go through the OCells that refer to this Cell and determine 
+		 * whether they are all internal
+		 * If only one is visible this whole Cell is visible */
 		for (OCell oc:ocells) {
-			if (oc.parent()!=null && oc.parent().isInternal()) { 
-				continue;
-			}
-			//p (has no parent or) is visible
-			if (oc.snappedTo()==null) return false;
-			if (oc.snappedTo().parent().isInternal()) return false; 
-			assert oc.snappedTo().snappedTo() == oc : dim();
-			assert ocells.contains(oc.snappedTo());
+			if (!oc.isInternal()) return false;
+			assert oc.snappedTo() ==null || ocells.contains(oc.snappedTo());
 		}
 		return true;
 	}
@@ -721,7 +657,7 @@ public class Cell extends ACell {
 		return outer;
 	}
 	
-	private boolean checkSnap() {
+	boolean checkSnap() {
 		for (OCell f: facets) {
 			if ( ! f.checkSnap() ) { return false; }
 		}
@@ -761,13 +697,6 @@ public class Cell extends ACell {
 			}
 			assert f.checkCellrefs(cellrefs);
 			cellrefs.add(of);
-		}
-		return true;
-	}
-	
-	public static boolean checkSnap(List<Cell> cells) {
-		for ( Cell c : cells ) {
-			if ( ! c.checkSnap() ) { return false; }
 		}
 		return true;
 	}

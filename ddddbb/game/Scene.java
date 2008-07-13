@@ -5,11 +5,11 @@ import java.util.Vector;
 
 import ddddbb.comb.ACell;
 import ddddbb.comb.Cell;
+import ddddbb.comb.CellComplex;
 import ddddbb.comb.DCell;
 import ddddbb.comb.DLocation;
 import ddddbb.comb.DOp;
 import ddddbb.comb.DSignedAxis;
-import ddddbb.comb.OCell;
 import ddddbb.game.Opt.GameStatus;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.IntModel;
@@ -294,7 +294,7 @@ public class Scene extends Model implements MyChangeListener {
 							i == 1 || //bottom side
 							i == 2 || //front side
 							i == 3 || //right main cube 
-//							i == 4 || //left side left tesseract 
+							i == 4 || //left side left tesseract 
 							i == 5 || //lower side left tesseract 
 							i == 6 || //front side left tesseract  
 							i == 7 || //left main cube
@@ -318,18 +318,11 @@ public class Scene extends Model implements MyChangeListener {
 			}
 				
 			
-			Vector<OCell> visibles3 = OCell.d2o(dvisibles3,camera4d);
-			assert OCell.checkSnap(visibles3);
+			CellComplex visibles3 = new CellComplex(dvisibles3,camera4d);
+			assert visibles3.checkSnap();
 
-			List<Cell> s3 = new Vector<Cell>();
-			for (OCell oc3 : visibles3) {
-				assert oc3.cell().checkCellrefs();
-				assert oc3.cell().checkPointRefs();
-				s3 = Cell.cutOut(s3,oc3.cell());
-				s3.add(oc3.cell());
-			}
-			assert Cell.checkSnap(s3);
-			for (Cell f3 : s3) {
+			visibles3.occlude();
+			for (Cell f3 : visibles3.cells) {
 				f3.paint(g3,!Param.debug.isSelected());
 			}
 			

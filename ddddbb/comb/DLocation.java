@@ -66,4 +66,19 @@ public class DLocation extends ALocation {
 		assert k==spaceDim()-dim();
 		return res;
 	}
+	
+	public int hashCode() {
+		int d = origin.length;
+		
+		int spatHash = 1;
+		for (int i=0;i<spat.length;i++) {
+			spatHash *= spat[i]+1; 
+		}
+		int oa = 0;
+		for (int i=0;i<d;i++) {
+			oa += origin[i]*origin[i];
+		}
+		
+		return spatHash + oa;
+	}
 }

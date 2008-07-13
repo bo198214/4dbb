@@ -131,14 +131,6 @@ public class Scene3d extends Model implements MyChangeListener {
 //		top3d.add(f);
 //	}
 	
-	/* overpaint basicly cutOut with adding the facet
-	 * but it has no duplicate 1d facets
-	 */
-	public void overPaint(Cell f) {
-		top3d = Cell.cutOut(top3d,f);
-		top3d.add(f);
-	}
-
 //	private void cutOut(ACell f) {
 //		assert f.dim() == 3;
 //		/* slice affectedSceneTops */
