@@ -1,0 +1,34 @@
+8
+
+dir
+1320
+svn+ssh://henryk@unixpool.math.tu-berlin.de/homes/excoll/henryk/svn/projects/4dbb_good/src
+svn+ssh://henryk@unixpool.math.tu-berlin.de/homes/excoll/henryk/svn
+
+
+
+2007-02-27T17:09:01.449016Z
+1280
+henryk
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+d575b312-1ee9-0310-bc0e-968c3066d1e4
+
+test
+dir
+
+ddddbb
+dir
+

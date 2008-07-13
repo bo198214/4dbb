@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body>
+<h1>4D Building Blocks</h1>
+<h2>The Game</h2>
+You are presented a four dimensional scene, containing some compounds
+(on the main screen).<br>
+(If you are not familiar with 4D concepts, please read first the 
+introduction at the end.)
+<ul>
+<li>Your objective is to combine the given compounds yielding the goal.</li>
+<li>You can choose a different scene with goal in the &quot;file&gt;objectives&quot; menu
+(the previous scene and goal is then discarded).</li>
+<li>By toggling &quot;Goal&quot;
+you switch between seeing the scene and seeing the goal.</li>
+<li>You can cycle through selecting the different compounds, with 
+&quot;prev&quot; and &quot;next&quot;.</li>
+<li>The selected compound is marked with a small circle in its center.</li>
+<li>You can combine all compounds touching the currently selected with the
+combine-button. The center of the combined compound is what was the
+center of the selected compound. This is not necessarily in the middle
+of the combined compound, if you want to move it into the center then
+use &quot;barycenter&quot;. Note that the center can only be at a
+integral position, so sometimes it is set randomly to a nearest unit cube center.</li>
+<li>Assistingly you can see the coordinates of the axes (x,y,z,w) of the
+small circle before &quot;Goal&quot;.
+</ul>
+Every action in the object control can also be performed by keystroke,
+see the key control screen.<br>
+The default key assignment is:
+<ul>
+<li>Use the <b>left-right</b>/<b>down-up</b> keys for the compound to
+move along <b>x</b>/<b>y</b></li>
+<li>Use shift <b>left-right/down-up</b> for the compound to move along
+<b>w/z</b></li>
+<li>Press two of the keys a,s,d,f at the same time for rotating the
+compound in the corresponding plane. Where <b>f,d,s,a</b> corresponds to the axes
+<b>x,y,z,w</b>. The first pressed axis is rotated into the secondly pressed.
+axis.</li>
+<li>Use the keys <b>x/v</b> to select the <b>prev/next</b> compound.</li>
+<li>Use the key <b>c</b> to <b>combine</b> the selected compound with all bordering compounds.</li>
+<li>Use <b>space bar</b> to toggle viewing the <b>goal</b>.</li>
+<li>Use the keys <b>t/g/b</b> to change the 3d view rotation axis to
+<b>x/y/z</b>.</li>
+</ul>
+You can rotate the view by moving your mouse up/down in the view
+screen after selecting the desired action in the &quot;view
+control&quot; panel (i.e. 3d rotation or 4d rotation and along which
+plane, see below for more details of the underlying viewing model).
+
+<h2>The view modes</h2>
+Per default the red/cyan mode is presented to you, if you have no red/cyan
+glasses, choose another mode via the &quot;view&quot; menu. The following
+modes are available to you.
+<dl>
+<dt>&quot;flat&quot;</dt>
+<dd> This is the most undesirable mode for viewing 4D scenes.
+Nonetheless every one with at least one eye is able to use it.
+Use it only if every other method fails for you in the moment.</dd>
+<dt>&quot;parallel eye&quot;</dt>
+<dd>If you have no difficulties to see the depth in magic eye
+pictures probably you are able to use this mode or the crossed-eye mode.
+You cannot determine absolute depth in that mode. Because the eyes
+are parallel the focus angle cannot be used to determine the depth.
+Simply focus the eyes to infinity behind the screen.
+Though its not as accurate as the anaglyph mode, I like its brilliance.
+</dd>
+<dt>&quot;crossed eye&quot;</dt>
+<dd>This mode is untested because I am unable to use it. So theoreticly focus
+your eyes in front of the screen (if necessary take a pencil to focus on) 
+so that the two pictures overlap and melt. Use the adjustment screen to verify
+your viewing results.
+</dd>
+<dt>&quot;red/cyan&quot; or anaglyph</dt>
+<dd>Take red/cyan glasses
+(you can get cardboard-framed ones for less than a dollar) and enjoy
+this stunning virtuality!</dd>
+</dl>
+Note that you should use the adsjustment screen to get an optimal
+viewing experience. In the moment the adjustment screen is not very
+sophisticated, but at least you should size the 1cm or 1&quot; square
+to that size (by operating the vertical and horizontal screen resolution).
+
+<h2>The View control</h2>
+<p>We use the following view model:
+There is a 4D scene and a 4D camera. The 4D camera projects the
+4D scene to its 3D film/projection area. Depending on the viewing
+mode this 3D area is recreated behind your screen from the viewpoint
+of a 3D (stereo) camera.</p>
+<p>You now can adjust the position and direction of the 3D and 4D camera.
+Choose which camera and which translation axis/rotation axes to use in the
+&quot;view control&quot; panel.
+Generally the left mouse button is for rotation and the right
+mouse button for translation. Draw the mouse with respective pressed
+button vertically on the scene area and you will see the results.  
+
+<h3>Perspectives and Projections</h3>
+There are some different methods how to map 3D objects to a pictorial.
+Most of them have 4D counterparts.
+<dl>
+<dt>Perspective Projection</dt>
+<dd>
+This is the most natural projection, which we can find on photographs for example.
+Objects  in the background are depicted smaller than objects in the foreground.
+Parallel depth lines join in one point in the picture. 
+</dd>
+</dl>
+<p>
+One drawback of the perspective projection is that we cannot
+easily conclude the real lengths due to the depth shortening.
+Of course no projection can preserve all lengths but it is already
+of much help to preserve the lengths (or at least the ratio to the original)
+parallel to the axes of the coordinate system,
+especially for rectangular shapes as in technical drawing or (this) computer game.
+Those projections are called <em>axonometric projections</em> (for further information
+see <a href="http://www.compuphase.com/axometr.htm">here</a>).
+</p><p>
+To achieve this, one first defines the image of the trihedral on the picture 
+(i.e. three vectors <code>u,v,w</code> attatched to a point <code>o</code>).
+Then every point with the coordinates <code>(x,y,z)</code> is mapped
+to the point <code>o+x*u+y*v+z*w</code> on the picture.
+This is the same as if we apply the 2x3 matrix <code>(u,v,w)</code>
+to the vector (x,y,z)<sup>T</sup> plus <code>o</code>, i.e. it
+is aquivalent to beeing an affine transformation from 3D to 2D.
+</p><p>
+Each axonometric projection has a viewing axis, that is the axis
+mapped to <code>o</code>. Depending on the length ratio of the <code>u,v,w</code>
+one categorizes the axonometric projection into isometric, dimetric and trimetric
+projections. Typical used axonometric projections are 
+(we give ratios between the length of <code>u,v,w</code> and the 
+angles from <code>(0,1)</code> to <code>u,v,w</code>):
+</p><table border=1>
+<tr><td><b>30&deg; Isometric Perspective</b></td><td>isometric</td><td> 1:1:1</td><td align="right"> 30&deg;/90&deg;/150&deg;</td></tr>
+<tr><td>Military Perspective</td><td>isometric</td> <td>1:1:1</td> <td align="right">45&deg;/90&deg;/135&deg;</td></tr>
+<tr><td><b>Cavalier Perspective</b></td><td>dimetric</td><td>2:2:1</td><td align="right"> 0&deg;/90&deg;/45&deg;</tr>
+<tr><td>Chinese Perspective</td><td>dimetric</td><td>2:2:1</td><td align="right"> 0&deg;/90&deg;/30&deg;</tr>
+</table>
+
+<p>   
+On the other hand we have <em>parallel projections</em> and <em>orthogonal projections</em>.
+Parallel projection: (parallel) rays mapping the object to the canvas.
+Orthogonal projection: The rays hit the canvas perpendicular.
+</p><p>
+When asking which axonometric projections is useful for four dimensions,
+we note that (except for scaling) the 30&deg; isometric perspective is the only one that is a
+orthogonal projection (with the eye looking from <code>(1,1,1)</code> to <code>(0,0,0)</code>).
+And the cavalier perspective is the only one that leaves
+all except the last axis untouched and the last
+axis has the same angle to each other axis in the image. 
+(Though this is true for the military projection with the y-axis too.)
+Both descriptions can easily be extended to <code>n</code> dimensions.
+And so we do to 4 dimensions (while we always use perspective projection for 3D).
+</p> 
+<p>
+The axonometric projections all use a fixed viewing angle so 4D rotation
+is disabled with them.
+</p>
+
+<h2>Introduction</h2>
+For a really recommendable introduction look at the <a
+href="http://eusebeia.dyndns.org/4d/vis/vis.html">4D
+Visualization Page</a>. As a starting point have also a look at <a
+href="http://en.wikipedia.org/wiki/4th_dimension">Wikipedia's 4th
+dimension</a>. The rest of this chapter is only a quick
+patch introduction.
+<p>In opposite to the most spread idea of the time being the 4th dimension we
+consider here a truly 4 dimensional space, that is with 4 orthogonal
+<em>space</em> axes. Of course in our physical space we cannot put
+4 axes together so that each is orthogonal to each other.
+On a paper we similarely can not draw 3 orthogonal lines but anyway
+most pictures show 3 dimensional content.
+Maybe a four dimensional beeing uses its pictures
+(i.e. 3 dimensional cuboids) to depict 4 dimensional content. And so
+we will do.</p>
+
+<p>The four dimensional space is the straight forward generalization of the 
+movement from 0 to 1 to 2 to 3 dimensions.
+So most questions for 4 dimensions can be answered when looking at the
+relation of the 2 (flatland) and 3 dimensional (our physical) space.
+Let us clarify the following questions:
+<dl> 
+<dt>What happens if a 4D sphere is pushed through our space?</dt>
+<dd>Not yet explained.</dd>
+<dt>What are rotation axes in 4D space?</dt>
+<dd>
+In 2 dimensions we have a rotation center.
+In 3 dimensions we have a rotation axis.
+In 4 dimensions we have a rotation plane.
+But we dont need that many axes to describe a rotation.
+Given to different directions there is in each dimension a uniquely
+determined rotation transforming the first direction into the second. 
+In general a rotation is a length and orientation preserving geometric
+transformation, or in other words where the determinant of the
+transformation matrix is 1. 
+</dd>
+<dt>What does a 4 dimensional cube look like?</dt>
+<dd>Not yet explained.</dd>
+<dt>How many and what platonic solids are there in 4D space?</dt>
+<dd>See <a href="http://astronomy.swin.edu.au/~pbourke/geometry/platonic4d/">The Platonic Solids in 4D</a> (By Paul Bourke) and further
+<a href="http://members.aol.com/Polycell/uniform.html">Uniform Polytopes in 4D</a> (By George Olshevsky).</dd>
+<dt>Does a four dimensional space really exists?</dt>
+<dd>Not yet explained.</dd>
+</dl>
+
+There are useful other resources in the web to learn about 4D.
+You may want to have a look at (Sorted more or less from introductory to advanced):
+<ul>
+<li><a href="http://tetraspace.alkaline.org/">Tetraspace</a> - Comprehensive 4D Texts, Glossary &amp; Forum (By  Garrett Jones)</li>
+<li><a href="http://www.lboro.ac.uk/departments/ma/gallery/hyper/index.html">Hyperspace Structures</a> - 4D Texts and Movies (By Andy Burbanks)</li>
+<li><a href="http://cips02.physik.uni-bonn.de/~scheller/hypercubus/main.html">Alice begegnet der vierten Dimension</a> - Story and Interactive Animation (By Stefan Scheller)</li>
+<li><a href="http://www.maa.org/editorial/knot/tesseract.html">The Tesseract</a> - Interactive Hypercube Introduction (By Alex Bogomolny)</li>
+<li><a href="http://dogfeathers.com/java/">Java Stuff</a> - Variety of 4D Java Animations (By Mark Newbold)</li>
+<li><a href="http://www1.tip.nl/~t515027/hypercube.html">HyperCube</a> - Game (By Harmen van der Wal)</li>
+<li><a href="http://www.coolphysics.com/4d/">The 4th Dimension</a> - Physicist's View (By Mark Sudduth)</li>
+<li><a href="http://members.aol.com/jmtsgibbs/draw4d.htm">A 4D Polytope Viewer</a> (By  Michael Gibbs)</li>
+<li><a href="http://dogfeathers.com/towle/star.html">4D Star Polytope Movies</a> (By Russell Towle)</li> 
+<li><a href="http://mrl.nyu.edu/~perlin/experiments/demox/Hyper.html">Various 4D Shapes Viewer</a> (By Ken Perlin)</li>
+<li><a href="http://www.gang.umass.edu/~lawrence/">Hyperman</a> - 4D Viewer for Curved Objects (By James Lawrence)</li>
+<li><a href="http://home.rochester.rr.com/jbxroads/4cube.html">4D Rubick's Cube</a> (By John Bailey)</li>
+<li><a href="http://kbs.cs.tu-berlin.de/~jutta/swd/hyper-game.html">HyperCube Game Description</a> (By Jutta)</li>
+<li><a href="http://www.uoregon.edu/~koch/java/FourD.html">Solid Platonics Applet</a> (By Richard Koch)</li>
+<li><a href="http://www.weimholt.com/andrew/polytope.shtml">Solid Platonics Foldout Applet</a> (By Andrew Weimholt)</li>
+<li><a href="http://astronomy.swin.edu.au/~pbourke/geometry/platonic4d/">The Platonic Solids in 4D</a> (By Paul Bourke)</li>
+<li><a href="http://members.aol.com/Polycell/uniform.html">Uniform Polytopes in 4D</a> (By George Olshevsky)</li>
+</ul> 
+<hr>
+<i>$LastChangedDate$</i><br/>
+</body>
+</html>
