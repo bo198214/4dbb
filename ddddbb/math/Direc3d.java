@@ -22,7 +22,4 @@ public class Direc3d extends Direc {
 		normalize();
 	}
 	
-	public double arc(Point3d p) {
-		return Math.acos(sc(p)/p.len());
-	}
 }

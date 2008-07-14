@@ -219,6 +219,39 @@ public enum UIActions implements Performer {
 			Opt.showGoal.setSelected(!Opt.showGoal.isSelected());
 		}
 	},
+	rot3dCamXZ {
+		public void perform() {
+			Opt.scene.camera3d.rotate(0.1, 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(0), 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(2),
+					Opt.ViewAbsRel.CAMERA.selectCenter3d());
+		}
+	},
+	rot3dCamZX {
+		public void perform() {
+			Opt.scene.camera3d.rotate(0.1, 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(2), 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(0),
+					Opt.ViewAbsRel.CAMERA.selectCenter3d());
+		}
+	},
+	rot3dCamYZ {
+		public void perform() {
+			Opt.scene.camera3d.rotate(0.1, 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(1), 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(2),
+					Opt.ViewAbsRel.CAMERA.selectCenter3d());
+		}
+	},
+	rot3dCamZY {
+		public void perform() {
+			Opt.scene.camera3d.rotate(0.1, 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(2), 
+					Opt.ViewAbsRel.CAMERA.selectDirec3d(1),
+					Opt.ViewAbsRel.CAMERA.selectCenter3d());
+		}
+	}
+	
 	;
 	
 //	public void actionPerformed(ActionEvent e) {

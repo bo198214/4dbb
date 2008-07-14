@@ -14,7 +14,6 @@ import ddddbb.math.Point;
 import ddddbb.math.Point3d;
 import ddddbb.math.Space2d;
 
-/** Oriented cell */
 public class Cell extends ACell {
 	protected Vector<OCell> facets = new Vector<OCell>(); //dim-1
 
@@ -549,8 +548,8 @@ public class Cell extends ACell {
 	 * @param d dimension
 	 * @return Collection of faces
 	 */
-	public Collection<ACell> getFaces(int d,boolean withInternalFaces) {
-		Collection<ACell> res = new Vector<ACell>();
+	public Collection<Cell> getFaces(int d,boolean withInternalFaces) {
+		HashSet<Cell> res = new HashSet<Cell>();
 		if (!withInternalFaces && isInternal()) { return res; }
 		if (d>dim()) { return res; }
 		if (d==dim()) { 

@@ -9,8 +9,8 @@ import ddddbb.gen.MyChangeListener;
 public class Param {
 	public final static BoolModel debug = new BoolModel(
 			false, "debug");
-	public final static BoolModel opaque4d =	new BoolModel(
-			true, "opaque 4d");
+	public final static BoolModel backfaceCulling =	new BoolModel(
+			true, "4d backface culling");
 	
 	public final static BoolModel occlusionCulling = new BoolModel(
 			true,"4d occlusion culling"); //TODO default should maybe false

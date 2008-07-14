@@ -75,10 +75,10 @@ public class Scene extends Model implements MyChangeListener {
 				changed();
 			}
 		});
-		Param.opaque4d.addChangeListener(new MyChangeListener() {
+		Param.backfaceCulling.addChangeListener(new MyChangeListener() {
 			public void stateChanged() {
 				if (faces3d == null) { return; }
-				if (Param.opaque4d.isSelected()) {
+				if (Param.backfaceCulling.isSelected()) {
 					for (DCell of : faces3d) {
 						of.setVisibility(camera4d);
 					}			
@@ -279,7 +279,7 @@ public class Scene extends Model implements MyChangeListener {
 			v.proj3d2dIN(g3,camera4d);
 		}
 
-		if (Param.opaque4d.isSelected() && !camera4d.isParallelProjection()) {
+		if (Param.backfaceCulling.isSelected() && !camera4d.isParallelProjection()) {
 			updateVisibility();
 		}
 	
@@ -289,16 +289,16 @@ public class Scene extends Model implements MyChangeListener {
 			Vector<DCell> dvisibles3 = new Vector<DCell>();
 			for (DCell f3 : faces3d) {
 				if ( f3.visible && !f3.isInternal()) {
-					if ( 
-							i == 0 || //left side left tesseract
-							i == 1 || //bottom side
-							i == 2 || //front side
-							i == 3 || //right main cube 
-							i == 4 || //left side left tesseract 
-							i == 5 || //lower side left tesseract 
-							i == 6 || //front side left tesseract  
-							i == 7 || //left main cube
-							false )
+//					if ( 
+//							i == 0 || //left side left tesseract
+//							i == 1 || //bottom side
+//							i == 2 || //front side
+//							i == 3 || //right main cube 
+//							i == 4 || //left side left tesseract 
+//							i == 5 || //lower side left tesseract 
+//							i == 6 || //front side left tesseract  
+//							i == 7 || //left main cube
+//							false )
 						dvisibles3.add(f3);
 					i++;
 				}
@@ -322,8 +322,8 @@ public class Scene extends Model implements MyChangeListener {
 			assert visibles3.checkSnap();
 
 			visibles3.occlude();
-			for (Cell f3 : visibles3.cells) {
-				f3.paint(g3,!Param.debug.isSelected());
+			for (Cell f1 : visibles3.getFacesOfDim(1, false)) {
+				f1.paint(g3,!Param.debug.isSelected());
 			}
 			
 		} else {

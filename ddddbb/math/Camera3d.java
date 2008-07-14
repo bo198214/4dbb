@@ -43,6 +43,14 @@ public class Camera3d extends Model {
 		eye.rotate(ph,d,o);
 		changed();
 	}
+
+	public void rotate(double ph, Direc3d a, Direc3d b, Point3d o) {
+		v[0].rotate(ph, a,b);
+		v[1].rotate(ph, a,b);
+		v[2].rotate(ph, a,b);
+		eye.rotate(ph, a, b, o);
+		changed();
+	}
 	
 	public void translate(double dist,Direc3d a) {
 		eye.translate(a,dist);

@@ -50,22 +50,26 @@ public class KeyControl implements KeyListener {
 	}
 	
 	public static final KeyAction[] defaultSingleKeyAssignment = {
-		new KeyAction(37,InputEvent.SHIFT_MASK,UIActions.transSelectedPD4), // <-
-		new KeyAction(37,UIActions.transSelectedMD1),
-		new KeyAction(39,InputEvent.SHIFT_MASK,UIActions.transSelectedMD4), // ->
-		new KeyAction(39,UIActions.transSelectedPD1),
-		new KeyAction(38,InputEvent.SHIFT_MASK,UIActions.transSelectedPD3), // ^
-		new KeyAction(38,UIActions.transSelectedPD2),
-		new KeyAction(40,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3), // v
-		new KeyAction(40,UIActions.transSelectedMD2),
-		new KeyAction(74,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3), //j
-		new KeyAction(74,UIActions.transSelectedMD1),
-		new KeyAction(76,InputEvent.SHIFT_MASK,UIActions.transSelectedPD4), //l
-		new KeyAction(76,UIActions.transSelectedPD1),
-		new KeyAction(75,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3), //k
-		new KeyAction(75,UIActions.transSelectedMD2),
-		new KeyAction(73,InputEvent.SHIFT_MASK,UIActions.transSelectedPD3), //i
-		new KeyAction(73,UIActions.transSelectedPD2),
+		new KeyAction(37,UIActions.transSelectedMD1), // <-
+		new KeyAction(37,InputEvent.SHIFT_MASK,UIActions.transSelectedPD4), 
+		new KeyAction(37,InputEvent.CTRL_MASK,UIActions.rot3dCamZX),
+		new KeyAction(39,UIActions.transSelectedPD1), // ->
+		new KeyAction(39,InputEvent.SHIFT_MASK,UIActions.transSelectedMD4), 
+		new KeyAction(39,InputEvent.CTRL_MASK,UIActions.rot3dCamXZ),
+		new KeyAction(38,UIActions.transSelectedPD2), // ^
+		new KeyAction(38,InputEvent.SHIFT_MASK,UIActions.transSelectedPD3),
+		new KeyAction(38,InputEvent.CTRL_MASK,UIActions.rot3dCamYZ),
+		new KeyAction(40,UIActions.transSelectedMD2), // v
+		new KeyAction(40,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3),
+		new KeyAction(40,InputEvent.CTRL_MASK,UIActions.rot3dCamZY),
+		new KeyAction(74,UIActions.transSelectedMD1), //j
+		new KeyAction(74,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3),
+		new KeyAction(76,UIActions.transSelectedPD1), //l
+		new KeyAction(76,InputEvent.SHIFT_MASK,UIActions.transSelectedPD4),
+		new KeyAction(75,UIActions.transSelectedMD2), //k
+		new KeyAction(75,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3),
+		new KeyAction(73,UIActions.transSelectedPD2), //i
+		new KeyAction(73,InputEvent.SHIFT_MASK,UIActions.transSelectedPD3),
 		new KeyAction(49,UIActions.setSelected0), //1
 		new KeyAction(50,UIActions.setSelected1), //2
 		new KeyAction(51,UIActions.setSelected2), //3

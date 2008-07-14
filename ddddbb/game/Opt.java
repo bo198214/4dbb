@@ -41,9 +41,9 @@ import ddddbb.math.Point3d;
 import ddddbb.math.Point4d;
 
 public final class Opt {
-	protected final static Direc4d spaceCoord4d[] = {
+	public final static Direc4d spaceCoord4d[] = {
 			new Direc4d(1,0,0,0), new Direc4d(0,1,0,0), new Direc4d(0,0,1,0), new Direc4d(0,0,0,1) }; 
-	protected final static Direc3d spaceCoord3d[] = {
+	public final static Direc3d spaceCoord3d[] = {
 			new Direc3d(1,0,0), new Direc3d(0,1,0), new Direc3d(0,0,1) };
 	
 	
@@ -64,6 +64,7 @@ public final class Opt {
 	public static final IntStringModel viewTransRot = new IntStringModel(1, new String[] { "trans", "rot"});
 	public enum ViewAbsRel {
 		SYSTEM("space") {
+			Point3d p3 = new Point3d();
 			public Direc3d selectDirec3d(int i) {
 				return new Direc3d(spaceCoord3d[i]);
 			}
@@ -71,7 +72,6 @@ public final class Opt {
 				return new Direc4d(spaceCoord4d[i]);
 			}
 			public Point3d selectCenter3d() {
-				Point3d p3 = new Point3d();
 				scene.camera4d.proj3d(selectCenter4d(),p3);
 				return p3;
 				//return new Point3d(0,0,0);			
@@ -82,6 +82,7 @@ public final class Opt {
 			}			
 		},
 		CAMERA("camera") {
+			Point3d p3 = new Point3d();
 			public Direc3d selectDirec3d(int i) {
 				return new Direc3d(scene.camera3d.v[i]);
 			}
@@ -89,7 +90,6 @@ public final class Opt {
 				return new Direc4d(scene.camera4d.v[i]);
 			}
 			public Point3d selectCenter3d() {
-				Point3d p3 = new Point3d();
 				scene.camera4d.proj3d(selectCenter4d(),p3);
 				return p3;
 //				Point3d res = new Point3d(Main.opt.scene.camera3d.eye);

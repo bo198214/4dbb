@@ -1,7 +1,5 @@
 package ddddbb.math;
 
-import test.d3.Test3d;
-
 public class Point {
 	public double[] x; // this should be read only; made public for sake of simplicity
 	/** scalar product, a,b of same dimension */
@@ -160,7 +158,7 @@ public class Point {
 	 * */
 	public int positivity() {
 		for (int i=0;i<x.length;i++) {
-			if (-Test3d.opt.ERR < x[i] && x[i]<Test3d.opt.ERR) { continue; }
+			if (-Param.ERR < x[i] && x[i]<Param.ERR) { continue; }
 			if (x[i]>0) { return 1; }
 			if (x[i]<0) { return -1; }
 		}		

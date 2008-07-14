@@ -208,7 +208,7 @@ public class MyMenuBar extends JMenuBar {
 			Param.parallelProjection.addAsCheckBoxMenuItem(viewMenu);
 			Opt.drawTetrahedral.addAsCheckBoxMenuItem(viewMenu);
 			Opt.drawTrihedral.addAsCheckBoxMenuItem(viewMenu);
-			Param.opaque4d.addAsCheckBoxMenuItem(viewMenu);
+			Param.backfaceCulling.addAsCheckBoxMenuItem(viewMenu);
 			Param.occlusionCulling.addAsCheckBoxMenuItem(viewMenu);
 			Param.showCompoundGrid.addAsCheckBoxMenuItem(viewMenu);
 			Opt.antiAliased.addAsCheckBoxMenuItem(viewMenu);
