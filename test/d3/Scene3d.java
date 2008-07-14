@@ -8,14 +8,14 @@ import ddddbb.gen.Model;
 import ddddbb.gen.MyChangeListener;
 import ddddbb.math.Camera3d;
 import ddddbb.math.D3Graphics;
-import ddddbb.math.Point3d;
+import ddddbb.math.Point;
 
 public class Scene3d extends Model implements MyChangeListener {
 	//lists are sorted by distance of the 4d parent cubes from 4d camera
 	public List<Cell> top3d = new Vector<Cell>(); //3d
 	public List<Cell> top2d = new Vector<Cell>();
 	public List<Cell> top1d = new Vector<Cell>();
-	public List<Point3d> top0d;
+	public List<Point> top0d;
 	
 //	private Collection<Facet2d> ofacets2d = new Vector<OFacet2d>();
 //	private Collection<Facet1d> ofacets1d = new Vector<OFacet1d>();
@@ -55,8 +55,8 @@ public class Scene3d extends Model implements MyChangeListener {
 	public void addTop1d(Cell f) {
 		top1d.add(f);
 	}
-	public void addTop0d(Point3d f) {
-		top0d.add(f);
+	public void addTop0d(Point f3d) {
+		top0d.add(f3d);
 	}
 	
 //	/* overpaint basicly cutOut with adding the facet

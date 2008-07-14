@@ -18,15 +18,15 @@ public class Isometric30Perspective extends Camera4d {
 
 	public void setToDefault() {
 		initAxes();
-		rotateAxes(new Direc4d(0,0,0,1),new Direc4d(1,1,1,1));
-		eye = new Point4d(3,2,0,0);
+		rotateAxes(new Direc(0,0,0,1),new Direc(1,1,1,1));
+		eye = new Point(3,2,0,0);
 		changed();		
 	}
 
 	public void setDirec(DSignedAxis a) {
 		initAxes(a);
-		rotateAxes(new Direc4d(0,0,0,1),new Direc4d(1,1,1,1));
-		eye = new Point4d(3,2,0,0);
+		rotateAxes(new Direc(0,0,0,1),new Direc(1,1,1,1));
+		eye = new Point(3,2,0,0);
 		changed();		
 	}
 
@@ -35,22 +35,24 @@ public class Isometric30Perspective extends Camera4d {
 	}
 	
 	
-	public Direc4d viewingDirection() {
+	public Direc viewingDirection() {
 		return v[3];
 	}
 	
-	public boolean nproj3d(Point4d p,Point res) {
-		Point4d pd = new Point4d(p);
+	public boolean nproj3d(Point p4,Point res3) {
+		assert p4.dim() == 4;
+		assert res3.dim() == 3;
+		Point pd = new Point(p4);
 		pd.translate(eye,-1);
-		res.x[0] = v[0].sc(pd);
-		res.x[1] = v[1].sc(pd);
-		res.x[2] = v[2].sc(pd);
+		res3.x[0] = v[0].sc(pd);
+		res3.x[1] = v[1].sc(pd);
+		res3.x[2] = v[2].sc(pd);
 		//TODO: zoom to 1cm edge length
 		return true;
 	}
 
 	/** no rotation for this perspective */ 
-	public void rotate(double ph, Direc4d a, Direc4d b,Point4d p) {}
+	public void rotate(double ph, Direc a4d, Direc b4d,Point p4d) {}
 	public void setDirec(double ph1,double ph2,double ph3) {}
 
 	public boolean isParallelProjectionEnabled() {

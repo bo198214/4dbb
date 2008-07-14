@@ -15,17 +15,17 @@ import ddddbb.math.Camera3d;
 import ddddbb.math.CrossEyedGraphics;
 import ddddbb.math.D2GraphicsIF;
 import ddddbb.math.D3Graphics;
-import ddddbb.math.Direc3d;
+import ddddbb.math.Direc;
 import ddddbb.math.Flat3dGraphics;
 import ddddbb.math.ParallelEyedGraphics;
-import ddddbb.math.Point3d;
+import ddddbb.math.Point;
 import ddddbb.math.Space2d;
 
 public final class Opt {
 	public  final double ERR = 0.00001;
 
-	protected final static Direc3d spaceCoord3d[] = {
-			new Direc3d(1,0,0), new Direc3d(0,1,0), new Direc3d(0,0,1) };
+	protected final static Direc spaceCoord3d[] = {
+			new Direc(1,0,0), new Direc(0,1,0), new Direc(0,0,1) };
 	
 	
 	int applicationHeight = 600;
@@ -45,22 +45,22 @@ public final class Opt {
 	public IntStringModel viewTransRot = new IntStringModel(1, new String[] { "trans", "rot"});
 	public enum ViewAbsRel {
 		SYSTEM("space") {
-			public Direc3d selectDirec3d(int i) {
-				return new Direc3d(spaceCoord3d[i]);
+			public Direc selectDirec3d(int i) {
+				return new Direc(spaceCoord3d[i]);
 			}
-			public Point3d selectCenter3d() {
+			public Point selectCenter3d() {
 //				Point3d p3 = new Point3d();
 //				Test3d.opt.scene.camera4d.proj3d(selectCenter4d(),p3);
 //				return p3;
-				return new Point3d(0,0,0);			
+				return new Point(0,0,0);			
 			}
 		},
 		CAMERA("camera") {
-			public Direc3d selectDirec3d(int i) {
-				return new Direc3d(Test3d.opt.scene.camera3d.v[i]);
+			public Direc selectDirec3d(int i) {
+				return new Direc(Test3d.opt.scene.camera3d.v[i]);
 			}
-			public Point3d selectCenter3d() {
-				return new Point3d(0,0,0);
+			public Point selectCenter3d() {
+				return new Point(0,0,0);
 //				Point3d res = new Point3d(Test3d.opt.scene.camera3d.eye);
 //				Point3d d = new Point3d(Test3d.opt.scene.camera3d.v[2]);
 //				d.multiply(Test3d.opt.screenEyeDist.getDouble());
@@ -74,8 +74,8 @@ public final class Opt {
 		String name;
 		ViewAbsRel(String _name) {	name = _name;	}
 		public String toString() {	return name;	}
-		public abstract Direc3d selectDirec3d(int i);
-		public abstract Point3d selectCenter3d();
+		public abstract Direc selectDirec3d(int i);
+		public abstract Point selectCenter3d();
 	}
 	public IntModel<ViewAbsRel> viewAbsRel = new IntModel<ViewAbsRel>(ViewAbsRel.CAMERA, ViewAbsRel.values());
 	public String[] d3axisNames = {"v1","v2","v3"}; 
@@ -297,12 +297,12 @@ public final class Opt {
 		};
 		
 //		Facet1d diag = new Facet1d().init(new Point3d(0,0,1), new Point3d(1,1,1));
-		Space2d xyDiag = new Space2d(new Direc3d(-1,1,0),0);
-		Space2d zPlane = new Space2d(new Direc3d(0,0,1),0.5);
-		Space2d yPlane = new Space2d(new Direc3d(0,1,0),0.5);
-//		Space2d xPlane = new Space2d(new Direc3d(1,0,0),0.5);
+		Space2d xyDiag = new Space2d(new Direc(-1,1,0),0);
+		Space2d zPlane = new Space2d(new Direc(0,0,1),0.5);
+		Space2d yPlane = new Space2d(new Direc(0,1,0),0.5);
+//		Space2d xPlane = new Space2d(new Direc(1,0,0),0.5);
 		
-//		Space2d s = new Space2d(new Direc3d(0.5939074310171529, -0.8035411409028785, 0.03994494034425462),1.7592413464922083);
+//		Space2d s = new Space2d(new Direc(0.5939074310171529, -0.8035411409028785, 0.03994494034425462),1.7592413464922083);
 //		Cell c = new Cell(new double[][] {
 //				new double[] {-0.6333160367908606,-1.902347119019372,0.5199549470672978,-0.7681162264742307,-1.996139926012234,1.286186244542663,},
 //				new double[] {-1.336133961483991,-1.99425562296554,1.3915454357945687,-0.7681162264742307,-1.996139926012234,1.286186244542663,},
@@ -317,7 +317,7 @@ public final class Opt {
 //			new double[] { 0,1,1, 0,1,0 },
 //			new double[] { 0,1,0, 0,0,0 }
 //		});
-//		s = new Space2d(new Direc3d(0,0,1),0);
+//		s = new Space2d(new Direc(0,0,1),0);
 //		c.split(s);
 //		c = new Cell(new double[][] {
 //				new double[]{-2.0,-2.0,0.0,-2.25,-2.25,-0.25,},
@@ -325,7 +325,7 @@ public final class Opt {
 //				new double[]{-2.0,-2.0,1.0,-2.25,-2.25,0.75,},
 //				new double[]{-2.25,-2.25,-0.25,-2.25,-2.25,0.75,}
 //		});
-//		s = new Space2d(new Direc3d(0.7071067811865476, 0.0, -0.7071067811865476),-1.4142135623730951);
+//		s = new Space2d(new Direc(0.7071067811865476, 0.0, -0.7071067811865476),-1.4142135623730951);
 //		c.split(s);
 //		Cell c = new Cell(_cube1);
 //		c.split(xPlane);

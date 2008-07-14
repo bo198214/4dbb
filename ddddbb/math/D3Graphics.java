@@ -22,7 +22,7 @@ public abstract class D3Graphics {
 	private Camera3d c3;
 	
 
-	public abstract boolean screenProj(Point3d p,Point2d pl, Point2d pr);
+	public abstract boolean screenProj(Point p3d,Point2d pl, Point2d pr);
 	
 	public D3Graphics(D2GraphicsIF _g,Camera3d c,Color _LCOLOR,Color _RCOLOR) {
 		g2 = _g;
@@ -61,9 +61,10 @@ public abstract class D3Graphics {
 //		return true;
 //	}
 	
-	public void drawString(String s, Point3d p) {
+	public void drawString(String s, Point p3d) {
+		assert p3d.dim() == 3;
 		Point2d l=new Point2d(),r=new Point2d();
-		screenProj(p,l,r);
+		screenProj(p3d,l,r);
 		g2.setColor(lColor);
 		g2.drawString(s,l);
 		g2.setColor(rColor);
@@ -71,8 +72,10 @@ public abstract class D3Graphics {
 	}
 	
 
-	public boolean screenProj(Point3d _p3d, double e, double s, Point2d pl, Point2d pr) {
-		Point3d p3d = new Point3d(_p3d);
+	public boolean screenProj(Point _p3d, double e, double s, Point2d pl, Point2d pr) {
+		assert _p3d.dim() == 3;
+
+		Point p3d = new Point(_p3d);
 		p3d.translate(c3.eye,-1);
 		double x = c3.v[0].sc(p3d);
 		double y = c3.v[1].sc(p3d);
@@ -89,7 +92,7 @@ public abstract class D3Graphics {
 		return z > 0;
 	}
 
-	public void drawLine(Point3d a,Point3d b) {
+	public void drawLine(Point a,Point b) {
 		Point2d pal=new Point2d(),par=new Point2d(),pbl=new Point2d(),pbr=new Point2d();
 		if ( screenProj(a,pal,par) && screenProj(b,pbl,pbr) ) {
 			g2.setColor(lColor);
@@ -99,10 +102,11 @@ public abstract class D3Graphics {
 		}
 	}
 	
-	public void drawBlob(Point3d dot) {
+	public void drawBlob(Point dot3d) {
+		assert dot3d.dim() == 3;
 		Point2d dot2l = new Point2d();
 		Point2d dot2r = new Point2d();
-		if ( screenProj(dot,dot2l,dot2r) ) {
+		if ( screenProj(dot3d,dot2l,dot2r) ) {
 			g2.setColor(lColor);
 			g2.drawBlob(dot2l);
 			g2.setColor(rColor);
@@ -122,19 +126,20 @@ public abstract class D3Graphics {
 //		}
 	}
 	
-	public void drawPoint(Point3d dot) {
+	public void drawPoint(Point dot3d) {
+		assert dot3d.dim() == 3;
 		double blobRadius = 0.1;
 		for (int i=0;i<4;i++) {
 			double[] a = new double[4], b= new double[4];
 			for (int ix=0;ix<3;ix++) {
-				a[ix]=dot.x[ix];
+				a[ix]=dot3d.x[ix];
 				b[ix]=a[ix];
 				if (ix==i) {
 					a[ix]-=blobRadius;
 					b[ix]+=blobRadius;
 				}
 			}
-			drawLine(new Point3d(a),new Point3d(b));
+			drawLine(new Point(a),new Point(b));
 		}
 	}
 		
@@ -246,21 +251,22 @@ public abstract class D3Graphics {
 		}
 	}
 	
-	public void drawTrihedral(Point3d o,double s) {
-		Point3d o1,o2,o3;
-		o1 = new Point3d(s,0,0); o1.add(o);
-		o2 = new Point3d(0,s,0); o2.add(o);
-		o3 = new Point3d(0,0,s); o3.add(o);
-		drawLine(o,o1);
+	public void drawTrihedral(Point o3d,double s) {
+		assert o3d.dim() == 3;
+		Point o1,o2,o3;
+		o1 = new Point(s,0,0); o1.add(o3d);
+		o2 = new Point(0,s,0); o2.add(o3d);
+		o3 = new Point(0,0,s); o3.add(o3d);
+		drawLine(o3d,o1);
 		drawString("x",o1);
-		drawLine(o,o2);
+		drawLine(o3d,o2);
 		drawString("y",o2);
-		drawLine(o,o3);
+		drawLine(o3d,o3);
 		drawString("z",o3);
 	}
 	
 	public void drawTrihedral(double s) {
-		drawTrihedral(new Point3d(0,0,0),s);
+		drawTrihedral(new Point(0,0,0),s);
 	}
 	
 	public void drawTrihedral() {

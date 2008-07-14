@@ -4,14 +4,15 @@ package ddddbb.math;
 
 public class Gop {
 
-	public static final Direc4d[] UNITVECTOR4 = new Direc4d[] {
-		new Direc4d(1,0,0,0),
-		new Direc4d(0,1,0,0),
-		new Direc4d(0,0,1,0),
-		new Direc4d(0,0,0,1)
+	public static final Direc[] UNITVECTOR4 = new Direc[] {
+		new Direc(1,0,0,0),
+		new Direc(0,1,0,0),
+		new Direc(0,0,1,0),
+		new Direc(0,0,0,1)
 	};
-	public static Direc4d X(Direc4d a,Direc4d b,Direc4d c) {
-		return new Direc4d(
+	public static Direc X(Direc a,Direc b,Direc c) {
+		assert a.dim() == 4 && b.dim() == 4 && c.dim() == 4;
+		return new Direc(
 				a.x[1]*b.x[2] *c.x[3]+b.x[1]*c.x[2] *a.x[3]+c.x[1]*a.x[2] *b.x[3]-
 				c.x[1]*b.x[2] *a.x[3]-b.x[1]*a.x[2] *c.x[3]-a.x[1]*c.x[2] *b.x[3],
 			    c.x[0]*b.x[2] *a.x[3]+b.x[0]*a.x[2] *c.x[3]+a.x[0]*c.x[2] *b.x[3]-
@@ -84,11 +85,13 @@ public class Gop {
 //		b.x[2] = co*bx3-si*ax3;
 //	}
 		
-	public static Direc3d X(Direc3d a,Direc3d b) {
-		  return new Direc3d(
-				  a.x[1]*b.x[2]-a.x[2]*b.x[1],
-				  a.x[2]*b.x[0]-a.x[0]*b.x[2],
-				  a.x[0]*b.x[1]-a.x[1]*b.x[0]);
+	public static Direc X(Direc a3d,Direc b3d) {
+		assert a3d.dim() == 3;
+		assert b3d.dim() == 3;
+		return new Direc(
+				a3d.x[1]*b3d.x[2]-a3d.x[2]*b3d.x[1],
+				a3d.x[2]*b3d.x[0]-a3d.x[0]*b3d.x[2],
+				a3d.x[0]*b3d.x[1]-a3d.x[1]*b3d.x[0]);
 	}
 	
 //	public static Point X(Point[] vecs) {

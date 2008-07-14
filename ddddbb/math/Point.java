@@ -8,6 +8,16 @@ public class Point {
 		x = new double[n];
 	}
 	
+	public Point(double _x1,double _x2,double _x3) {
+		this(3);
+		x[0]=_x1;x[1]=_x2;x[2]=_x3;
+	}
+	
+	public Point(double _x1,double _x2,double _x3,double _x4) {
+		this(4);
+		x[0]=_x1;x[1]=_x2;x[2]=_x3;x[3]=_x4;
+	}
+	
 	public Point(Point p) { init(p); }
 	
 	public Point(int[] _x) {
@@ -133,23 +143,23 @@ public class Point {
 	}
 
 	
-	private static final Direc4d D1000 = new Direc4d(1,0,0,0);
-	private static final Direc3d D100 = new Direc3d(1,0,0);
+	private static final Direc D1000 = new Direc(1,0,0,0);
+	private static final Direc D100 = new Direc(1,0,0);
 	/** 
 	 * TODO: this is not generic
 	 * returns ph1,ph2,ph3 0<ph1<2pi, 0<ph2,ph3<pi */
-	public Point3d getPolarArcs() {
+	public Point getPolarArcs() {
+		assert dim() == 3;
 		double ph3=Math.PI/2,ph2=Math.PI/2,ph1=Math.PI/2;
 		ph3 -= D1000.arc(this);
-		Point3d p3 = new Point3d(x[1],x[2],x[3]);
-		if ( p3.sc(p3) > Param.ERR ) {
-			ph2 -= D100.arc(p3);
+		if ( sc(this) > Param.ERR ) {
+			ph2 -= D100.arc(this);
 		}
 		if (Math.abs(x[2]) > Param.ERR || Math.abs(x[3]) > Param.ERR ) {
 			//atan2 angle from (0,1) clockwise, 
 			ph1 = Math.atan2(x[2],x[3]);
 		}
-		return new Point3d(ph1,ph2,ph3);
+		return new Point(ph1,ph2,ph3);
 	}
 	
 	/** returns 1 if the first non-zero coordinate is positive
@@ -202,25 +212,35 @@ public class Point {
 	}
 
 	/** 3d left rotation around axis d by ph */
-	public void rotate(double ph,Direc3d d) {
+	public void rotate(double ph,Direc d3d) {
 		assert dim() == 3;
+		assert d3d.dim() == 3;
 		double r1, r2, r3; 
 		double c = Math.cos(ph);
 		double s = Math.sin(ph);
 		r1=
-			((1 - c)*d.x[0]*d.x[0] + c)     *x[0] +
-			((1 - c)*d.x[0]*d.x[1] + s*d.x[2])*x[1] + 
-			((1 - c)*d.x[0]*d.x[2] - s*d.x[1])*x[2];  
+			((1 - c)*d3d.x[0]*d3d.x[0] + c)     *x[0] +
+			((1 - c)*d3d.x[0]*d3d.x[1] + s*d3d.x[2])*x[1] + 
+			((1 - c)*d3d.x[0]*d3d.x[2] - s*d3d.x[1])*x[2];  
 		r2=
-			((1 - c)*d.x[1]*d.x[0] - s*d.x[2])*x[0] + 
-			((1 - c)*d.x[1]*d.x[1] + c)     *x[1] +
-			((1 - c)*d.x[1]*d.x[2] + s*d.x[0])*x[2];
+			((1 - c)*d3d.x[1]*d3d.x[0] - s*d3d.x[2])*x[0] + 
+			((1 - c)*d3d.x[1]*d3d.x[1] + c)     *x[1] +
+			((1 - c)*d3d.x[1]*d3d.x[2] + s*d3d.x[0])*x[2];
 		r3 =
-			((1 - c)*d.x[2]*d.x[0] + s*d.x[1])*x[0] +
-			((1 - c)*d.x[2]*d.x[1] - s*d.x[0])*x[1] +
-			((1 - c)*d.x[2]*d.x[2] + c)     *x[2];
+			((1 - c)*d3d.x[2]*d3d.x[0] + s*d3d.x[1])*x[0] +
+			((1 - c)*d3d.x[2]*d3d.x[1] - s*d3d.x[0])*x[1] +
+			((1 - c)*d3d.x[2]*d3d.x[2] + c)     *x[2];
 		x[0]=r1;x[1]=r2;x[2]=r3;
 	}
+
+	public void rotate(double ph,Direc d3d,Point o3d) {
+		assert d3d.dim() == 3;
+		assert o3d.dim() == 3;
+		translate(o3d,-1);
+		rotate(ph,d3d);
+		add(o3d);
+	}
+	
 	
 	
 }

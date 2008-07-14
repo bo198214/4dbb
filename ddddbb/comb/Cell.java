@@ -11,7 +11,6 @@ import ddddbb.math.Direc;
 import ddddbb.math.HalfSpace;
 import ddddbb.math.OHalfSpace;
 import ddddbb.math.Point;
-import ddddbb.math.Point3d;
 import ddddbb.math.Space2d;
 
 public class Cell extends ACell {
@@ -112,14 +111,14 @@ public class Cell extends ACell {
 			res[i] = new Cell[x[i].length][2];
 			for (int j=0;j<x[i].length;j++) {
 				assert x[i][j].length == 6;
-				res[i][j][0] = new Cell(new Point3d(x[i][j][0],x[i][j][1],x[i][j][2]),new SpaceId());
-				res[i][j][1] = new Cell(new Point3d(x[i][j][3],x[i][j][4],x[i][j][5]),new SpaceId());
+				res[i][j][0] = new Cell(new Point(x[i][j][0],x[i][j][1],x[i][j][2]),new SpaceId());
+				res[i][j][1] = new Cell(new Point(x[i][j][3],x[i][j][4],x[i][j][5]),new SpaceId());
 			}
 		}
 		return res;
 	}
 	
-	public Cell(Point3d point, SpaceId _spaceId) {
+	public Cell(Point point, SpaceId _spaceId) {
 		location = new Location(point,true);
 		spaceId = _spaceId;
 	}
@@ -255,14 +254,14 @@ public class Cell extends ACell {
 		location.setHalfSpace(new Space2d(facets));
 	}
 
-	private Point3d cutPoint(OHalfSpace e) {
+	private Point cutPoint(OHalfSpace e) {
 		assert spaceDim() == 3;
 		assert dim() == 1;
-		Point3d a = new Point3d(a().o());
-		Point3d b = new Point3d(b().o());
+		Point a = a().o();
+		Point b = b().o();
 		double ad = e.dist(a);
 		double bd = e.dist(b);
-		return new Point3d(e.proj(a).multiply(bd/(ad+bd)).plus(e.proj(b).multiply(ad/(ad+bd))));
+		return new Point(e.proj(a).multiply(bd/(ad+bd)).plus(e.proj(b).multiply(ad/(ad+bd))));
 	}
 	
 //	/** INNER means INNER with possible touch
@@ -323,7 +322,7 @@ public class Cell extends ACell {
 		inner = null; outer = null; 
 		
 		if ( dim() == 0 ) {
-			Point3d p = (Point3d)o();
+			Point p = o();
 			if (e.outer(p) == -1 ) {
 				splitCellIs = INNER;
 				return;
@@ -341,8 +340,8 @@ public class Cell extends ACell {
 
 			OCell af = facets.get(0);
 			OCell bf = facets.get(1);
-			Point3d a = af.cell().location.p3;
-			Point3d b = bf.cell().location.p3;
+			Point a = af.cell().location.p3;
+			Point b = bf.cell().location.p3;
 			int sideA = e.outer(a);
 			int sideB = e.outer(b);
 			if      (sideA==-1 && sideB== 1) {
@@ -535,7 +534,7 @@ public class Cell extends ACell {
 			return;
 		}
 		if (dim()==1) {
-			g3.drawLine((Point3d)a().location().o(), (Point3d)b().location().o());
+			g3.drawLine(a().location().o(), b().location().o());
 			return;
 		}
 		for (OCell f : facets) {
@@ -573,11 +572,11 @@ public class Cell extends ACell {
 		return center;
 	}
 	
-	public Point3d center3d() {
+	public Point center3d() {
 		if (dim()==0) {
-			return new Point3d(o());
+			return o();
 		}
-		Point3d center = new Point3d();
+		Point center = new Point(3);
 		int n=0;
 		for (OCell f: facets) {
 			center.add(f.cell().center3d());

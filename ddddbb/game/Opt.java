@@ -33,18 +33,16 @@ import ddddbb.math.Camera3d;
 import ddddbb.math.CrossEyedGraphics;
 import ddddbb.math.D2GraphicsIF;
 import ddddbb.math.D3Graphics;
-import ddddbb.math.Direc3d;
-import ddddbb.math.Direc4d;
+import ddddbb.math.Direc;
 import ddddbb.math.Flat3dGraphics;
 import ddddbb.math.ParallelEyedGraphics;
-import ddddbb.math.Point3d;
-import ddddbb.math.Point4d;
+import ddddbb.math.Point;
 
 public final class Opt {
-	public final static Direc4d spaceCoord4d[] = {
-			new Direc4d(1,0,0,0), new Direc4d(0,1,0,0), new Direc4d(0,0,1,0), new Direc4d(0,0,0,1) }; 
-	public final static Direc3d spaceCoord3d[] = {
-			new Direc3d(1,0,0), new Direc3d(0,1,0), new Direc3d(0,0,1) };
+	public final static Direc spaceCoord4d[] = {
+			new Direc(1,0,0,0), new Direc(0,1,0,0), new Direc(0,0,1,0), new Direc(0,0,0,1) }; 
+	public final static Direc spaceCoord3d[] = {
+			new Direc(1,0,0), new Direc(0,1,0), new Direc(0,0,1) };
 	
 	
 	public static int applicationHeight;
@@ -64,32 +62,32 @@ public final class Opt {
 	public static final IntStringModel viewTransRot = new IntStringModel(1, new String[] { "trans", "rot"});
 	public enum ViewAbsRel {
 		SYSTEM("space") {
-			Point3d p3 = new Point3d();
-			public Direc3d selectDirec3d(int i) {
-				return new Direc3d(spaceCoord3d[i]);
+			Point p3 = new Point(3);
+			public Direc selectDirec3d(int i) {
+				return new Direc(spaceCoord3d[i]);
 			}
-			public Direc4d selectDirec4d(int i) {
-				return new Direc4d(spaceCoord4d[i]);
+			public Direc selectDirec4d(int i) {
+				return new Direc(spaceCoord4d[i]);
 			}
-			public Point3d selectCenter3d() {
+			public Point selectCenter3d() {
 				scene.camera4d.proj3d(selectCenter4d(),p3);
 				return p3;
 				//return new Point3d(0,0,0);			
 			}
-			public Point4d selectCenter4d() {
-				return new Point4d(scene.compounds.getSelectedItem().center.loc()); 
+			public Point selectCenter4d() {
+				return scene.compounds.getSelectedItem().center.loc(); 
 				//return new Point4d(0,0,0,0);
 			}			
 		},
 		CAMERA("camera") {
-			Point3d p3 = new Point3d();
-			public Direc3d selectDirec3d(int i) {
-				return new Direc3d(scene.camera3d.v[i]);
+			Point p3 = new Point(3);
+			public Direc selectDirec3d(int i) {
+				return new Direc(scene.camera3d.v[i]);
 			}
-			public Direc4d selectDirec4d(int i) {			
-				return new Direc4d(scene.camera4d.v[i]);
+			public Direc selectDirec4d(int i) {			
+				return new Direc(scene.camera4d.v[i]);
 			}
-			public Point3d selectCenter3d() {
+			public Point selectCenter3d() {
 				scene.camera4d.proj3d(selectCenter4d(),p3);
 				return p3;
 //				Point3d res = new Point3d(Main.opt.scene.camera3d.eye);
@@ -98,8 +96,8 @@ public final class Opt {
 //				res.translate(d);
 //				return res;				
 			}
-			public Point4d selectCenter4d() {
-				return new Point4d(scene.compounds.getSelectedItem().center.loc()); 
+			public Point selectCenter4d() {
+				return scene.compounds.getSelectedItem().center.loc(); 
 //				return new Point4d(0,0,0,0);
 			}
 		};
@@ -109,10 +107,10 @@ public final class Opt {
 		String name;
 		ViewAbsRel(String _name) {	name = _name;	}
 		public String toString() {	return name;	}
-		public abstract Direc3d selectDirec3d(int i);
-		public abstract Direc4d selectDirec4d(int i);
-		public abstract Point3d selectCenter3d();
-		public abstract Point4d selectCenter4d();
+		public abstract Direc selectDirec3d(int i);
+		public abstract Direc selectDirec4d(int i);
+		public abstract Point selectCenter3d();
+		public abstract Point selectCenter4d();
 	}
 	public static final IntModel<ViewAbsRel> viewAbsRel = new IntModel<ViewAbsRel>(ViewAbsRel.SYSTEM, ViewAbsRel.values());
 	public static final String[] d3axisNames = {"x","y","z"}; 

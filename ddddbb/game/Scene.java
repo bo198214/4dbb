@@ -22,9 +22,8 @@ import ddddbb.math.D3Graphics;
 import ddddbb.math.D4Tupel;
 import ddddbb.math.Direc;
 import ddddbb.math.Param;
+import ddddbb.math.Point;
 import ddddbb.math.Point2d;
-import ddddbb.math.Point3d;
-import ddddbb.math.Point4d;
 import ddddbb.sound.Sound;
 
 public class Scene extends Model implements MyChangeListener {
@@ -245,18 +244,18 @@ public class Scene extends Model implements MyChangeListener {
 		propagateGameStatus();
 	}
 	
-	public static final Point4d[][] unitVector = new Point4d[][] {
-		new Point4d[] { 
-				new Point4d ( 1, 0, 0, 0 ),
-				new Point4d ( 0, 1, 0, 0 ),
-				new Point4d ( 0, 0, 1, 0 ),
-				new Point4d ( 0, 0, 0, 1 )
+	public static final Point[][] unitVector4d = new Point[][] {
+		new Point[] { 
+				new Point ( 1, 0, 0, 0 ),
+				new Point ( 0, 1, 0, 0 ),
+				new Point ( 0, 0, 1, 0 ),
+				new Point ( 0, 0, 0, 1 )
 		},
-		new Point4d[] {
-				new Point4d ( -1, 0, 0, 0 ),
-				new Point4d ( 0, -1, 0, 0 ),
-				new Point4d ( 0, 0, -1, 0 ),
-				new Point4d ( 0, 0, 0, -1 )
+		new Point[] {
+				new Point ( -1, 0, 0, 0 ),
+				new Point ( 0, -1, 0, 0 ),
+				new Point ( 0, 0, -1, 0 ),
+				new Point ( 0, 0, 0, -1 )
 		}
 	};
 	
@@ -307,10 +306,10 @@ public class Scene extends Model implements MyChangeListener {
 
 			if (debug) for (DCell dc:dvisibles3) {
 				Direc normal = dc.normal();
-				Point4d a = new Point4d(dc.origin());
-				Point4d b = new Point4d(a.plus(new Point4d(normal).times(0.5)));
-				Point3d a3 = new Point3d();
-				Point3d b3 = new Point3d();
+				Point a = new Point(dc.origin());
+				Point b = a.plus(normal.times(0.5));
+				Point a3 = new Point(3);
+				Point b3 = new Point(3);
 				camera4d.proj3d(a,a3);
 				camera4d.proj3d(b,b3);
 				g3.drawLine(a3,b3 );
@@ -348,7 +347,7 @@ public class Scene extends Model implements MyChangeListener {
 	}
 	
 	
-	public void BoundaryCuboid3d(Point3d a,Point3d b) {
+	public void BoundaryCuboid3d(Point a,Point b) {
 		for (Compound c: compounds) for (DLocation v : c.getAllFaces()[0]) {
 			for (int i=0;i<3;i++) {
 				if ( v.p3.x[i] < a.x[i]) { a.x[i] = v.p3.x[i]; }

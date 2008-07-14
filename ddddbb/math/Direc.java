@@ -9,6 +9,16 @@ public class Direc extends Point {
 		super(dim);
 	}
 
+	public Direc(double _x1,double _x2,double _x3) { 
+		super(new double[] {_x1,_x2,_x3});
+		normalize();
+	}
+
+	public Direc(double x0,double x1,double x2, double x3) {
+		super(x0,x1,x2,x3);
+		normalize();
+	}
+		
 	public Direc(double[] _x) {
 		super(_x);
 		normalize();
@@ -30,9 +40,4 @@ public class Direc extends Point {
 		}
 		x[a.axis()]=a.pmSign();
 	}
-	
-//	public Point proj(Point p) {
-//		return times(sc(p));
-//	}
-//
 }

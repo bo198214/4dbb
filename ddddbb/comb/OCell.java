@@ -11,7 +11,7 @@ import ddddbb.math.D3Graphics;
 import ddddbb.math.Direc;
 import ddddbb.math.HalfSpace;
 import ddddbb.math.Param;
-import ddddbb.math.Point3d;
+import ddddbb.math.Point;
 
 public class OCell extends BCell implements Iterable<OCell> {
 	protected Cell cell;
@@ -364,8 +364,8 @@ public class OCell extends BCell implements Iterable<OCell> {
 		if (dim()==2 && spaceDim() == 3) {
 			Direc normal = normal();
 			normal.multiply(orientation);
-			Point3d a = cell.center3d();
-			Point3d b = cell.center3d().plus(new Point3d(normal).times(0.25));
+			Point a = cell.center3d();
+			Point b = cell.center3d().plus(normal.times(0.25));
 			g3.drawLine(a, b);
 			g3.drawBlob(b);
 			return;

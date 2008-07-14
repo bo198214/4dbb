@@ -3,8 +3,8 @@ package ddddbb.game;
 import ddddbb.math.BarEyeGraphics;
 import ddddbb.math.Camera3d;
 import ddddbb.math.D2Graphics;
+import ddddbb.math.Point;
 import ddddbb.math.Point2d;
-import ddddbb.math.Point3d;
 
 
 public class StardustGraphics extends BarEyeGraphics {
@@ -40,9 +40,9 @@ public class StardustGraphics extends BarEyeGraphics {
 		}
 	}
 	
-	public void drawLine(Point3d a,Point3d b) {
+	public void drawLine(Point a3d,Point b3d) {
 		drawStarDust();
-		super.drawLine(a,b);
+		super.drawLine(a3d,b3d);
 	}
 
 }

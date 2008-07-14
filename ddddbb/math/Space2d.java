@@ -11,12 +11,13 @@ public class Space2d extends HalfSpace {
 //	public double length; // length from (0,0,0) to plane along the normal, can be negative
 	// parent is 3d space 
 	
-	public Space2d(Direc3d _normal, double _length) {
-		super(_normal,_length);
+	public Space2d(Direc _normal3d, double _length) {
+		super(_normal3d,_length);
 	}
 	
-	public Space2d(Point3d orig, Direc3d _normal) {
-		super(orig,_normal);
+	public Space2d(Point orig3d, Direc _normal3d) {
+		super(orig3d,_normal3d);
+		assert orig3d.dim() == 3;
 	}
 
 	public String toString() {
@@ -27,12 +28,13 @@ public class Space2d extends HalfSpace {
 //		length = _length;
 //	}
 //	
-	/** s is on the inner side of the plane spanned by a,b,c */
-	public Space2d init(Point3d a, Point3d b, Point3d c) {
-		normal = Gop.X((Direc3d)b.minus(a).normalize(), (Direc3d)c.minus(a).normalize());
-		length = a.sc(normal);
-		return this;
-	}
+//	/** s is on the inner side of the plane spanned by a,b,c */
+//	public Space2d init(Point a, Point b, Point c) {
+//		assert a.dim() == 3 && b.dim() == 3 && c.dim() == 3;
+//		normal = Gop.X((Direc)b.minus(a).normalize(), (Direc)c.minus(a).normalize());
+//		length = a.sc(normal);
+//		return this;
+//	}
 	
 //	public Space2d(Collection<Facet1d> facets) {
 //		assert facets.size() >= 2;
@@ -53,17 +55,19 @@ public class Space2d extends HalfSpace {
 	public Space2d(List<? extends OCell> facets) {
 		assert facets.size() >= 2 : facets.size();
 		int i=0;
-		Direc3d[] d= new Direc3d[2];
-		Point3d a = null;
+		Direc[] d= new Direc[2];
+		Point a = null;
 		for (OCell fc1:facets) {
 			Cell f1 = fc1.cell();
 			assert f1.location().dim() == 1;
-			Point3d f1a,f1b;
-			f1a = (Point3d)f1.a().location().o();
-			f1b = (Point3d)f1.b().location().o();
+			Point f1a,f1b;
+			f1a = f1.a().location().o();
+			f1b = f1.b().location().o();
+			assert f1a.dim() == 3;
+			assert f1b.dim() == 3;
 			if (i>=2) { break; }
 			if (i==0) { a = f1a; }
-			d[i] = new Direc3d(f1b.minus(f1a));
+			d[i] = new Direc(f1b.minus(f1a));
 			i++;
 		}
 		normal = Gop.X(d[0],d[1]);
@@ -71,24 +75,8 @@ public class Space2d extends HalfSpace {
 		length = a.sc(normal);
 	}
 	
-	public void flip() {
-		normal.multiply(-1);
-		length *= -1;
-	}
-	
-	public Point3d origin() {
-		return (new Point3d(normal)).multiply(length);
-	}
-	public Point3d proj(Point3d p) {
-		return (Point3d) (new Point3d(p)).subtract(normal.proj(p.minus(origin())));
-	}
-	
-	public double dist(Point3d p) {
-		return  p.minus(proj(p)).len();
-	}
-	
 	public boolean equals(Space2d e) {
-		return new Point3d(normal).subtract(e.normal).len() == 0 &&
+		return new Point(normal).subtract(e.normal).len() == 0 &&
 			     length == e.length;
 	}
 }

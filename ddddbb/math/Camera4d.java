@@ -6,16 +6,16 @@ import ddddbb.gen.Model;
 import ddddbb.gen.MyChangeListener;
 
 public abstract class Camera4d extends Model implements Projection {
-	public Point4d eye;
-	public Direc4d[] v = new Direc4d[4];  //v[0],v[1],v[2] projection plane; v[3] viewing direction
+	public Point eye;
+	public Direc[] v = new Direc[4];  //v[0],v[1],v[2] projection plane; v[3] viewing direction
 	public double zoom;
 	
 	public abstract void setToDefault();
-	public abstract void rotate(double ph, Direc4d a, Direc4d b, Point4d p);
+	public abstract void rotate(double ph, Direc a4d, Direc b4d, Point p4d);
 	public abstract void setDirec(DSignedAxis a);
 	public abstract void setDirec(double ph1,double ph2,double ph3);
-	public abstract boolean nproj3d(Point4d p,Point res);
-	public abstract Direc4d viewingDirection();
+	public abstract boolean nproj3d(Point p4d,Point res);
+	public abstract Direc viewingDirection();
 	public abstract boolean isParallelProjection();
 	public abstract boolean isParallelProjectionEnabled();
 	
@@ -30,22 +30,22 @@ public abstract class Camera4d extends Model implements Projection {
 	}
 	
 	public void initAxes() {
-		v[0] = new Direc4d(1,0,0,0);
-		v[1] = new Direc4d(0,1,0,0);
-		v[2] = new Direc4d(0,0,1,0);
-		v[3] = new Direc4d(0,0,0,1);
+		v[0] = new Direc(1,0,0,0);
+		v[1] = new Direc(0,1,0,0);
+		v[2] = new Direc(0,0,1,0);
+		v[3] = new Direc(0,0,0,1);
 	}
 	
 	public void initAxes(DSignedAxis a) {
 		initAxes();
 		if (a.human()==-4) {
-			rotateAxes(new Direc4d(0,0,0,1),new Direc4d(1,0,0,0));
-			rotateAxes(new Direc4d(1,0,0,0),new Direc4d(a));
+			rotateAxes(new Direc(0,0,0,1),new Direc(1,0,0,0));
+			rotateAxes(new Direc(1,0,0,0),new Direc(a,4));
 		}
 		else {
-			rotateAxes(new Direc4d(0,0,0,1),new Direc4d(a));
+			rotateAxes(new Direc(0,0,0,1),new Direc(a,4));
 		}
-		eye = new Point4d(3,2,0,0);
+		eye = new Point(3,2,0,0);
 		changed();
 
 	}
@@ -57,16 +57,16 @@ public abstract class Camera4d extends Model implements Projection {
 //		eye.translate(new Point4d(3.5,2.7,1,-1));		
 //	}
 	
-	public void rotate(Direc4d a,Direc4d b) {
-		rotate(a.arc(b),a,b,new Point4d(0,0,0,0));
+	public void rotate(Direc a,Direc b) {
+		rotate(a.arc(b),a,b,new Point(0,0,0,0));
 	}
 
-	public void translate(double dist,Direc4d a) {
+	public void translate(double dist,Direc a) {
 		eye.translate(a,dist);
 		changed();
 	}
 	
-	protected void rotateAxes(Direc4d a,Direc4d b) {
+	protected void rotateAxes(Direc a,Direc b) {
 		for (int i=0;i<4;i++) {
 			v[i].rotate(a,b);
 		}
@@ -88,27 +88,27 @@ public abstract class Camera4d extends Model implements Projection {
 	
 	
 	
-	public Point3d getDirec() {
+	public Point getDirec() {
 		return viewingDirection().getPolarArcs();
 	}
 	
-	public Point4d getEye() {
+	public Point getEye() {
 		return eye;
 	}
 	
 	public void setEye(double x1, double x2, double x3, double x4) {
-		eye = new Point4d(x1,x2,x3,x4);
+		eye = new Point(x1,x2,x3,x4);
 		changed();
 	}
 	
-	public boolean proj3d(Point4d p4,Point p3) {
+	public boolean proj3d(Point p4,Point p3) {
 		boolean inFront = nproj3d(p4,p3);
 		p3.multiply(zoom);
 		return inFront;
 	}
 
 	public boolean proj(int[] p, Point res) {
-		return proj3d(new Point4d(p),res);
+		return proj3d(new Point(p),res);
 	}
 	public int fromDim() { return 4; }
 	public int toDim() { return 3; }
