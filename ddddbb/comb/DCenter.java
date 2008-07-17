@@ -60,7 +60,7 @@ public class DCenter {
 		for (int i=0;i<res.length;i++) {
 			res[i] = twice[i]*0.5;
 		}
-		return new Point(res);
+		return Point.create(res);
 	}
 	
 	/** returns computed origin */

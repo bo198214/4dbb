@@ -75,8 +75,8 @@ public abstract class D3Graphics {
 	public boolean screenProj(Point _p3d, double e, double s, Point2d pl, Point2d pr) {
 		assert _p3d.dim() == 3;
 
-		Point p3d = new Point(_p3d);
-		p3d.translate(c3.eye,-1);
+		Point p3d = _p3d.clone();
+		p3d.subtract(c3.eye);
 		double x = c3.v[0].sc(p3d);
 		double y = c3.v[1].sc(p3d);
 		double z = c3.v[2].sc(p3d);
@@ -139,7 +139,7 @@ public abstract class D3Graphics {
 					b[ix]+=blobRadius;
 				}
 			}
-			drawLine(new Point(a),new Point(b));
+			drawLine(Point.create(a),Point.create(b));
 		}
 	}
 		
@@ -254,9 +254,9 @@ public abstract class D3Graphics {
 	public void drawTrihedral(Point o3d,double s) {
 		assert o3d.dim() == 3;
 		Point o1,o2,o3;
-		o1 = new Point(s,0,0); o1.add(o3d);
-		o2 = new Point(0,s,0); o2.add(o3d);
-		o3 = new Point(0,0,s); o3.add(o3d);
+		o1 = new Point3d(s,0,0); o1.add(o3d);
+		o2 = new Point3d(0,s,0); o2.add(o3d);
+		o3 = new Point3d(0,0,s); o3.add(o3d);
 		drawLine(o3d,o1);
 		drawString("x",o1);
 		drawLine(o3d,o2);
@@ -266,7 +266,7 @@ public abstract class D3Graphics {
 	}
 	
 	public void drawTrihedral(double s) {
-		drawTrihedral(new Point(0,0,0),s);
+		drawTrihedral(new Point3d(0,0,0),s);
 	}
 	
 	public void drawTrihedral() {

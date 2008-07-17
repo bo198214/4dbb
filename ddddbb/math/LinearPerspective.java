@@ -24,13 +24,13 @@ public class LinearPerspective extends Camera4d {
 		public void setToDefault() {
 			scale = 10;
 			initAxes();
-			rotateAxes(new Direc(0,0,0,1),new Direc(1,1,1,1));
-			eye = new Point(viewingDirection());
+			rotateAxes(new Point4d(0,0,0,1),new Point4d(1,1,1,1).normalize());
+			eye = viewingDirection().clone();
 			eye.multiply(-scale);
 			/* choose distance so that 1 unit in 4d in direction v[0], v[1] or v[2]
 			 * at zoom distance becomes 1 unit in projection space
 			 */
-			eye.add(new Point(3,2,0,0));
+			eye.add(new Point4d(3,2,0,0));
 			changed();
 		}
 		
@@ -38,24 +38,22 @@ public class LinearPerspective extends Camera4d {
 			//TODO
 		}
 
-		public Direc viewingDirection() {
+		public Point4d viewingDirection() {
+			assert v[3].isNormal();
 			return v[3];
 		}
 		
-		public boolean nproj3d(Point p4,Point res4) {
-			assert p4.dim() == 4;
-			assert res4.dim() == 3;
-			
-			Point pd = new Point(p4);
-			pd.translate(eye,-1);
-			res4.x[0] = v[0].sc(pd);
-			res4.x[1] = v[1].sc(pd);
-			res4.x[2] = v[2].sc(pd);
+		public boolean nproj3d(Point4d p4,Point3d res3) {
+			Point pd = p4.clone();
+			pd.subtract(eye);
+			res3.x[0] = v[0].sc(pd);
+			res3.x[1] = v[1].sc(pd);
+			res3.x[2] = v[2].sc(pd);
 
 			if (!parallelProjection) {
 				double d = v[3].sc(pd); //distance to eye
 				if ( d > 0 ) {
-					res4.multiply(scale/d);
+					res3.multiply(scale/d);
 					return true;
 				}
 				return false;
@@ -63,10 +61,7 @@ public class LinearPerspective extends Camera4d {
 			return true;
 		}
 
-		public void rotate(double ph, Direc a4d, Direc b4d,Point p4) {
-			assert p4.dim() == 4;
-			assert a4d.dim() == 4;
-			assert b4d.dim() == 4;
+		public void rotate(double ph, Point4d a4d, Point4d b4d,Point4d p4) {
 			for (int i=0;i<4;i++) {
 				v[i].rotate(ph,a4d,b4d);
 			}
@@ -75,9 +70,7 @@ public class LinearPerspective extends Camera4d {
 			changed();
 		}
 		
-		public void rotate(Direc a4d,Direc b4d) {
-			assert a4d.dim() == 4;
-			assert b4d.dim() == 4;
+		public void rotate(Point4d a4d,Point4d b4d) {
 			rotateAxes(a4d,b4d);
 			eye.rotate(a4d,b4d);
 			changed();
@@ -95,12 +88,9 @@ public class LinearPerspective extends Camera4d {
 		//sets cameras viewing direction given by the poloar coordinate arcs
 		//aligns other directions with local tetrahedrals of the sphere
 		public void setDirec(double ph1,double ph2,double ph3) {
-			v[0]=new Direc(1,0,0,0);
-			v[1]=new Direc(0,1,0,0);
-			v[2]=new Direc(0,0,1,0);
-			v[3]=new Direc(0,0,0,1);
+			for (int i=0;i<v.length;i++) v[i] = Gop.UNITVECTOR4[i].clone();
 			double eyeDistance = eye.len();
-			eye=new Point(v[3]);
+			eye=v[3].clone();
 			eye.multiply(-eyeDistance);
 			eye.rotate(ph1,v[3],v[2]);
 			Gop.rotate(ph1,v[3],v[2]); 

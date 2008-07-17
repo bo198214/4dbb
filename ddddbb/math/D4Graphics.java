@@ -20,8 +20,8 @@ public class D4Graphics {
 	
 	/** dot is a center (i.e c=2*o+1) */
 	public void drawBlob(DCenter dot) {
-		Point dot3 = new Point(3);
-		c4.proj3d(dot.loc(),dot3);
+		Point3d dot3 = new Point3d();
+		c4.proj3d((Point4d)dot.loc(),dot3);
 		g3.drawBlob(dot3);
 //		for (int i=0;i<4;i++) {
 //			double[] a = new double[4], b= new double[4];
@@ -53,16 +53,16 @@ public class D4Graphics {
 	}
 	
 	public void drawLine(int[] a,int[] b) {
-		drawLine(new Point(a),new Point(b));
+		drawLine(new Point4d(a),new Point4d(b));
 	}
 
 	public void drawLine(DCell l) {
-		drawLine(new Point(l.facets[0][0].location.origin),new Point(l.facets[1][0].location.origin));
+		drawLine(new Point4d(l.facets[0][0].location.origin),new Point4d(l.facets[1][0].location.origin));
 	}
 
-	public void drawString(String s,Point p4d) {
+	public void drawString(String s,Point4d p4d) {
 		assert p4d.dim() == 4;
-		Point pd3 = new Point(3);
+		Point3d pd3 = new Point3d();
 		c4.proj3d(p4d,pd3);
 		g3.drawString(s,pd3);
 //		D2Tupel l=new D2Tupel(),r=new D2Tupel();
@@ -90,13 +90,13 @@ public class D4Graphics {
 //		return true;
 //	}
 
-	public void drawLine(Point a4d,Point b4d) {
+	public void drawLine(Point4d a4d,Point4d b4d) {
 		assert b4d.dim() == 4;
 //		Point a = new Point(a1,a2,a3,a4);
 //		Point b = new Point(b1,b2,b3,b4);
-		Point a3d = new Point(3);
+		Point3d a3d = new Point3d();
 		c4.proj3d(a4d,a3d);
-		Point b3d = new Point(3);
+		Point3d b3d = new Point3d();
 		c4.proj3d(b4d,b3d);
 		g3.drawLine(a3d,b3d);
 //		D2Tupel p1l,p1r,p2l,p2r;
@@ -112,13 +112,12 @@ public class D4Graphics {
 //		}
 	}
 	
-	public void drawTetrahedral(Point o4d,double s) {
-		assert o4d.dim() == 4;
-		Point o1,o2,o3,o4;
-		o1 = new Point(s,0,0,0); o1.add(o4d);
-		o2 = new Point(0,s,0,0); o1.add(o4d);
-		o3 = new Point(0,0,s,0); o1.add(o4d);
-		o4 = new Point(0,0,0,s); o1.add(o4d);
+	public void drawTetrahedral(Point4d o4d,double s) {
+		Point4d o1,o2,o3,o4;
+		o1 = new Point4d(s,0,0,0); o1.add(o4d);
+		o2 = new Point4d(0,s,0,0); o1.add(o4d);
+		o3 = new Point4d(0,0,s,0); o1.add(o4d);
+		o4 = new Point4d(0,0,0,s); o1.add(o4d);
 		drawLine(o4d,o1);
 		drawString("x",o1);
 		drawLine(o4d,o2);
@@ -130,7 +129,7 @@ public class D4Graphics {
 	}
 	
 	public void drawTetrahedral(double s) {
-		drawTetrahedral(new Point(0,0,0,0),s);
+		drawTetrahedral(new Point4d(0,0,0,0),s);
 	}
 	
 	public void drawTetrahedral() {

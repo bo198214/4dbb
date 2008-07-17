@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import ddddbb.math.Camera4d;
 import ddddbb.math.D3Graphics;
-import ddddbb.math.Direc;
 import ddddbb.math.HalfSpace;
 import ddddbb.math.Param;
 import ddddbb.math.Point;
@@ -17,9 +16,11 @@ public class OCell extends BCell implements Iterable<OCell> {
 	protected Cell cell;
 	private Cell parent;
 	protected int orientation = 0;  // +1 or -1
-	private OCell snappedTo = null;
-	private boolean snappedToSet = false;
-	
+//	private OCell snappedTo = null;
+//	private boolean snappedToSet = false;
+
+	private boolean outsnapped = false;
+
 	public OCell(Cell _cell, Cell _parent) {
 		connectCell(_cell);
 		connectParent(_parent);
@@ -86,8 +87,8 @@ public class OCell extends BCell implements Iterable<OCell> {
 	
 	public String toString() {
 		String snapMark = "";
-		if ( snappedTo != null ) {
-			snapMark = "*";
+		if ( outsnapped ) {
+			snapMark = "x";
 		}
 		return cell.toString() + snapMark;
 	}
@@ -134,8 +135,8 @@ public class OCell extends BCell implements Iterable<OCell> {
 	}
 
 	public OCell snappedTo() {
-		if (snappedToSet) {
-			return snappedTo;
+		if (outsnapped) {
+			return null;
 		}
 		return opposite();
 	}
@@ -146,7 +147,8 @@ public class OCell extends BCell implements Iterable<OCell> {
 	}
 
 	@Override
-	public Direc normal() {
+	public Point normal() {
+		assert cell.normal().isNormal();
 		return cell.normal();
 	}
 
@@ -180,12 +182,10 @@ public class OCell extends BCell implements Iterable<OCell> {
 
 	void adjustSnapAfterDCopy() {
 		if (src.snappedTo()!=null) {
-			snappedTo = src.snappedTo().dst;
-			snappedToSet = true;
+			assert snappedTo() == src.snappedTo().dst;
 		}
 		else {
-			snappedTo = null;
-			snappedToSet = true;
+			assert snappedTo() == null;
 		}
 		for (OCell f : cell.facets) {
 			f.adjustSnapAfterDCopy();
@@ -217,16 +217,23 @@ public class OCell extends BCell implements Iterable<OCell> {
 		//not splitted
 		assert !cell().isSplitted() :
 			cell;
+		OCell snappedTo = snappedTo();
 		if (snappedTo != null) {
 			if (snappedTo.cell!=cell) {
 //				snappedTo.fixSnapAfterSplit();
 			}
-			assert snappedTo.cell == cell || snappedTo.snappedTo.isSplitted():
-				snappedTo.cell == cell || snappedTo.snappedTo.isSplitted();
+			assert snappedTo.cell == cell || snappedTo.snappedTo().isSplitted():
+				snappedTo.cell == cell || snappedTo.snappedTo().isSplitted();
 			assert snappedTo.cell == cell || snappedTo.isSplitted();
 			assert snappedTo.cell() == cell() || snappedTo.inner.cell == cell || snappedTo.outer.cell == cell;
-			assert snappedTo.snappedTo == this : 
-				snappedTo.snappedTo;
+			if (snappedTo.snappedTo()!=this) {
+				snappedTo.outsnapped = false;
+				assert snappedTo.snappedTo() == this : 
+					snappedTo.snappedTo();
+				snappedTo.outsnapped = true;
+			}
+			assert snappedTo.snappedTo() == this : 
+				snappedTo.snappedTo();
 			assert !snappedTo.isSplitted() :
 				snappedTo;
 		}
@@ -244,13 +251,11 @@ public class OCell extends BCell implements Iterable<OCell> {
 //	}
 	
 	public void unsnap() {
-		snappedToSet = true;
+		outsnapped = true;
+		OCell snappedTo = opposite(); 
 		if (snappedTo!=null) {
-			snappedTo.snappedToSet = true;
-			snappedTo.snappedTo = null;
-			snappedTo = null;
+			snappedTo.outsnapped = true;
 		}
-		
 	}
 	
 	public void snapOut() {
@@ -278,10 +283,11 @@ public class OCell extends BCell implements Iterable<OCell> {
 			return true;
 		}
 		if (!cell.isSplitted()) {
+			OCell snappedTo = snappedTo();
 			if (snappedTo!=null) {
 				assert snappedTo.cell() == cell();
-				assert snappedTo.snappedTo == this : 
-					snappedTo.snappedTo;
+				assert snappedTo.snappedTo() == this : 
+					snappedTo.snappedTo();
 				assert !snappedTo.isSplitted() :
 					snappedTo;
 			}
@@ -352,9 +358,17 @@ public class OCell extends BCell implements Iterable<OCell> {
 	boolean isInternal() {
 		if (parent()!=null && parent().isInternal()) return true;
 		//(has no parent or) is visible
-		if (snappedTo()==null) return false;
-		if (snappedTo().parent().isInternal()) return false; 
-		assert snappedTo().snappedTo() == this : dim();
+		OCell snappedTo = snappedTo();
+		if (snappedTo==null) return false;
+		if (snappedTo.parent().isInternal()) return false; 
+		if (snappedTo.snappedTo()!=this) {
+			snappedTo.outsnapped = false;
+			assert snappedTo.snappedTo() == this : 
+				snappedTo.snappedTo();
+			snappedTo.outsnapped = true;
+		}
+		assert snappedTo.snappedTo() == this : 
+			snappedTo.snappedTo();
 		return true;
 	}
 	
@@ -362,10 +376,10 @@ public class OCell extends BCell implements Iterable<OCell> {
 		cell.paint(g3,woInternals);
 		if (!Param.debug.isSelected()) return;
 		if (dim()==2 && spaceDim() == 3) {
-			Direc normal = normal();
+			Point normal = normal();
 			normal.multiply(orientation);
 			Point a = cell.center3d();
-			Point b = cell.center3d().plus(normal.times(0.25));
+			Point b = cell.center3d().add(normal.multiply(0.25));
 			g3.drawLine(a, b);
 			g3.drawBlob(b);
 			return;

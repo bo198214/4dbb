@@ -1,6 +1,6 @@
 package ddddbb.comb;
 
-import ddddbb.math.Direc;
+import ddddbb.math.Point;
 
 public class DSignedAxis {
 	public static final DSignedAxis PD1 = new DSignedAxis(1);
@@ -63,12 +63,12 @@ public class DSignedAxis {
 		return res;
 	}
 	
-	public Direc direc(int dim) {
+	public Point direc(int dim) {
 		double x[] = new double[dim];
 		for (int i=0;i<dim;i++) { x[i] = 0; }
 		if (pos) { x[axis] = 1; }
 		else     { x[axis] = -1; }
-		return new Direc(x);
+		return Point.create(x);
 	}
 
 }

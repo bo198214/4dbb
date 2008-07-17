@@ -7,10 +7,10 @@ import java.util.Set;
 import java.util.Vector;
 
 import ddddbb.math.D3Graphics;
-import ddddbb.math.Direc;
 import ddddbb.math.HalfSpace;
 import ddddbb.math.OHalfSpace;
 import ddddbb.math.Point;
+import ddddbb.math.Point3d;
 import ddddbb.math.Space2d;
 
 public class Cell extends ACell {
@@ -111,8 +111,8 @@ public class Cell extends ACell {
 			res[i] = new Cell[x[i].length][2];
 			for (int j=0;j<x[i].length;j++) {
 				assert x[i][j].length == 6;
-				res[i][j][0] = new Cell(new Point(x[i][j][0],x[i][j][1],x[i][j][2]),new SpaceId());
-				res[i][j][1] = new Cell(new Point(x[i][j][3],x[i][j][4],x[i][j][5]),new SpaceId());
+				res[i][j][0] = new Cell(new Point3d(x[i][j][0],x[i][j][1],x[i][j][2]),new SpaceId());
+				res[i][j][1] = new Cell(new Point3d(x[i][j][3],x[i][j][4],x[i][j][5]),new SpaceId());
 			}
 		}
 		return res;
@@ -217,8 +217,10 @@ public class Cell extends ACell {
 //		return res;
 //	}
 
-	public Direc normal() {
-		return new Direc(halfSpace().normal);
+	/** returns a copy of the normal of this Cell */
+	public Point normal() {
+		assert halfSpace().normal.isNormal();
+		return halfSpace().normal.clone();
 	}
 	
 	public ALocation location() {
@@ -261,7 +263,7 @@ public class Cell extends ACell {
 		Point b = b().o();
 		double ad = e.dist(a);
 		double bd = e.dist(b);
-		return new Point(e.proj(a).multiply(bd/(ad+bd)).plus(e.proj(b).multiply(ad/(ad+bd))));
+		return e.proj(a).multiply(bd/(ad+bd)).add(e.proj(b).multiply(ad/(ad+bd)));
 	}
 	
 //	/** INNER means INNER with possible touch
@@ -562,7 +564,7 @@ public class Cell extends ACell {
 	}
 	
 	public Point center() {
-		Point center = new Point(spaceDim());
+		Point center = Point.create(spaceDim());
 		int n=0;
 		for (OCell f: facets) {
 				center.add(f.cell().center());
@@ -572,11 +574,11 @@ public class Cell extends ACell {
 		return center;
 	}
 	
-	public Point center3d() {
+	public Point3d center3d() {
 		if (dim()==0) {
-			return o();
+			return (Point3d)o();
 		}
-		Point center = new Point(3);
+		Point3d center = new Point3d();
 		int n=0;
 		for (OCell f: facets) {
 			center.add(f.cell().center3d());

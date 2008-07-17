@@ -4,15 +4,19 @@ package ddddbb.math;
 
 public class Gop {
 
-	public static final Direc[] UNITVECTOR4 = new Direc[] {
-		new Direc(1,0,0,0),
-		new Direc(0,1,0,0),
-		new Direc(0,0,1,0),
-		new Direc(0,0,0,1)
+	public static final Point4d[] UNITVECTOR4 = new Point4d[] {
+		new Point4d(1,0,0,0),
+		new Point4d(0,1,0,0),
+		new Point4d(0,0,1,0),
+		new Point4d(0,0,0,1)
 	};
-	public static Direc X(Direc a,Direc b,Direc c) {
-		assert a.dim() == 4 && b.dim() == 4 && c.dim() == 4;
-		return new Direc(
+	public static final Point3d[] UNITVECTOR3 = new Point3d[] {
+		new Point3d(1,0,0),
+		new Point3d(0,1,0),
+		new Point3d(0,0,1)
+	};
+	public static Point4d X(Point4d a,Point4d b,Point4d c) {
+		return new Point4d(
 				a.x[1]*b.x[2] *c.x[3]+b.x[1]*c.x[2] *a.x[3]+c.x[1]*a.x[2] *b.x[3]-
 				c.x[1]*b.x[2] *a.x[3]-b.x[1]*a.x[2] *c.x[3]-a.x[1]*c.x[2] *b.x[3],
 			    c.x[0]*b.x[2] *a.x[3]+b.x[0]*a.x[2] *c.x[3]+a.x[0]*c.x[2] *b.x[3]-
@@ -33,7 +37,7 @@ public class Gop {
 //	 * @param a and b determine rotation plane and direction
 //	 * @return rotated a and b
 //	*/
-//	public static void rotate(double ph,Direc4d a,Direc4d b) {
+//	public static void rotate(double ph,Point4d a,Point4d b) {
 //		double ax1,ax2,ax3,ax4,bx1,bx2,bx3,bx4;
 //		ax1=a.x[0]; ax2=a.x[1]; ax3=a.x[2]; ax4=a.x[3];
 //		bx1=b.x[0]; bx2=b.x[1]; bx3=b.x[2]; bx4=b.x[3];
@@ -62,16 +66,16 @@ public class Gop {
 		double co = Math.cos(ph);
 		double si = Math.sin(ph);
 		Point a0, b0;
-		a0 = new Point(a);
-		b0 = new Point(b);
+		a0 = a.clone();
+		b0 = b.clone();
 		for (int i=0;i<a.x.length;i++) {
  			a.x[i] = co*a0.x[i]+si*b0.x[i];
 			b.x[i] = co*b0.x[i]-si*a0.x[i];
 		}
 	}
 	
-//	/** @see #rotate(double, Direc4d, Direc4d) */
-//	public static void rotate(double ph,Direc3d a,Direc3d b) {
+//	/** @see #rotate(double, Point4d, Point4d) */
+//	public static void rotate(double ph,Point3d a,Point3d b) {
 //		double ax1,ax2,ax3,bx1,bx2,bx3;
 //		ax1=a.x[0]; ax2=a.x[1]; ax3=a.x[2];
 //		bx1=b.x[0]; bx2=b.x[1]; bx3=b.x[2];
@@ -85,14 +89,17 @@ public class Gop {
 //		b.x[2] = co*bx3-si*ax3;
 //	}
 		
-	public static Direc X(Direc a3d,Direc b3d) {
+	public static Point3d X(Point3d a3d,Point3d b3d) {
 		assert a3d.dim() == 3;
 		assert b3d.dim() == 3;
-		return new Direc(
+		return new Point3d(
 				a3d.x[1]*b3d.x[2]-a3d.x[2]*b3d.x[1],
 				a3d.x[2]*b3d.x[0]-a3d.x[0]*b3d.x[2],
 				a3d.x[0]*b3d.x[1]-a3d.x[1]*b3d.x[0]);
 	}
+
+	static final Point4d D1000 = UNITVECTOR4[0];
+	static final Point3d D100 = UNITVECTOR3[0];
 	
 //	public static Point X(Point[] vecs) {
 //		

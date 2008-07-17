@@ -5,6 +5,7 @@ package ddddbb.comb;
 
 import ddddbb.math.HalfSpace;
 import ddddbb.math.Point;
+import ddddbb.math.Point3d;
 
 public class Location extends ALocation {
 		protected int dim;
@@ -33,7 +34,7 @@ public class Location extends ALocation {
 			dim = 0;
 			origin = _o;
 			if (proj3d) {
-				p3 = origin; 
+				p3 = (Point3d)origin; 
 			}
 				
 		}

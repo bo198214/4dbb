@@ -47,7 +47,7 @@ public class DLocation extends ALocation {
 
 	@Override
 	public Point o() {
-		return new Point(origin);
+		return Point.create(origin);
 	}
 	
 	int[] coSpace() {

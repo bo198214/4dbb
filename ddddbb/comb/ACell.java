@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Vector;
 
 import ddddbb.math.Camera4d;
-import ddddbb.math.Direc;
 import ddddbb.math.HalfSpace;
 import ddddbb.math.Param;
 import ddddbb.math.Point;
 
 public abstract class ACell {
 	abstract public List<? extends BCell> facets();
-	abstract public Direc normal();
+	abstract public Point normal();
 //	abstract public Vector<HalfSpace> halfSpaces();
 	abstract public ALocation location();
 	
@@ -113,10 +112,11 @@ public abstract class ACell {
 	public boolean visible = true;  
 
 	protected boolean faceVisibleCentral(Point eye) {
-		return normal().sc(eye.minus(o())) > 0;
+		return normal().sc(eye.clone().subtract(o())) > 0;
 	}
 	
-	protected boolean faceVisibleOrthographic(Direc v) {
+	protected boolean faceVisibleOrthographic(Point v) {
+		assert v.isNormal();
 		return normal().sc(v) < 0;
 	}
 
@@ -162,7 +162,8 @@ public abstract class ACell {
 	}
 	
 	
-	public static void removeInvisibleParallel(Collection<DCell> v,Direc d) {
+	public static void removeInvisibleParallel(Collection<DCell> v,Point d) {
+		assert d.isNormal();
 		Vector<DCell> toRemove = new Vector<DCell>();
 		for (DCell f : v) {
 			assert f != null;

@@ -14,11 +14,11 @@ public class OrthographicPerspective extends Camera4d {
 	}
 	public void setToDefault() {
 		initAxes();
-		eye = new Point(3,2,0,0);
+		eye = new Point4d(3,2,0,0);
 		changed();		
 	}
 
-	public void rotate(double ph, Direc a4d, Direc b4d, Point p4d) {
+	public void rotate(double ph, Point4d a4d, Point4d b4d, Point4d p4d) {
 	}
 
 	public void setDirec(DSignedAxis a) {
@@ -28,17 +28,17 @@ public class OrthographicPerspective extends Camera4d {
 	public void setDirec(double ph1, double ph2, double ph3) {
 	}
 
-	public boolean nproj3d(Point p4, Point res3) {
-		assert p4.dim() == 4;
-		Point pd = new Point(p4);
-		pd.translate(eye,-1);
+	public boolean nproj3d(Point4d p4, Point3d res3) {
+		Point pd = p4.clone();
+		pd.subtract(eye);
 		res3.x[0] = v[0].sc(pd);
 		res3.x[1] = v[1].sc(pd);
 		res3.x[2] = v[2].sc(pd);
 		return true;
 	}
 
-	public Direc viewingDirection() {
+	public Point4d viewingDirection() {
+		assert v[3].isNormal();
 		return v[3];
 	}
 

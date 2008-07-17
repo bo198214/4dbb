@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import ddddbb.math.Direc;
 import ddddbb.math.Point;
 import ddddbb.math.Projection;
 
@@ -118,12 +117,13 @@ public class DCell extends BCell {
 		return (location.origin[normal.axis]-eye.x[normal.axis])*normal.pmSign()<0;
 	}
 	
-	protected boolean faceVisibleOrthographic(Direc v) {
-			return v.x[normal.axis]*normal.pmSign() < 0;
+	protected boolean faceVisibleOrthographic(Point v) {
+		assert v.isNormal();
+		return v.x[normal.axis]*normal.pmSign() < 0;
 	}
 	
 	@Override
-	public Direc normal() {
+	public Point normal() {
 		if (dim()+1==spaceDim()) {
 			int[] normals = location.coSpace();
 			assert normals.length==1;
@@ -289,7 +289,7 @@ public class DCell extends BCell {
 	
 	public List<Point> vertices() {
 		Vector<Point> v = new Vector<Point>();
-		if (dim==0) { v.add(new Point(vertex())); return v; }
+		if (dim==0) { v.add(Point.create(vertex())); return v; }
 		for (int s=0;s<2;s++) {
 			v.addAll(facets[s][0].vertices());
 		}
@@ -306,7 +306,7 @@ public class DCell extends BCell {
 //	}
 	
 	public Point origin(Projection t) {
-		Point res = new Point(t.toDim());  
+		Point res = Point.create(t.toDim());  
 		t.proj(origin(),res);
 		return res;
 	}
@@ -323,13 +323,13 @@ public class DCell extends BCell {
 		int[] spat = spat();
 		for (int i=0;i<spat.length;i++) {
 			
-			Point p2 = new Point(t.toDim());
+			Point p2 = Point.create(t.toDim());
 			t.proj(o,p2);
-			Point p1 = new Point(t.toDim());
+			Point p1 = Point.create(t.toDim());
 			t.proj(DOp.plus(o,DOp.unitVector(i,d)),p1);
-			Point p = new Point(t.toDim());
-			p = p1.minus(p2); 
-			v.add((new Point(p)).multiply(1/p.len()));
+			Point p = Point.create(t.toDim());
+			p = p1.clone().subtract(p2); 
+			v.add(p.clone().multiply(1/p.len()));
 		}
 		return v;
 	}
@@ -345,7 +345,7 @@ public class DCell extends BCell {
 ////			Iterator spatIt = spat(t).iterator();
 ////			while (spatIt.hasNext()) {
 ////				Point dir = (Point) spatIt.next();
-////				s = s.minus(dir.proj(new Point(o)));
+////				s = s.minus(dir.proj(Point.create(o)));
 ////			}
 //			v.add(s.times(1/s.len()));
 //		}
@@ -722,7 +722,7 @@ public class DCell extends BCell {
 
 	@Override
 	public Point o() {
-		return new Point(location.origin);
+		return Point.create(location.origin);
 	}
 
 	@Override

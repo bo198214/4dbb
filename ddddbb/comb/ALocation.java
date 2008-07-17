@@ -7,6 +7,8 @@ import ddddbb.math.Camera4d;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.Point;
 import ddddbb.math.Point2d;
+import ddddbb.math.Point3d;
+import ddddbb.math.Point4d;
 
 public abstract class ALocation {
 	abstract public Point o();
@@ -14,7 +16,7 @@ public abstract class ALocation {
 	abstract public int dim();
 
 	public boolean p3AheadEye;
-	public Point p3;
+	public Point3d p3;
 	public boolean p2AheadEye;
 	public Point2d p2l;
 	public Point2d p2r;
@@ -23,16 +25,17 @@ public abstract class ALocation {
 	public void proj3d2dIN(D3Graphics g3,Camera4d c4) {
 		proj2dIN(g3,c4);
 	}
+
 	public void proj3dIN(Camera4d c4) {
 		assert dim() == 0;
 		if (spaceDim() == 4) {
 			if ( p3 == null ) {
-				p3  = new Point(3);
+				p3  = new Point3d();
 			}
-			p3AheadEye = c4.proj3d(o(),p3);
+			p3AheadEye = c4.proj3d((Point4d)o(),p3);
 		}
 		if (spaceDim() == 3) {
-			p3 = o();
+			p3 = (Point3d)o();
 		}
 	}
 

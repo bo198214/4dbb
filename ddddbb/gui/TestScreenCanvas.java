@@ -16,7 +16,7 @@ import ddddbb.game.Opt;
 import ddddbb.math.Camera3d;
 import ddddbb.math.D2Graphics;
 import ddddbb.math.D3Graphics;
-import ddddbb.math.Point;
+import ddddbb.math.Point3d;
 
 public class TestScreenCanvas extends JPanel implements ChangeListener {
 	private static final long serialVersionUID = -6777833202679708271L;
@@ -68,23 +68,23 @@ public class TestScreenCanvas extends JPanel implements ChangeListener {
 	
 	private void drawTestCube(double x0,double y0) {
 		double f = 1;
-		g3.drawLine(new Point(x0-0.5*f,y0-0.5*f,f),new Point(x0+0.5*f,y0-0.5*f,f));
-		g3.drawLine(new Point(x0-0.5*f,y0-0.5*f,f),new Point(x0-0.5*f,y0+0.5*f,f));
-		g3.drawLine(new Point(x0+0.5*f,y0+0.5*f,f),new Point(x0-0.5*f,y0+0.5*f,f));
-		g3.drawLine(new Point(x0+0.5*f,y0+0.5*f,f),new Point(x0+0.5*f,y0-0.5*f,f));
-		g3.drawString("Back",new Point(x0+0.5*f,y0+0.5*f,f));
+		g3.drawLine(new Point3d(x0-0.5*f,y0-0.5*f,f),new Point3d(x0+0.5*f,y0-0.5*f,f));
+		g3.drawLine(new Point3d(x0-0.5*f,y0-0.5*f,f),new Point3d(x0-0.5*f,y0+0.5*f,f));
+		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,f),new Point3d(x0-0.5*f,y0+0.5*f,f));
+		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,f),new Point3d(x0+0.5*f,y0-0.5*f,f));
+		g3.drawString("Back",new Point3d(x0+0.5*f,y0+0.5*f,f));
 		
-		g3.drawLine(new Point(x0-0.5*f,y0-0.5*f,0),new Point(x0+0.5*f,y0-0.5*f,0));
-		g3.drawLine(new Point(x0-0.5*f,y0-0.5*f,0),new Point(x0-0.5*f,y0+0.5*f,0));
-		g3.drawLine(new Point(x0+0.5*f,y0+0.5*f,0),new Point(x0-0.5*f,y0+0.5*f,0));
-		g3.drawLine(new Point(x0+0.5*f,y0+0.5*f,0),new Point(x0+0.5*f,y0-0.5*f,0));		
-		g3.drawString("Middle",new Point(x0+0.5*f,y0,0));
+		g3.drawLine(new Point3d(x0-0.5*f,y0-0.5*f,0),new Point3d(x0+0.5*f,y0-0.5*f,0));
+		g3.drawLine(new Point3d(x0-0.5*f,y0-0.5*f,0),new Point3d(x0-0.5*f,y0+0.5*f,0));
+		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,0),new Point3d(x0-0.5*f,y0+0.5*f,0));
+		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,0),new Point3d(x0+0.5*f,y0-0.5*f,0));		
+		g3.drawString("Middle",new Point3d(x0+0.5*f,y0,0));
 
-		g3.drawLine(new Point(x0-0.5*f,y0-0.5*f,-f),new Point(x0+0.5*f,y0-0.5*f,-f));
-		g3.drawLine(new Point(x0-0.5*f,y0-0.5*f,-f),new Point(x0-0.5*f,y0+0.5*f,-f));
-		g3.drawLine(new Point(x0+0.5*f,y0+0.5*f,-f),new Point(x0-0.5*f,y0+0.5*f,-f));
-		g3.drawLine(new Point(x0+0.5*f,y0+0.5*f,-f),new Point(x0+0.5*f,y0-0.5*f,-f));
-		g3.drawString("Front",new Point(x0+0.5*f,y0-0.5*f,-f));
+		g3.drawLine(new Point3d(x0-0.5*f,y0-0.5*f,-f),new Point3d(x0+0.5*f,y0-0.5*f,-f));
+		g3.drawLine(new Point3d(x0-0.5*f,y0-0.5*f,-f),new Point3d(x0-0.5*f,y0+0.5*f,-f));
+		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,-f),new Point3d(x0-0.5*f,y0+0.5*f,-f));
+		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,-f),new Point3d(x0+0.5*f,y0-0.5*f,-f));
+		g3.drawString("Front",new Point3d(x0+0.5*f,y0-0.5*f,-f));
 		
 //		g3.drawLine(new Point3d(x0-1,y0,0), new Point3d(x0-1,y0,1));
 //		g3.drawLine(new Point3d(x0-1,y0,-1),new Point3d(x0-1,y0,0));
@@ -96,7 +96,7 @@ public class TestScreenCanvas extends JPanel implements ChangeListener {
 //		g3.drawLine(new Point3d(x0-0.5*f,y0-0.5*f,0),new Point3d(x0-0.5*f,y0+0.5*f,0));
 //		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,0),new Point3d(x0-0.5*f,y0+0.5*f,0));
 //		g3.drawLine(new Point3d(x0+0.5*f,y0+0.5*f,0),new Point3d(x0+0.5*f,y0-0.5*f,0));
-		g3.drawTrihedral(new Point(x0-1,y0-1,0),2.54);
+		g3.drawTrihedral(new Point3d(x0-1,y0-1,0),2.54);
 	}
 
 	private void test3D(double y0) {
