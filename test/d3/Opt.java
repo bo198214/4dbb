@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import ddddbb.comb.Cell;
 import ddddbb.comb.CellComplex;
+import ddddbb.comb.OCell;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.DiAxisModel;
 import ddddbb.gen.DoubleModel;
@@ -16,6 +17,7 @@ import ddddbb.math.CrossEyedGraphics;
 import ddddbb.math.D2GraphicsIF;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.Flat3dGraphics;
+import ddddbb.math.OHalfSpace;
 import ddddbb.math.ParallelEyedGraphics;
 import ddddbb.math.Point3d;
 import ddddbb.math.Space2d;
@@ -381,7 +383,7 @@ public final class Opt {
 		cube2.computeSpacesIN();
 		Cell cube1 = new Cell(_cube1);
 		cube1.computeSpacesIN();
-		cubes.cells.add(cube2);
+		//cubes.cells.add(cube2);
 		cubes.cells.add(cube1);
 		
 		Cell cube3 = new Cell(_cube3);
@@ -389,24 +391,26 @@ public final class Opt {
 		cube3.computeSpacesIN();
 		Cell tet3 = new Cell(_tet3);
 		tet3.computeSpacesIN();
-		cubes.cutOut(tet3);
-		cubes.cells.add(tet3);
-		System.out.println(cubes.cells.size());
-		
 		scene = new Scene3d();
-		for (Cell i:cubes.cells) {
-			scene.top3d.add(i); 
-		}
-//		scene.top3d.add(tet3);
-//		scene.top3d.add(cube3);
+//		cubes.cutOut(tet3);
+//		cubes.cells.add(tet3);
+//		System.out.println(cubes.cells.size());
+//		
+//		for (Cell i:cubes.cells) {
+//			scene.top3d.add(i); 
+//		}
+		//scene.top3d.add(tet3);
+		//scene.top3d.add(cube3);
 
-////		Cell tet3 = new Cell(_tet3);
-////		tet3.computeSpaces();
-//		Cell cube3 = new Cell(_cube3);
-//		cube3.computeSpaces();
-//		scene.addTop3d(cube1);
-//		scene.addTop3d(cube2);
-//		scene.overPaint(cube3);
-		
+		cube1.split(new OHalfSpace(((OCell)tet3.facets().get(3)).cell().halfSpace(),1), null);
+		cube1.outer().snapOut();
+//		cube1.inner().split(new OHalfSpace(((OCell)tet3.facets().get(2)).cell().halfSpace(),-1), null);
+//		cube1.inner().outer().snapOut();
+//		cube1.inner().inner().split(new OHalfSpace(((OCell)tet3.facets().get(1)).cell().halfSpace(),-1), null);
+//		cube1.inner().inner().outer().snapOut();
+//		scene.top3d.add(cube1.inner().inner().inner());
+		scene.top3d.add(cube1.inner());
+		scene.top3d.add(tet3);
+//		scene.top3d.add(cube1.outer());
 	}
 }

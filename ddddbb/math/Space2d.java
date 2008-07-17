@@ -53,23 +53,21 @@ public class Space2d extends HalfSpace {
 	
 	public Space2d(List<? extends OCell> facets) {
 		assert facets.size() >= 2 : facets.size();
-		int i=0;
 		Point3d[] d= new Point3d[2];
 		Point a = null;
+		int i=0;
 		for (OCell fc1:facets) {
 			Cell f1 = fc1.cell();
 			assert f1.location().dim() == 1;
 			Point3d f1a,f1b;
 			f1a = (Point3d)f1.a().location().o().clone();
 			f1b = (Point3d)f1.b().location().o().clone();
-			assert f1a.dim() == 3;
-			assert f1b.dim() == 3;
 			if (i>=2) { break; }
 			if (i==0) { a = f1a; }
 			d[i] = (Point3d)f1b.subtract(f1a).normalize();
 			i++;
 		}
-		normal = Gop.X(d[0],d[1]);
+		normal = Gop.X(d[0],d[1]).normalize();
 		normal.multiply(normal.positivity());
 		length = a.sc(normal);
 	}

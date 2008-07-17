@@ -90,8 +90,6 @@ public class Gop {
 //	}
 		
 	public static Point3d X(Point3d a3d,Point3d b3d) {
-		assert a3d.dim() == 3;
-		assert b3d.dim() == 3;
 		return new Point3d(
 				a3d.x[1]*b3d.x[2]-a3d.x[2]*b3d.x[1],
 				a3d.x[2]*b3d.x[0]-a3d.x[0]*b3d.x[2],

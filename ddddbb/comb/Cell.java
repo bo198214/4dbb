@@ -17,7 +17,7 @@ public class Cell extends ACell {
 	protected Vector<OCell> facets = new Vector<OCell>(); //dim-1
 
 	//this cell is referenced from the following OCells
-	protected Vector<OCell> ocells = new Vector<OCell>(); //dim
+	protected Vector<OCell> referers = new Vector<OCell>(); //dim
 	
 	Location location;
 	SpaceId spaceId;
@@ -297,9 +297,9 @@ public class Cell extends ACell {
 //		return side;
 //	}
 	
-	public void split(OHalfSpace e,OCell ocell) {
+	public void split(OHalfSpace e,OCell referer) {
 		assert spaceId !=null : dim();
-		assert ocell==null || ocells.contains(ocell);
+		assert referer==null || referers.contains(referer);
 		assert e != null;
 		if ( isSplitted()) { return; }
 
@@ -399,7 +399,7 @@ public class Cell extends ACell {
 				Cell f = of.cell();
 				assert of.parent() == this;
 				of.cell().split(e,of);
-				assert of.cell().ocells.contains(of);
+				assert of.cell().referers.contains(of);
 				if ( f.isSplitted()) {
 					inner_facets.add(of.inner);
 					outer_facets.add(of.outer);
@@ -476,11 +476,12 @@ public class Cell extends ACell {
 		assert OCell.opposite(innerCut, outerCut);
 		assert innerCut.snappedTo() == outerCut;
 
-		assert ocell==null || ocells.contains(ocell);
+		assert referer==null || referers.contains(referer);
 
-		for (OCell oc:ocells) {
+		for (OCell oc:referers) {
 			oc.breakOpen();
-			if (oc==ocell) { continue; }
+			//dont catch the parents that we just iterating
+			if (oc==referer) { continue; }
 			if (oc.parent()!=null) {
 				int i = oc.parent().facets.indexOf(oc);
 				oc.parent().facets.set(i,oc.inner);
@@ -504,9 +505,9 @@ public class Cell extends ACell {
 	}
 	
 	public void remove() {
-		if (ocells!=null) {
-			while (ocells.size()>0) {
-				ocells.get(0).isolate();
+		if (referers!=null) {
+			while (referers.size()>0) {
+				referers.get(0).isolate();
 			}
 		}
 		while (facets.size()>0) {
@@ -619,14 +620,14 @@ public class Cell extends ACell {
 	boolean isInternal() {
 		
 		// if it is not referenced from anywhere it is a top level cell and visible
-		if (ocells.size()==0) { return false; }
+		if (referers.size()==0) { return false; }
 		
 		/* go through the OCells that refer to this Cell and determine 
 		 * whether they are all internal
 		 * If only one is visible this whole Cell is visible */
-		for (OCell oc:ocells) {
+		for (OCell oc:referers) {
 			if (!oc.isInternal()) return false;
-			assert oc.snappedTo() ==null || ocells.contains(oc.snappedTo());
+			assert oc.snappedTo() ==null || referers.contains(oc.snappedTo());
 		}
 		return true;
 	}
@@ -716,7 +717,7 @@ public class Cell extends ACell {
 		HashSet<HalfSpace> res = new HashSet<HalfSpace>();
 		if (dim()==spaceDim()) { return res; }
 		if (dim()+1==spaceDim()) { res.add(halfSpace()); return res; }
-		for (OCell oc:ocells) {
+		for (OCell oc:referers) {
 			res.addAll(oc.parent().halfSpaces());
 		}
 		return res;

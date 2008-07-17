@@ -37,8 +37,8 @@ public class OCell extends BCell implements Iterable<OCell> {
 	
 	protected void connectCell(Cell _cell) {
 		cell = _cell;
-		cell.ocells.add(this);
-		assert cell.ocells.contains(this);
+		cell.referers.add(this);
+		assert cell.referers.contains(this);
 	}
 	
 	public Cell cell() {
@@ -50,16 +50,10 @@ public class OCell extends BCell implements Iterable<OCell> {
 		parent.facets.add(this);
 	}
 
-	protected void disconnect() {
-		cell.ocells.remove(this);
-		parent.facets.remove(this);
-	}
-	
 	/** Copies only the O relevant details into the current OCell from c */
 	private void fillO(OCell c) {
 		orientation = c.orientation;
-//		snappedTo = c.snappedTo;
-//		snappedToSet = c.snappedToSet;
+		outsnapped = c.outsnapped;
 		parent = c.parent;
 	}
 	
@@ -124,7 +118,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 		
 	public OCell opposite() {
 		if (dim()>=spaceDim()) { return null; }
-		Vector<OCell> candidates = cell.ocells;
+		Vector<OCell> candidates = cell.referers;
 		for (OCell c:candidates) {
 			if (c==this) continue;
 			assert parent != null;
@@ -272,7 +266,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 			parent = null;
 		}
 		assert cell!=null;
-		cell.ocells.remove(this);
+		cell.referers.remove(this);
 		cell = null;
 	}
 	
