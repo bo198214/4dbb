@@ -109,13 +109,19 @@ public abstract class ACell {
 	 * Is a decoration to temporarily store visibility information
 	 * Indicates whether the outer direction of the facet is directed to the camera
 	 */
-	public boolean visible = true;  
+	public boolean facing = true;  
 
-	protected boolean faceVisibleCentral(Point eye) {
+	/** returns whether the front of this Cell would be seen by an observer at eye
+	 *  in central projection.
+	 */
+	protected boolean centrallyFacing(Point eye) {
 		return normal().sc(eye.clone().subtract(o())) > 0;
 	}
 	
-	protected boolean faceVisibleOrthographic(Point v) {
+	/** returns whether the front side of this cell would be seen by an 
+	 * observer given by the direction v in parallel projection. 
+	 */
+	protected boolean ortographicallyFacing(Point v) {
 		assert v.isNormal();
 		return normal().sc(v) < 0;
 	}
@@ -123,8 +129,8 @@ public abstract class ACell {
 	private static class CompareByOcclusion implements Comparator<ACell> {
 		public CompareByOcclusion() { super(); }
 		public int compare(ACell d1, ACell d2) {
-			assert d1.visible;
-			assert d2.visible;
+			assert d1.facing;
+			assert d2.facing;
 			int sideof2 =(new HalfSpace(d1.o(),d1.normal())).side(d2);
 			if (sideof2 == Cell.CONTAINED ) return 0; // does not matter 
 			if (sideof2 == Cell.OUTER) return -1; // 2 is in front of(>) 1
@@ -167,7 +173,7 @@ public abstract class ACell {
 		Vector<DCell> toRemove = new Vector<DCell>();
 		for (DCell f : v) {
 			assert f != null;
-			if ( f.isInternal() || ! f.faceVisibleOrthographic(d) ) {
+			if ( f.isInternal() || ! f.ortographicallyFacing(d) ) {
 				toRemove.add(f);
 			}
 		}
@@ -178,20 +184,22 @@ public abstract class ACell {
 		Vector<DCell> toRemove = new Vector<DCell>();
 		for (DCell f : v) {
 			assert f != null;
-			if ( f.isInternal() || ! f.faceVisibleCentral(eye) ) {
+			if ( f.isInternal() || ! f.centrallyFacing(eye) ) {
 				toRemove.add(f);
 			}
 		}
 		v.removeAll(toRemove);
 	}
 	
-	public void setVisibility(Camera4d c4) {
+	public boolean isFacing(Camera4d c4) {
 		if (c4.isParallelProjection()) {
-			visible = faceVisibleOrthographic(c4.viewingDirection());
+			return ortographicallyFacing(c4.viewingDirection());
 		}
-		else {
-			visible = faceVisibleCentral(c4.getEye());
-		}
+		return centrallyFacing(c4.getEye());
+	}
+	
+	public void setFacing(Camera4d c4) {
+		facing = isFacing(c4);
 	}
 	
 	public Vector<ALocation> getPointLocations() {

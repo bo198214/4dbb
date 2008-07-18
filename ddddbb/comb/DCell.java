@@ -113,11 +113,11 @@ public class DCell extends BCell {
 		}
 	}
 
-	protected boolean faceVisibleCentral(Point eye) {
+	protected boolean centrallyFacing(Point eye) {
 		return (location.origin[normal.axis]-eye.x[normal.axis])*normal.pmSign()<0;
 	}
 	
-	protected boolean faceVisibleOrthographic(Point v) {
+	protected boolean ortographicallyFacing(Point v) {
 		assert v.isNormal();
 		return v.x[normal.axis]*normal.pmSign() < 0;
 	}

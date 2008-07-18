@@ -81,12 +81,12 @@ public class Scene extends Model implements MyChangeListener {
 				if (faces3d == null) { return; }
 				if (Param.backfaceCulling.isSelected()) {
 					for (DCell of : faces3d) {
-						of.setVisibility(camera4d);
+						of.setFacing(camera4d);
 					}			
 				}
 				else {
 					for (DCell of : faces3d) {
-						of.visible = true;
+						of.facing = true;
 					}
 				}
 				changed();
@@ -182,7 +182,7 @@ public class Scene extends Model implements MyChangeListener {
 	
 	private void updateVisibility() {
 		for (DCell of: faces3d) {
-			of.setVisibility(camera4d);
+			of.setFacing(camera4d);
 		}		
 	}
 	
@@ -284,7 +284,7 @@ public class Scene extends Model implements MyChangeListener {
 		if (Param.occlusionCulling.isSelected()) {
 			Vector<DCell> dvisibles3 = new Vector<DCell>();
 			for (DCell f3 : faces3d) {
-				if ( f3.visible && !f3.isInternal()) {
+				if ( f3.facing && !f3.isInternal()) {
 //					if ( 
 //							i == 0 || //left side left tesseract
 //							i == 1 || //bottom side
@@ -324,7 +324,7 @@ public class Scene extends Model implements MyChangeListener {
 			
 		} else {
 			for (DCell df : faces3d) {
-				if (df.visible) { g3.render3dFacet(df); }
+				if (df.facing) { g3.render3dFacet(df); }
 //				if (of.visible) { of.paint(g3,true); i++; }
 			}
 //			Vector<Cell> visibles3 = new Vector<Cell>();

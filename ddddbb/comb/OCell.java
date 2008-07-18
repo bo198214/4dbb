@@ -107,13 +107,15 @@ public class OCell extends BCell implements Iterable<OCell> {
 	}
 	
 	/**
-	 * Two OCells are opposite if they reference the same Cell
-	 * (i.e. occupy the same space)
-	 * and their parent Cells lie in the same space (same SpaceId).
+	 * Two OCells are opposite if they are not equal,
+	 * reference the same Cell
+	 * (i.e. occupy the same location)
+	 * and their parent Cells lie in the same space (same SpaceId), 
+	 * but dont occupy the same location.
 	 * In this case they are not visible per default.
 	 */
 	public static boolean opposite(OCell a, OCell b) {
-		return adjacent(a,b) && a.parent.spaceId == b.parent.spaceId;
+		return a!=b && adjacent(a,b) && a.parent.spaceId == b.parent.spaceId && a.parent!=b.parent;
 	}
 		
 	public OCell opposite() {
