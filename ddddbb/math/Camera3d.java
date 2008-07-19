@@ -38,25 +38,25 @@ public class Camera3d extends Model {
 		changed();
 	}
 	
-	public void rotate(double ph, Point3d d,Point3d o3d) {
-		assert d.isNormal();
-		v[0].rotate(ph,d); 
-		v[1].rotate(ph,d);
-		v[2].rotate(ph,d);
-		eye.rotate(ph,d,o3d);
+	public void rotate(double ph, Point3d axis,Point3d o) {
+		assert axis.isNormal();
+		v[0].rotate3d(ph,axis); 
+		v[1].rotate3d(ph,axis);
+		v[2].rotate3d(ph,axis);
+		eye.rotate3d(ph,axis,o);
 		changed();
 	}
 
-	public void rotate(double ph, Point3d a, Point3d b, Point3d o3d) {
-		assert a.isNormal() && b.isNormal();
+	public void rotate(double ph, Point3d a, Point3d b, Point3d o) {
+		assert a.isNormal() && b.isNormal() : a.len() + "!=1," + b.len() + "!=1";
 		v[0].rotate(ph, a,b);
 		v[1].rotate(ph, a,b);
 		v[2].rotate(ph, a,b);
-		eye.rotate(ph, a, b, o3d);
+		eye.rotate(ph, a, b, o);
 		changed();
 	}
 	
-	public void translate(double dist,Point a) {
+	public void translate(double dist,Point3d a) {
 		assert a.isNormal();
 		eye.add(a.clone().multiply(dist));
 		changed();

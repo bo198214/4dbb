@@ -37,10 +37,10 @@ public abstract class Camera4d extends Model implements Projection {
 		initAxes();
 		if (a.human()==-4) {
 			rotateAxes(Gop.UNITVECTOR4[3],Gop.UNITVECTOR4[0]);
-			rotateAxes(Gop.UNITVECTOR4[0],Point.create(a,4));
+			rotateAxes(Gop.UNITVECTOR4[0],new Point4d(a));
 		}
 		else {
-			rotateAxes(Gop.UNITVECTOR4[3],Point.create(a,4));
+			rotateAxes(Gop.UNITVECTOR4[3],new Point4d(a));
 		}
 		eye = new Point4d(3,2,0,0);
 		changed();
@@ -59,13 +59,13 @@ public abstract class Camera4d extends Model implements Projection {
 		rotate(a.arc(b),a,b,new Point4d(0,0,0,0));
 	}
 
-	public void translate(double dist,Point a) {
+	public void translate(double dist,Point4d a) {
 		assert a.isNormal();
 		eye.add(a.clone().multiply(dist));
 		changed();
 	}
 	
-	protected void rotateAxes(Point a,Point b) {
+	protected void rotateAxes(Point4d a,Point4d b) {
 		assert a.isNormal() && b.isNormal();
 		for (int i=0;i<4;i++) {
 			v[i].rotate(a,b);
@@ -74,19 +74,11 @@ public abstract class Camera4d extends Model implements Projection {
 	}
 
 	public void orthoNormalize() {
-		v[3].normalize();
-		v[2].subtract(v[3].proj(v[2]));
-		v[2].normalize();
-		v[1].subtract(v[3].proj(v[1]));
-		v[1].subtract(v[2].proj(v[1]));
-		v[1].normalize();
-		v[0].subtract(v[3].proj(v[0]));
-		v[0].subtract(v[2].proj(v[0]));
-		v[0].subtract(v[1].proj(v[0]));
-		v[0].normalize();
+		Gop.orthogonalize(v);
+		for (int i=0;i<v.length;i++) {
+			v[i].normalize();
+		}
 	}
-	
-	
 	
 	public Point getDirec() {
 		return viewingDirection().getPolarArcs();

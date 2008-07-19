@@ -3,156 +3,147 @@ package ddddbb.gui;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
-import java.util.List;
 
+import ddddbb.gen.LookupTable2int;
+import ddddbb.gen.LookupTable3int;
 
 public class KeyControl implements KeyListener {
-	public static class KeyAction {
-		public int modifiers;
-		public int keyCode;
-		public Performer action;
+	public KeyControl() {
+		int maxMod = 4;
+		int maxKey = 100;
+		singleKeyAssignment = new LookupTable2int<Performer>(maxMod,maxKey);
+		LookupTable2int<Performer> s = singleKeyAssignment;
+		int SHIFT = InputEvent.SHIFT_MASK;
+		int CTRL = InputEvent.CTRL_MASK;
+		s.put(0,37,UIAction.transSelected(-1)); // <-
+		s.put(0,39,UIAction.transSelected(+1)); // ->
+		s.put(0,38,UIAction.transSelected(+2)); // ^
+		s.put(0,40,UIAction.transSelected(-2)); // v
+		s.put(SHIFT,37,UIAction.transSelected(+4)); 
+		s.put(SHIFT,39,UIAction.transSelected(-4)); 
+		s.put(SHIFT,38,UIAction.transSelected(+3));
+		s.put(SHIFT,40,UIAction.transSelected(-3));
+		s.put(CTRL,37,UIAction.rotCam(3,1));
+		s.put(CTRL,39,UIAction.rotCam(1,3));
+		s.put(CTRL,38,UIAction.rotCam(2,3));
+		s.put(CTRL,40,UIAction.rotCam(3,2));
+		
+		s.put(CTRL,85,UIAction.transCam(1)); //u
+		s.put(CTRL,73,UIAction.transCam(2)); //i
+		s.put(CTRL,79,UIAction.transCam(3)); //o
+		s.put(CTRL,80,UIAction.transCam(4)); //p
 
-		public KeyAction(int _keyCode, UIActions _action) {
-			keyCode = _keyCode;
-			modifiers = 0;
-			action = _action;
-		}
-		public KeyAction(int _keyCode,int _modifiers,UIActions _action) {
-			keyCode = _keyCode;
-			modifiers = _modifiers;
-			action = _action;
-		}
+		s.put(CTRL|SHIFT,85,UIAction.transCam(-1)); //u
+		s.put(CTRL|SHIFT,73,UIAction.transCam(-2)); //i
+		s.put(CTRL|SHIFT,79,UIAction.transCam(-3)); //o
+		s.put(CTRL|SHIFT,80,UIAction.transCam(-4)); //p
 		
-		public void perform() {
+		s.put(CTRL,77,UIAction.transCam(-1)); //m
+		s.put(CTRL,44,UIAction.transCam(-2)); //,
+		s.put(CTRL,46,UIAction.transCam(-3)); //.
+		s.put(CTRL,47,UIAction.transCam(-4)); ///
+		
+		s.put(0,85,UIAction.transSelected(1)); //u
+		s.put(0,73,UIAction.transSelected(2)); //i
+		s.put(0,79,UIAction.transSelected(3)); //o
+		s.put(0,80,UIAction.transSelected(4)); //p
 
-			action.perform();
-		}
+		s.put(0,77,UIAction.transSelected(-1)); //m
+		s.put(0,44,UIAction.transSelected(-2)); //,
+		s.put(0,46,UIAction.transSelected(-3)); //.
+		s.put(0,47,UIAction.transSelected(-4)); ///
 		
-	}
-	public static class DoubleKeyAction {
-		public int keyCode1;
-		public int keyCode2;
-		public boolean key1Pressed = false;
-		public boolean key2Pressed = false;
-		public Performer action;
+		s.put(0,49,UIAction.setSelected(0)); //1
+		s.put(0,50,UIAction.setSelected(1)); //2
+		s.put(0,51,UIAction.setSelected(2)); //3
+		s.put(0,52,UIAction.setSelected(3)); //4
+		s.put(0,53,UIAction.setSelected(4)); //5
+		s.put(0,54,UIAction.setSelected(5)); //6
+		s.put(0,55,UIAction.setSelected(6)); //7
+		s.put(0,56,UIAction.setSelected(7)); //8
+		s.put(0,57,UIAction.setSelected(8)); //9
+		s.put(0,71,UIShownAction.nextSelected); //g
+		s.put(SHIFT,71,UIShownAction.prevSelected); //G
+		s.put(0,32,UIShownAction.showGoal); //SPACE
+		s.put(0,66,UIShownAction.combineTouchingSelected); //b
+		s.put(0,20,UIShownAction.toggle3d4d);//caps lock
 
-		public DoubleKeyAction(int _keyCode1, int _keyCode2,UIActions _action) {
-			keyCode1 = _keyCode1;
-			keyCode2 = _keyCode2;
-			action = _action;
-		}
+		doubleKeyAssignment = new LookupTable3int<Performer>(maxMod,maxKey,maxKey);
+		LookupTable3int<Performer> d = doubleKeyAssignment;
 		
-		public void perform() {
-			action.perform();
-		}
+		d.put(0,70,68,UIAction.rotSelected(1,2)); //f,d
+		d.put(0,70,83,UIAction.rotSelected(1,3)); //f,s
+		d.put(0,70,65,UIAction.rotSelected(1,4)); //f,a
+		d.put(0,68,83,UIAction.rotSelected(2,3)); //d,s
+		d.put(0,68,65,UIAction.rotSelected(2,4)); //d,a
+		d.put(0,83,65,UIAction.rotSelected(3,4)); //s,a
+		d.put(0,68,70,UIAction.rotSelected(2,1)); //d,f
+		d.put(0,83,70,UIAction.rotSelected(3,1)); //s,f
+		d.put(0,65,70,UIAction.rotSelected(4,1)); //a,f
+		d.put(0,83,68,UIAction.rotSelected(3,2)); //s,d
+		d.put(0,65,68,UIAction.rotSelected(4,2)); //a,d
+		d.put(0,65,83,UIAction.rotSelected(4,3)); //a,s
 		
+		d.put(0,74,75,UIAction.rotCam(1,2)); //j,k
+		d.put(0,74,76,UIAction.rotCam(1,3)); //j,l
+		d.put(0,74,59,UIAction.rotCam(1,4)); //j,;
+		d.put(0,75,76,UIAction.rotCam(2,3)); //k,l
+		d.put(0,75,59,UIAction.rotCam(2,4)); //k,;
+		d.put(0,76,59,UIAction.rotCam(3,4)); //l,;
+		d.put(0,75,74,UIAction.rotCam(2,1)); //k,j
+		d.put(0,76,74,UIAction.rotCam(3,1)); //l,j
+		d.put(0,59,74,UIAction.rotCam(4,1)); //;,j
+		d.put(0,76,75,UIAction.rotCam(3,2)); //l,k
+		d.put(0,59,75,UIAction.rotCam(4,2)); //;,k
+		d.put(0,59,76,UIAction.rotCam(4,3)); //;,l
+
+		d.put(0,82,69,UIAction.set4dRotAxes(1,2)); //r,e
+		d.put(0,69,82,UIAction.set4dRotAxes(1,2)); //r,e
+		d.put(0,82,87,UIAction.set4dRotAxes(1,3)); //r,w
+		d.put(0,87,82,UIAction.set4dRotAxes(1,3)); //r,w
+		d.put(0,82,81,UIAction.set4dRotAxes(1,4)); //r,q
+		d.put(0,81,82,UIAction.set4dRotAxes(1,4)); //r,q
+		d.put(0,69,87,UIAction.set4dRotAxes(2,3)); //e,w
+		d.put(0,87,69,UIAction.set4dRotAxes(2,3)); //e,w
+		d.put(0,69,81,UIAction.set4dRotAxes(2,4)); //e,q
+		d.put(0,81,69,UIAction.set4dRotAxes(2,4)); //e,q
+		d.put(0,87,81,UIAction.set4dRotAxes(3,4)); //w,q
+		d.put(0,81,87,UIAction.set4dRotAxes(3,4)); //w,q
+
 	}
 	
-	public static final KeyAction[] defaultSingleKeyAssignment = {
-		new KeyAction(37,UIActions.transSelectedMD1), // <-
-		new KeyAction(37,InputEvent.SHIFT_MASK,UIActions.transSelectedPD4), 
-		new KeyAction(37,InputEvent.CTRL_MASK,UIActions.rot3dCamZX),
-		new KeyAction(39,UIActions.transSelectedPD1), // ->
-		new KeyAction(39,InputEvent.SHIFT_MASK,UIActions.transSelectedMD4), 
-		new KeyAction(39,InputEvent.CTRL_MASK,UIActions.rot3dCamXZ),
-		new KeyAction(38,UIActions.transSelectedPD2), // ^
-		new KeyAction(38,InputEvent.SHIFT_MASK,UIActions.transSelectedPD3),
-		new KeyAction(38,InputEvent.CTRL_MASK,UIActions.rot3dCamYZ),
-		new KeyAction(40,UIActions.transSelectedMD2), // v
-		new KeyAction(40,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3),
-		new KeyAction(40,InputEvent.CTRL_MASK,UIActions.rot3dCamZY),
-		new KeyAction(74,UIActions.transSelectedMD1), //j
-		new KeyAction(74,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3),
-		new KeyAction(76,UIActions.transSelectedPD1), //l
-		new KeyAction(76,InputEvent.SHIFT_MASK,UIActions.transSelectedPD4),
-		new KeyAction(75,UIActions.transSelectedMD2), //k
-		new KeyAction(75,InputEvent.SHIFT_MASK,UIActions.transSelectedMD3),
-		new KeyAction(73,UIActions.transSelectedPD2), //i
-		new KeyAction(73,InputEvent.SHIFT_MASK,UIActions.transSelectedPD3),
-		new KeyAction(49,UIActions.setSelected0), //1
-		new KeyAction(50,UIActions.setSelected1), //2
-		new KeyAction(51,UIActions.setSelected2), //3
-		new KeyAction(52,UIActions.setSelected3), //4
-		new KeyAction(53,UIActions.setSelected4), //5
-		new KeyAction(54,UIActions.setSelected5), //6
-		new KeyAction(55,UIActions.setSelected6), //7
-		new KeyAction(56,UIActions.setSelected7), //8
-		new KeyAction(57,UIActions.setSelected8), //9
-		new KeyAction(78,UIActions.nextSelected), //n
-		new KeyAction(86,UIActions.nextSelected), //v
-		new KeyAction(32,UIActions.showGoal), //SPACE
-		new KeyAction(88,UIActions.prevSelected), //x
-		new KeyAction(67,UIActions.combineTouchingSelected), //c
-		new KeyAction(84,UIActions.set3dRotAxis1), //t
-		new KeyAction(71,UIActions.set3dRotAxis2), //g
-		new KeyAction(66,UIActions.set3dRotAxis3), //b
-	};
+	public static LookupTable2int<Performer> singleKeyAssignment;
+	public static LookupTable3int<Performer> doubleKeyAssignment;
 	
-	public static final DoubleKeyAction[] defaultDoubleKeyAssignment = {
-		new DoubleKeyAction(70,68,UIActions.rotSelected12), //f,d
-		new DoubleKeyAction(70,83,UIActions.rotSelected13), //f,s
-		new DoubleKeyAction(70,65,UIActions.rotSelected14), //f,a
-		new DoubleKeyAction(68,83,UIActions.rotSelected23), //d,s
-		new DoubleKeyAction(68,65,UIActions.rotSelected24), //d,a
-		new DoubleKeyAction(83,65,UIActions.rotSelected34), //s,a
-		new DoubleKeyAction(68,70,UIActions.rotSelected21), //d,f
-		new DoubleKeyAction(83,70,UIActions.rotSelected31), //s,f
-		new DoubleKeyAction(65,70,UIActions.rotSelected41), //a,f
-		new DoubleKeyAction(83,68,UIActions.rotSelected32), //s,d
-		new DoubleKeyAction(65,68,UIActions.rotSelected42), //a,d
-		new DoubleKeyAction(65,83,UIActions.rotSelected43), //a,s
-		new DoubleKeyAction(82,69,UIActions.set4dRotAxes12), //r,e
-		new DoubleKeyAction(69,82,UIActions.set4dRotAxes12), //r,e
-		new DoubleKeyAction(82,87,UIActions.set4dRotAxes13), //r,w
-		new DoubleKeyAction(87,82,UIActions.set4dRotAxes13), //r,w
-		new DoubleKeyAction(82,81,UIActions.set4dRotAxes14), //r,q
-		new DoubleKeyAction(81,82,UIActions.set4dRotAxes14), //r,q
-		new DoubleKeyAction(69,87,UIActions.set4dRotAxes23), //e,w
-		new DoubleKeyAction(87,69,UIActions.set4dRotAxes23), //e,w
-		new DoubleKeyAction(69,81,UIActions.set4dRotAxes24), //e,q
-		new DoubleKeyAction(81,69,UIActions.set4dRotAxes24), //e,q
-		new DoubleKeyAction(87,81,UIActions.set4dRotAxes34), //w,q
-		new DoubleKeyAction(81,87,UIActions.set4dRotAxes34), //w,q
-	};
-	
-	public static List<KeyAction> singleKeyAssignment = 
-		Arrays.asList(defaultSingleKeyAssignment);
-	public static List<DoubleKeyAction> doubleKeyAssignment = 
-		Arrays.asList(defaultDoubleKeyAssignment);
-	
-	
-	private void setState(KeyEvent e, boolean val) {
-		for (DoubleKeyAction doubleKeyAction:doubleKeyAssignment) {
-			if ( doubleKeyAction.keyCode1 == e.getKeyCode() ) {
-				doubleKeyAction.key1Pressed = val;
-			}
-			if ( doubleKeyAction.keyCode2 == e.getKeyCode() ) {
-				doubleKeyAction.key2Pressed = val;
-			}
-		}
-	}
+	public int pressedKey = -1;
 	
 	public synchronized void keyPressed(KeyEvent e) {
-		//System.out.println(e.getKeyCode());
-		setState(e,true);
-		for (KeyAction keyAction:singleKeyAssignment) {
-			if (
-					keyAction.keyCode == e.getKeyCode() && 
-					e.getModifiers()  == keyAction.modifiers
-			) {
-				keyAction.perform();
+		if (doubleKeyAssignment.has(e.getModifiers(),e.getKeyCode()) &&	pressedKey==-1) {
+			pressedKey = e.getKeyCode();
+			return;
+		}
+		
+		Performer p = singleKeyAssignment.get(e.getModifiers(),e.getKeyCode());
+		if (p!=null) {
+			p.perform();
+			return;
+		}
+		else if (pressedKey!=-1) {
+			p = doubleKeyAssignment.get(e.getModifiers(),pressedKey,e.getKeyCode());
+			if (p!=null) {
+				p.perform();
+				return;
 			}
 		}
-		for (DoubleKeyAction doubleKeyAction: doubleKeyAssignment) {
-			if ( doubleKeyAction.keyCode2 == e.getKeyCode() && doubleKeyAction.key1Pressed ) {
-				doubleKeyAction.perform();
-			}
-		}
+		
+		System.out.println("Keycode " + e.getKeyCode() + " not assigned.");
+		//System.out.println(e.getKeyLocation());
 	}
 	
 	public synchronized void keyReleased(KeyEvent e) {
-		setState(e,false);
+		if (pressedKey == e.getKeyCode()) {
+			pressedKey = -1;
+		}
 	}
 	
 	public void keyTyped(KeyEvent e) {

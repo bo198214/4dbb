@@ -178,10 +178,18 @@ public class OCell extends BCell implements Iterable<OCell> {
 
 	void adjustSnapAfterDCopy() {
 		if (src.snappedTo()!=null) {
-			assert snappedTo() == src.snappedTo().dst;
+			assert src.snappedTo().dst.cell.equals(cell);
+			assert src.snappedTo().dst.cell == cell;
+			assert src.snappedTo().dst.parent.spaceId == parent.spaceId : 
+				"\n" + src.snappedTo().dst.parent + "\n" + parent;
+			assert OCell.opposite(src.snappedTo().dst,this);
+			assert snappedTo() == src.snappedTo().dst : src.snappedTo() + "\n" + src.snappedTo().dst + "\n" + this;
 		}
 		else {
-			assert snappedTo() == null;
+			if ( snappedTo() != null ) {
+				System.out.println("outsnapped adjusted after copy");
+				outsnapped = true;
+			}
 		}
 		for (OCell f : cell.facets) {
 			f.adjustSnapAfterDCopy();

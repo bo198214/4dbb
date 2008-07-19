@@ -63,6 +63,7 @@ public class Gop {
 	 * @return rotated a and b
 	*/
 	public static void rotate(double ph,Point a,Point b) {
+		assert Math.abs(a.sc(b)) < Param.ERR;
 		double co = Math.cos(ph);
 		double si = Math.sin(ph);
 		Point a0, b0;
@@ -71,6 +72,18 @@ public class Gop {
 		for (int i=0;i<a.x.length;i++) {
  			a.x[i] = co*a0.x[i]+si*b0.x[i];
 			b.x[i] = co*b0.x[i]-si*a0.x[i];
+		}
+	}
+	
+	public static void orthogonalize(Point v, Point w) {
+		w.subtract(v.proj(w));
+	}
+	
+	public static void orthogonalize(Point[] v) {
+		for (int n=0;n<v.length;n++) {
+			for (int i=0;i<n;i++) {
+				v[n].subtract(v[i].proj(v[n]));
+			}
 		}
 	}
 	

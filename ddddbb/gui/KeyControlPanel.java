@@ -9,8 +9,9 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.table.AbstractTableModel;
 
-import ddddbb.gui.KeyControl.DoubleKeyAction;
-import ddddbb.gui.KeyControl.KeyAction;
+import ddddbb.gen.LookupTable2int;
+import ddddbb.gen.LookupTable3int;
+
 
 public class KeyControlPanel extends JPanel {
 	private static final long serialVersionUID = 2590752128662873991L;
@@ -252,7 +253,7 @@ public class KeyControlPanel extends JPanel {
 		public KeyTableModel() {super();}
 		
 		public int getRowCount() {
-			return UIActions.values().length;
+			return UIShownAction.values().length;
 		}
 
 		public int getColumnCount() {
@@ -271,19 +272,20 @@ public class KeyControlPanel extends JPanel {
 		
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			if ( columnIndex == 0 ) {
-				return UIActions.values()[rowIndex];
+				return UIShownAction.values()[rowIndex];
 			}
-			for (KeyAction keyAction:KeyControl.singleKeyAssignment) {
-				if ( keyAction.action == UIActions.values()[rowIndex] ) {
-					KeyStroke ks = KeyStroke.getKeyStroke(keyAction.keyCode,keyAction.modifiers);
-//					return getKeyText(keyAction.keyCode,keyAction.modifiers);
-					return ks.toString();
-				}
+			
+			LookupTable2int<Performer> s = KeyControl.singleKeyAssignment;
+			for (int m=0;m<s.c1;m++) for (int k=0;k<s.c2;k++) {
+				if (s.get(m, k) == UIShownAction.values()[rowIndex])
+				return KeyStroke.getKeyStroke(m,k).toString();
 			}
-			for (DoubleKeyAction doubleKeyAction: KeyControl.doubleKeyAssignment) {
-				if ( doubleKeyAction.action == UIActions.values()[rowIndex] ) {
-					KeyStroke ks1 = KeyStroke.getKeyStroke(doubleKeyAction.keyCode1,0);
-					KeyStroke ks2 = KeyStroke.getKeyStroke(doubleKeyAction.keyCode2,0);
+			
+			LookupTable3int<Performer> d = KeyControl.doubleKeyAssignment;
+			for (int m=0;m<d.c1;m++) for (int k1=0;k1<d.c2;k1++) for (int k2=0;k2<d.c3;k2++) {
+				if ( d.get(m, k1, k2) == UIShownAction.values()[rowIndex] ) {
+					KeyStroke ks1 = KeyStroke.getKeyStroke(k1,m);
+					KeyStroke ks2 = KeyStroke.getKeyStroke(k2,m);
 					return ks1.toString()+" & "+ks2.toString();
 				}
 			}

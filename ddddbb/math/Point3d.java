@@ -20,31 +20,32 @@ public class Point3d extends Point {
 	
 
 	/** 3d left rotation around axis d by ph */
-	public void rotate(double ph,Point3d d3d) {
-		assert d3d.isNormal();
+	public void rotate3d(double ph,Point3d axis) {
+		assert axis.isNormal();
 		double r1, r2, r3; 
 		double c = Math.cos(ph);
 		double s = Math.sin(ph);
 		r1=
-			((1 - c)*d3d.x[0]*d3d.x[0] + c)     *x[0] +
-			((1 - c)*d3d.x[0]*d3d.x[1] + s*d3d.x[2])*x[1] + 
-			((1 - c)*d3d.x[0]*d3d.x[2] - s*d3d.x[1])*x[2];  
+			((1 - c)*axis.x[0]*axis.x[0] + c)     *x[0] +
+			((1 - c)*axis.x[0]*axis.x[1] + s*axis.x[2])*x[1] + 
+			((1 - c)*axis.x[0]*axis.x[2] - s*axis.x[1])*x[2];  
 		r2=
-			((1 - c)*d3d.x[1]*d3d.x[0] - s*d3d.x[2])*x[0] + 
-			((1 - c)*d3d.x[1]*d3d.x[1] + c)     *x[1] +
-			((1 - c)*d3d.x[1]*d3d.x[2] + s*d3d.x[0])*x[2];
+			((1 - c)*axis.x[1]*axis.x[0] - s*axis.x[2])*x[0] + 
+			((1 - c)*axis.x[1]*axis.x[1] + c)     *x[1] +
+			((1 - c)*axis.x[1]*axis.x[2] + s*axis.x[0])*x[2];
 		r3 =
-			((1 - c)*d3d.x[2]*d3d.x[0] + s*d3d.x[1])*x[0] +
-			((1 - c)*d3d.x[2]*d3d.x[1] - s*d3d.x[0])*x[1] +
-			((1 - c)*d3d.x[2]*d3d.x[2] + c)     *x[2];
+			((1 - c)*axis.x[2]*axis.x[0] + s*axis.x[1])*x[0] +
+			((1 - c)*axis.x[2]*axis.x[1] - s*axis.x[0])*x[1] +
+			((1 - c)*axis.x[2]*axis.x[2] + c)     *x[2];
 		x[0]=r1;x[1]=r2;x[2]=r3;
 	}
 
-	public void rotate(double ph,Point3d d3d,Point3d o3d) {
-		assert d3d.isNormal();
+	public Point3d rotate3d(double ph,Point3d axis,Point3d o3d) {
+		assert axis.isNormal();
 		subtract(o3d);
-		rotate(ph,d3d);
+		rotate3d(ph,axis);
 		add(o3d);
+		return this;
 	}
 	
 

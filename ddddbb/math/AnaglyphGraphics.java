@@ -6,8 +6,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ddddbb.game.Opt;
-import ddddbb.gui.AnaglyphComposite;
-import ddddbb.gui.AnaglyphCompositeContext;
 
 public class AnaglyphGraphics extends D3Graphics {
 	private static final long serialVersionUID = 6933013057972473075L;

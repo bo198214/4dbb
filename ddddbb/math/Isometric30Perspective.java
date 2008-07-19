@@ -18,14 +18,14 @@ public class Isometric30Perspective extends Camera4d {
 
 	public void setToDefault() {
 		initAxes();
-		rotateAxes(new Point4d(0,0,0,1),new Point4d(1,1,1,1).normalize());
+		rotateAxes(new Point4d(0,0,0,1),(Point4d)new Point4d(1,1,1,1).normalize());
 		eye = new Point4d(3,2,0,0);
 		changed();		
 	}
 
 	public void setDirec(DSignedAxis a) {
 		initAxes(a);
-		rotateAxes(new Point4d(0,0,0,1),new Point4d(1,1,1,1));
+		rotateAxes(new Point4d(0,0,0,1),(Point4d)new Point4d(1,1,1,1).normalize());
 		eye = new Point4d(3,2,0,0);
 		changed();		
 	}

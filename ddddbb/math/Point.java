@@ -1,6 +1,6 @@
 package ddddbb.math;
 
-import ddddbb.comb.DSignedAxis;
+
 
 /**
  * Class representing a Point or Vector of a given dimension.
@@ -53,13 +53,13 @@ public class Point {
 		return res;
 	}
 	
-	/** creates vector of dimension dim from Axis a */
-	public static Point create(DSignedAxis a, int dim) {
-		Point res = create(dim);
-		for (int i=0;i<dim;i++) res.x[i] = 0;
-		res.x[a.axis()]=a.pmSign();
-		return res;
-	}
+//	/** creates vector of dimension dim from Axis a */
+//	public static Point create(DSignedAxis a, int dim) {
+//		Point res = create(dim);
+//		for (int i=0;i<dim;i++) res.x[i] = 0;
+//		res.x[a.axis()]=a.pmSign();
+//		return res;
+//	}
 	
 	/** returns the dimension of this */
 	public int dim() {
@@ -129,7 +129,7 @@ public class Point {
 //		return res;
 //}
 
-//	/** translates this by the vector d multiplied by the amount of dist
+//	/** Translates this by the vector d multiplied by the amount of dist
 //	 * d can be of less dimension than this. In this case d is 
 //	 * filled with 0 for the missing coordinates.
 //	 */
@@ -140,10 +140,12 @@ public class Point {
 //		return this;
 //	}
 	
-	/* rotates this by the angle ph in the plane spanned from a and b
+	/* Rotates this by the angle ph in the plane spanned from a and b
 	 * into the direction from a towards b
+	 * a and b must be orthogonal
 	 */
 	public Point rotate(double ph,Point a, Point b) {
+		assert Math.abs(a.sc(b)) < Param.ERR;
 		double as = a.sc(this);
 		double bs = b.sc(this);
 		subtract(a.clone().multiply(as));
@@ -165,7 +167,10 @@ public class Point {
 
 	/** rotates this by the rotation from vector a to vector b */
 	public Point rotate(Point a, Point b) {
-		rotate(a.arc(b),a,b);
+		Point a0 = a.clone();
+		Point b0 = b.clone();
+		Gop.orthogonalize(a0,b0);
+		rotate(a.arc(b),a0,b0);
 		return this;
 	}
 	
@@ -179,7 +184,7 @@ public class Point {
 
 	
 	public Point proj(Point p) {
-		return clone().multiply(sc(p));
+		return clone().multiply(sc(p)/len());
 	}
 
 	/** returns 1 if the first non-zero coordinate is positive

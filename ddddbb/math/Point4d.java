@@ -1,5 +1,7 @@
 package ddddbb.math;
 
+import ddddbb.comb.DSignedAxis;
+
 public class Point4d extends Point {
 	public Point4d() {
 		super(4);
@@ -24,6 +26,12 @@ public class Point4d extends Point {
 		for (int i=0;i<_x.length;i++) {
 			x[i] = _x[i];
 		}
+	}
+
+	public Point4d(DSignedAxis a) {
+		super(4);
+		for (int i=0;i<4;i++) x[i] = 0;
+		x[a.axis()]=a.pmSign();
 	}
 
 	/** 

@@ -24,7 +24,7 @@ public class LinearPerspective extends Camera4d {
 		public void setToDefault() {
 			scale = 10;
 			initAxes();
-			rotateAxes(new Point4d(0,0,0,1),new Point4d(1,1,1,1).normalize());
+			rotateAxes(new Point4d(0,0,0,1),(Point4d)new Point4d(1,1,1,1).normalize());
 			eye = viewingDirection().clone();
 			eye.multiply(-scale);
 			/* choose distance so that 1 unit in 4d in direction v[0], v[1] or v[2]
@@ -71,6 +71,7 @@ public class LinearPerspective extends Camera4d {
 		}
 		
 		public void rotate(Point4d a4d,Point4d b4d) {
+			assert a4d.isNormal() && b4d.isNormal();
 			rotateAxes(a4d,b4d);
 			eye.rotate(a4d,b4d);
 			changed();

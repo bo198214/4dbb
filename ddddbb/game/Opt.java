@@ -109,7 +109,7 @@ public final class Opt {
 		public abstract Point3d selectCenter3d();
 		public abstract Point4d selectCenter4d();
 	}
-	public static final IntModel<ViewAbsRel> viewAbsRel = new IntModel<ViewAbsRel>(ViewAbsRel.SYSTEM, ViewAbsRel.values());
+	public static final IntModel<ViewAbsRel> viewAbsRel = new IntModel<ViewAbsRel>(ViewAbsRel.CAMERA, ViewAbsRel.values());
 	public static final String[] d3axisNames = {"x","y","z"}; 
 	public static final IntStringModel d3ViewTransAxis = new IntStringModel(1,d3axisNames);
 	public static final IntStringModel d3ViewRotAxis = new IntStringModel(0,new String[] {"yz", "xz", "xy"});
