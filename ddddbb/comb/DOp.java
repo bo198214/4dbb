@@ -215,7 +215,7 @@ public class DOp {
 //		for (int i=0;i<a.length;i++) {
 //			r[i] = -a[i];
 //		}
-		int[] r = copy(a);
+		int[] r = clone(a);
 		negate(r);
 		return r;		
 	}
@@ -231,7 +231,7 @@ public class DOp {
 //		for (int i=0;i<a.length;i++) {
 //			r[i] = a[i]+b[i];
 //		}
-		int[] r = copy(a);
+		int[] r = clone(a);
 		translate(r,b);
 		return r;
 	}
@@ -247,7 +247,7 @@ public class DOp {
 //		for (int i=0;i<a.length;i++) {
 //			r[i] = plus(a[i],d);
 //		}
-		int[][] r = copy(a);
+		int[][] r = clone(a);
 		for (int i=0;i<a.length;i++) {
 			translate(r[i],d);
 		}
@@ -467,7 +467,7 @@ public class DOp {
 
 	public static int[] rot(int[] a,int v,int w) {
 		assert v!=w;
-		int[] r = copy(a);
+		int[] r = clone(a);
 //		int sign, sign1=1, sign2=1;
 //		if (v<0) { sign1=-1; }
 //		if (w<0) { sign2=-1; }
@@ -521,14 +521,14 @@ public class DOp {
 	
 	public static int[][] rot(int[][] a,int v,int w) {
 		assert v!=w;
-		int[][] b = copy(a);
+		int[][] b = clone(a);
 		rotate(b,v,w);
 		return b;
 	}
 	
 	public static int[][] rot(int[][] a,DCenter o,int v, int w) {
 		assert v!=w;
-		int[][] b = copy(a);
+		int[][] b = clone(a);
 		rotate(b,o,v,w);
 		return b;
 	}
@@ -569,7 +569,7 @@ public class DOp {
 		return false;
 	}
 	
-	public static int[] copy(int[] a) {
+	public static int[] clone(int[] a) {
 		int[] r = new int[a.length];
 		for (int i=0;i<a.length;i++) {
 			r[i]=a[i];
@@ -577,10 +577,10 @@ public class DOp {
 		return r;
 	}
 	
-	public static int[][] copy(int[][] a) {
+	public static int[][] clone(int[][] a) {
 		int[][] r = new int[a.length][];
 		for (int i=0;i<a.length;i++) {
-			r[i] = copy(a[i]);
+			r[i] = clone(a[i]);
 		}
 		return r;
 	}
@@ -600,6 +600,18 @@ public class DOp {
 			}
 		}
 		return false;
+	}
+
+	public static String toString(int[] v) {
+		String res = "[";
+		for (int i=0;i<v.length;i++) {
+			res += v[i];
+			if (i<v.length-1) {
+				res += ",";
+			}
+		}
+		res += "]";
+		return res;
 	}
 	
 	public static void main(String[] args) {

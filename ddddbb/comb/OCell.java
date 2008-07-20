@@ -170,25 +170,38 @@ public class OCell extends BCell implements Iterable<OCell> {
 				fcell.connectParent(cell);
 			}
 		}
-		cell.spaceId = SpaceId.from(dc.location);
+		cell.spaceId = SpaceId.from(dc.space());
 		
 		src = dc;
 		dc.dst = this;		
 	}
 
 	void adjustSnapAfterDCopy() {
-		if (src.snappedTo()!=null) {
-			assert src.snappedTo().dst.cell.equals(cell);
-			assert src.snappedTo().dst.cell == cell;
-			assert src.snappedTo().dst.parent.spaceId == parent.spaceId : 
-				"\n" + src.snappedTo().dst.parent + "\n" + parent;
-			assert OCell.opposite(src.snappedTo().dst,this);
-			assert snappedTo() == src.snappedTo().dst : src.snappedTo() + "\n" + src.snappedTo().dst + "\n" + this;
+		if (src.neighbor!=null) {
+			assert src.neighbor != null;
+			if (src.neighbor.dst==null) {
+				//TODO
+			}
+			else {
+				assert src.neighbor.dst != null;
+				assert cell.equals(src.neighbor.dst.cell) : 
+					cell + "," + src.neighbor.dst.cell;
+				assert cell == src.neighbor.dst.cell ;
+				assert src.location.equals(src.neighbor.location);
+				assert src.location == src.neighbor.location;
+				assert src.parent.space().equals(src.neighbor.parent.space());
+				assert parent.spaceId == src.neighbor.dst.parent.spaceId :  
+					"\n" + (new DSpace(parent.spaceId.dspace)) + "\n" + (new DSpace(src.neighbor.dst.parent.spaceId.dspace));
+				assert OCell.opposite(src.snappedTo().dst,this);
+				assert snappedTo() == src.snappedTo().dst : src.snappedTo() + "\n" + src.snappedTo().dst + "\n" + this;
+			}
 		}
 		else {
+			//src.snappedTo() == null
 			if ( snappedTo() != null ) {
-				System.out.println("outsnapped adjusted after copy");
+				//System.out.println("outsnapped adjusted after copy");
 				outsnapped = true;
+				opposite().outsnapped = true;
 			}
 		}
 		for (OCell f : cell.facets) {
@@ -236,6 +249,8 @@ public class OCell extends BCell implements Iterable<OCell> {
 					snappedTo.snappedTo();
 				snappedTo.outsnapped = true;
 			}
+			assert opposite().opposite() == this :
+				opposite().opposite();
 			assert snappedTo.snappedTo() == this : 
 				snappedTo.snappedTo();
 			assert !snappedTo.isSplitted() :

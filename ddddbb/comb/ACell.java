@@ -131,10 +131,15 @@ public abstract class ACell {
 		public int compare(ACell d1, ACell d2) {
 			assert d1.facing;
 			assert d2.facing;
+//			System.out.println((DLocation)d1.location() + "?" + (DLocation)d2.location());
 			int sideof2 =(new HalfSpace(d1.o(),d1.normal())).side(d2);
 			if (sideof2 == Cell.CONTAINED ) return 0; // does not matter 
-			if (sideof2 == Cell.OUTER) return -1; // 2 is in front of(>) 1
-			if (sideof2 == Cell.INNER) return +1; // 2 is behind(<) 1
+			if (sideof2 == Cell.OUTER) {
+//				System.out.println((DLocation)d1.location() + "<" + (DLocation)d2.location());
+				return -1;} // 2 is in front of(>) 1
+			if (sideof2 == Cell.INNER) {
+//				System.out.println((DLocation)d1.location() + ">" + (DLocation)d2.location());
+				return +1;} // 2 is behind(<) 1
 			assert sideof2 == Cell.SPLITTED;
 			int sideof1 = (new HalfSpace(d2.o(),d2.normal())).side(d1);
 			assert sideof1 != Cell.CONTAINED;
@@ -225,4 +230,11 @@ public abstract class ACell {
 		}
 	}
 	
+	public String toString() {
+		if (dim()==0) {
+			return location().o().toString();
+		}
+		return facets().toString();
+	}
+
 }

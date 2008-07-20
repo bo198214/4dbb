@@ -18,23 +18,23 @@ public class CavalierPerspective extends Camera4d {
 
 	public void setToDefault() {
 		initAxes();
-		viewingDirection = new Point4d(1,1,1,1);
+		viewingDirection = (Point4d)new Point4d(-1,-1,-1,-1).normalize();
 		eye = new Point4d(3,2,0,0);
 		changed();
 	}
 
 	public void setDirec(DSignedAxis a) {
-		initAxes(a);
-		Point4d p = new Point4d(0,0,0,0);
-		p.add(v[0]);
-		p.add(v[1]);
-		p.add(v[2]);
-		p.add(v[3]);
-		viewingDirection = (Point4d)p.normalize();
-		eye = new Point4d(0,0,0,0);
-		eye.add(v[0].clone().multiply(3));
-		eye.add(v[1].clone().multiply(2));
-		changed();
+//		initAxes(a);
+//		Point4d p = new Point4d(0,0,0,0);
+//		p.add(v[0]);
+//		p.add(v[1]);
+//		p.add(v[2]);
+//		p.add(v[3]);
+//		viewingDirection = (Point4d)p.normalize();
+//		eye = new Point4d(0,0,0,0);
+//		eye.add(v[0].clone().multiply(3));
+//		eye.add(v[1].clone().multiply(2));
+//		changed();
 	}
 
 	public boolean isParallelProjection() {
@@ -55,7 +55,7 @@ public class CavalierPerspective extends Camera4d {
 
 		Point3d v4proj = new Point3d(viewingDirection.sc(v[0]),viewingDirection.sc(v[1]),viewingDirection.sc(v[2]));
 		double d = v[3].sc(pd)*v4Factor;
-		res3d.subtract(v4proj.multiply(d));
+		res3d.add(v4proj.multiply(d));
 		return true;
 	}
 	

@@ -9,37 +9,38 @@ import ddddbb.math.OHalfSpace;
 
 /** We want to have the same SpaceId for equal spaces */
 public class SpaceId {
-	static Hashtable<DLocation, SpaceId> dlocMemo = new Hashtable<DLocation, SpaceId>(); 
+	static Hashtable<DSpace, SpaceId> dspaceMemo = new Hashtable<DSpace, SpaceId>(); 
 	
 	HashMap<OHalfSpace,SpaceId> memo = new HashMap<OHalfSpace,SpaceId>();
 	
 	//for debuggin purpose only
 	Vector<OHalfSpace> halfSpaces;
 	SpaceId base;
-	DLocation dloc;
+	DLocation dspace;
 	
-	static SpaceId from(DLocation dloc) {
-		if (!dlocMemo.containsKey(dloc)) {
-			dlocMemo.put(dloc, new SpaceId(dloc));
+	static SpaceId from(DSpace dspace) {
+		if (!dspaceMemo.containsKey(dspace)) {
+			dspaceMemo.put(dspace, new SpaceId(dspace));
 		}
-		return dlocMemo.get(dloc);		
+		return dspaceMemo.get(dspace);
 	}
 	
-	private SpaceId(DLocation _dloc) {
+	private SpaceId(DSpace _dspace) {
 		halfSpaces = new Vector<OHalfSpace>();
-		this.dloc = _dloc; 
+		this.dspace = _dspace.clone(); 
 	}
 	
-	SpaceId() {
+	protected SpaceId() {
+		System.out.println("n:" + dspace);
 		halfSpaces = new Vector<OHalfSpace>();
 		base = null;
 	}
-	SpaceId(SpaceId b, Vector<OHalfSpace> hs) {
+	private SpaceId(SpaceId b, Vector<OHalfSpace> hs) {
 		base = b;
 		halfSpaces = new Vector<OHalfSpace>(hs);
 	}
 	
-	SpaceId cut(OHalfSpace e) {
+	public SpaceId cut(OHalfSpace e) {
 		if (memo.containsKey(e)) {
 			return memo.get(e);
 		}

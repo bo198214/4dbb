@@ -27,7 +27,7 @@ public class DOpTest extends TestCase {
 				new int[] {  1, -0},
 				new int[] {  1,  1}
 		};
-		int[][] b = copy(a);
+		int[][] b = DOp.clone(a);
 		DCenter c = new DCenter(a,false);
 		rotate(a,c,0,1);
 		assertTrue(setEqual(a,b));

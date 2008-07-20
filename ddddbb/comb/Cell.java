@@ -91,6 +91,7 @@ public class Cell extends ACell {
 	
 	public boolean equals(Object o) {
 		Cell c = (Cell)o;
+		if (dim()!=c.dim()) { return false; }
 		if (dim()==0) { 
 			return location.equals(c.location);
 		}
@@ -637,7 +638,7 @@ public class Cell extends ACell {
 			return o().toString();
 		}
 		if ( dim() == 1 ) {
-				return "[" + a().toString() + "," + b().toString() + "]";
+				return "[" + a() + "," + b() + "]";
 		}
 		return facets.toString();
 	}

@@ -82,12 +82,12 @@ public class DCenter {
 	
 	/** returns computed `twice' */
 	public int[] twice() {
-		return DOp.copy(twice);
+		return DOp.clone(twice);
 	}
 	
 	/** sets `twice' by value */
 	public void twice(int[] _twice) {
-		twice = DOp.copy(_twice);
+		twice = DOp.clone(_twice);
 		check();
 	}
 	

@@ -26,7 +26,7 @@ public class DCell extends BCell {
 			super(4);
 			normal = new DSignedAxis(1,-1);
 			parent = null;
-			location = new DLocation(DOp.copy(coords),new int[] {0,1,2,3});
+			location = new DLocation(DOp.clone(coords),new int[] {0,1,2,3});
 			initialize(_locations);
 		}
 	}
@@ -103,7 +103,7 @@ public class DCell extends BCell {
 					if (j<ai) { faceSpat[j] = location.spat[j]; }
 					else     { faceSpat[j] = location.spat[j+1]; }
 				}
-				int[] faceOrigin = DOp.copy(location.origin);
+				int[] faceOrigin = DOp.clone(location.origin);
 				faceOrigin[location.spat[ai]] += s;
 				DCell f = facets[s][ai]; 
 				f.normal =new DSignedAxis(s,location.spat[ai]); 
@@ -160,7 +160,7 @@ public class DCell extends BCell {
 					if (j<ai) { faceSpat[j] = location.spat[j]; }
 					else     { faceSpat[j] = location.spat[j+1]; }
 				}
-				int[] faceOrigin = DOp.copy(location.origin);
+				int[] faceOrigin = DOp.clone(location.origin);
 				faceOrigin[location.spat[ai]] += s;
 				DCell f = facets[s][ai]; 
 				f.normal =new DSignedAxis(s,location.spat[ai]); 
@@ -754,14 +754,19 @@ public class DCell extends BCell {
 	
 	public String toString() {
 		if (dim()==0) {
-			String res = "[";
+			String res = "(";
 			for (int i=0;i<location.origin.length;i++) {
 				res += location.origin[i] + ",";
 			}
-			res += "]";
+			res += ")";
 			return res;
 		}
 		return facets.toString();
 	}
+
+	DSpace space() {
+		return new DSpace(location);
+	}
+	
 }
 

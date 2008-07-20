@@ -46,7 +46,7 @@ public class Scene extends Model implements MyChangeListener {
 	private void setCompounds(int[][][] cs) {
 		compounds.clear();
 		for (int i=0;i<cs.length;i++) {
-			compounds.add(new Compound(DOp.copy(cs[i])));
+			compounds.add(new Compound(DOp.clone(cs[i])));
 		}
 		updateFaces3d(compounds);
 	}

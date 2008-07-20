@@ -9,9 +9,6 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.table.AbstractTableModel;
 
-import ddddbb.gen.LookupTable2int;
-import ddddbb.gen.LookupTable3int;
-
 
 public class KeyControlPanel extends JPanel {
 	private static final long serialVersionUID = 2590752128662873991L;
@@ -275,13 +272,13 @@ public class KeyControlPanel extends JPanel {
 				return UIShownAction.values()[rowIndex];
 			}
 			
-			LookupTable2int<Performer> s = KeyControl.singleKeyAssignment;
+			KeyControl.LookupTable2int<Performer> s = KeyControl.singleKeyAssignment;
 			for (int m=0;m<s.c1;m++) for (int k=0;k<s.c2;k++) {
 				if (s.get(m, k) == UIShownAction.values()[rowIndex])
-				return KeyStroke.getKeyStroke(m,k).toString();
+				return KeyStroke.getKeyStroke(k,m).toString();
 			}
 			
-			LookupTable3int<Performer> d = KeyControl.doubleKeyAssignment;
+			KeyControl.LookupTable3int<Performer> d = KeyControl.doubleKeyAssignment;
 			for (int m=0;m<d.c1;m++) for (int k1=0;k1<d.c2;k1++) for (int k2=0;k2<d.c3;k2++) {
 				if ( d.get(m, k1, k2) == UIShownAction.values()[rowIndex] ) {
 					KeyStroke ks1 = KeyStroke.getKeyStroke(k1,m);

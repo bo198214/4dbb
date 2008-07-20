@@ -23,6 +23,7 @@ public class CellComplex {
 			initDCopy(dc);
 		}
 		for (DCell df: dcells) {
+			//get 3d projection of df
 			OCell oc = new OCell(df, camera4d);
 			cells.add(oc.cell());
 			oc.cell().computeSpacesIN();

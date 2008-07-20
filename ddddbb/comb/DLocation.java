@@ -8,8 +8,42 @@ public class DLocation extends ALocation {
 	public int[] spat;
 	
 	public DLocation(int[] _origin,int[] _spat) {
-		origin = _origin;
-		spat = _spat;
+		origin = DOp.clone(_origin);
+		spat = DOp.clone(_spat);
+	}
+	
+	protected DLocation(DLocation dloc) {
+		this(dloc.origin,dloc.spat);
+	}
+	
+	public DLocation clone() {
+		return new DLocation(origin,spat);
+	}
+	
+	public boolean equals(Object o) {
+		DLocation f = (DLocation) o;
+		return 
+		DOp.vecEqual(origin,f.origin) &&
+		DOp.setEqual(spat,f.spat);
+	}
+
+	public int hashCode() {
+		int d = origin.length;
+		
+		int spatHash = 1;
+		for (int i=0;i<spat.length;i++) {
+			spatHash *= spat[i]+1; 
+		}
+		int oa = 0;
+		for (int i=0;i<d;i++) {
+			oa += origin[i]*origin[i];
+		}
+		
+		return spatHash + oa;
+	}
+	
+	public String toString() {
+		return DOp.toString(origin) + ":" + DOp.toString(spat); 
 	}
 	
 	public int spaceDim() {
@@ -18,13 +52,6 @@ public class DLocation extends ALocation {
 
 	public int dim() {
 		return spat.length;
-	}
-	
-	public boolean equals(Object o) {
-		DLocation f = (DLocation) o;
-		return 
-		DOp.vecEqual(origin,f.origin) &&
-		DOp.setEqual(spat,f.spat);
 	}
 	
 	public void translate(DSignedAxis v) {
@@ -67,18 +94,8 @@ public class DLocation extends ALocation {
 		return res;
 	}
 	
-	public int hashCode() {
-		int d = origin.length;
-		
-		int spatHash = 1;
-		for (int i=0;i<spat.length;i++) {
-			spatHash *= spat[i]+1; 
-		}
-		int oa = 0;
-		for (int i=0;i<d;i++) {
-			oa += origin[i]*origin[i];
-		}
-		
-		return spatHash + oa;
+	DSpace space() {
+		return new DSpace(this);
 	}
+	
 }
