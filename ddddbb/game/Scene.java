@@ -10,6 +10,7 @@ import ddddbb.comb.DCell;
 import ddddbb.comb.DLocation;
 import ddddbb.comb.DOp;
 import ddddbb.comb.DSignedAxis;
+import ddddbb.comb.OCell;
 import ddddbb.game.Opt.GameStatus;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.IntModel;
@@ -24,7 +25,6 @@ import ddddbb.math.Gop;
 import ddddbb.math.Param;
 import ddddbb.math.Point;
 import ddddbb.math.Point2d;
-import ddddbb.math.Point3d;
 import ddddbb.math.Point4d;
 import ddddbb.sound.Sound;
 
@@ -302,7 +302,7 @@ public class Scene extends Model implements MyChangeListener {
 			}
 			ACell.sortByOcclusion(dvisibles3);
 
-			if (Opt.debug) for (DCell dc:dvisibles3) {
+//			if (Opt.debug) for (DCell dc:dvisibles3) {
 //				Point normal = dc.normal();
 //				Point4d a = new Point4d(dc.origin());
 //				Point4d b = (Point4d)a.add(normal.multiply(0.5));
@@ -312,15 +312,26 @@ public class Scene extends Model implements MyChangeListener {
 //				camera4d.proj3d(b,b3);
 //				g3.drawLine(a3,b3 );
 //				g3.drawBlob(b3);
-			}
+//			}
 				
 			
 			CellComplex visibles3 = new CellComplex(dvisibles3,camera4d);
 			assert visibles3.checkSnap();
-
+			assert visibles3.outsideReferrers().size() == 0;
+			
 			visibles3.occlude();
-			for (Cell f1 : visibles3.getFacesOfDim(1, Opt.debug && false)) {
-				f1.paint(g3,!Opt.debug || true);
+
+			for (Cell f1 : visibles3.getFacesOfDim(1, Opt.debug.isSelected())) {
+				g3.drawLine(f1.a().o(), f1.b().o());
+				if (Opt.debug.isSelected()) {
+					if (f1.b().o().clone().subtract(f1.a().o()).len() < 0.45) {
+						System.out.println(f1 + "isInternal: " + f1.isInternal());//
+						System.out.println("Referrers");
+						for (OCell o : f1.getReferrers()) {
+							System.out.println(o + "," + o.parent().getSpace() + "," + o.opposite());
+						}
+					}
+				}
 			}
 			
 		} else {

@@ -214,6 +214,7 @@ public class MyMenuBar extends JMenuBar {
 			Opt.antiAliased.addAsCheckBoxMenuItem(viewMenu);
 			viewMenu.addSeparator();
 			Opt.soundOn.addAsCheckBoxMenuItem(viewMenu);
+			Opt.debug.addAsCheckBoxMenuItem(viewMenu);
 		}
 		return viewMenu;
 	}

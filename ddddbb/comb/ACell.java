@@ -1,7 +1,6 @@
 package ddddbb.comb;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -285,11 +284,11 @@ public abstract class ACell {
 		}
 	}
 	
-	public String toString() {
-		if (dim()==0) {
-			return location().o().toString();
-		}
-		return facets().toString();
-	}
+//	public String toString() {
+//		if (dim()==0) {
+//			return location().o().toString();
+//		}
+//		return facets().toString();
+//	}
 
 }

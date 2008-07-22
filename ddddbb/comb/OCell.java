@@ -13,7 +13,7 @@ import ddddbb.math.Param;
 import ddddbb.math.Point;
 
 public class OCell extends BCell implements Iterable<OCell> {
-	protected Cell cell;
+	private Cell cell;
 	private Cell parent;
 	protected int orientation = 0;  // +1 or -1
 //	private OCell snappedTo = null;
@@ -37,12 +37,20 @@ public class OCell extends BCell implements Iterable<OCell> {
 	
 	protected void connectCell(Cell _cell) {
 		cell = _cell;
-		cell.referers.add(this);
-		assert cell.referers.contains(this);
+		cell.referrers.add(this);
+		assert cell.referrers.contains(this);
+	}
+	
+	public void nullifyParent() {
+		parent = null;
 	}
 	
 	public Cell cell() {
 		return cell;
+	}
+	
+	public void nullifyCell() {
+		cell = null;
 	}
 	
 	public void connectParent(Cell _parent) {
@@ -84,7 +92,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 		if ( outsnapped ) {
 			snapMark = "x";
 		}
-		return cell.toString() + snapMark;
+		return super.toString() + snapMark;
 	}
 
 	public static <T> boolean setEqual(Collection<T> alist,Collection<T> blist) {
@@ -115,15 +123,19 @@ public class OCell extends BCell implements Iterable<OCell> {
 	 * In this case they are not visible per default.
 	 */
 	public static boolean opposite(OCell a, OCell b) {
-		return a!=b && adjacent(a,b) && a.parent.spaceId == b.parent.spaceId && a.parent!=b.parent;
+		if (a==b) return false;
+		if (!adjacent(a,b)) return false;
+		if (a.parent==b.parent) return false;
+		return  a.parent.spaceId == b.parent.spaceId;
 	}
 		
 	public OCell opposite() {
 		if (dim()>=spaceDim()) { return null; }
-		Vector<OCell> candidates = cell.referers;
+		HashSet<OCell> candidates = cell.referrers;
 		for (OCell c:candidates) {
 			if (c==this) continue;
 			assert parent != null;
+			assert c.parent != null;
 			if (OCell.opposite(this,c)) 
 				return c;
 		}
@@ -277,22 +289,15 @@ public class OCell extends BCell implements Iterable<OCell> {
 		}
 	}
 	
+	public boolean isOutSnapped() {
+		return outsnapped;
+	}
+	
 	public void snapOut() {
 		unsnap();
 		for (OCell f:cell.facets) {
 			f.snapOut();
 		}
-	}
-	
-	public void isolate() {
-		snapOut();
-		if (parent!=null) {
-			parent.facets.remove(this);
-			parent = null;
-		}
-		assert cell!=null;
-		cell.referers.remove(this);
-		cell = null;
 	}
 	
 	public boolean checkSnapCell() {

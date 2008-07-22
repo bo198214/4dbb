@@ -17,7 +17,7 @@ public class Cell extends ACell {
 	protected Vector<OCell> facets = new Vector<OCell>(); //dim-1
 
 	//this cell is referenced from the following OCells
-	protected Vector<OCell> referers = new Vector<OCell>(); //dim
+	protected HashSet<OCell> referrers = new HashSet<OCell>(); //dim
 	
 	Location location;
 	SpaceId spaceId;
@@ -300,7 +300,7 @@ public class Cell extends ACell {
 	
 	public void split(OHalfSpace e,OCell referer) {
 		assert spaceId !=null : dim();
-		assert referer==null || referers.contains(referer);
+		assert referer==null || referrers.contains(referer);
 		assert e != null;
 		if ( isSplitted()) { return; }
 
@@ -400,7 +400,7 @@ public class Cell extends ACell {
 				Cell f = of.cell();
 				assert of.parent() == this;
 				of.cell().split(e,of);
-				assert of.cell().referers.contains(of);
+				assert of.cell().referrers.contains(of);
 				if ( f.isSplitted()) {
 					inner_facets.add(of.inner);
 					outer_facets.add(of.outer);
@@ -477,9 +477,9 @@ public class Cell extends ACell {
 		assert OCell.opposite(innerCut, outerCut);
 		assert innerCut.snappedTo() == outerCut;
 
-		assert referer==null || referers.contains(referer);
+		assert referer==null || referrers.contains(referer);
 
-		for (OCell oc:referers) {
+		for (OCell oc:referrers) {
 			oc.breakOpen();
 			//dont catch the parents that we just iterating
 			if (oc==referer) { continue; }
@@ -505,15 +505,19 @@ public class Cell extends ACell {
 		}
 	}
 	
+	/** Removes all references to this and removes resulting unreferenced cells */
 	public void remove() {
-		if (referers!=null) {
-			while (referers.size()>0) {
-				referers.get(0).isolate();
-			}
+		for (OCell f: facets) {
+//			f.nullifyParent();
+			HashSet<OCell> frefs = f.cell().referrers;
+			frefs.remove(f);
+			if (frefs.isEmpty()) f.cell().remove();
 		}
-		while (facets.size()>0) {
-			facets.get(0).isolate();
+//		facets.clear();
+		for (OCell r:referrers) {
+			r.nullifyCell();
 		}
+//		referrers.clear();
 	}
 	
 	/** Convenience for 1d cell, returns the first point */
@@ -538,7 +542,7 @@ public class Cell extends ACell {
 			return;
 		}
 		if (dim()==1) {
-			g3.drawLine(a().location().o(), b().location().o());
+			g3.drawLine(a().o(), b().o());
 			return;
 		}
 		for (OCell f : facets) {
@@ -563,6 +567,25 @@ public class Cell extends ACell {
 			res.addAll(f.cell().getFaces(d,withInternalFaces));
 		}
 		return res;
+	}
+	
+	public Collection<Cell> getFacesDownTo(int d, boolean withInternalFaces) {
+		HashSet<Cell> res = new HashSet<Cell>();
+		if (!withInternalFaces && isInternal()) { return res; }
+		if (d>dim()) { return res; }
+		res.add(this);
+		for (OCell f: facets) {
+			assert f.cell() != null;
+			res.addAll(f.cell().getFacesDownTo(d,withInternalFaces));
+		}
+		return res;
+	}
+
+	public void addAllFaces(HashSet<OCell> res) {
+		for (OCell o: facets) {
+			o.cell().addAllFaces(res);
+		}
+		return;
 	}
 	
 	public Point center() {
@@ -618,30 +641,30 @@ public class Cell extends ACell {
 //		return res;
 //	}
 	
-	boolean isInternal() {
+	public boolean isInternal() {
 		
 		// if it is not referenced from anywhere it is a top level cell and visible
-		if (referers.size()==0) { return false; }
+		if (referrers.size()==0) { return false; }
 		
 		/* go through the OCells that refer to this Cell and determine 
 		 * whether they are all internal
 		 * If only one is visible this whole Cell is visible */
-		for (OCell oc:referers) {
+		for (OCell oc:referrers) {
 			if (!oc.isInternal()) return false;
-			assert oc.snappedTo() ==null || referers.contains(oc.snappedTo());
+			assert oc.snappedTo() ==null || referrers.contains(oc.snappedTo());
 		}
 		return true;
 	}
 	
-	public String toString() {
-		if (dim()==0) {
-			return o().toString();
-		}
-		if ( dim() == 1 ) {
-				return "[" + a() + "," + b() + "]";
-		}
-		return facets.toString();
-	}
+//	public String toString() {
+//		if (dim()==0) {
+//			return o().toString();
+//		}
+//		if ( dim() == 1 ) {
+//				return "[" + a() + "," + b() + "]";
+//		}
+//		return facets.toString();
+//	}
 
 	protected boolean checkFacetsDim() {
 		for (ACell fm1: facets()) {
@@ -718,11 +741,16 @@ public class Cell extends ACell {
 		HashSet<HalfSpace> res = new HashSet<HalfSpace>();
 		if (dim()==spaceDim()) { return res; }
 		if (dim()+1==spaceDim()) { res.add(halfSpace()); return res; }
-		for (OCell oc:referers) {
+		for (OCell oc:referrers) {
 			res.addAll(oc.parent().halfSpaces());
 		}
 		return res;
 	}
 	
-
+	public HashSet<OCell> getReferrers() {
+		return referrers;
+	}
+	public SpaceId getSpace() {
+		return spaceId;
+	}
 }

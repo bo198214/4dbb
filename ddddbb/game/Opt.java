@@ -171,12 +171,14 @@ public final class Opt {
 	public static final BoolModel drawTetrahedral = new BoolModel(true,"Tetrahedral");;
 	public static final BoolModel drawTrihedral = new BoolModel(false,"Trihedral");
 	
-	public static final BoolModel antiAliased = new BoolModel(true,"antialiased");
+	public static final BoolModel antiAliased = new BoolModel(true,"Antialiased");
 
-	public static final BoolModel soundOn = new BoolModel(true,"sound on");
+	public static final BoolModel soundOn = new BoolModel(true,"Sound on");
 	
 	public static final BoolModel showGoal = new BoolModel(false,"Goal");
 	
+	public static final BoolModel debug = new BoolModel(true,"Debug");
+
 	public static enum ViewType {
 		FLAT("flat") {
 			public D3Graphics getD3Graphics(D2GraphicsIF g,Camera3d c) {
@@ -287,7 +289,6 @@ public final class Opt {
 	
 	public static Frame main;
 	public final static DiAxisModel viewRotXAxis12 = new DiAxisModel(0,1);
-	public static boolean debug = true;
 	
 	private Opt() {}
 	

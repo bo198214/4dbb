@@ -16,7 +16,7 @@ public class SpaceId {
 	//for debuggin purpose only
 	Vector<OHalfSpace> halfSpaces;
 	SpaceId base;
-	DLocation dspace;
+	DSpace dspace;
 	
 	static SpaceId from(DSpace dspace) {
 		if (!dspaceMemo.containsKey(dspace)) {
@@ -27,7 +27,7 @@ public class SpaceId {
 	
 	private SpaceId(DSpace _dspace) {
 		halfSpaces = new Vector<OHalfSpace>();
-		this.dspace = _dspace.clone(); 
+		dspace = _dspace.clone(); 
 	}
 	
 	protected SpaceId() {

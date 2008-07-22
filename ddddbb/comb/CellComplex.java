@@ -29,6 +29,7 @@ public class CellComplex {
 			oc.cell().computeSpacesIN();
 		}
 		for (Cell c : cells) {
+			c.referrers.clear();
 			for (OCell oc: c.facets)
 				oc.adjustSnapAfterDCopy();
 		}
@@ -66,7 +67,10 @@ public class CellComplex {
 			}
 			if (aff) { affected.add(c); }
 		}
-		
+
+//		Vector<Cell> dc = new Vector<Cell>();
+//		dc.clear();dc.addAll(res);dc.addAll(affected);
+//		System.out.println(outsideReferrers(dc).size() + " before splits.");
 		Vector<Cell> innerCells = new Vector<Cell>(affected);
 		Vector<Cell> innerCells2;
 		for (OHalfSpace e:planes) {
@@ -86,10 +90,13 @@ public class CellComplex {
 			}
 			innerCells = innerCells2;
 		}
-		
+//		dc.clear();dc.addAll(res);dc.addAll(innerCells);
+//		System.out.println(outsideReferrers(dc).size() + " before rm.");
 		for (Cell innerCell:innerCells) {
 			innerCell.remove();
 		}
+//		dc.clear();dc.addAll(res);
+//		System.out.println(outsideReferrers(dc).size() + " after rm.");
 		
 		cells = res;
 	}
@@ -135,5 +142,31 @@ public class CellComplex {
 				res.add(f);
 		}
 		return res;
+	}
+	
+	private static HashSet<OCell> outsideReferrers(Vector<Cell> cells) {
+		HashSet<OCell> ocells = new HashSet<OCell>();
+		HashSet<Cell> faces = new HashSet<Cell>();
+		HashSet<OCell> res = new HashSet<OCell>();
+		for (Cell c: cells) {
+			faces.addAll(c.getFacesDownTo(0, true));
+		}
+		for (Cell c: faces) {
+			for (OCell o: c.facets) {
+				ocells.add(o);
+			}
+		}
+		for (Cell c: faces) {
+			for (OCell r: c.referrers) {
+				if (! ocells.contains(r)) {
+					//System.out.print(r.dim());
+					res.add(r);
+				}
+			}
+		}
+		return res;
+	}
+	public HashSet<OCell> outsideReferrers() {
+		return outsideReferrers(cells);
 	}
 }

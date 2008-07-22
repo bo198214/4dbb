@@ -9,4 +9,7 @@ public class DSpace extends DLocation {
 			origin[spat[i]] = 0;
 		}
 	}
+	public DSpace clone() {
+		return new DSpace(this);
+	}
 }
