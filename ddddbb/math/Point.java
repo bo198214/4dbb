@@ -9,7 +9,7 @@ package ddddbb.math;
  * be less or equal to this dimension. If it is less then the unset coordinates
  * are assumed to be 0.
  */
-public class Point {
+public class Point implements Comparable<Point>{
 	
 	public double[] x; // this should be read only; made public for sake of simplicity
 
@@ -84,6 +84,15 @@ public class Point {
 		return res;
 	}
 	
+	/** faster sc(b.clone().subtract(a)) */
+	public double sc(Point a, Point b) {
+		double res = 0;
+		for (int d=0;d<x.length;d++) {
+			res += x[d]*(b.x[d]-a.x[d]);
+		}
+		return res;
+	}
+	
 	/** subtracts b from this */
 	public Point subtract(Point b) {
 		for (int d=0;d<this.x.length;d++) {
@@ -129,16 +138,14 @@ public class Point {
 //		return res;
 //}
 
-//	/** Translates this by the vector d multiplied by the amount of dist
-//	 * d can be of less dimension than this. In this case d is 
-//	 * filled with 0 for the missing coordinates.
-//	 */
-//	public Point translate(Point d,double dist) {
-//		for (int i=0;i<d.x.length;i++) {
-//			x[i]+=d.x[i]*dist;
-//		}
-//		return this;
-//	}
+	/** Faster add(d.clone().multiply(dist))
+	 */
+	public Point addby(Point d,double dist) {
+		for (int i=0;i<d.x.length;i++) {
+			x[i]+=d.x[i]*dist;
+		}
+		return this;
+	}
 	
 	/* Rotates this by the angle ph in the plane spanned from a and b
 	 * into the direction from a towards b
@@ -148,8 +155,8 @@ public class Point {
 		assert Math.abs(a.sc(b)) < Param.ERR;
 		double as = a.sc(this);
 		double bs = b.sc(this);
-		subtract(a.clone().multiply(as));
-		subtract(b.clone().multiply(bs));
+		addby(a,-as);
+		addby(b,-bs);
 		// newthis + as*a2 + bs*b2 = oldthis
 		Point a2 = a.clone();
 		Point b2 = b.clone();
@@ -239,6 +246,14 @@ public class Point {
 //			if (Math.abs(x[i]-p.x[i])>Main.opt.ERR) { return false; }
 //		}
 //		return true;
+	}
+
+	public int compareTo(Point o) {
+		for (int i=0;i<x.length;i++) {
+			if (x[i]<o.x[i]) return -1;
+			if (x[i]>o.x[i]) return 1;
+		}
+		return 0;
 	}
 
 	

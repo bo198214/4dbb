@@ -6,7 +6,7 @@ package ddddbb.math;
 import ddddbb.comb.DSignedAxis;
 
 
-public class OrthographicPerspective extends Camera4d {
+public class OrthographicPerspective extends Camera4d.AParallelProjection {
 	public String toString() { return "orthographic"; }
 
 	public OrthographicPerspective() {
@@ -40,10 +40,6 @@ public class OrthographicPerspective extends Camera4d {
 	public Point4d viewingDirection() {
 		assert v[3].isNormal();
 		return v[3];
-	}
-
-	public boolean isParallelProjection() {
-		return true;
 	}
 
 	public boolean isParallelProjectionEnabled() {

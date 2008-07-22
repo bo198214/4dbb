@@ -3,6 +3,8 @@ package ddddbb.comb;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Vector;
 
@@ -111,44 +113,97 @@ public abstract class ACell {
 	 */
 	public boolean facing = true;  
 
-	/** returns whether the front of this Cell would be seen by an observer at eye
-	 *  in central projection.
-	 */
-	protected boolean centrallyFacing(Point eye) {
-		return normal().sc(eye.clone().subtract(o())) > 0;
-	}
-	
-	/** returns whether the front side of this cell would be seen by an 
-	 * observer given by the direction v in parallel projection. 
-	 */
-	protected boolean ortographicallyFacing(Point v) {
-		assert v.isNormal();
-		return normal().sc(v) < 0;
-	}
-
 	private static class CompareByOcclusion implements Comparator<ACell> {
 		public CompareByOcclusion() { super(); }
+		
+		/** Returns 1 if d1 is in front of (or greater than) d2,
+		 * returns 0 if neither is in front of the other
+		 * returns -1 if d2 is in front of (or greater than) d1
+		 */
 		public int compare(ACell d1, ACell d2) {
+			
 			assert d1.facing;
 			assert d2.facing;
-//			System.out.println((DLocation)d1.location() + "?" + (DLocation)d2.location());
-			int sideof2 =(new HalfSpace(d1.o(),d1.normal())).side(d2);
-			if (sideof2 == Cell.CONTAINED ) return 0; // does not matter 
-			if (sideof2 == Cell.OUTER) {
-//				System.out.println((DLocation)d1.location() + "<" + (DLocation)d2.location());
-				return -1;} // 2 is in front of(>) 1
-			if (sideof2 == Cell.INNER) {
-//				System.out.println((DLocation)d1.location() + ">" + (DLocation)d2.location());
-				return +1;} // 2 is behind(<) 1
-			assert sideof2 == Cell.SPLITTED;
-			int sideof1 = (new HalfSpace(d2.o(),d2.normal())).side(d1);
-			assert sideof1 != Cell.CONTAINED;
-			if (sideof1 == Cell.OUTER) return +1; // 1 is in front of (>) 2
-			if (sideof1 == Cell.INNER) return -1; // 1 is behind (<) 2
-			assert false;
-			return 0;
+			//TODO creating a new HalfSpace for every compare is not performant.
+			HalfSpace h2 = new HalfSpace(d2.o(),d2.normal());
+			HalfSpace h1 = new HalfSpace(d1.o(),d1.normal());
+			int sideof1 = h2.side(d1);
+			int sideof2 = h1.side(d2);
+
+			if (sideof1 == Cell.CONTAINED) {
+				assert sideof2 == Cell.CONTAINED;
+				//System.out.println((DLocation)d1.location() + "?" + (DLocation)d2.location() + ":CONTAINED,CONTAINED:0");
+				return 0;
+			}
+			//OUTER is 1, SPLITTED is 0, INNER is -1
+			//returns in the range of -2 ... 2
+			//System.out.println(d1 + "?" + d2 + ":" + sideof1 + "," + sideof2 + ":" + (-sideof1+sideof2));
+			return sideof1 - sideof2;
 		}
 	}
+	
+	public static <S,T extends S> void posort(Vector<T> l,Comparator<S> c) {
+		if (l.size()==0 || l.size() ==1) { return; }
+		int last = l.size()-1;
+		T em = l.get(last);
+		l.remove(last);
+		//use l instead of Vector<T> left = new Vector<T>();
+		Vector<T> right = new Vector<T>();
+		Vector<T> mid = new Vector<T>();
+		int i=0;
+		for (T e : l) {
+			int cmp = c.compare(e,em);
+			if (cmp==0) mid.add(e);
+			else if (cmp>0) right.add(e);
+			else if (cmp<0) {
+				l.set(i,e);
+				i++;
+			}
+			else assert false;
+		}
+		l.setSize(i);
+		//System.out.println(left.size() + "," + mid.size() + "," + right.size());
+		posort(l,c);
+		posort(right,c);
+		posort(mid,c);
+		
+		for (T e: mid) l.add(e);
+		l.add(em);
+		for (T e: right) l.add(e);
+	}
+	
+	public static <S,T extends S> void tsort(Vector<T> l,Comparator<S> c) {
+		HashMap<T,HashSet<T>> predecessors = new HashMap<T,HashSet<T>>();
+		for (T t: l) predecessors.put(t, new HashSet<T>());
+		int n = l.size();
+		for (int i=0;i<n;i++) {
+			for (int j=i+1;j<n;j++) {
+				T t1 = l.get(i);
+				T t2 = l.get(j);
+				int cmp = c.compare(t1, t2);
+				if (cmp<0) {//t1<t2
+					predecessors.get(t2).add(t1);
+				}
+				if (cmp>0) {//t1>t2
+					predecessors.get(t1).add(t2);
+				}
+			}
+		}
+		
+		l.clear();
+		while (l.size()<n) {
+			for (T t: predecessors.keySet()) {
+				if (predecessors.get(t).size() == 0) {
+					l.add(t);
+				}
+			}
+			for (T t: predecessors.keySet()) {
+				for (T s:l) predecessors.get(t).remove(s);
+			}
+			for (T s: l) predecessors.remove(s);
+		}
+	}	
+	
 	
 //	private static class CompareByOcclusion implements Comparator<OCell> {
 //		public int compare(OCell o1, OCell o2) {
@@ -168,8 +223,11 @@ public abstract class ACell {
 //		}		
 //	}
 	
-	public static void sortByOcclusion(List<? extends ACell> v) {
-		Collections.sort(v,new CompareByOcclusion());
+	public static void sortByOcclusion(Vector<? extends ACell> v) {
+		tsort(v,new CompareByOcclusion());
+//		for (ACell dc: v) {
+//			System.out.println(dc);
+//		}
 	}
 	
 	
@@ -197,14 +255,11 @@ public abstract class ACell {
 	}
 	
 	public boolean isFacing(Camera4d c4) {
-		if (c4.isParallelProjection()) {
-			return ortographicallyFacing(c4.viewingDirection());
-		}
-		return centrallyFacing(c4.getEye());
+		return c4.facedBy(this);
 	}
 	
 	public void setFacing(Camera4d c4) {
-		facing = isFacing(c4);
+		facing = c4.facedBy(this);
 	}
 	
 	public Vector<ALocation> getPointLocations() {

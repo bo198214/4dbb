@@ -50,12 +50,12 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 			switch (transrot) {
 			case 0: // translate
 				Test3d.opt.scene.camera3d.translate(
-						(e.getX()-mouseX)*ftx,
-						Test3d.opt.viewAbsRel.getSelectedObject().selectDirec3d(0)
+						Test3d.opt.viewAbsRel.getSelectedObject().selectDirec3d(0),
+						(e.getX()-mouseX)*ftx
 				);
 				Test3d.opt.scene.camera3d.translate(
-						-(e.getY()-mouseY)*fty,
-						Test3d.opt.viewAbsRel.getSelectedObject().selectDirec3d(1)
+						Test3d.opt.viewAbsRel.getSelectedObject().selectDirec3d(1),
+						-(e.getY()-mouseY)*fty
 				);
 				break;
 			case 1: // rotate

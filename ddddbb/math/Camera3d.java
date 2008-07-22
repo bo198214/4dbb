@@ -56,9 +56,9 @@ public class Camera3d extends Model {
 		changed();
 	}
 	
-	public void translate(double dist,Point3d a) {
+	public void translate(Point3d a,double dist) {
 		assert a.isNormal();
-		eye.add(a.clone().multiply(dist));
+		eye.addby(a,dist);
 		changed();
 	}
 

@@ -6,7 +6,7 @@ package ddddbb.math;
 import ddddbb.comb.DSignedAxis;
 
 
-public class Isometric30Perspective extends Camera4d {
+public class Isometric30Perspective extends Camera4d.AParallelProjection {
 	/**
 	 * 
 	 */
@@ -29,11 +29,6 @@ public class Isometric30Perspective extends Camera4d {
 		eye = new Point4d(3,2,0,0);
 		changed();		
 	}
-
-	public boolean isParallelProjection() {
-		return true;
-	}
-	
 	
 	public Point4d viewingDirection() {
 		assert v[3].isNormal();

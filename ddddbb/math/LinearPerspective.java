@@ -6,11 +6,10 @@ package ddddbb.math;
 import ddddbb.comb.DSignedAxis;
 import ddddbb.gen.MyChangeListener;
 
-public class LinearPerspective extends Camera4d {
+public class LinearPerspective extends Camera4d.ACentralProjection {
 		public String toString() { return "perspective"; }
 		
 		protected boolean parallelProjection = true;
-		protected double scale; //distance of 3d projection space from eye
 
 		public LinearPerspective() {
 			super();
@@ -43,23 +42,23 @@ public class LinearPerspective extends Camera4d {
 			return v[3];
 		}
 		
-		public boolean nproj3d(Point4d p4,Point3d res3) {
-			Point pd = p4.clone();
-			pd.subtract(eye);
-			res3.x[0] = v[0].sc(pd);
-			res3.x[1] = v[1].sc(pd);
-			res3.x[2] = v[2].sc(pd);
-
-			if (!parallelProjection) {
-				double d = v[3].sc(pd); //distance to eye
-				if ( d > 0 ) {
-					res3.multiply(scale/d);
-					return true;
-				}
-				return false;
-			}
-			return true;
-		}
+//		public boolean nproj3d(Point4d p4,Point3d res3) {
+//			Point pd = p4.clone();
+//			pd.subtract(eye);
+//			res3.x[0] = v[0].sc(pd);
+//			res3.x[1] = v[1].sc(pd);
+//			res3.x[2] = v[2].sc(pd);
+//
+//			if (!parallelProjection) {
+//				double d = v[3].sc(pd); //distance to eye
+//				if ( d > 0 ) {
+//					res3.multiply(scale/d);
+//					return true;
+//				}
+//				return false;
+//			}
+//			return true;
+//		}
 
 		public void rotate(double ph, Point4d a4d, Point4d b4d,Point4d p4) {
 			for (int i=0;i<4;i++) {

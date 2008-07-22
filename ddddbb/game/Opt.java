@@ -287,6 +287,7 @@ public final class Opt {
 	
 	public static Frame main;
 	public final static DiAxisModel viewRotXAxis12 = new DiAxisModel(0,1);
+	public static boolean debug = true;
 	
 	private Opt() {}
 	

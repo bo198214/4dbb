@@ -60,8 +60,8 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 			case 0: // translate
 				if (shiftPressed) {
 					Opt.scene.camera3d.translate(
-							-(e.getY()-mouseY)*fty,
-							Opt.viewAbsRel.getSelectedObject().selectDirec3d(2)
+							Opt.viewAbsRel.getSelectedObject().selectDirec3d(2),
+							-(e.getY()-mouseY)*fty
 //							selectDirec3d(Opt.d3ViewTransAxis.getInt()+2)
 					);
 				}
@@ -72,9 +72,9 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 //							selectDirec3d(Opt.d3ViewTransAxis.getInt()-1)
 //					);
 					Opt.scene.camera3d.translate(
-							-(e.getY()-mouseY)*fty,
+							Opt.viewAbsRel.getSelectedObject().selectDirec3d(Opt.d3ViewTransAxis.getInt()),
 //							selectDirec3d(1)
-							Opt.viewAbsRel.getSelectedObject().selectDirec3d(Opt.d3ViewTransAxis.getInt())
+							-(e.getY()-mouseY)*fty
 					);
 				}
 				break;
@@ -123,14 +123,14 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 			case 0:
 				if (shiftPressed) {
 					Opt.scene.camera4d.translate(
-							(e.getX()-mouseX)*ftx,
-							Opt.viewAbsRel.getSelectedObject().selectDirec4d(2)
-//							selectDirec(Opt.viewTransAxis.getInt()-1)
+							Opt.viewAbsRel.getSelectedObject().selectDirec4d(2),
+//							selectDirec(Opt.viewTransAxis.getInt()-1),
+							(e.getX()-mouseX)*ftx
 							);
 					Opt.scene.camera4d.translate(
-							-(e.getY()-mouseY)*fty,
-							Opt.viewAbsRel.getSelectedObject().selectDirec4d(3)
-//							selectDirec(Opt.viewTransAxis.getInt())
+							Opt.viewAbsRel.getSelectedObject().selectDirec4d(3),
+//							selectDirec(Opt.viewTransAxis.getInt()),
+							-(e.getY()-mouseY)*fty
 							);					
 				}
 				else {
@@ -140,9 +140,9 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 //							selectDirec(Opt.viewTransAxis.getInt()-1)
 //							);
 					Opt.scene.camera4d.translate(
-							-(e.getY()-mouseY)*fty,
-//							selectDirec(1)
-							Opt.viewAbsRel.getSelectedObject().selectDirec4d(Opt.viewTransAxis.getInt())
+							//							selectDirec(1)
+							Opt.viewAbsRel.getSelectedObject().selectDirec4d(Opt.viewTransAxis.getInt()),
+-(e.getY()-mouseY)*fty
 							);
 				}
 				break;

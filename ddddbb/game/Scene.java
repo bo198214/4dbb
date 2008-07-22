@@ -41,8 +41,6 @@ public class Scene extends Model implements MyChangeListener {
 	public D4Tupel cursor = new D4Tupel(0,0,0,0);
 	public BoolModel showGoal;
 
-	private static boolean debug = false;
-	
 	private void setCompounds(int[][][] cs) {
 		compounds.clear();
 		for (int i=0;i<cs.length;i++) {
@@ -285,32 +283,35 @@ public class Scene extends Model implements MyChangeListener {
 			Vector<DCell> dvisibles3 = new Vector<DCell>();
 			for (DCell f3 : faces3d) {
 				if ( f3.facing && !f3.isInternal()) {
-//					if ( 
-//							i == 0 || //left side left tesseract
-//							i == 1 || //bottom side
-//							i == 2 || //front side
-//							i == 3 || //right main cube 
-//							i == 4 || //left side left tesseract 
-//							i == 5 || //lower side left tesseract 
-//							i == 6 || //front side left tesseract  
-//							i == 7 || //left main cube
-//							false )
+					if ( 
+//							i == 0 || //main cube
+//							i == 1 || //right side
+////							i == 2 || //upper side
+////							i == 3 || //back 
+////							i == 4 || //2 main facet 
+////							i == 5 || //2 right facet 
+//							i == 6 || //2 upper facet  
+////							i == 7 || //2 back 
+							false ) {
+					}
+					else {
 						dvisibles3.add(f3);
+					}
 					i++;
 				}
 			}
-			ACell.sortByOcclusion(dvisibles3); 
+			ACell.sortByOcclusion(dvisibles3);
 
-			if (debug) for (DCell dc:dvisibles3) {
-				Point normal = dc.normal();
-				Point4d a = new Point4d(dc.origin());
-				Point4d b = (Point4d)a.add(normal.multiply(0.5));
-				Point3d a3 = new Point3d();
-				Point3d b3 = new Point3d();
-				camera4d.proj3d(a,a3);
-				camera4d.proj3d(b,b3);
-				g3.drawLine(a3,b3 );
-				g3.drawBlob(b3);
+			if (Opt.debug) for (DCell dc:dvisibles3) {
+//				Point normal = dc.normal();
+//				Point4d a = new Point4d(dc.origin());
+//				Point4d b = (Point4d)a.add(normal.multiply(0.5));
+//				Point3d a3 = new Point3d();
+//				Point3d b3 = new Point3d();
+//				camera4d.proj3d(a,a3);
+//				camera4d.proj3d(b,b3);
+//				g3.drawLine(a3,b3 );
+//				g3.drawBlob(b3);
 			}
 				
 			
@@ -318,8 +319,8 @@ public class Scene extends Model implements MyChangeListener {
 			assert visibles3.checkSnap();
 
 			visibles3.occlude();
-			for (Cell f1 : visibles3.getFacesOfDim(1, false)) {
-				f1.paint(g3,!Param.debug.isSelected());
+			for (Cell f1 : visibles3.getFacesOfDim(1, Opt.debug && false)) {
+				f1.paint(g3,!Opt.debug || true);
 			}
 			
 		} else {

@@ -753,15 +753,16 @@ public class DCell extends BCell {
 //	}
 	
 	public String toString() {
-		if (dim()==0) {
-			String res = "(";
-			for (int i=0;i<location.origin.length;i++) {
-				res += location.origin[i] + ",";
-			}
-			res += ")";
-			return res;
-		}
-		return facets.toString();
+//		if (dim()==0) {
+//			String res = "(";
+//			for (int i=0;i<location.origin.length;i++) {
+//				res += location.origin[i] + ",";
+//			}
+//			res += ")";
+//			return res;
+//		}
+//		return facets.toString();
+		return DOp.toString(parent.location.origin) + ":" + DOp.toString(location.spat);
 	}
 
 	DSpace space() {

@@ -33,7 +33,7 @@ public class Compound {
 
 		center.translate(v);
 
-		for (int d=0;d<4;d++) for (DLocation f : allFaces[d]) {
+		for (int d=0;d<=4;d++) for (DLocation f : allFaces[d]) {
 			f.translate(v);
 		}
 	}
@@ -43,7 +43,7 @@ public class Compound {
 			DOp.rotateAsCenters(cubes[i],center,v,w);
 		}
 		
-		for (int d=0;d<4;d++) for (DLocation f : allFaces[d]) {
+		for (int d=0;d<=4;d++) for (DLocation f : allFaces[d]) {
 			f.rotate(center,v,w);
 		}
 

@@ -101,12 +101,12 @@ public class UIAction {
 		if (dim==3) {
 			if (axis>0) return new Performer() {
 				public void perform() {
-					Opt.scene.camera3d.translate(-0.1,Opt.ViewAbsRel.SYSTEM.selectDirec3d(axis-1));
+					Opt.scene.camera3d.translate(Opt.ViewAbsRel.SYSTEM.selectDirec3d(axis-1),-0.1);
 				}
 			};
 			if (axis < 0) return new Performer() {
 				public void perform() {
-					Opt.scene.camera3d.translate(+0.1,Opt.ViewAbsRel.SYSTEM.selectDirec3d(-axis-1));
+					Opt.scene.camera3d.translate(Opt.ViewAbsRel.SYSTEM.selectDirec3d(-axis-1),+0.1);
 				}
 			};
 		}
@@ -114,12 +114,12 @@ public class UIAction {
 		if (dim==4) {
 			if (axis>0) return new Performer() {
 				public void perform() {
-					Opt.scene.camera4d.translate(-0.1,Opt.ViewAbsRel.SYSTEM.selectDirec4d(axis-1));
+					Opt.scene.camera4d.translate(Opt.ViewAbsRel.SYSTEM.selectDirec4d(axis-1),-0.1);
 				}
 			};
 			if (axis < 0) return new Performer() {
 				public void perform() {
-					Opt.scene.camera4d.translate(+0.1,Opt.ViewAbsRel.SYSTEM.selectDirec4d(-axis-1));
+					Opt.scene.camera4d.translate(Opt.ViewAbsRel.SYSTEM.selectDirec4d(-axis-1),+0.1);
 				}
 			};
 		}

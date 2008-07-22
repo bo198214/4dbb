@@ -1,5 +1,6 @@
 package ddddbb.math;
 
+import ddddbb.comb.ACell;
 import ddddbb.comb.DSignedAxis;
 import ddddbb.game.Opt;
 import ddddbb.gen.Model;
@@ -18,6 +19,7 @@ public abstract class Camera4d extends Model implements Projection {
 	public abstract Point4d viewingDirection();
 	public abstract boolean isParallelProjection();
 	public abstract boolean isParallelProjectionEnabled();
+	public abstract boolean facedBy(ACell d);
 	
 	public Camera4d() {
 		setToDefault();
@@ -59,9 +61,9 @@ public abstract class Camera4d extends Model implements Projection {
 		rotate(a.arc(b),a,b,new Point4d(0,0,0,0));
 	}
 
-	public void translate(double dist,Point4d a) {
+	public void translate(Point4d a,double dist) {
 		assert a.isNormal();
-		eye.add(a.clone().multiply(dist));
+		eye.addby(a,dist);
 		changed();
 	}
 	
@@ -105,4 +107,50 @@ public abstract class Camera4d extends Model implements Projection {
 	public int fromDim() { return 4; }
 	public int toDim() { return 3; }
 
+	public static abstract class AParallelProjection extends Camera4d {
+		public boolean facedBy(ACell oc) {
+//			Point4d o = (Point4d)oc.o().clone().subtract(eye); 
+//			if (o.sc(viewingDirection()) < Param.ERR) return false;
+			return oc.normal().sc(viewingDirection()) < -Param.ERR;
+		}
+		public boolean isParallelProjection() {
+			return true;
+		}
+		public boolean nproj3d(Point4d p4,Point3d res3) {
+			Point pd = p4.clone();
+			pd.subtract(eye);
+			res3.x[0] = v[0].sc(pd);
+			res3.x[1] = v[1].sc(pd);
+			res3.x[2] = v[2].sc(pd);
+			return true;
+		}
+	}
+	public static abstract class ACentralProjection extends Camera4d {
+		protected double scale; //distance of 3d projection space from eye
+		public boolean facedBy(ACell oc) {
+			Point4d o = (Point4d)oc.o().clone().subtract(eye);
+//			if (o.sc(viewingDirection()) < Param.ERR) return false;
+			return oc.normal().sc(o,eye) > Param.ERR;			
+		}
+		public boolean isParallelProjection() {
+			return false;
+		}
+
+		public boolean nproj3d(Point4d p4,Point3d res3) {
+			Point pd = p4.clone();
+			pd.subtract(eye);
+			res3.x[0] = v[0].sc(pd);
+			res3.x[1] = v[1].sc(pd);
+			res3.x[2] = v[2].sc(pd);
+
+			double d = v[3].sc(pd); //distance to eye
+			if ( d > 0 ) {
+				res3.multiply(scale/d);
+				return true;
+			}
+			return false;
+		}
+
+
+	}
 }
