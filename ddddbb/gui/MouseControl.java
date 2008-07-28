@@ -19,8 +19,8 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 	private double fty;
 	
 	public MouseControl() {
-		Opt.xcm.addChangeListener(this);
-		Opt.ycm.addChangeListener(this);
+		Opt.xdpcm.addChangeListener(this);
+		Opt.ydpcm.addChangeListener(this);
 		Opt.mouseTransSens.addChangeListener(this);
 		Opt.mouseRotSens.addChangeListener(this);
 		stateChanged(null);
@@ -52,9 +52,12 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 		boolean shiftPressed = (e.getModifiers() & InputEvent.SHIFT_MASK) == InputEvent.SHIFT_MASK; 
 		//System.out.println(m + "," + shiftPressed);
 //		System.out.println(e.getButton());
-		if ((m&InputEvent.BUTTON1_DOWN_MASK)==InputEvent.BUTTON1_DOWN_MASK) {transrot=1;}
-		if ((m&InputEvent.BUTTON3_DOWN_MASK)==InputEvent.BUTTON3_DOWN_MASK) {transrot=0;}
-		switch (Opt.dim34.getInt()) {
+		if ((m&InputEvent.BUTTON1_DOWN_MASK)==InputEvent.BUTTON1_DOWN_MASK) transrot=1;
+		if ((m&InputEvent.BUTTON3_DOWN_MASK)==InputEvent.BUTTON3_DOWN_MASK) transrot=0;
+		if (shiftPressed && transrot==1) {
+			Opt.zoom.setDouble(Opt.zoom.getDouble()+(e.getY()-mouseY)*fry);
+		}
+		else switch (Opt.dim34.getInt()) {
 		case 0: { //3d
 			switch (transrot) {
 			case 0: // translate
@@ -79,41 +82,16 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 				}
 				break;
 			case 1: // rotate
-//				//determine the two axis
-//				Direc3d a=null,b=null;
-//			    switch (Opt.d3ViewRotAxis.getValue()) {
-//			    case 0: 
-//			    	a=selectDirec3d(1);
-//			    	b=selectDirec3d(2);
-//			    	break;
-//			    case 1: 
-//			    	a=selectDirec3d(0);
-//			    	b=selectDirec3d(2);
-//			    	break;
-//			    case 2: 
-//			    	a=selectDirec3d(0);
-//			    	b=selectDirec3d(1);
-//			    	break;
-//			    }
-				if (shiftPressed) {
-					Opt.zoom.setDouble(Opt.zoom.getDouble()+(e.getY()-mouseY)*fry);
-				}
-				else {
-					Opt.scene.camera3d.rotate(
-							(e.getX()-mouseX)*frx,
-							Opt.viewAbsRel.getSelectedObject().selectDirec3d(Opt.d3ViewRotAxis.getInt()+1),
-							Opt.viewAbsRel.getSelectedObject().selectCenter3d()		
-					);
-					Opt.scene.camera3d.rotate(
-							(e.getY()-mouseY)*fry,
-							Opt.viewAbsRel.getSelectedObject().selectDirec3d(Opt.d3ViewRotAxis.getInt()),
-							Opt.viewAbsRel.getSelectedObject().selectCenter3d()
-					);
-				}
-//				Opt.scene.camera3d.rotate(
-//				(e.getY()-mouseY)*fry,
-//				Opt.viewAbsRel.getSelectedObject().selectDirec3d(Opt.d3ViewRotAxis.getInt()),
-//				Opt.viewAbsRel.getSelectedObject().selectCenter3d());
+				Opt.scene.camera3d.rotate(
+						(e.getX()-mouseX)*frx,
+						Opt.viewAbsRel.getSelectedObject().selectDirec3d(1),
+						Opt.viewAbsRel.getSelectedObject().selectCenter3d()		
+				);
+				Opt.scene.camera3d.rotate(
+						(e.getY()-mouseY)*fry,
+						Opt.viewAbsRel.getSelectedObject().selectDirec3d(0),
+						Opt.viewAbsRel.getSelectedObject().selectCenter3d()
+				);
 				break;
 			}
 		}
@@ -147,19 +125,16 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 				}
 				break;
 			case 1: 
-//				Main.scene.camera.rotate(
-//						(e.getX()-mouseX)*frx,
-//						selectDirec(Opt.viewRotXAxis1.getInt()),
-//						selectDirec(Opt.viewRotXAxis2.getInt()));
-//				Main.scene.camera.rotate(
-//						(e.getY()-mouseY)*fry,
-//						selectDirec(Opt.viewRotYAxis1.getInt()),
-//						selectDirec(Opt.viewRotYAxis2.getInt()));
 				Opt.scene.camera4d.rotate(
-				(e.getY()-mouseY)*fry,
-				Opt.viewAbsRel.getSelectedObject().selectDirec4d(Opt.viewRotXAxis12.getAxis1()),
-				Opt.viewAbsRel.getSelectedObject().selectDirec4d(Opt.viewRotXAxis12.getAxis2()),
-				Opt.viewAbsRel.getSelectedObject().selectCenter4d());
+						(e.getX()-mouseX)*fry,
+						Opt.viewAbsRel.getSelectedObject().selectDirec4d(0),
+						Opt.viewAbsRel.getSelectedObject().selectDirec4d(2),
+						Opt.viewAbsRel.getSelectedObject().selectCenter4d());
+				Opt.scene.camera4d.rotate(
+						(e.getY()-mouseY)*fry,
+						Opt.viewAbsRel.getSelectedObject().selectDirec4d(1),
+						Opt.viewAbsRel.getSelectedObject().selectDirec4d(3),
+						Opt.viewAbsRel.getSelectedObject().selectCenter4d());
 				break;
 			}
 		}
@@ -220,9 +195,9 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 
 
 	public void stateChanged(ChangeEvent e) {
-		frx = Opt.mouseRotSens.getDouble()/Opt.xcm.getDouble();
-		fry = Opt.mouseRotSens.getDouble()/Opt.ycm.getDouble();
-		ftx = Opt.mouseTransSens.getDouble()/Opt.xcm.getDouble();
-		fty = Opt.mouseTransSens.getDouble()/Opt.ycm.getDouble();
+		frx = Opt.mouseRotSens.getDouble()/Opt.xdpcm.getDouble();
+		fry = Opt.mouseRotSens.getDouble()/Opt.ydpcm.getDouble();
+		ftx = Opt.mouseTransSens.getDouble()/Opt.xdpcm.getDouble();
+		fty = Opt.mouseTransSens.getDouble()/Opt.ydpcm.getDouble();
 	}
 }

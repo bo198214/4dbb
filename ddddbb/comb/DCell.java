@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import ddddbb.math.Camera4d;
+import ddddbb.math.D3Graphics;
 import ddddbb.math.Point;
-import ddddbb.math.Projection;
+import ddddbb.math.Camera4d.ProjectionException;
 
 
 
@@ -305,34 +307,34 @@ public class DCell extends BCell {
 //		return v;
 //	}
 	
-	public Point origin(Projection t) {
-		Point res = Point.create(t.toDim());  
-		t.proj(origin(),res);
-		return res;
-	}
+//	private Point origin(Projection t) {
+//		Point res = Point.create(t.toDim());  
+//		t.proj(origin(),res);
+//		return res;
+//	}
 	
 	public int spaceDim() {
 		if (parent==null) { return dim; }
 		return parent.spaceDim();
 	}
 	
-	public Vector<Point> spat(Projection t) {
-		int[] o = origin();
-		int d = o.length;
-		Vector<Point> v = new Vector<Point>();
-		int[] spat = spat();
-		for (int i=0;i<spat.length;i++) {
-			
-			Point p2 = Point.create(t.toDim());
-			t.proj(o,p2);
-			Point p1 = Point.create(t.toDim());
-			t.proj(DOp.plus(o,DOp.unitVector(i,d)),p1);
-			Point p = Point.create(t.toDim());
-			p = p1.clone().subtract(p2); 
-			v.add(p.clone().multiply(1/p.len()));
-		}
-		return v;
-	}
+//	private Vector<Point> spat(Projection t) {
+//		int[] o = origin();
+//		int d = o.length;
+//		Vector<Point> v = new Vector<Point>();
+//		int[] spat = spat();
+//		for (int i=0;i<spat.length;i++) {
+//			
+//			Point p2 = Point.create(t.toDim());
+//			t.proj(o,p2);
+//			Point p1 = Point.create(t.toDim());
+//			t.proj(DOp.plus(o,DOp.unitVector(i,d)),p1);
+//			Point p = Point.create(t.toDim());
+//			p = p1.clone().subtract(p2); 
+//			v.add(p.clone().multiply(1/p.len()));
+//		}
+//		return v;
+//	}
 	
 //	public Vector<Point> orth(Projection t) {
 //		int[] o = origin();
@@ -767,6 +769,16 @@ public class DCell extends BCell {
 
 	DSpace space() {
 		return new DSpace(location);
+	}
+	
+	public void proj3d2dIN(D3Graphics g3,Camera4d camera4d) throws ProjectionException {
+		if (dim()==0) {
+			location.proj3d2dIN(g3, camera4d);
+			return;
+		}
+		for (int s=0;s<facets.length;s++) for (int i=0;i<facets[s].length;i++) {
+			facets[s][i].proj3d2dIN(g3,camera4d);
+		}
 	}
 	
 }

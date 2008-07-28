@@ -39,18 +39,24 @@ public class Location extends ALocation {
 				
 		}
 		
-		Location(DLocation loc, boolean proj3d) {
-			if (proj3d) { assert loc.spaceDim() == 4; }
+		Location(DLocation loc) {
 			dim = loc.dim();
-//			assert (! proj3d) || (dim != 0 || p3 != null); 
-			if (proj3d) {
-				spaceDim  = 3;
-				if (dim==0) { origin = loc.p3; }
-			}
-			else {
-				spaceDim = loc.spaceDim();		
-				if (dim==0) { origin = loc.o(); }
-			}
+			spaceDim = loc.spaceDim();		
+			if (dim==0) { origin = loc.o(); }
+			
+			p3 = loc.p3;
+			p2l = loc.p2l;
+			p2r = loc.p2r;
+			p2AheadEye = loc.p2AheadEye;
+			p3AheadEye = loc.p3AheadEye;			
+		}
+
+		/** second parameter must be true */
+		Location(DLocation loc, boolean proj3d) {
+			assert loc.spaceDim() == 4;
+			dim = loc.dim();
+			spaceDim  = 3;
+			if (dim==0) { origin = loc.p3; }
 			
 			p3 = loc.p3;
 			p2l = loc.p2l;

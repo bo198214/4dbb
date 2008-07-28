@@ -24,7 +24,7 @@ public enum Sound {
 	public static Line line;
 	public Clip clip;
 	Sound(String filename) { try {
-		InputStream istream = Sound.class.getResourceAsStream(filename);
+		InputStream istream = getClass().getResourceAsStream(filename);
 		if (istream == null) { clip = null; }
 		else {
 		  AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(istream);

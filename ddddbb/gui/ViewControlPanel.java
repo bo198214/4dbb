@@ -122,7 +122,7 @@ public class ViewControlPanel extends JPanel implements MyChangeListener {
 		public void setValue(int newValue) {
 			double ph[] = Opt.scene.camera4d.getDirec().x;
 			ph[index] = newValue*Math.PI/180;
-			Opt.scene.camera4d.setDirec(ph[0],ph[1],ph[2]);
+			Opt.scene.camera4d.initAxes(ph[0],ph[1],ph[2]);
 		}
 
 		public int getExtent() { return 1; }
@@ -237,9 +237,6 @@ public class ViewControlPanel extends JPanel implements MyChangeListener {
 		x4Label.setText(Opt.axisNames[3] + ": "+nf.format(x4));
 		
 		objectiveLabel.setText(Opt.objectives.getSelectedName());
-		getPh1ScrollBar().setEnabled(Opt.scene.camera4d.isParallelProjectionEnabled());
-		getPh2ScrollBar().setEnabled(Opt.scene.camera4d.isParallelProjectionEnabled());
-		getPh3ScrollBar().setEnabled(Opt.scene.camera4d.isParallelProjectionEnabled());
 	}
 
 	/**

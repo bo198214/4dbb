@@ -76,8 +76,8 @@ public class HalfSpace {
 		assert normal.dim() == origin().dim() : normal.dim() + "!=" + origin().dim();
 		assert normal.dim() == p.dim() : normal.dim() + "!=" + p.dim();
 		double proj = normal.sc(p.clone().subtract(origin())); 
-		if ( proj >=  Param.ERR ) { return  1; }
-		if ( proj <= -Param.ERR ) { return -1; }
+		if ( proj >=  AOP.ERR ) { return  1; }
+		if ( proj <= -AOP.ERR ) { return -1; }
 		return 0;
 	}
 		

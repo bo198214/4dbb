@@ -44,12 +44,12 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		Opt.scene.addChangeListener(this);
 		Opt.eyesDistHalf.addChangeListener(this);
 		Opt.screenEyeDist.addChangeListener(this);
-		Opt.xcm.addChangeListener(this);
-		Opt.ycm.addChangeListener(this);
+		Opt.xdpcm.addChangeListener(this);
+		Opt.ydpcm.addChangeListener(this);
 		Opt.barEyeFocusDelta.addChangeListener(this);
 		Opt.drawTetrahedral.addChangeListener(this);
-		Opt.drawTrihedral.addChangeListener(this);
-		ddddbb.math.Param.showCompoundGrid.addChangeListener(this);
+		//Opt.drawTrihedral.addChangeListener(this);
+		ddddbb.math.Param.showInternalFaces.addChangeListener(this);
 		Opt.zoom.addChangeListener(this);
 
 		Opt.antiAliased.addChangeListener(new MyChangeListener() {
@@ -112,7 +112,7 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 			g.setTransform(new AffineTransform());
 			g.translate(x0,y0);
 			if ( g2 == null ) {
-				g2 = new D2Graphics(g,Opt.xcm.getDouble(),Opt.ycm.getDouble());
+				g2 = new D2Graphics(g,Opt.xdpcm.getDouble(),Opt.ydpcm.getDouble());
 				g3 = Opt.viewType.getSelectedObject().getD3Graphics(g2,Opt.scene.camera3d);
 				g4 = new D4Graphics(g3,Opt.scene.camera4d);
 			}
@@ -151,9 +151,9 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		if (Opt.drawTetrahedral.isSelected()) { 
 			g4.drawTetrahedral();
 		}
-		if (Opt.drawTrihedral.isSelected()) { 
-			g3.drawTrihedral();
-		}
+//		if (Opt.drawTrihedral.isSelected()) { 
+//			g3.drawTrihedral();
+//		}
 		
 		Opt.scene.paint(g3);
 		g4.drawBlob(Opt.scene.compounds.getSelectedItem().center);

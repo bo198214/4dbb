@@ -193,17 +193,25 @@ public class KeyControl implements KeyListener {
 		
 		Performer p = singleKeyAssignment.get(e.getModifiers(),e.getKeyCode());
 		if (p!=null) {
-			p.perform();
+			p.actionPerformed(null);
 			return;
 		}
 		else if (pressedKey!=-1) {
 			p = doubleKeyAssignment.get(e.getModifiers(),pressedKey,e.getKeyCode());
 			if (p!=null) {
-				p.perform();
+				p.actionPerformed(null);
 				return;
 			}
 		}
 		
+		switch (e.getKeyCode()) {
+		case 16: //Caps
+		case 17: //shift
+		case 18:  //CRTL
+		case 524: //Win
+		case 525: //Context
+			return; 	
+		}
 		System.out.println("Keycode " + e.getKeyCode() + " not assigned.");
 		//System.out.println(e.getKeyLocation());
 	}

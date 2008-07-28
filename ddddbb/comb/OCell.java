@@ -11,13 +11,12 @@ import ddddbb.math.D3Graphics;
 import ddddbb.math.HalfSpace;
 import ddddbb.math.Param;
 import ddddbb.math.Point;
+import ddddbb.math.Point3d;
 
 public class OCell extends BCell implements Iterable<OCell> {
-	private Cell cell;
-	private Cell parent;
+	protected Cell cell;
+	protected Cell parent;
 	protected int orientation = 0;  // +1 or -1
-//	private OCell snappedTo = null;
-//	private boolean snappedToSet = false;
 
 	private boolean outsnapped = false;
 
@@ -165,10 +164,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 		return cell.location();
 	}
 
-	OCell(DCell dc, Camera4d c4) {
-		boolean proj3d = false;
-		if (c4!=null) { proj3d = true; }
-		
+	OCell(DCell dc, boolean proj3d) {
 		if (dc.location()._dst!=null) {
 			connectCell(dc.location()._dst);
 		}
@@ -178,7 +174,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 
 			cell.location = new Location(dc.location, proj3d);
 			for (DCell f : dc.facets()) {
-				OCell fcell = new OCell(f,c4);
+				OCell fcell = new OCell(f,proj3d);
 				fcell.connectParent(cell);
 			}
 		}
@@ -191,9 +187,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 	void adjustSnapAfterDCopy() {
 		if (src.neighbor!=null) {
 			assert src.neighbor != null;
-			if (src.neighbor.dst==null) {
-				//TODO
-			}
+			if (src.neighbor.dst==null) {}
 			else {
 				assert src.neighbor.dst != null;
 				assert cell.equals(src.neighbor.dst.cell) : 
@@ -402,8 +396,9 @@ public class OCell extends BCell implements Iterable<OCell> {
 		if (dim()==2 && spaceDim() == 3) {
 			Point normal = normal();
 			normal.multiply(orientation);
-			Point a = cell.center3d();
-			Point b = cell.center3d().add(normal.multiply(0.25));
+			Point3d a = cell.center3d();
+			Point3d b = cell.center3d();
+			b.add(normal.multiply(0.25));
 			g3.drawLine(a, b);
 			g3.drawBlob(b);
 			return;

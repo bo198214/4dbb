@@ -10,8 +10,7 @@ package ddddbb.math;
  * are assumed to be 0.
  */
 public class Point implements Comparable<Point>{
-	
-	public double[] x; // this should be read only; made public for sake of simplicity
+	public final double[] x; // this should be read only; made public for sake of simplicity
 
 	/** creates Point of dimension n 
 	 * subclassing to Point3d or Point4d 
@@ -26,6 +25,10 @@ public class Point implements Comparable<Point>{
 	
 	protected Point(int n) {
 		x = new double[n];
+	}
+	
+	protected Point(double[] x) {
+		this.x = x;
 	}
 	
 	public Point clone() {
@@ -51,6 +54,11 @@ public class Point implements Comparable<Point>{
 			res.x[i] = x[i];
 		}
 		return res;
+	}
+	
+	/** creates a Point referencing x */
+	public static Point wrap(double[] x) {
+		return new Point(x);
 	}
 	
 //	/** creates vector of dimension dim from Axis a */
@@ -149,10 +157,12 @@ public class Point implements Comparable<Point>{
 	
 	/* Rotates this by the angle ph in the plane spanned from a and b
 	 * into the direction from a towards b
-	 * a and b must be orthogonal
+	 * a and b must be orthogonal and each must be normal
 	 */
 	public Point rotate(double ph,Point a, Point b) {
-		assert Math.abs(a.sc(b)) < Param.ERR;
+		assert AOP.isZero(a.sc(b)) : a.sc(b);
+		assert AOP.equal(a.len(), 1) : a;
+		assert AOP.equal(b.len(), 1) : b;
 		double as = a.sc(this);
 		double bs = b.sc(this);
 		addby(a,-as);
@@ -160,13 +170,13 @@ public class Point implements Comparable<Point>{
 		// newthis + as*a2 + bs*b2 = oldthis
 		Point a2 = a.clone();
 		Point b2 = b.clone();
-		Gop.rotate(ph,a2,b2);
+		AOP.rotate(ph,a2,b2);
 		add(a2.multiply(as));
 		add(b2.multiply(bs));
 		return this;
 	}
 
-	/** angle from this to p!=0, 0<al<pi */
+	/** angle from this to p!=0, 0&lt;al&lt;pi */
 	public double arc(Point p) {
 		return Math.acos(sc(p)/(len()*p.len()));
 	}
@@ -174,10 +184,12 @@ public class Point implements Comparable<Point>{
 
 	/** rotates this by the rotation from vector a to vector b */
 	public Point rotate(Point a, Point b) {
+		double assertLength = len();
 		Point a0 = a.clone();
 		Point b0 = b.clone();
-		Gop.orthogonalize(a0,b0);
+		AOP.orthoNormalize(a0,b0);
 		rotate(a.arc(b),a0,b0);
+		assert AOP.equal(assertLength, len()) : assertLength + "!=" + len();
 		return this;
 	}
 	
@@ -189,9 +201,9 @@ public class Point implements Comparable<Point>{
 		return this;
 	}
 
-	
+	/** returns the projection of Point p to this Point, this Point remains unmodified */ 
 	public Point proj(Point p) {
-		return clone().multiply(sc(p)/len());
+		return clone().multiply(sc(p)/sc(this));
 	}
 
 	/** returns 1 if the first non-zero coordinate is positive
@@ -200,7 +212,7 @@ public class Point implements Comparable<Point>{
 	 * */
 	public int positivity() {
 		for (int i=0;i<x.length;i++) {
-			if (-Param.ERR < x[i] && x[i]<Param.ERR) { continue; }
+			if (-AOP.ERR < x[i] && x[i]<AOP.ERR) { continue; }
 			if (x[i]>0) { return 1; }
 			if (x[i]<0) { return -1; }
 		}		
@@ -210,7 +222,7 @@ public class Point implements Comparable<Point>{
 	/** scales this Point to having length 1 */
 	protected Point normalize() {
 		double l = len();
-		if (l > 0) {
+		if (l >= AOP.ERR) {
 			for (int i=0;i<x.length;i++) {
 				x[i] /= l;
 			}
@@ -220,12 +232,12 @@ public class Point implements Comparable<Point>{
 				x[i]=0;
 			}
 		}
-		assert Math.abs(len()-1) < Param.ERR || len() < Param.ERR;
+		assert Math.abs(len()-1) < AOP.ERR || len() < AOP.ERR : this;
 		return this;
 	}
 	
 	public boolean isNormal() {
-		return Math.abs(len()-1) < Param.ERR;
+		return Math.abs(len()-1) < AOP.ERR;
 	}
 	
 	public String toString() {
@@ -241,7 +253,7 @@ public class Point implements Comparable<Point>{
 	public boolean equals(Object o) {
 		Point p = (Point) o;
 		if (x.length!=p.x.length) { return false; }
-		return clone().subtract(p).len() < Param.ERR;
+		return clone().subtract(p).len() < AOP.ERR;
 //		for (int i=0;i<x.length;i++) {
 //			if (Math.abs(x[i]-p.x[i])>Main.opt.ERR) { return false; }
 //		}

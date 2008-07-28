@@ -2,7 +2,7 @@ package ddddbb.math;
 
 
 
-public class Gop {
+public class AOP {
 
 	private static final Point4d[] UNITVECTOR4 = new Point4d[] {
 		new Point4d(1,0,0,0),
@@ -73,7 +73,7 @@ public class Gop {
 	 * @return rotated a and b
 	*/
 	public static void rotate(double ph,Point a,Point b) {
-		assert Math.abs(a.sc(b)) < Param.ERR;
+		assert Math.abs(a.sc(b)) < AOP.ERR;
 		double co = Math.cos(ph);
 		double si = Math.sin(ph);
 		Point a0, b0;
@@ -89,6 +89,12 @@ public class Gop {
 		w.subtract(v.proj(w));
 	}
 	
+	public static void orthoNormalize(Point v, Point w) {
+		orthogonalize(v, w);
+		v.normalize();
+		w.normalize();
+	}
+	
 	public static void orthogonalize(Point[] v) {
 		for (int n=0;n<v.length;n++) {
 			Point p = v[n].clone();
@@ -96,15 +102,17 @@ public class Gop {
 				v[n].subtract(v[i].proj(p));
 			}
 			for (int i=0;i<n;i++) {
-				assert Math.abs(v[i].sc(v[n])) < Param.ERR :
+				assert Math.abs(v[i].sc(v[n])) < AOP.ERR :
 					n + "," + v[i].sc(v[n]) +"\n" + v[i] + "\n" + v[n];
 			}
 		}
-//		for (int i=0;i<v.length;i++) {
-//			for (int j=i+1;j<v.length;j++) {
-//				
-//			}
-//		}
+	}
+	
+	public static void orthoNormalize(Point[] v) {
+		orthogonalize(v);
+		for (int i=0;i<v.length;i++) {
+			v[i].normalize();
+		}
 	}
 	
 //	/** @see #rotate(double, Point4d, Point4d) */
@@ -131,6 +139,22 @@ public class Gop {
 
 	static final Point4d D1000 = UNITVECTOR4[0];
 	static final Point3d D100 = UNITVECTOR3[0];
+
+	public  final static double ERR = 0.00001;
+	public static boolean isZero(double x) {
+		return Math.abs(x) < ERR;
+	}
+	public static boolean equal(double x, double y) {
+		return isZero(x-y);
+	}
+
+	public static boolean lt(double x, double y) {
+		return x <= y - ERR;
+	}
+
+	public static boolean le(double x, double y) {
+		return x < y + ERR;
+	}
 	
 //	public static Point X(Point[] vecs) {
 //		

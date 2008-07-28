@@ -67,7 +67,7 @@ public class Space2d extends HalfSpace {
 			d[i] = (Point3d)f1b.subtract(f1a).normalize();
 			i++;
 		}
-		normal = Gop.X(d[0],d[1]).normalize();
+		normal = AOP.X(d[0],d[1]).normalize();
 		normal.multiply(normal.positivity());
 		length = a.sc(normal);
 	}

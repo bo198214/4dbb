@@ -542,7 +542,7 @@ public class Cell extends ACell {
 			return;
 		}
 		if (dim()==1) {
-			g3.drawLine(a().o(), b().o());
+			g3.drawLine((Point3d)a().o(), (Point3d)b().o());
 			return;
 		}
 		for (OCell f : facets) {

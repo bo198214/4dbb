@@ -194,7 +194,7 @@ public class AdjustmentPanel extends JPanel {
 
 	private JSpinner getScreenResolutionXSpinner() {
 		if ( screenResolutionXSpinner == null ) {
-			screenResolutionXSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.xcm,Opt.resolutionUnit));
+			screenResolutionXSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.xdpcm,Opt.resolutionUnit));
 			screenResolutionXSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
 		}
 		return screenResolutionXSpinner;
@@ -202,7 +202,7 @@ public class AdjustmentPanel extends JPanel {
 
 	private JSpinner getScreenResolutionYSpinner() {
 		if ( screenResolutionYSpinner == null ) {
-			screenResolutionYSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.ycm,Opt.resolutionUnit));
+			screenResolutionYSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.ydpcm,Opt.resolutionUnit));
 		}
 		return screenResolutionYSpinner;
 	}

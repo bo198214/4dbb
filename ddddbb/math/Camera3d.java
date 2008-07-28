@@ -11,7 +11,7 @@ public class Camera3d extends Model {
 		setToDefault();
 	}
 
-	private Camera3d(@SuppressWarnings("unused") boolean dummy) {}
+	private Camera3d(boolean dummy) {}
 	
 	public Camera3d clone() {
 		Camera3d res = new Camera3d(true);
@@ -23,7 +23,7 @@ public class Camera3d extends Model {
 	}
 	
 	public void setToDefault() {
-		for (int i=0;i<v.length;i++) v[i] = Gop.UNITVECTOR3[i].clone();
+		for (int i=0;i<v.length;i++) v[i] = AOP.unitVector3(i);
 		eye = new Point3d(0,0,-Opt.screenEyeDist.getDouble());
 		//takes coordinate origin in the center of the screen
 		changed();
@@ -60,6 +60,10 @@ public class Camera3d extends Model {
 		assert a.isNormal();
 		eye.addby(a,dist);
 		changed();
+	}
+	
+	public Point3d viewingDirection() {
+		return v[0];
 	}
 
 }

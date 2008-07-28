@@ -44,9 +44,9 @@ public class AnaglyphGraphics extends D3Graphics {
 //		g2.setComposite(AlphaComposite.SrcAtop);
 	}
 
-	public boolean screenProj(Point p3d, Point2d pl, Point2d pr) {
+	public boolean screenProj(Point3d p, Point2d pl, Point2d pr) {
 		double s = Opt.screenEyeDist.getDouble();
-		return screenProj(p3d,e,s,pl,pr);
+		return screenProj(p,e,s,pl,pr);
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

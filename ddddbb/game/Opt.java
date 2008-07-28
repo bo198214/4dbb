@@ -18,7 +18,6 @@ import ddddbb.gen.DiAxisModel;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
 import ddddbb.gen.IntStringModel;
-import ddddbb.gen.MyChangeListener;
 import ddddbb.gen.Unit;
 import ddddbb.gui.AboutPane;
 import ddddbb.gui.AdjustmentPane;
@@ -34,7 +33,7 @@ import ddddbb.math.CrossEyedGraphics;
 import ddddbb.math.D2GraphicsIF;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.Flat3dGraphics;
-import ddddbb.math.Gop;
+import ddddbb.math.AOP;
 import ddddbb.math.ParallelEyedGraphics;
 import ddddbb.math.Point3d;
 import ddddbb.math.Point4d;
@@ -48,7 +47,7 @@ public final class Opt {
 	//TODO: adapt zoom to screen resolution/window size
 	public static final DoubleModel zoom = new DoubleModel(1,0.2);
 	
-	public static final IntStringModel dim34 = new IntStringModel(1,new String[] {"D3","D4"});
+	public static final IntStringModel dim34 = new IntStringModel(0,new String[] {"3d","4d"});
 	public static final String[] axisNames = { "x", "y", "z", "w" };
 	public static final IntStringModel viewTransAxis = new IntStringModel(1, axisNames);
 	
@@ -61,10 +60,10 @@ public final class Opt {
 		SYSTEM("space") {
 			Point3d p3 = new Point3d();
 			public Point3d selectDirec3d(int i) {
-				return Gop.UNITVECTOR3[i].clone();
+				return AOP.unitVector3(i);
 			}
 			public Point4d selectDirec4d(int i) {
-				return Gop.UNITVECTOR4[i].clone();
+				return AOP.unitVector4(i);
 			}
 			public Point3d selectCenter3d() {
 				scene.camera4d.proj3d(selectCenter4d(),p3);
@@ -135,8 +134,8 @@ public final class Opt {
 	public static final IntModel<ResolutionUnit> 
 	resolutionUnit = new IntModel<ResolutionUnit>(ResolutionUnit.DotsPerCM,ResolutionUnit.values());
 
-	public static final DoubleModel xcm = new DoubleModel(35.96,LengthUnit.CM);
-	public static final DoubleModel ycm = new DoubleModel(35.68,LengthUnit.CM);
+	public static final DoubleModel xdpcm = new DoubleModel(35.96,LengthUnit.CM);
+	public static final DoubleModel ydpcm = new DoubleModel(35.68,LengthUnit.CM);
 
 
 	public static final IntModel<LengthUnit> 
@@ -169,7 +168,7 @@ public final class Opt {
 	public static final IntModel<Objectives> objectives = new IntModel<Objectives>(Objectives.values());
 	
 	public static final BoolModel drawTetrahedral = new BoolModel(true,"Tetrahedral");;
-	public static final BoolModel drawTrihedral = new BoolModel(false,"Trihedral");
+	//public static final BoolModel drawTrihedral = new BoolModel(false,"Trihedral");
 	
 	public static final BoolModel antiAliased = new BoolModel(true,"Antialiased");
 
@@ -293,12 +292,6 @@ public final class Opt {
 	private Opt() {}
 	
 	public static void initialize(Container window) {
-		ddddbb.math.Param.perspective.addChangeListener(new MyChangeListener() {
-			public void stateChanged() {
-				Opt.viewRotXAxis12.setEnabled(ddddbb.math.Param.perspective.getSelectedObject().isParallelProjectionEnabled());				
-			}
-		});
-		
 		scene = new Scene(gameStatus,showGoal);
 		gameFlow = new GameFlow(scene,gameStatus,objectives);
 		
@@ -356,8 +349,8 @@ public final class Opt {
 		*/
 		
 		
-		xcm.setDouble(dotsPerInch,ResolutionUnit.DotsPerInch);
-		ycm.setDouble(dotsPerInch,ResolutionUnit.DotsPerInch);
+		xdpcm.setDouble(dotsPerInch,ResolutionUnit.DotsPerInch);
+		ydpcm.setDouble(dotsPerInch,ResolutionUnit.DotsPerInch);
 		eyesDistHalf.setDouble(3);
 		screenEyeDist.setDouble(30);
 		barEyeFocusDelta.setDouble(0);

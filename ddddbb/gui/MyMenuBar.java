@@ -21,6 +21,19 @@ import javax.swing.filechooser.FileFilter;
 import ddddbb.game.Opt;
 import ddddbb.math.Param;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class MyMenuBar extends JMenuBar {
 	private static final long serialVersionUID = -8486348229885411290L;
 
@@ -53,7 +66,8 @@ public class MyMenuBar extends JMenuBar {
 	protected JMenuItem savePngMenuItem = null;
 
 	protected JMenuItem saveJpgMenuItem = null;
-	
+	private JMenu projMenu;
+
 	private JMenu saveCanvasMenu = null;
 
 	public MyMenuBar() {
@@ -64,6 +78,7 @@ public class MyMenuBar extends JMenuBar {
 	private void initialize() {
 		add(getFileMenu());
 		add(getViewMenu());
+		add(getProjMenu());
 		add(getScreenMenu());
 	}
 
@@ -205,12 +220,11 @@ public class MyMenuBar extends JMenuBar {
 			viewMenu.setText("View");
 			Opt.viewType.addAsRadioButtonMenuItems(viewMenu);
 			viewMenu.addSeparator();
-			Param.parallelProjection.addAsCheckBoxMenuItem(viewMenu);
+			Param.occlusion4dAllowance.addAsRadioButtonMenuItems(viewMenu);
+			viewMenu.addSeparator();
 			Opt.drawTetrahedral.addAsCheckBoxMenuItem(viewMenu);
-			Opt.drawTrihedral.addAsCheckBoxMenuItem(viewMenu);
-			Param.backfaceCulling.addAsCheckBoxMenuItem(viewMenu);
-			Param.occlusionCulling.addAsCheckBoxMenuItem(viewMenu);
-			Param.showCompoundGrid.addAsCheckBoxMenuItem(viewMenu);
+			//Opt.drawTrihedral.addAsCheckBoxMenuItem(viewMenu);
+			Param.showInternalFaces.addAsCheckBoxMenuItem(viewMenu);
 			Opt.antiAliased.addAsCheckBoxMenuItem(viewMenu);
 			viewMenu.addSeparator();
 			Opt.soundOn.addAsCheckBoxMenuItem(viewMenu);
@@ -434,5 +448,14 @@ public class MyMenuBar extends JMenuBar {
 		}
 		return saveCanvasMenu;
 	}
-
+	
+	private JMenu getProjMenu() {
+		if(projMenu == null) {
+			projMenu = new JMenu();
+			projMenu.setText("Projection");
+			projMenu.setBounds(0, 0, 19, 18);
+			Param.perspective.addAsRadioButtonMenuItems(projMenu);
+		}
+		return projMenu;
+	}
 }

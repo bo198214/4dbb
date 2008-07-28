@@ -90,14 +90,13 @@ public class D4Graphics {
 //		return true;
 //	}
 
-	public void drawLine(Point4d a4d,Point4d b4d) {
-		assert b4d.dim() == 4;
+	public void drawLine(Point4d a,Point4d b) {
 //		Point a = new Point(a1,a2,a3,a4);
 //		Point b = new Point(b1,b2,b3,b4);
 		Point3d a3d = new Point3d();
-		c4.proj3d(a4d,a3d);
+		c4.proj3d(a,a3d);
 		Point3d b3d = new Point3d();
-		c4.proj3d(b4d,b3d);
+		c4.proj3d(b,b3d);
 		g3.drawLine(a3d,b3d);
 //		D2Tupel p1l,p1r,p2l,p2r;
 //		p1l = new D2Tupel();
@@ -112,19 +111,19 @@ public class D4Graphics {
 //		}
 	}
 	
-	public void drawTetrahedral(Point4d o4d,double s) {
+	public void drawTetrahedral(Point4d o,double s) {
 		Point4d o1,o2,o3,o4;
-		o1 = new Point4d(s,0,0,0); o1.add(o4d);
-		o2 = new Point4d(0,s,0,0); o1.add(o4d);
-		o3 = new Point4d(0,0,s,0); o1.add(o4d);
-		o4 = new Point4d(0,0,0,s); o1.add(o4d);
-		drawLine(o4d,o1);
+		o1 = new Point4d(s,0,0,0); o1.add(o);
+		o2 = new Point4d(0,s,0,0); o1.add(o);
+		o3 = new Point4d(0,0,s,0); o1.add(o);
+		o4 = new Point4d(0,0,0,s); o1.add(o);
+		drawLine(o,o1);
 		drawString("x",o1);
-		drawLine(o4d,o2);
+		drawLine(o,o2);
 		drawString("y",o2);
-		drawLine(o4d,o3);
+		drawLine(o,o3);
 		drawString("z",o3);
-		drawLine(o4d,o4);
+		drawLine(o,o4);
 		drawString("w",o4);
 	}
 	

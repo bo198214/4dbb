@@ -18,6 +18,13 @@ public class Point3d extends Point {
 		x[0]=_x1;x[1]=_x2;x[2]=_x3;
 	}
 	
+	/** chops of coordinates, requires p to have at least 3 coordinates */
+	public Point3d(Point p) {
+		this();
+		for (int i=0;i<3;i++) {
+			x[i] = p.x[i];
+		}
+	}
 
 	/** 3d left rotation around axis d by ph */
 	public void rotate3d(double ph,Point3d axis) {

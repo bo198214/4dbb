@@ -9,8 +9,6 @@ import ddddbb.comb.DLocation;
 import ddddbb.comb.DCell;
 import ddddbb.game.Compound;
 
-//import Jama.Matrix;
-
 public abstract class D3Graphics {
 	protected D2GraphicsIF g2;
 	protected Color lColor = Color.WHITE;
@@ -22,7 +20,7 @@ public abstract class D3Graphics {
 	private Camera3d c3;
 	
 
-	public abstract boolean screenProj(Point p3d,Point2d pl, Point2d pr);
+	public abstract boolean screenProj(Point3d p,Point2d pl, Point2d pr);
 	
 	public D3Graphics(D2GraphicsIF _g,Camera3d c,Color _LCOLOR,Color _RCOLOR) {
 		g2 = _g;
@@ -61,10 +59,10 @@ public abstract class D3Graphics {
 //		return true;
 //	}
 	
-	public void drawString(String s, Point p3d) {
-		assert p3d.dim() == 3;
+	public void drawString(String s, Point3d p) {
+		assert p.dim() == 3;
 		Point2d l=new Point2d(),r=new Point2d();
-		screenProj(p3d,l,r);
+		screenProj(p,l,r);
 		g2.setColor(lColor);
 		g2.drawString(s,l);
 		g2.setColor(rColor);
@@ -72,14 +70,14 @@ public abstract class D3Graphics {
 	}
 	
 
-	public boolean screenProj(Point _p3d, double e, double s, Point2d pl, Point2d pr) {
-		assert _p3d.dim() == 3;
+	public boolean screenProj(Point3d _p, double e, double s, Point2d pl, Point2d pr) {
+		assert _p.dim() == 3;
 
-		Point p3d = _p3d.clone();
-		p3d.subtract(c3.eye);
-		double x = c3.v[0].sc(p3d);
-		double y = c3.v[1].sc(p3d);
-		double z = c3.v[2].sc(p3d);
+		Point3d p = _p.clone();
+		p.subtract(c3.eye);
+		double x = c3.v[0].sc(p);
+		double y = c3.v[1].sc(p);
+		double z = c3.v[2].sc(p);
 //		pl.x1 = (x*s-z*e)/(z+s); //-e
 //		pl.x2 = y * s/(z+s);//0
 //		pr.x1 = (x*s+z*e)/(z+s); //+e
@@ -92,7 +90,7 @@ public abstract class D3Graphics {
 		return z > 0;
 	}
 
-	public void drawLine(Point a,Point b) {
+	public void drawLine(Point3d a,Point3d b) {
 		Point2d pal=new Point2d(),par=new Point2d(),pbl=new Point2d(),pbr=new Point2d();
 		if ( screenProj(a,pal,par) && screenProj(b,pbl,pbr) ) {
 			g2.setColor(lColor);
@@ -102,8 +100,33 @@ public abstract class D3Graphics {
 		}
 	}
 	
-	public void drawBlob(Point dot3d) {
-		assert dot3d.dim() == 3;
+	public static final double dx=0.2;
+	public static final double dd=0.2;
+	public static final Point3d[] xArrowTip = {
+		new Point3d(-dx,dd,dd),
+		new Point3d(-dx,-dd,dd),
+		new Point3d(-dx,-dd,-dd),
+		new Point3d(-dx,dd,-dd)
+	};
+	
+	public void drawArrow(Point3d src, Point3d dst) {
+		drawLine(src,dst);
+		Point3d[] arrowTip = new Point3d[xArrowTip.length];
+		Point3d dir = dst.clone();
+		dir.subtract(src).normalize();
+		for (int i=0;i<xArrowTip.length;i++) {
+			arrowTip[i] = xArrowTip[i];
+			arrowTip[i].rotate(AOP.D100,dir);
+			//arrowTip[i].add(dst);
+			drawLine(arrowTip[i],dst);
+		}
+		drawLine(arrowTip[0],arrowTip[1]);
+		drawLine(arrowTip[1],arrowTip[2]);
+		drawLine(arrowTip[2],arrowTip[3]);
+		drawLine(arrowTip[3],arrowTip[0]);
+	}
+	
+	public void drawBlob(Point3d dot3d) {
 		Point2d dot2l = new Point2d();
 		Point2d dot2r = new Point2d();
 		if ( screenProj(dot3d,dot2l,dot2r) ) {
@@ -126,11 +149,10 @@ public abstract class D3Graphics {
 //		}
 	}
 	
-	public void drawPoint(Point dot3d) {
-		assert dot3d.dim() == 3;
+	public void drawPoint(Point3d dot3d) {
 		double blobRadius = 0.1;
 		for (int i=0;i<4;i++) {
-			double[] a = new double[4], b= new double[4];
+			double[] a = new double[3], b= new double[3];
 			for (int ix=0;ix<3;ix++) {
 				a[ix]=dot3d.x[ix];
 				b[ix]=a[ix];
@@ -139,7 +161,7 @@ public abstract class D3Graphics {
 					b[ix]+=blobRadius;
 				}
 			}
-			drawLine(Point.create(a),Point.create(b));
+			drawLine((Point3d) Point.wrap(a),(Point3d) Point.wrap(b));
 		}
 	}
 		
@@ -251,17 +273,16 @@ public abstract class D3Graphics {
 		}
 	}
 	
-	public void drawTrihedral(Point o3d,double s) {
-		assert o3d.dim() == 3;
-		Point o1,o2,o3;
-		o1 = new Point3d(s,0,0); o1.add(o3d);
-		o2 = new Point3d(0,s,0); o2.add(o3d);
-		o3 = new Point3d(0,0,s); o3.add(o3d);
-		drawLine(o3d,o1);
+	public void drawTrihedral(Point3d o,double s) {
+		Point3d o1,o2,o3;
+		o1 = new Point3d(s,0,0); o1.add(o);
+		o2 = new Point3d(0,s,0); o2.add(o);
+		o3 = new Point3d(0,0,s); o3.add(o);
+		drawArrow(o,o1);
 		drawString("x",o1);
-		drawLine(o3d,o2);
+		drawArrow(o,o2);
 		drawString("y",o2);
-		drawLine(o3d,o3);
+		drawArrow(o,o3);
 		drawString("z",o3);
 	}
 	

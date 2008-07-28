@@ -10,22 +10,24 @@ import ddddbb.comb.DCell;
 import ddddbb.comb.DLocation;
 import ddddbb.comb.DOp;
 import ddddbb.comb.DSignedAxis;
-import ddddbb.comb.OCell;
 import ddddbb.game.Opt.GameStatus;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.IntModel;
 import ddddbb.gen.Model;
 import ddddbb.gen.MyChangeListener;
 import ddddbb.gen.SelectedListModel;
+import ddddbb.math.Camera4dParallel;
 import ddddbb.math.Camera3d;
 import ddddbb.math.Camera4d;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.D4Tupel;
-import ddddbb.math.Gop;
 import ddddbb.math.Param;
 import ddddbb.math.Point;
 import ddddbb.math.Point2d;
+import ddddbb.math.Point3d;
 import ddddbb.math.Point4d;
+import ddddbb.math.Camera4d.ProjectionException;
+import ddddbb.math.Param.Occlusion4dAllowance;
 import ddddbb.sound.Sound;
 
 public class Scene extends Model implements MyChangeListener {
@@ -69,35 +71,23 @@ public class Scene extends Model implements MyChangeListener {
 				updateCamera();
 			}
 		});
-		Param.occlusionCulling.addChangeListener(new MyChangeListener() {
-			public void stateChanged() {
-				changed();
-			}
-		});
-		Param.backfaceCulling.addChangeListener(new MyChangeListener() {
-			public void stateChanged() {
-				if (faces3d == null) { return; }
-				if (Param.backfaceCulling.isSelected()) {
-					for (DCell of : faces3d) {
-						of.setFacing(camera4d);
-					}			
-				}
-				else {
-					for (DCell of : faces3d) {
-						of.facing = true;
-					}
-				}
-				changed();
-			}});
-		Param.perspectiveAxis.addChangeListener(new MyChangeListener() {
-			public void stateChanged() {
-				camera4d.setDirec(Param.perspectiveAxis.getSelectedObject());
-				changed();
-			}});
-		Param.showCompoundGrid.addChangeListener(new MyChangeListener(){
+		Param.occlusion4dAllowance.addChangeListener(recomputeFacing);
+//		Param.perspectiveAxis.addChangeListener(new MyChangeListener() {
+//			public void stateChanged() {
+//				camera4d.setDirec(Param.perspectiveAxis.getSelectedObject());
+//				changed();
+//			}});
+		Param.showInternalFaces.addChangeListener(new MyChangeListener(){
 			public void stateChanged() {
 				updateCompoundGrid();
 			}});
+		Opt.zoom.addChangeListener(new MyChangeListener() {
+			public void stateChanged() {
+				camera4d.setZoom(
+						((Double)Opt.zoom.getValue()).doubleValue());
+			}
+		});
+
 	}
 
 	private void propagateGameStatus() {
@@ -125,16 +115,17 @@ public class Scene extends Model implements MyChangeListener {
 	
 	public void updateCompoundGrid() {
 		for (Compound compound: compounds) {
-			compound.setShowGrid(Param.showCompoundGrid.isSelected());
+			compound.setShowGrid(Param.showInternalFaces.isSelected());
 		}		
 	}
 	protected void updateCamera() {
-		if (camera4d!=null) { camera4d.removeChangeListener(this); }
+		if (camera4d!=null) { 
+			camera4d.removeChangeListener(this);
+			camera4d.removeChangeListener(recomputeFacing);
+		}
 		camera4d = Param.perspective.getSelectedObject();
 		camera4d.addChangeListener(this);
-		if (camera4d.isParallelProjectionEnabled()) {
-			Param.parallelProjection.setSelected(camera4d.isParallelProjection());
-		}
+		camera4d.addChangeListener(recomputeFacing);
 		changed();		
 	}
 	
@@ -193,7 +184,7 @@ public class Scene extends Model implements MyChangeListener {
 			Sound.BARRINGCOMPOUND.play();
 			return false;
 		}
-		if (camera4d.isParallelProjection()) {
+		if (camera4d instanceof Camera4dParallel) {
 			//for other cases visibility is set in paint method
 			//for programming lazyness set new visibility of *all* compounds
 			updateVisibility();
@@ -245,7 +236,12 @@ public class Scene extends Model implements MyChangeListener {
 	}
 	
 	public static final Point4d[][] unitVector4d = new Point4d[][] {
-		Gop.UNITVECTOR4,
+		new Point4d[] {
+				new Point4d(1,0,0,0),
+				new Point4d(0,1,0,0),
+				new Point4d(0,0,1,0),
+				new Point4d(0,0,0,1)
+		},
 		new Point4d[] {
 				new Point4d( -1, 0, 0, 0 ),
 				new Point4d( 0, -1, 0, 0 ),
@@ -265,93 +261,68 @@ public class Scene extends Model implements MyChangeListener {
 			}
 		}		
 	}
+
+	private final MyChangeListener recomputeFacing = new MyChangeListener() {
+		public void stateChanged() {
+			if (faces3d==null) return;
+			if (Param.occlusion4dAllowance.getInt()>=Param.Occlusion4dAllowance.BACKFACE.ordinal()) {
+				for (DCell of : faces3d) {
+					of.setFacing(camera4d);
+				}								
+			}
+			changed();
+		}
+	};
 	
 	private void paintScene(D3Graphics g3,List<Compound> cs) {
 		g3.clear();
+		//not in front faces:
 		
-		for (Compound c: cs) for (DLocation v : c.getAllFaces()[0]) {
-			v.proj3d2dIN(g3,camera4d);
+		List<DCell> ffaces3d;
+		try {
+			for (DCell dc : faces3d) dc.proj3d2dIN(g3,camera4d);
+			ffaces3d = faces3d;
 		}
+		catch (ProjectionException e) {
+			ffaces3d = new Vector<DCell>();
+			for (DCell dc : faces3d) {
+				try {
+					dc.proj3d2dIN(g3,camera4d);
+					ffaces3d.add(dc);
+				} catch (ProjectionException ee) {}
+			}			
+		}
+//		for (Compound c: cs) for (DLocation v : c.getAllFaces()[0]) {
+//			v.proj3d2dIN(g3,camera4d);
+//		}
 
-		if (Param.backfaceCulling.isSelected() && !camera4d.isParallelProjection()) {
-			updateVisibility();
-		}
-	
-		int i = 0;
+		Occlusion4dAllowance oa = Param.occlusion4dAllowance.getSelectedObject();
 		
-		if (Param.occlusionCulling.isSelected()) {
+		if (oa == Param.Occlusion4dAllowance.NONE) {
+			for (DCell df3 : ffaces3d) g3.render3dFacet(df3);
+		}
+		else if (oa==Occlusion4dAllowance.BACKFACE) {
+			for (DCell df3 : ffaces3d) {
+				if (df3.facing) g3.render3dFacet(df3);
+			}
+		}
+		else if (oa==Occlusion4dAllowance.COMPLETE) {
 			Vector<DCell> dvisibles3 = new Vector<DCell>();
-			for (DCell f3 : faces3d) {
-				if ( f3.facing && !f3.isInternal()) {
-					if ( 
-//							i == 0 || //main cube
-//							i == 1 || //right side
-////							i == 2 || //upper side
-////							i == 3 || //back 
-////							i == 4 || //2 main facet 
-////							i == 5 || //2 right facet 
-//							i == 6 || //2 upper facet  
-////							i == 7 || //2 back 
-							false ) {
-					}
-					else {
-						dvisibles3.add(f3);
-					}
-					i++;
-				}
+			for (DCell df3 : ffaces3d) {
+				if (df3.facing) dvisibles3.add(df3);
 			}
 			ACell.sortByOcclusion(dvisibles3);
-
-//			if (Opt.debug) for (DCell dc:dvisibles3) {
-//				Point normal = dc.normal();
-//				Point4d a = new Point4d(dc.origin());
-//				Point4d b = (Point4d)a.add(normal.multiply(0.5));
-//				Point3d a3 = new Point3d();
-//				Point3d b3 = new Point3d();
-//				camera4d.proj3d(a,a3);
-//				camera4d.proj3d(b,b3);
-//				g3.drawLine(a3,b3 );
-//				g3.drawBlob(b3);
-//			}
-				
-			
 			CellComplex visibles3 = new CellComplex(dvisibles3,camera4d);
 			assert visibles3.checkSnap();
 			assert visibles3.outsideReferrers().size() == 0;
-			
+
 			visibles3.occlude();
 
 			for (Cell f1 : visibles3.getFacesOfDim(1, Opt.debug.isSelected())) {
-				g3.drawLine(f1.a().o(), f1.b().o());
-				if (Opt.debug.isSelected()) {
-					if (f1.b().o().clone().subtract(f1.a().o()).len() < 0.45) {
-						System.out.println(f1 + "isInternal: " + f1.isInternal());//
-						System.out.println("Referrers");
-						for (OCell o : f1.getReferrers()) {
-							System.out.println(o + "," + o.parent().getSpace() + "," + o.opposite());
-						}
-					}
+				if (!f1.isInternal()) {
+					g3.drawLine((Point3d)f1.a().o(), (Point3d)f1.b().o());
 				}
 			}
-			
-		} else {
-			for (DCell df : faces3d) {
-				if (df.facing) { g3.render3dFacet(df); }
-//				if (of.visible) { of.paint(g3,true); i++; }
-			}
-//			Vector<Cell> visibles3 = new Vector<Cell>();
-//			for (DOFacet f3 : faces3d) {
-//				if ( f3.visible ) {
-//					visibles3.add(new Cell(f3));
-//					i++;
-//				}
-//			}
-//			for (Cell f3 : visibles3) {
-//				f3.adjustSnapAfterCopy();
-//			}
-//			for (Cell f3 : visibles3) {
-//				f3.paint(g3,true);
-//			}
 		}
 	}
 	

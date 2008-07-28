@@ -39,15 +39,30 @@ public class Point4d extends Point {
 	 * returns ph1,ph2,ph3 0<ph1<2pi, 0<ph2,ph3<pi */
 	public Point3d getPolarArcs() {
 		double ph3=Math.PI/2,ph2=Math.PI/2,ph1=Math.PI/2;
-		ph3 -= Gop.D1000.arc(this);
-		if ( sc(this) > Param.ERR ) {
-			ph2 -= Gop.D100.arc(this);
+		ph3 -= AOP.D1000.arc(this);
+		if ( sc(this) > AOP.ERR ) {
+			ph2 -= AOP.D100.arc(this);
 		}
-		if (Math.abs(x[2]) > Param.ERR || Math.abs(x[3]) > Param.ERR ) {
+		if (Math.abs(x[2]) > AOP.ERR || Math.abs(x[3]) > AOP.ERR ) {
 			//atan2 angle from (0,1) clockwise, 
 			ph1 = Math.atan2(x[2],x[3]);
 		}
 		return new Point3d(ph1,ph2,ph3);
+	}
+	
+	
+	public Point4d[] polarRotate(double ph1, double ph2, double ph3) {
+		Point4d[] v = new Point4d[4];
+		for (int i=0;i<4;i++) {
+			v[i] = AOP.unitVector4(i);
+		}
+		rotate(ph1,v[3],v[2]);
+		AOP.rotate(ph1,v[3],v[2]); 
+		rotate(ph2,v[3],v[1]);
+		AOP.rotate(ph2,v[3],v[1]);
+		rotate(ph3,v[3],v[0]);
+		AOP.rotate(ph3,v[3],v[0]);
+		return v;
 	}
 	
 }

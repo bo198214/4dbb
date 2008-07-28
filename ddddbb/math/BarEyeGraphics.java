@@ -42,8 +42,8 @@ public abstract class BarEyeGraphics extends D3Graphics {
 //		return Math.atan2(s,e-x1)-Math.atan2(s,e-x0);
 //	}
 	
-	public boolean screenProj(Point _p3d, Point2d pl, Point2d pr) {
-		assert _p3d.dim() == 3;
+	public boolean screenProj(Point3d _p, Point2d pl, Point2d pr) {
+		assert _p.dim() == 3;
 		double e = Opt.eyesDistHalf.getDouble();
 		double s = Opt.screenEyeDist.getDouble();
 		double d = Opt.barEyeFocusDelta.getDouble();
@@ -59,7 +59,7 @@ public abstract class BarEyeGraphics extends D3Graphics {
 //		
 //		double d = c3d.minus(Main.scene.camera3d.eye).sc(Main.scene.camera3d.v[2]) - s;
 //		System.out.println(d);
-		boolean res = screenProj(_p3d,e,s,pl,pr); 
+		boolean res = screenProj(_p,e,s,pl,pr); 
 		double xr = pr.x1;
 		double xl = pl.x1;
 
