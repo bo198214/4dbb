@@ -1,11 +1,8 @@
 package ddddbb.math;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
+import ddddbb.gen.AChangeListener;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.Model;
-import ddddbb.gen.MyChangeListener;
 
 public class Camera3d extends Model {
 	public Point3d eye; //dim 3
@@ -21,25 +18,22 @@ public class Camera3d extends Model {
 			final DoubleModel _eyesDistHalf,
 			final DoubleModel _barEyeFocusDelta
 ) {
-		screenEyeDist = _screenEyeDist.getDouble();
-		_screenEyeDist.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
 				screenEyeDist = _screenEyeDist.getDouble();
 				changed();
 			}
-		});
-		eyesDistHalf = _eyesDistHalf.getDouble();
-		_eyesDistHalf.addChangeListener(new MyChangeListener() {
+		}.addTo(_screenEyeDist);
+		new AChangeListener() {
 			public void stateChanged() {
 				eyesDistHalf = _eyesDistHalf.getDouble();
 			}
-		});
-		barEyeFocusDelta = _barEyeFocusDelta.getDouble();
-		_barEyeFocusDelta.addChangeListener(new MyChangeListener() {
+		}.addTo(_eyesDistHalf);
+		new AChangeListener() {
 			public void stateChanged() {
 				barEyeFocusDelta = _barEyeFocusDelta.getDouble();
 			}
-		});
+		}.addTo(_barEyeFocusDelta);
 
 		setToDefault();
 	}

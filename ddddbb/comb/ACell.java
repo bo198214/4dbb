@@ -115,9 +115,9 @@ public abstract class ACell {
 	private static class CompareByOcclusion implements Comparator<ACell> {
 		public CompareByOcclusion() { super(); }
 		
-		/** Returns 1 if d1 is in front of (or greater than) d2,
+		/** Returns >0 if d1 is in front of (or greater than) d2,
 		 * returns 0 if neither is in front of the other
-		 * returns -1 if d2 is in front of (or greater than) d1
+		 * returns <0 if d2 is in front of (or greater than) d1
 		 */
 		public int compare(ACell d1, ACell d2) {
 			
@@ -188,24 +188,38 @@ public abstract class ACell {
 				}
 			}
 		}
+		for (T t1: predecessors.keySet()) {
+			for (T t2: predecessors.get(t1)) {
+				assert c.compare(t2, t1) < 0; 
+			}
+		}
 		
 		l.clear();
 		while (l.size()<n) {
-			boolean isCycles = true;
+			boolean isCyclic = true;
 			for (T t: predecessors.keySet()) {
 				if (predecessors.get(t).size() == 0) {
-					isCycles = false;
+					isCyclic = false;
 					l.add(t);
 				}
 			}
-			if (isCycles) {
+			if (isCyclic) {
 				System.out.println("Cycle detected:");
-				T start = predecessors.keySet().iterator().next();
-				System.out.println(start);
-				T t = predecessors.get(start).iterator().next();
-				while (start!=t) {
+				T t = predecessors.keySet().iterator().next();
+				Vector<T> prev = new Vector<T>();
+				while (!prev.contains(t)) {
+					prev.add(t);
 					t = predecessors.get(t).iterator().next();
-					System.out.println(t);
+				}
+				int i=prev.indexOf(t);
+				prev.add(t);
+				for (;i<prev.size()-1;i++) {
+					t = prev.get(i);
+					T tn = prev.get(i+1);
+					System.out.println(t + ", " + t.hashCode() + ", this > next: " + (c.compare(t, tn)>0) + "(" + c.compare(t,tn) + ")");
+					ACell cell = (ACell) t;
+					ACell celln = (ACell) tn;
+					System.out.println(cell.o() + ":" + cell.normal() + " > " + celln.o() + ":" + celln.normal());
 				}
 				assert false;
 			}
