@@ -112,9 +112,7 @@ public abstract class ACell {
 	 */
 	public boolean facing = true;  
 
-	private static class CompareByOcclusion implements Comparator<ACell> {
-		public CompareByOcclusion() { super(); }
-		
+	public static class CompareByOcclusion implements Comparator<ACell> {
 		/** Returns >0 if d1 is in front of (or greater than) d2,
 		 * returns 0 if neither is in front of the other
 		 * returns <0 if d2 is in front of (or greater than) d1

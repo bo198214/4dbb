@@ -1,5 +1,6 @@
 package ddddbb.comb;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -115,14 +116,39 @@ public class CellComplex {
 		cutOut(hyperPlanes);
 	}
 
+	
+	public static CellComplex occlusionCreate(Vector<DCell> dcells, Camera4d camera4d) {
+		Comparator<ACell> comp = new ACell.CompareByOcclusion();
+		Vector<Cell> cells1 = new CellComplex(dcells,camera4d).cells;
+		Vector<Cell> cells2 = new CellComplex(dcells,camera4d).cells;
+		Vector<CellComplex> singleComplexes = new Vector<CellComplex>();
+		for (Cell c: cells1) {
+			CellComplex singleton = new CellComplex();
+			singleton.cells.add(c);
+			singleComplexes.add(singleton);
+		}
+		for (int i=0;i<dcells.size();i++) {
+			for (int j=0;j<dcells.size();j++) {
+				if (i==j) continue; 
+				if (comp.compare(dcells.get(i),dcells.get(j)) < 0) {
+					singleComplexes.get(i).cutOut(cells2.get(j));
+				}
+			}
+		}
+		CellComplex res = new CellComplex();
+		for (CellComplex sc : singleComplexes) {
+			res.cells.addAll(sc.cells);
+		}
+		return res;
+	}
 	/**
 	 * Suppose the list of cells is d-dimensional.  
-	 * Paint the cells in the given order into the d-dimensional space.
-	 * Later cells overpaint previous cells where they intersect.
 	 * The result is again a list of cells. 
 	 */
 	public void occlude() {
 		CellComplex res = new CellComplex(new Vector<Cell>());
+		
+		
 		for (Cell c : cells) {
 			assert c.checkCellrefs();
 			assert c.checkPointRefs();

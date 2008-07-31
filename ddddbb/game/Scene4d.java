@@ -192,12 +192,9 @@ public class Scene4d extends Model implements MyChangeListener {
 				for (DCell df3 : ffaces3d) {
 					if (df3.facing) dvisibles3.add(df3);
 				}
-				ACell.sortByOcclusion(dvisibles3);
-				CellComplex visibles3 = new CellComplex(dvisibles3,camera4d);
+				CellComplex visibles3 = CellComplex.occlusionCreate(dvisibles3,camera4d);
 				assert visibles3.checkSnap();
 				assert visibles3.outsideReferrers().size() == 0;
-	
-				visibles3.occlude();
 	
 				for (Cell f1 : visibles3.getFacesOfDim(1, Main.debug.isSelected())) {
 					if (!f1.isInternal()) {
