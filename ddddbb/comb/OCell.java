@@ -6,10 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import ddddbb.math.Camera4d;
+import ddddbb.game.Main;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.HalfSpace;
-import ddddbb.math.Param;
 import ddddbb.math.Point;
 import ddddbb.math.Point3d;
 
@@ -392,7 +391,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 	
 	public void paint(D3Graphics g3, boolean woInternals) {
 		cell.paint(g3,woInternals);
-		if (!Param.debug.isSelected()) return;
+		if (!Main.debug.isSelected()) return;
 		if (dim()==2 && spaceDim() == 3) {
 			Point normal = normal();
 			normal.multiply(orientation);

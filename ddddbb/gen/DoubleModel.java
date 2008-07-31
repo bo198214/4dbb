@@ -1,8 +1,13 @@
 package ddddbb.gen;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoundedRangeModel;
 import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeListener;
+
+import ddddbb.gui.Performer;
 
 
 public class DoubleModel extends Model implements SpinnerModel {
@@ -150,5 +155,18 @@ public class DoubleModel extends Model implements SpinnerModel {
 	public Object getValue(Unit u) {
 		return new Double(getDouble(u));
 	}
+	
+	public ActionListener increase = new Performer()  {
+		public void actionPerformed(ActionEvent e) {
+			setDouble(getDouble()+delta);
+		}
+	};
+	
+	public ActionListener decrease = new Performer()  {
+		public void actionPerformed(ActionEvent e) {
+			setDouble(getDouble()-delta);
+		}		
+	};
+
 	
 }

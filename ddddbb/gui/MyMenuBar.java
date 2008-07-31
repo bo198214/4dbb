@@ -18,8 +18,13 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
-import ddddbb.game.Opt;
-import ddddbb.math.Param;
+import ddddbb.game.Main;
+import ddddbb.game.Objectives;
+import ddddbb.game.SimpleSwitches;
+import ddddbb.game.Main.PerspectiveEnum;
+import ddddbb.game.Main.ShowedScreenEnum;
+import ddddbb.gen.IntModel;
+import ddddbb.math.Camera4d;
 
 
 /**
@@ -70,187 +75,114 @@ public class MyMenuBar extends JMenuBar {
 
 	private JMenu saveCanvasMenu = null;
 
-	public MyMenuBar() {
-		super();
-		initialize();
-	}
+	private final Main main;
 	
-	private void initialize() {
-		add(getFileMenu());
-		add(getViewMenu());
-		add(getProjMenu());
-		add(getScreenMenu());
-	}
-
-	/**
-	 * This method initializes jMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */
-	private JMenu getFileMenu() {
-		if (fileMenu == null) {
+	public MyMenuBar(Main _main) {
+		main = _main;
+		{
 			fileMenu = new JMenu();
 			fileMenu.setText("File");
-			fileMenu.add(getObjectivesMenu());
-			fileMenu.add(getSaveMenuItem());
-			fileMenu.add(getJLoadSceneMenuItem());
-			fileMenu.add(getJSaveSceneMenuItem());
-			fileMenu.add(getSaveCanvasMenu());
+			{
+				saveMenuItem = new JMenuItem();
+				saveMenuItem.setText("Save");
+				saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+						Event.CTRL_MASK, true));
+				saveMenuItem.setEnabled(false);				
+			}
+			fileMenu.add(saveMenuItem);
+			{
+				jLoadSceneMenuItem = new JMenuItem();
+				jLoadSceneMenuItem.setText("Load scene ...");
+				jLoadSceneMenuItem.setEnabled(false);
+			}
+			fileMenu.add(jLoadSceneMenuItem);
+			{
+				jSaveSceneMenuItem = new JMenuItem();
+				jSaveSceneMenuItem.setText("Save scene ...");
+				jSaveSceneMenuItem.setEnabled(false);
+			}
+			fileMenu.add(jSaveSceneMenuItem);
+			{
+				saveCanvasMenu = new JMenu();
+				saveCanvasMenu.setText("Save Canvas as ...");
+				saveCanvasMenu.add(getSavePngMenuItem());
+				saveCanvasMenu.add(getSaveJpgMenuItem());
+				saveCanvasMenu.add(getSavePdfMenuItem());
+				{
+					jSavePsMenuItem = new JMenuItem();
+					jSavePsMenuItem.setText(".eps");
+					
+					jSavePsMenuItem.setToolTipText("Not yet available.");
+					jSavePsMenuItem.setEnabled(false);
+				}
+				saveCanvasMenu.add(jSavePsMenuItem);				
+			}
+			fileMenu.add(saveCanvasMenu);
 			
 //			fileMenu.add(getPrintMenuItem());
-			fileMenu.add(getGarbageCollectMenuItem());
-			fileMenu.add(getExitMenuItem());
+			{
+				garbageCollectMenuItem = new JMenuItem();
+				garbageCollectMenuItem.setText("collect garbage");
+				garbageCollectMenuItem.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						System.gc();
+					}
+				});				
+			}
+			fileMenu.add(garbageCollectMenuItem);
+			{
+				exitMenuItem = new JMenuItem();
+				exitMenuItem.setText("Exit");
+				exitMenuItem.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+					}
+				});
+			}
+			fileMenu.add(exitMenuItem);			
 		}
-		return fileMenu;
-	}
-
-	/**
-	 * This method initializes jMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */
-	public JMenu getScreenMenu() {
-		if (screenMenu == null) {
-			screenMenu = new JMenu();
-			screenMenu.setText("Screen");
-			Opt.showedScreen.addAsRadioButtonMenuItems(screenMenu);
+		add(fileMenu);
+		{
+			objectivesMenu = new JMenu("Objectives");
+			main.objectives.addAsRadioButtonMenuItems(objectivesMenu);
 		}
-		return screenMenu;
-	}
-	
-	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getExitMenuItem() {
-		if (exitMenuItem == null) {
-			exitMenuItem = new JMenuItem();
-			exitMenuItem.setText("Exit");
-			exitMenuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
-		}
-		return exitMenuItem;
-	}
-
-	/**
-	 * This method initializes jMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getSaveMenuItem() {
-		if (saveMenuItem == null) {
-			saveMenuItem = new JMenuItem();
-			saveMenuItem.setText("Save");
-			saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-					Event.CTRL_MASK, true));
-			saveMenuItem.setEnabled(false);
-		}
-		return saveMenuItem;
-	}
-
-	/**
-	 * This method initializes jLoadSceneMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getJLoadSceneMenuItem() {
-		if (jLoadSceneMenuItem == null) {
-			jLoadSceneMenuItem = new JMenuItem();
-			jLoadSceneMenuItem.setText("Load scene ...");
-			jLoadSceneMenuItem.setEnabled(false);
-		}
-		return jLoadSceneMenuItem;
-	}
-
-	/**
-	 * This method initializes jSaveSceneMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getJSaveSceneMenuItem() {
-		if (jSaveSceneMenuItem == null) {
-			jSaveSceneMenuItem = new JMenuItem();
-			jSaveSceneMenuItem.setText("Save scene ...");
-			jSaveSceneMenuItem.setEnabled(false);
-		}
-		return jSaveSceneMenuItem;
-	}
-
-	/**
-	 * This method initializes jSavePsMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getJSavePsMenuItem() {
-		if (jSavePsMenuItem == null) {
-			jSavePsMenuItem = new JMenuItem();
-			jSavePsMenuItem.setText(".eps");
-			
-			jSavePsMenuItem.setToolTipText("Not yet available.");
-			jSavePsMenuItem.setEnabled(false);
-		}
-		return jSavePsMenuItem;
-	}
-
-	/**
-	 * This method initializes objectivesMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */
-	private JMenu getObjectivesMenu() {
-		if (objectivesMenu == null) {
-			objectivesMenu = new JMenu("objectives");
-			Opt.objectives.addAsMenuItems(objectivesMenu);
-		}
-		return objectivesMenu;
-	}
-
-	/**
-	 * This method initializes viewMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */
-	private JMenu getViewMenu() {
-		if (viewMenu == null) {
+		add(objectivesMenu);
+		{
 			viewMenu = new JMenu();
 			viewMenu.setText("View");
-			Opt.viewType.addAsRadioButtonMenuItems(viewMenu);
+			main.ss.viewType.addAsRadioButtonMenuItems(viewMenu);
 			viewMenu.addSeparator();
-			Param.occlusion4dAllowance.addAsRadioButtonMenuItems(viewMenu);
+			main.ss.occlusion4dAllowance.addAsRadioButtonMenuItems(viewMenu);
 			viewMenu.addSeparator();
-			Opt.drawTetrahedral.addAsCheckBoxMenuItem(viewMenu);
-			//Opt.drawTrihedral.addAsCheckBoxMenuItem(viewMenu);
-			Param.showInternalFaces.addAsCheckBoxMenuItem(viewMenu);
-			Opt.antiAliased.addAsCheckBoxMenuItem(viewMenu);
+			main.ss.drawTetrahedral.addAsCheckBoxMenuItem(viewMenu);
+			//opt.drawTrihedral.addAsCheckBoxMenuItem(viewMenu);
+			main.ss.showInternalFaces.addAsCheckBoxMenuItem(viewMenu);
+			main.ss.antiAliased.addAsCheckBoxMenuItem(viewMenu);
 			viewMenu.addSeparator();
-			Opt.soundOn.addAsCheckBoxMenuItem(viewMenu);
-			Opt.debug.addAsCheckBoxMenuItem(viewMenu);
-		}
-		return viewMenu;
-	}
+			main.ss.soundOn.addAsCheckBoxMenuItem(viewMenu);
+			Main.debug.addAsCheckBoxMenuItem(viewMenu);
 
-	/**
-	 * This method initializes garbageCollectMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
-	private JMenuItem getGarbageCollectMenuItem() {
-		if (garbageCollectMenuItem == null) {
-			garbageCollectMenuItem = new JMenuItem();
-			garbageCollectMenuItem.setText("collect garbage");
-			garbageCollectMenuItem.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					System.gc();
-				}
-			});
 		}
-		return garbageCollectMenuItem;
+		add(viewMenu);
+		{
+			projMenu = new JMenu();
+			projMenu.setText("Projection");
+			projMenu.setBounds(0, 0, 19, 18);
+			main.perspective.addAsRadioButtonMenuItems(projMenu);
+			projMenu.addSeparator();
+			main.ss.orientation3d.addAsRadioButtonMenuItems(projMenu);
+			projMenu.addSeparator();
+			main.ss.orientation4d.addAsRadioButtonMenuItems(projMenu);
+		}
+		add(projMenu);
+		{
+			screenMenu = new JMenu();
+			screenMenu.setText("Screen");
+			main.showedScreen.addAsRadioButtonMenuItems(screenMenu);			
+		}
+		add(screenMenu);
 	}
-
+	
 //	/**
 //	 * This method initializes printMenuItem	
 //	 * 	
@@ -263,7 +195,7 @@ public class MyMenuBar extends JMenuBar {
 //			printMenuItem.addActionListener(new java.awt.event.ActionListener() {
 //				public void actionPerformed(java.awt.event.ActionEvent e) {
 //					PrinterJob printJob = PrinterJob.getPrinterJob();
-//			        printJob.setPrintable(Opt.viewScreen);
+//			        printJob.setPrintable(opt.viewScreen);
 //			        printJob.printDialog();
 //			        try {
 //						printJob.print();
@@ -288,7 +220,7 @@ public class MyMenuBar extends JMenuBar {
 			savePdfMenuItem.setText(".pdf");
 			savePdfMenuItem.setToolTipText("Not enabled.");
 			savePdfMenuItem.setEnabled(false);
-//			savePdfMenuItem.setToolTipText("Only for parallel and crossed eye mode availbable.");
+//			savePdfMenuItem.setToolTipText("Only for parallel and cromain.ssed eye mode availbable.");
 //			savePdfMenuItem.addActionListener(new java.awt.event.ActionListener() {
 //				public void actionPerformed(java.awt.event.ActionEvent e) {
 //					try {
@@ -299,19 +231,19 @@ public class MyMenuBar extends JMenuBar {
 //						if (  fname == null ) { return; }
 //						Point2d min = new Point2d();
 //						Point2d max = new Point2d();
-//						Opt.scene.BoundaryCuboid2d(min,max);
+//						opt.scene.BoundaryCuboid2d(min,max);
 //						System.out.println(min.x1);
 //						System.out.println(min.x2);
 //						System.out.println(max.x1);
 //						System.out.println(max.x2);
 //						PDFGraphics g2 = new PDFGraphics(new File(d.getDirectory(),fname));
-//						D3Graphics g3 = new ParallelEyedGraphics(g2,Opt.scene.camera3d);
-//						Opt.scene.paint(g3);
-//						if (Opt.drawTrihedral.isSelected()) {
+//						D3Graphics g3 = new ParallelEyedGraphics(g2,opt.scene.camera3d);
+//						opt.scene.paint(g3);
+//						if (opt.drawTrihedral.isSelected()) {
 //							g3.drawTrihedral();
 //						}
-//						if (Opt.drawTetrahedral.isSelected()) {
-//							new D4Graphics(g3,Opt.scene.camera4d).drawTetrahedral();
+//						if (opt.drawTetrahedral.isSelected()) {
+//							new D4Graphics(g3,opt.scene.camera4d).drawTetrahedral();
 //						}
 //						g2.close();
 //					} catch (DocumentException e1) {
@@ -323,11 +255,11 @@ public class MyMenuBar extends JMenuBar {
 //					}
 //				}
 //			});
-//			Opt.viewType.addChangeListener(new ChangeListener() {
+//			opt.viewType.addChangeListener(new ChangeListener() {
 //				public void stateChanged(ChangeEvent e) {
 //					if (
-//							Opt.viewType.getSelectedObject() == Opt.ViewType.PARALLEL ||
-//							Opt.viewType.getSelectedObject() == Opt.ViewType.CROSSED
+//							opt.viewType.getSelectedObject() == opt.ViewType.PARALLEL ||
+//							opt.viewType.getSelectedObject() == opt.ViewType.CROSSED
 //							) {
 //						savePdfMenuItem.setEnabled(true);
 //					}
@@ -383,7 +315,7 @@ public class MyMenuBar extends JMenuBar {
 				    int returnVal = chooser.showOpenDialog(savePngMenuItem);
 				    if(returnVal == JFileChooser.APPROVE_OPTION) {
 				    	try {
-				    		ImageIO.write(Opt.viewScreen.buffImg,"png",chooser.getSelectedFile());
+				    		ImageIO.write(main.viewScreen.buffImg,"png",chooser.getSelectedFile());
 				    	} catch (IOException e1) {
 				    		// TODO Auto-generated catch block
 				    		e1.printStackTrace();
@@ -420,7 +352,7 @@ public class MyMenuBar extends JMenuBar {
 				    int returnVal = chooser.showOpenDialog(saveJpgMenuItem);
 				    if(returnVal == JFileChooser.APPROVE_OPTION) {
 				    	try {
-				    		ImageIO.write(Opt.viewScreen.buffImg,"jpg",chooser.getSelectedFile());
+				    		ImageIO.write(main.viewScreen.buffImg,"jpg",chooser.getSelectedFile());
 				    	} catch (IOException e1) {
 				    		// TODO Auto-generated catch block
 				    		e1.printStackTrace();
@@ -430,32 +362,5 @@ public class MyMenuBar extends JMenuBar {
 			});
 		}
 		return saveJpgMenuItem;
-	}
-
-	/**
-	 * This method initializes saveCanvasMenu	
-	 * 	
-	 * @return javax.swing.JMenu	
-	 */
-	private JMenu getSaveCanvasMenu() {
-		if (saveCanvasMenu == null) {
-			saveCanvasMenu = new JMenu();
-			saveCanvasMenu.setText("Save Canvas as ...");
-			saveCanvasMenu.add(getSavePngMenuItem());
-			saveCanvasMenu.add(getSaveJpgMenuItem());
-			saveCanvasMenu.add(getSavePdfMenuItem());
-			saveCanvasMenu.add(getJSavePsMenuItem());
-		}
-		return saveCanvasMenu;
-	}
-	
-	private JMenu getProjMenu() {
-		if(projMenu == null) {
-			projMenu = new JMenu();
-			projMenu.setText("Projection");
-			projMenu.setBounds(0, 0, 19, 18);
-			Param.perspective.addAsRadioButtonMenuItems(projMenu);
-		}
-		return projMenu;
 	}
 }

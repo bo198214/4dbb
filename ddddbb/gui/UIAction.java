@@ -3,44 +3,52 @@ package ddddbb.gui;
 import java.awt.event.ActionEvent;
 
 import ddddbb.comb.DSignedAxis;
-import ddddbb.game.Opt;
+import ddddbb.game.Main;
+import ddddbb.game.Scene;
+import ddddbb.game.Main.ViewAbsRel;
+import ddddbb.gen.DiAxisModel;
+import ddddbb.gen.IntModel;
+import ddddbb.gen.IntStringModel;
+import ddddbb.math.Camera3d;
+import ddddbb.math.Camera4d;
 
 public class UIAction {
-	public static final double deg = Math.PI*2/360; 
-	public static Performer transSelected(final int direc) {
-		return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.transSelected(new DSignedAxis(direc));
-			}
-		};
-	}
-	public static Performer rotSelected(final int a1, final int a2) {
-		return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.rotateSelected(a1-1, a2-1);
-			}
-		};
+	
+	private final Scene scene;
+	private final DiAxisModel viewRotXAxis12;
+	private final IntStringModel d3ViewRotAxis;
+	private final IntStringModel dim34;
+	private final Cam3dAction c3a;
+	private final Camera4dAction c4a;
+	
+	UIAction(
+			Scene _scene,
+			DiAxisModel _viewRotXAxis12,
+			IntStringModel _d3ViewRotAxs,
+			IntStringModel _dim34,
+			Cam3dAction _c3a,
+			Camera4dAction _c4a
+	) {
+		scene = _scene;
+		viewRotXAxis12 = _viewRotXAxis12;
+		d3ViewRotAxis = _d3ViewRotAxs;
+		dim34 = _dim34;
+		c3a = _c3a;
+		c4a = _c4a;
 	}
 	
-	public static Performer set4dRotAxes(final int a1, final int a2) {
+	public Performer set4dRotAxes(final int a1, final int a2) {
 		return new Performer() {
 			public void actionPerformed(ActionEvent e) {
-				Opt.viewRotXAxis12.setAxis12(a1-1,a2-1);
+				viewRotXAxis12.setAxis12(a1-1,a2-1);
 			}
 		};
 		
 	}
-	public static Performer setSelected(final int i) {
+	public Performer set3dRotAxis(final int a) {
 		return new Performer() {
 			public void actionPerformed(ActionEvent e) {
-				Opt.scene.compounds.setSelected(i);
-			}		
-		};
-	}
-	public static Performer set3dRotAxis(final int a) {
-		return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.d3ViewRotAxis.setInt(a-1);
+				d3ViewRotAxis.setInt(a-1);
 			}
 		};
 	}
@@ -49,69 +57,17 @@ public class UIAction {
 	 * Camera is rotated opposite to the given direction. 
 	 * So that the system seems to rotate in the given direction.
 	 */
-	public static Performer rotCam(final int a1, final int a2) {
+	public Performer rotCam(final int a1, final int a2) {
 		assert a1!=0 && a2!=0;
-		int dim = 3+Opt.dim34.getInt(); 
+		int dim = 3+dim34.getInt(); 
 		if (a1<-dim || a1>dim || a2<-dim || a2>dim) {
 			//null action if outside range
 			return new Performer() {
 				public void actionPerformed(ActionEvent e) {}
 			};
 		}
-		if (dim==3) return rotCam3d(a1,a2);
-		if (dim==4) return rotCam4d(a1,a2);
-		assert false;
-		return null;
-	}
-	
-	public static Performer rotCam3d(final int a1, final int a2) {
-		return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.camera3d.rotate(deg, 
-						Opt.viewAbsRel.getSelectedObject().selectDirec3d(a1-1),
-						Opt.viewAbsRel.getSelectedObject().selectDirec3d(a2-1), 
-						Opt.viewAbsRel.getSelectedObject().selectCenter3d());
-			}
-		};					
-	}
-	
-	public static Performer rotCam4d(final int a1, final int a2) {
-		return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.camera4d.rotate(deg,
-						Opt.viewAbsRel.getSelectedObject().selectDirec4d(a1-1),
-						Opt.viewAbsRel.getSelectedObject().selectDirec4d(a2-1),
-						Opt.viewAbsRel.getSelectedObject().selectCenter4d());
-			}
-		};					
-	}
-	
-	public static Performer transCam3d(final int axis) {
-		if (axis>0) return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.camera3d.translate(Opt.ViewAbsRel.CAMERA.selectDirec3d(axis-1),+0.1);
-			}
-		};
-		if (axis < 0) return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.camera3d.translate(Opt.ViewAbsRel.CAMERA.selectDirec3d(-axis-1),-0.1);
-			}
-		};
-		assert false;
-		return null;
-	}
-
-	public static Performer transCam4d(final int axis) {
-		if (axis>0) return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.camera4d.translate(Opt.ViewAbsRel.CAMERA.selectDirec4d(axis-1),+0.1);
-			}
-		};
-		if (axis < 0) return new Performer() {
-			public void actionPerformed(ActionEvent e) {
-				Opt.scene.camera4d.translate(Opt.ViewAbsRel.CAMERA.selectDirec4d(-axis-1),-0.1);
-			}
-		};
+		if (dim==3) return c3a.rotCam3d(a1,a2);
+		if (dim==4) return c4a.rotCam4d(a1,a2);
 		assert false;
 		return null;
 	}
@@ -119,9 +75,9 @@ public class UIAction {
 	 * Camera is translated inverted to the given direction,
 	 * so that the scene seems to be moved in the given direction
 	 */
-	public static Performer transCam(final int axis) {
+	public Performer transCam(final int axis) {
 		assert axis!=0;
-		int dim = 3+Opt.dim34.getInt(); 
+		int dim = 3+dim34.getInt(); 
 		if (axis<-dim || axis>dim) {
 			//null action if outside range
 			return new Performer() {
@@ -129,9 +85,10 @@ public class UIAction {
 			};
 		}
 		
-		if (dim==3) return transCam3d(axis);
-		if (dim==4) return transCam4d(axis);
+		if (dim==3) return c3a.transCam3d(axis);
+		if (dim==4) return c4a.transCam4d(axis);
 		assert false;
 		return null;		
 	}
+
 }

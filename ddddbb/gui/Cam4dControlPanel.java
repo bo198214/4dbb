@@ -1,4 +1,5 @@
 package ddddbb.gui;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,8 +15,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import ddddbb.game.Opt;
+import ddddbb.game.Main.ViewAbsRel;
+import ddddbb.game.Main.ViewAbsRelEnum;
+import ddddbb.gen.DoubleModel;
+import ddddbb.gen.IntModel;
+import ddddbb.gui3d.DArrowButton;
+import ddddbb.gui3d.DLabel;
+import ddddbb.gui3d.DPanel;
 import ddddbb.math.AOP;
+import ddddbb.math.Camera4d;
 import ddddbb.math.Point4d;
 
 /**
@@ -31,21 +39,13 @@ import ddddbb.math.Point4d;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 @SuppressWarnings("serial")
-public class Cam4dControlPanel extends JPanel {
-	public static class Val3Digits extends JTextField {
-		public Val3Digits() {
-			super(3);
-			setEditable(false);
-			setText("0");
-		}
-	}
-	
+public class Cam4dControlPanel extends DPanel {
 	private JLabel xLabel;
 	private JLabel yLabel;
 	private JSeparator jSeparator1;
-	private JTextField ywVal;
-	private JTextField xzVal;
-	private JTextField zoomVal;
+	private JLabel ywVal;
+	private JLabel xzVal;
+	private JLabel zoomVal;
 	private JButton ywRight;
 	private JButton ywLeft;
 	private JButton xzRight;
@@ -56,10 +56,10 @@ public class Cam4dControlPanel extends JPanel {
 	private JLabel ywLabel;
 	private JLabel xzLabel;
 	private JLabel zoomLabel;
-	private JTextField wPos;
-	private JTextField zPos;
-	private JTextField yPos;
-	private JTextField xPos;
+	private JLabel wPos;
+	private JLabel zPos;
+	private JLabel yPos;
+	private JLabel xPos;
 	private JButton wRight;
 	private JButton zRight;
 	private JButton yRight;
@@ -71,43 +71,47 @@ public class Cam4dControlPanel extends JPanel {
 	private JLabel wLabel;
 	private JLabel zLabel;
 
-	public Cam4dControlPanel() {
+	public Cam4dControlPanel(final Camera4d camera4d, 
+			final DoubleModel zoom,
+			final ViewAbsRelEnum viewAbsRel) {
 		initGUI();
 		
-		xRight.addActionListener(UIAction.transCam4d(1));
-		yRight.addActionListener(UIAction.transCam4d(2));
-		zRight.addActionListener(UIAction.transCam4d(3));
-		wRight.addActionListener(UIAction.transCam4d(4));
-		xLeft.addActionListener(UIAction.transCam4d(-1));
-		yLeft.addActionListener(UIAction.transCam4d(-2));
-		zLeft.addActionListener(UIAction.transCam4d(-3));
-		wLeft.addActionListener(UIAction.transCam4d(-4));
+		Camera4dAction c4a = new Camera4dAction(camera4d, viewAbsRel);
 		
-		xzRight.addActionListener(UIAction.rotCam4d(1, 3));
-		xzLeft.addActionListener(UIAction.rotCam4d(3, 1));
-		ywRight.addActionListener(UIAction.rotCam4d(2, 4));
-		ywLeft.addActionListener(UIAction.rotCam4d(4, 2));
+		xRight.addActionListener(c4a.transCam4d(1));
+		yRight.addActionListener(c4a.transCam4d(2));
+		zRight.addActionListener(c4a.transCam4d(3));
+		wRight.addActionListener(c4a.transCam4d(4));
+		xLeft.addActionListener(c4a.transCam4d(-1));
+		yLeft.addActionListener(c4a.transCam4d(-2));
+		zLeft.addActionListener(c4a.transCam4d(-3));
+		wLeft.addActionListener(c4a.transCam4d(-4));
 		
-		reset.addActionListener(UIShownAction.cam4dReset);
-		zoomRight.addActionListener(UIShownAction.zoomIn);
-		zoomLeft.addActionListener(UIShownAction.zoomOut);
+		xzRight.addActionListener(c4a.rotCam4d(1, 3));
+		xzLeft.addActionListener(c4a.rotCam4d(3, 1));
+		ywRight.addActionListener(c4a.rotCam4d(2, 4));
+		ywLeft.addActionListener(c4a.rotCam4d(4, 2));
 		
-		Opt.zoom.addChangeListener(new ChangeListener() {
+		reset.addActionListener(camera4d.reset);
+		zoomRight.addActionListener(zoom.increase);
+		zoomLeft.addActionListener(zoom.decrease);
+		
+		zoom.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				zoomVal.setText(ViewPane.fnf.format(Opt.zoom.getDouble()));
+				zoomVal.setText(ViewPane.fnf.format(zoom.getDouble()));
 			}			
 		});
-		Opt.scene.camera4d.addChangeListener(new ChangeListener() {
+		camera4d.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				double[] o = Opt.scene.camera4d.eye.x;
+				double[] o = camera4d.eye.x;
 				xPos.setText(ViewPane.fnf.format(o[0]));
 				yPos.setText(ViewPane.fnf.format(o[1]));
 				zPos.setText(ViewPane.fnf.format(o[2]));
 				wPos.setText(ViewPane.fnf.format(o[3]));
 				
-				Point4d v = Opt.scene.camera4d.viewingDirection();
+				Point4d v = camera4d.viewingDirection();
 				double vx = v.sc(AOP.unitVector4(0));
 				double vy = v.sc(AOP.unitVector4(1));
 				double vz = v.sc(AOP.unitVector4(2));
@@ -124,10 +128,10 @@ public class Cam4dControlPanel extends JPanel {
 		try {
 			{
 				GridBagLayout thisLayout = new GridBagLayout();
-				thisLayout.rowWeights = new double[] {0.01, 0.01, 0.01, 0.0};
-				thisLayout.rowHeights = new int[] {7, 7, 7, 7};
+				thisLayout.rowWeights = new double[] {0.00, 0.00, 0.00, 0.0};
+				thisLayout.rowHeights = new int[] {16, 16, 16, 16};
 				thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				thisLayout.columnWidths = new int[] {15, 15, 40, 15, 7, 30, 15, 40, 15};
+				thisLayout.columnWidths = new int[] {16, 16, 40, 16, 8, 30, 16, 40, 15};
 				this.setLayout(thisLayout);
 				this.setBorder(BorderFactory.createTitledBorder("4d camera control"));
 				this.setPreferredSize(new java.awt.Dimension(222, 130));
@@ -152,51 +156,51 @@ public class Cam4dControlPanel extends JPanel {
 					wLabel.setText("w");
 				}
 				{	
-					xLeft = new BasicArrowButton(SwingConstants.WEST);
+					xLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(xLeft, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yLeft = new BasicArrowButton(SwingConstants.WEST);
+					yLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(yLeft, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zLeft = new BasicArrowButton(SwingConstants.WEST);
+					zLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(zLeft, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					wLeft = new BasicArrowButton(SwingConstants.WEST);
+					wLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(wLeft, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xRight = new BasicArrowButton(SwingConstants.EAST);
+					xRight = new DArrowButton(SwingConstants.EAST);
 					this.add(xRight, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yRight = new BasicArrowButton(SwingConstants.EAST);
+					yRight = new DArrowButton(SwingConstants.EAST);
 					this.add(yRight, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zRight = new BasicArrowButton(SwingConstants.EAST);
+					zRight = new DArrowButton(SwingConstants.EAST);
 					this.add(zRight, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					wRight = new BasicArrowButton(SwingConstants.EAST);
+					wRight = new DArrowButton(SwingConstants.EAST);
 					this.add(wRight, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xPos = new Val3Digits();
+					xPos = new DLabel(30,16);
 					this.add(xPos, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yPos = new Val3Digits();
+					yPos = new DLabel(30,16);
 					this.add(yPos, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zPos = new Val3Digits();
+					zPos = new DLabel(30,16);
 					this.add(zPos, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					wPos = new Val3Digits();
+					wPos = new DLabel(30,16);
 					this.add(wPos, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
@@ -216,31 +220,32 @@ public class Cam4dControlPanel extends JPanel {
 				}
 				{
 					reset = new JButton();
+					reset.setSize(50,16);
 					this.add(reset, new GridBagConstraints(5, 3, 5, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					reset.setText("reset");
 				}
 				{
-					zoomLeft = new BasicArrowButton(SwingConstants.WEST);
+					zoomLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(zoomLeft, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zoomRight = new BasicArrowButton(SwingConstants.EAST);
+					zoomRight = new DArrowButton(SwingConstants.EAST);
 					this.add(zoomRight, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xzLeft = new BasicArrowButton(SwingConstants.WEST);
+					xzLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(xzLeft, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xzRight = new BasicArrowButton(SwingConstants.EAST);
+					xzRight = new DArrowButton(SwingConstants.EAST);
 					this.add(xzRight, new GridBagConstraints(8, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					ywLeft = new BasicArrowButton(SwingConstants.WEST);
+					ywLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(ywLeft, new GridBagConstraints(6, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					ywRight = new BasicArrowButton(SwingConstants.EAST);
+					ywRight = new DArrowButton(SwingConstants.EAST);
 					this.add(ywRight, new GridBagConstraints(8, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
@@ -248,15 +253,15 @@ public class Cam4dControlPanel extends JPanel {
 					this.add(jSeparator1, new GridBagConstraints(4, 0, 1, 4, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zoomVal = new Val3Digits();
+					zoomVal = new DLabel(30,16);
 					this.add(zoomVal, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xzVal = new Val3Digits();
+					xzVal = new DLabel(30,16);
 					this.add(xzVal, new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					ywVal = new Val3Digits();
+					ywVal = new DLabel(30,16);
 					this.add(ywVal, new GridBagConstraints(7, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 			}

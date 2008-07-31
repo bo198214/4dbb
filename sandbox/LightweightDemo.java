@@ -10,7 +10,8 @@ import java.awt.event.*;
  ***************************************************************
  */
 public class LightweightDemo {
-    public static void main(String[] args) {
+    @SuppressWarnings("deprecation")
+	public static void main(String[] args) {
         Frame f = new Frame("Have a nice day!");
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -28,6 +29,7 @@ public class LightweightDemo {
 /**
  * A lightweight container that renders a striped background.
  */
+@SuppressWarnings("serial")
 class StripedPanel extends Container {
     protected Color colors[] = {Color.red, Color.yellow, Color.blue,
                                 Color.green, Color.pink, Color.orange,
@@ -41,7 +43,6 @@ class StripedPanel extends Container {
     public void paint(Graphics g) {
         Dimension size = getSize();
         int thickness = 5;
-        int x = 0;
         for (int y = 0; y + thickness <= size.height; y+=thickness) {
             g.setColor(colors[y % colors.length]);
             g.fillRect(0, y, size.width, thickness);
@@ -55,6 +56,7 @@ class StripedPanel extends Container {
  * The area around the smiley face is transparent, allowing
  * whatever is behind it to show through.
  */
+@SuppressWarnings("serial")
 class RoundSmileyCanvas extends Component {
     protected Color faceColor;
 

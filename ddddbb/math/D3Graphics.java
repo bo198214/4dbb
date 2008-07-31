@@ -71,7 +71,6 @@ public abstract class D3Graphics {
 	
 
 	public boolean screenProj(Point3d _p, double e, double s, Point2d pl, Point2d pr) {
-		assert _p.dim() == 3;
 
 		Point3d p = _p.clone();
 		p.subtract(c3.eye);

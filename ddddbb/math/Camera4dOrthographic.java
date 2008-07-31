@@ -25,7 +25,12 @@ public abstract class Camera4dOrthographic extends Camera4dParallel {
 	@Override
 	public Point4d viewingDirection() {
 		assert v[3].isNormal();
-		return v[3];
+//		if (orientation ==1) {
+			return v[3];
+//		}
+//		Point4d vd = v[3].clone();
+//		vd.multiply(orientation);
+//		return vd;
 	}
 	
 	@Override

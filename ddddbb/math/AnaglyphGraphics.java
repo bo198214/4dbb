@@ -2,36 +2,23 @@ package ddddbb.math;
 
 import java.awt.Composite;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import ddddbb.game.Opt;
-
 public class AnaglyphGraphics extends D3Graphics {
 	private static final long serialVersionUID = 6933013057972473075L;
 	
 	public static final Composite COMPOSITE = new AnaglyphComposite();
 	
-	protected double e;
-
-	public AnaglyphGraphics(D2GraphicsIF g,Camera3d c) {
-		super(g,c,AnaglyphCompositeContext.LCOLOR,AnaglyphCompositeContext.RCOLOR);
-		e = Opt.eyesDistHalf.getDouble();
-		Opt.eyesDistHalf.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent ce) {
-				e = Opt.eyesDistHalf.getDouble();
-			}
-			
-		});
+	protected Camera3d c3;
+	public AnaglyphGraphics(D2GraphicsIF g,Camera3d _c3) {
+		super(g,_c3,AnaglyphCompositeContext.LCOLOR,AnaglyphCompositeContext.RCOLOR);
+		c3 = _c3;
 		initialize();
 	}
 	
-	protected AnaglyphGraphics(D2GraphicsIF g,Camera3d c,double _e) {
-		super(g,c,AnaglyphCompositeContext.LCOLOR,AnaglyphCompositeContext.RCOLOR);
-		e = _e;
-		initialize();
-	}
+//	protected AnaglyphGraphics(D2GraphicsIF g,Camera3d c,double _e) {
+//		super(g,c,AnaglyphCompositeContext.LCOLOR,AnaglyphCompositeContext.RCOLOR);
+//		e = _e;
+//		initialize();
+//	}
 
 	/**
 	 * This method initializes this
@@ -45,8 +32,7 @@ public class AnaglyphGraphics extends D3Graphics {
 	}
 
 	public boolean screenProj(Point3d p, Point2d pl, Point2d pr) {
-		double s = Opt.screenEyeDist.getDouble();
-		return screenProj(p,e,s,pl,pr);
+		return screenProj(p,c3.eyesDistHalf,c3.screenEyeDist,pl,pr);
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

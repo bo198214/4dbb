@@ -17,8 +17,19 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import ddddbb.game.Opt;
+import ddddbb.game.Main;
+import ddddbb.game.Scene;
+import ddddbb.game.Scene4d;
+import ddddbb.game.ScreenValues;
+import ddddbb.game.SimpleSwitches;
+import ddddbb.game.Main.PerspectiveEnum;
+import ddddbb.game.Main.ViewAbsRelEnum;
+import ddddbb.gen.BoolModel;
+import ddddbb.gen.DoubleModel;
+import ddddbb.gen.IntModel;
+import ddddbb.gen.IntStringModel;
 import ddddbb.gen.MyChangeListener;
+import ddddbb.math.Camera4d;
 import ddddbb.math.D2Graphics;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.D4Graphics;
@@ -35,38 +46,66 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 	D3Graphics g3;
 	D4Graphics g4;
 	
-	public ViewScreen() {
-		super();
-		initialize();
-	}
+	private final Scene scene;
+	private final ScreenValues sv;
+	private final IntModel<Camera4d> perspective;
+	private final IntModel<SimpleSwitches.ViewType> viewType;
+	private final BoolModel antiAliased;
+	private final BoolModel drawTetrahedral;
+	private final BoolModel showGoal;
+	private final Scene4d goalScene;
 	
-	private void initialize() {
-		Opt.scene.addChangeListener(this);
-		Opt.eyesDistHalf.addChangeListener(this);
-		Opt.screenEyeDist.addChangeListener(this);
-		Opt.xdpcm.addChangeListener(this);
-		Opt.ydpcm.addChangeListener(this);
-		Opt.barEyeFocusDelta.addChangeListener(this);
-		Opt.drawTetrahedral.addChangeListener(this);
+	public ViewScreen(
+			final Scene _scene,
+			final ScreenValues _sv,
+			final IntModel<Camera4d> _perspective,
+			final BoolModel _drawTetrahedral,
+			final BoolModel showInternalFaces,
+			final DoubleModel zoom,
+			final BoolModel _antiAliased,
+			final IntModel<SimpleSwitches.ViewType> _viewType,
+			final IntStringModel dim34,
+			final ViewAbsRelEnum viewAbsRel,
+			final IntStringModel viewTransAxis,
+			final IntStringModel d3ViewRotAxis,
+			final BoolModel _showGoal,
+			final Scene4d _goalScene
+	) {
+		scene = _scene;
+		sv = _sv;
+		perspective = _perspective;
+		viewType = _viewType;
+		antiAliased = _antiAliased;
+		drawTetrahedral = _drawTetrahedral;
+		showGoal = _showGoal;
+		goalScene = _goalScene;
+		
+		scene.addChangeListener(this);
+		sv.eyesDistHalf.addChangeListener(this);
+		sv.screenEyeDist.addChangeListener(this);
+		sv.xdpcm.addChangeListener(this);
+		sv.ydpcm.addChangeListener(this);
+		sv.barEyeFocusDelta.addChangeListener(this);
+		drawTetrahedral.addChangeListener(this);
 		//Opt.drawTrihedral.addChangeListener(this);
-		ddddbb.math.Param.showInternalFaces.addChangeListener(this);
-		Opt.zoom.addChangeListener(this);
+		showInternalFaces.addChangeListener(this);
+		zoom.addChangeListener(this);
 
-		Opt.antiAliased.addChangeListener(new MyChangeListener() {
+		antiAliased.addChangeListener(new MyChangeListener() {
 			public void stateChanged() {
 				updateAlias();
 				repaint();
 			}});
-		Opt.brightness.addChangeListener(new MyChangeListener() {
+		sv.brightness.addChangeListener(new MyChangeListener() {
 			public void stateChanged() {
 				if (g3==null) { return; }
-				g3.setBrightness(Opt.brightness.getDouble());
+				g3.setBrightness(sv.brightness.getDouble());
 				repaint();
 			}});
-		Opt.viewType.addChangeListener(new MyChangeListener() {
+		viewType.addChangeListener(new MyChangeListener() {
 			public void stateChanged() {
 				if (g3==null) { return; }
-				g3 = Opt.viewType.getSelectedObject().getD3Graphics(g2,Opt.scene.camera3d);
+				g3 = viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
 				g4.setGraphics(g3);
 				repaint();
 			}});
@@ -75,7 +114,7 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 //				(int)(10.0*Opt.xcm.getDouble()),
 //				(int)(10.0*Opt.ycm.getDouble()))); // 10x10cm
 
-		MouseControl mouseControl = new MouseControl();
+		MouseControl mouseControl = new MouseControl(zoom,dim34,viewAbsRel,scene.camera3d,scene.camera4d,viewTransAxis,d3ViewRotAxis,sv.mouseTransSens,sv.mouseRotSens,sv.xdpcm,sv.ydpcm);
 		addMouseMotionListener(mouseControl);
 		addMouseListener(mouseControl);
 		addHierarchyBoundsListener(new HierarchyBoundsListener() {
@@ -97,7 +136,7 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 				System.out.println("ViewScreen lost focus");
 			}});
 	}
-
+	
 	public synchronized void updateGraphics() {
 		Dimension size = getSize();  
 		width = size.width;
@@ -112,9 +151,9 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 			g.setTransform(new AffineTransform());
 			g.translate(x0,y0);
 			if ( g2 == null ) {
-				g2 = new D2Graphics(g,Opt.xdpcm.getDouble(),Opt.ydpcm.getDouble());
-				g3 = Opt.viewType.getSelectedObject().getD3Graphics(g2,Opt.scene.camera3d);
-				g4 = new D4Graphics(g3,Opt.scene.camera4d);
+				g2 = new D2Graphics(g,sv.xdpcm.getDouble(),sv.ydpcm.getDouble());
+				g3 = viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
+				g4 = new D4Graphics(g3,scene.camera4d, perspective);
 			}
 			else {
 				g2.setGraphics(g);
@@ -122,13 +161,13 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 				g4.setGraphics(g3);
 			}
 			updateAlias();
-			g3.setBrightness(Opt.brightness.getDouble());
+			g3.setBrightness(sv.brightness.getDouble());
 		}		
 	}
 
 	protected void updateAlias() {
 		if (g==null) { return; }
-		if (Opt.antiAliased.isSelected()) {
+		if (antiAliased.isSelected()) {
 			g.setRenderingHint(
 					RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON
@@ -148,15 +187,20 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		if ( g == null ) { updateGraphics(); }
 		g.clearRect(-width/2,-height/2,width,height);
 		
-		if (Opt.drawTetrahedral.isSelected()) { 
+		if (drawTetrahedral.isSelected()) { 
 			g4.drawTetrahedral();
 		}
 //		if (Opt.drawTrihedral.isSelected()) { 
 //			g3.drawTrihedral();
 //		}
 		
-		Opt.scene.paint(g3);
-		g4.drawBlob(Opt.scene.compounds.getSelectedItem().center);
+		if (showGoal.isSelected()) {
+			goalScene.paint(g3);
+		}
+		else {
+			scene.paint(g3);
+		}
+		g4.drawBlob(scene.compounds.getSelectedItem().center);
 
 		((Graphics2D)g0).drawImage(buffImg, null, 0, 0);
 	}

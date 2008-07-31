@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Vector;
 
 import ddddbb.comb.Cell;
+import ddddbb.game.ScreenValues;
 import ddddbb.gen.Model;
 import ddddbb.gen.MyChangeListener;
 import ddddbb.math.Camera3d;

@@ -23,7 +23,7 @@ public abstract class Camera4dParallel extends Camera4d {
 	}
 	
 	public boolean facedBy(ACell oc) {
-		return oc.normal().sc(viewingDirection()) < -AOP.ERR;
+		return oc.normal().sc(viewingDirection()) <= -AOP.ERR;
 	}
 	
 	public boolean nproj3d(Point4d p4, Point3d res3) {
@@ -42,9 +42,10 @@ public abstract class Camera4dParallel extends Camera4d {
 		for (int i=0;i<4;i++) {
 			viewingDirection.x[i]=0;
 		}
-		for (int i=0;i<4;i++) {
+		for (int i=0;i<3;i++) {
 			viewingDirection.addby(v[i], viewDirRel.x[i]);
 		}
+		viewingDirection.addby(v[3], viewDirRel.x[3]);
 		return viewingDirection;
 	}
 }

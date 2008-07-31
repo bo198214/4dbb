@@ -4,7 +4,10 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
 
-import ddddbb.game.Opt;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import ddddbb.gen.DoubleModel;
 
 public abstract class BarEyeGraphics extends D3Graphics {
 
@@ -14,10 +17,11 @@ public abstract class BarEyeGraphics extends D3Graphics {
 	/** d is the difference between the real focus and the screen center focus */
 	public abstract double sway(double x,double e,double s, double d);
 	
-
-	public BarEyeGraphics(D2GraphicsIF _g2,Camera3d c) {
-		super(_g2,c,Color.WHITE,Color.WHITE);
+	private final Camera3d c3;
+	public BarEyeGraphics(D2GraphicsIF _g2,Camera3d _c3) {
+		super(_g2,_c3,Color.WHITE,Color.WHITE);
 		g2.setComposite(COMPOSITE);
+		c3 = _c3;
 	}
 	
 	/** 
@@ -43,11 +47,6 @@ public abstract class BarEyeGraphics extends D3Graphics {
 //	}
 	
 	public boolean screenProj(Point3d _p, Point2d pl, Point2d pr) {
-		assert _p.dim() == 3;
-		double e = Opt.eyesDistHalf.getDouble();
-		double s = Opt.screenEyeDist.getDouble();
-		double d = Opt.barEyeFocusDelta.getDouble();
-
 //		Compound sel = (Compound)Main.scene.compounds.getSelectedItem();
 //		Point c = new Point(
 //				sel.center[0]+0.5,
@@ -59,15 +58,15 @@ public abstract class BarEyeGraphics extends D3Graphics {
 //		
 //		double d = c3d.minus(Main.scene.camera3d.eye).sc(Main.scene.camera3d.v[2]) - s;
 //		System.out.println(d);
-		boolean res = screenProj(_p,e,s,pl,pr); 
+		boolean res = screenProj(_p,c3.eyesDistHalf,c3.screenEyeDist,pl,pr); 
 		double xr = pr.x1;
 		double xl = pl.x1;
 
 //		pl.x1 = -sway(-xl,e,s);
 //		pr.x1 = sway(xr,e,s);
 
-		pl.x1 = -sway(-xl,e,s,d);
-		pr.x1 =  sway( xr,e,s,d);
+		pl.x1 = -sway(-xl,c3.eyesDistHalf,c3.screenEyeDist,c3.barEyeFocusDelta);
+		pr.x1 =  sway( xr,c3.eyesDistHalf,c3.screenEyeDist,c3.barEyeFocusDelta);
 		return res;
 	}
 	

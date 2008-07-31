@@ -2,7 +2,7 @@ package ddddbb;
 
 import javax.swing.JFrame;
 
-import ddddbb.game.Opt;
+import ddddbb.game.Main;
 import ddddbb.gui.MyMenuBar;
 
 public class Application extends JFrame {
@@ -23,10 +23,10 @@ public class Application extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		Opt.initialize(this);
+		Main main = new Main(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setJMenuBar(new MyMenuBar());
-		setContentPane(Opt.contentPane);
+		setJMenuBar(new MyMenuBar(main));
+		setContentPane(main.contentPane);
 		setTitle("4d building blocks");
 		pack();
 	}

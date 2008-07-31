@@ -1,8 +1,15 @@
 package ddddbb.gui;
 
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import ddddbb.game.Scene;
+import ddddbb.game.Main.ViewAbsRelEnum;
+import ddddbb.gen.BoolModel;
+import ddddbb.gen.DiAxisModel;
+import ddddbb.gen.IntStringModel;
 
 public class KeyControl implements KeyListener {
 	public static class LookupTable3int<T> {
@@ -76,112 +83,117 @@ public class KeyControl implements KeyListener {
 		}
 	}
 
-	public KeyControl() {
+	public KeyControl(Scene scene, BoolModel showGoal, DiAxisModel viewRotXAxis12, IntStringModel d3ViewRotAxis, IntStringModel dim34, ViewAbsRelEnum viewAbsRel) {
 		int maxMod = 4;
 		int maxKey = 100;
-		singleKeyAssignment = new LookupTable2int<Performer>(maxMod,maxKey);
-		LookupTable2int<Performer> s = singleKeyAssignment;
+		singleKeyAssignment = new LookupTable2int<ActionListener>(maxMod,maxKey);
+		LookupTable2int<ActionListener> s = singleKeyAssignment;
 		int SHIFT = InputEvent.SHIFT_MASK;
 		int CTRL = InputEvent.CTRL_MASK;
-		s.put(0,37,UIAction.transSelected(-1)); // <-
-		s.put(0,39,UIAction.transSelected(+1)); // ->
-		s.put(0,38,UIAction.transSelected(+2)); // ^
-		s.put(0,40,UIAction.transSelected(-2)); // v
-		s.put(SHIFT,37,UIAction.transSelected(+4)); 
-		s.put(SHIFT,39,UIAction.transSelected(-4)); 
-		s.put(SHIFT,38,UIAction.transSelected(+3));
-		s.put(SHIFT,40,UIAction.transSelected(-3));
-		s.put(CTRL,37,UIAction.rotCam(3,1));
-		s.put(CTRL,39,UIAction.rotCam(1,3));
-		s.put(CTRL,38,UIAction.rotCam(2,3));
-		s.put(CTRL,40,UIAction.rotCam(3,2));
-		
-		s.put(CTRL,85,UIAction.transCam(1)); //u
-		s.put(CTRL,73,UIAction.transCam(2)); //i
-		s.put(CTRL,79,UIAction.transCam(3)); //o
-		s.put(CTRL,80,UIAction.transCam(4)); //p
 
-		s.put(CTRL|SHIFT,85,UIAction.transCam(-1)); //u
-		s.put(CTRL|SHIFT,73,UIAction.transCam(-2)); //i
-		s.put(CTRL|SHIFT,79,UIAction.transCam(-3)); //o
-		s.put(CTRL|SHIFT,80,UIAction.transCam(-4)); //p
+		Cam3dAction c3a = new Cam3dAction(scene.camera3d,viewAbsRel);
+		Camera4dAction c4a = new Camera4dAction(scene.camera4d,viewAbsRel);
+		UIAction ua = new UIAction(scene,viewRotXAxis12,d3ViewRotAxis,dim34,c3a,c4a);
 		
-		s.put(CTRL,77,UIAction.transCam(-1)); //m
-		s.put(CTRL,44,UIAction.transCam(-2)); //,
-		s.put(CTRL,46,UIAction.transCam(-3)); //.
-		s.put(CTRL,47,UIAction.transCam(-4)); ///
+		s.put(0,37,scene.transSelected(-1)); // <-
+		s.put(0,39,scene.transSelected(+1)); // ->
+		s.put(0,38,scene.transSelected(+2)); // ^
+		s.put(0,40,scene.transSelected(-2)); // v
+		s.put(SHIFT,37,scene.transSelected(+4)); 
+		s.put(SHIFT,39,scene.transSelected(-4)); 
+		s.put(SHIFT,38,scene.transSelected(+3));
+		s.put(SHIFT,40,scene.transSelected(-3));
+		s.put(CTRL,37,ua.rotCam(3,1));
+		s.put(CTRL,39,ua.rotCam(1,3));
+		s.put(CTRL,38,ua.rotCam(2,3));
+		s.put(CTRL,40,ua.rotCam(3,2));
 		
-		s.put(0,85,UIAction.transSelected(1)); //u
-		s.put(0,73,UIAction.transSelected(2)); //i
-		s.put(0,79,UIAction.transSelected(3)); //o
-		s.put(0,80,UIAction.transSelected(4)); //p
+		s.put(CTRL,85,ua.transCam(1)); //u
+		s.put(CTRL,73,ua.transCam(2)); //i
+		s.put(CTRL,79,ua.transCam(3)); //o
+		s.put(CTRL,80,ua.transCam(4)); //p
 
-		s.put(0,77,UIAction.transSelected(-1)); //m
-		s.put(0,44,UIAction.transSelected(-2)); //,
-		s.put(0,46,UIAction.transSelected(-3)); //.
-		s.put(0,47,UIAction.transSelected(-4)); ///
+		s.put(CTRL|SHIFT,85,ua.transCam(-1)); //u
+		s.put(CTRL|SHIFT,73,ua.transCam(-2)); //i
+		s.put(CTRL|SHIFT,79,ua.transCam(-3)); //o
+		s.put(CTRL|SHIFT,80,ua.transCam(-4)); //p
 		
-		s.put(0,49,UIAction.setSelected(0)); //1
-		s.put(0,50,UIAction.setSelected(1)); //2
-		s.put(0,51,UIAction.setSelected(2)); //3
-		s.put(0,52,UIAction.setSelected(3)); //4
-		s.put(0,53,UIAction.setSelected(4)); //5
-		s.put(0,54,UIAction.setSelected(5)); //6
-		s.put(0,55,UIAction.setSelected(6)); //7
-		s.put(0,56,UIAction.setSelected(7)); //8
-		s.put(0,57,UIAction.setSelected(8)); //9
-		s.put(0,71,UIShownAction.nextSelected); //g
-		s.put(SHIFT,71,UIShownAction.prevSelected); //G
-		s.put(0,32,UIShownAction.showGoal); //SPACE
-		s.put(0,66,UIShownAction.combineTouchingSelected); //b
-		s.put(0,20,UIShownAction.toggle3d4d);//caps lock
+		s.put(CTRL,77,ua.transCam(-1)); //m
+		s.put(CTRL,44,ua.transCam(-2)); //,
+		s.put(CTRL,46,ua.transCam(-3)); //.
+		s.put(CTRL,47,ua.transCam(-4)); ///
+		
+		s.put(0,85,scene.transSelected(1)); //u
+		s.put(0,73,scene.transSelected(2)); //i
+		s.put(0,79,scene.transSelected(3)); //o
+		s.put(0,80,scene.transSelected(4)); //p
 
-		doubleKeyAssignment = new LookupTable3int<Performer>(maxMod,maxKey,maxKey);
-		LookupTable3int<Performer> d = doubleKeyAssignment;
+		s.put(0,77,scene.transSelected(-1)); //m
+		s.put(0,44,scene.transSelected(-2)); //,
+		s.put(0,46,scene.transSelected(-3)); //.
+		s.put(0,47,scene.transSelected(-4)); ///
 		
-		d.put(0,70,68,UIAction.rotSelected(1,2)); //f,d
-		d.put(0,70,83,UIAction.rotSelected(1,3)); //f,s
-		d.put(0,70,65,UIAction.rotSelected(1,4)); //f,a
-		d.put(0,68,83,UIAction.rotSelected(2,3)); //d,s
-		d.put(0,68,65,UIAction.rotSelected(2,4)); //d,a
-		d.put(0,83,65,UIAction.rotSelected(3,4)); //s,a
-		d.put(0,68,70,UIAction.rotSelected(2,1)); //d,f
-		d.put(0,83,70,UIAction.rotSelected(3,1)); //s,f
-		d.put(0,65,70,UIAction.rotSelected(4,1)); //a,f
-		d.put(0,83,68,UIAction.rotSelected(3,2)); //s,d
-		d.put(0,65,68,UIAction.rotSelected(4,2)); //a,d
-		d.put(0,65,83,UIAction.rotSelected(4,3)); //a,s
-		
-		d.put(0,74,75,UIAction.rotCam(1,2)); //j,k
-		d.put(0,74,76,UIAction.rotCam(1,3)); //j,l
-		d.put(0,74,59,UIAction.rotCam(1,4)); //j,;
-		d.put(0,75,76,UIAction.rotCam(2,3)); //k,l
-		d.put(0,75,59,UIAction.rotCam(2,4)); //k,;
-		d.put(0,76,59,UIAction.rotCam(3,4)); //l,;
-		d.put(0,75,74,UIAction.rotCam(2,1)); //k,j
-		d.put(0,76,74,UIAction.rotCam(3,1)); //l,j
-		d.put(0,59,74,UIAction.rotCam(4,1)); //;,j
-		d.put(0,76,75,UIAction.rotCam(3,2)); //l,k
-		d.put(0,59,75,UIAction.rotCam(4,2)); //;,k
-		d.put(0,59,76,UIAction.rotCam(4,3)); //;,l
+		s.put(0,49,scene.compounds.setSelectedAction(0)); //1
+		s.put(0,50,scene.compounds.setSelectedAction(1)); //2
+		s.put(0,51,scene.compounds.setSelectedAction(2)); //3
+		s.put(0,52,scene.compounds.setSelectedAction(3)); //4
+		s.put(0,53,scene.compounds.setSelectedAction(4)); //5
+		s.put(0,54,scene.compounds.setSelectedAction(5)); //6
+		s.put(0,55,scene.compounds.setSelectedAction(6)); //7
+		s.put(0,56,scene.compounds.setSelectedAction(7)); //8
+		s.put(0,57,scene.compounds.setSelectedAction(8)); //9
+		s.put(0,71,scene.compounds.nextSelected); //g
+		s.put(SHIFT,71,scene.compounds.prevSelected); //G
+		s.put(0,32,showGoal.toggle); //SPACE
+		s.put(0,66,scene.combineTouchingSelected); //b
+		s.put(0,20,dim34.actionNextRot);//caps lock
 
-		d.put(0,82,69,UIAction.set4dRotAxes(1,2)); //r,e
-		d.put(0,69,82,UIAction.set4dRotAxes(1,2)); //r,e
-		d.put(0,82,87,UIAction.set4dRotAxes(1,3)); //r,w
-		d.put(0,87,82,UIAction.set4dRotAxes(1,3)); //r,w
-		d.put(0,82,81,UIAction.set4dRotAxes(1,4)); //r,q
-		d.put(0,81,82,UIAction.set4dRotAxes(1,4)); //r,q
-		d.put(0,69,87,UIAction.set4dRotAxes(2,3)); //e,w
-		d.put(0,87,69,UIAction.set4dRotAxes(2,3)); //e,w
-		d.put(0,69,81,UIAction.set4dRotAxes(2,4)); //e,q
-		d.put(0,81,69,UIAction.set4dRotAxes(2,4)); //e,q
-		d.put(0,87,81,UIAction.set4dRotAxes(3,4)); //w,q
-		d.put(0,81,87,UIAction.set4dRotAxes(3,4)); //w,q
+		doubleKeyAssignment = new LookupTable3int<ActionListener>(maxMod,maxKey,maxKey);
+		LookupTable3int<ActionListener> d = doubleKeyAssignment;
+		
+		d.put(0,70,68,scene.rotSelected(1,2)); //f,d
+		d.put(0,70,83,scene.rotSelected(1,3)); //f,s
+		d.put(0,70,65,scene.rotSelected(1,4)); //f,a
+		d.put(0,68,83,scene.rotSelected(2,3)); //d,s
+		d.put(0,68,65,scene.rotSelected(2,4)); //d,a
+		d.put(0,83,65,scene.rotSelected(3,4)); //s,a
+		d.put(0,68,70,scene.rotSelected(2,1)); //d,f
+		d.put(0,83,70,scene.rotSelected(3,1)); //s,f
+		d.put(0,65,70,scene.rotSelected(4,1)); //a,f
+		d.put(0,83,68,scene.rotSelected(3,2)); //s,d
+		d.put(0,65,68,scene.rotSelected(4,2)); //a,d
+		d.put(0,65,83,scene.rotSelected(4,3)); //a,s
+		
+		d.put(0,74,75,ua.rotCam(1,2)); //j,k
+		d.put(0,74,76,ua.rotCam(1,3)); //j,l
+		d.put(0,74,59,ua.rotCam(1,4)); //j,;
+		d.put(0,75,76,ua.rotCam(2,3)); //k,l
+		d.put(0,75,59,ua.rotCam(2,4)); //k,;
+		d.put(0,76,59,ua.rotCam(3,4)); //l,;
+		d.put(0,75,74,ua.rotCam(2,1)); //k,j
+		d.put(0,76,74,ua.rotCam(3,1)); //l,j
+		d.put(0,59,74,ua.rotCam(4,1)); //;,j
+		d.put(0,76,75,ua.rotCam(3,2)); //l,k
+		d.put(0,59,75,ua.rotCam(4,2)); //;,k
+		d.put(0,59,76,ua.rotCam(4,3)); //;,l
+
+		d.put(0,82,69,ua.set4dRotAxes(1,2)); //r,e
+		d.put(0,69,82,ua.set4dRotAxes(1,2)); //r,e
+		d.put(0,82,87,ua.set4dRotAxes(1,3)); //r,w
+		d.put(0,87,82,ua.set4dRotAxes(1,3)); //r,w
+		d.put(0,82,81,ua.set4dRotAxes(1,4)); //r,q
+		d.put(0,81,82,ua.set4dRotAxes(1,4)); //r,q
+		d.put(0,69,87,ua.set4dRotAxes(2,3)); //e,w
+		d.put(0,87,69,ua.set4dRotAxes(2,3)); //e,w
+		d.put(0,69,81,ua.set4dRotAxes(2,4)); //e,q
+		d.put(0,81,69,ua.set4dRotAxes(2,4)); //e,q
+		d.put(0,87,81,ua.set4dRotAxes(3,4)); //w,q
+		d.put(0,81,87,ua.set4dRotAxes(3,4)); //w,q
 
 	}
 	
-	public static LookupTable2int<Performer> singleKeyAssignment;
-	public static LookupTable3int<Performer> doubleKeyAssignment;
+	public static LookupTable2int<ActionListener> singleKeyAssignment;
+	public static LookupTable3int<ActionListener> doubleKeyAssignment;
 	
 	public int pressedKey = -1;
 	
@@ -191,7 +203,7 @@ public class KeyControl implements KeyListener {
 			return;
 		}
 		
-		Performer p = singleKeyAssignment.get(e.getModifiers(),e.getKeyCode());
+		ActionListener p = singleKeyAssignment.get(e.getModifiers(),e.getKeyCode());
 		if (p!=null) {
 			p.actionPerformed(null);
 			return;

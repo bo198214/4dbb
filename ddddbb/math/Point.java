@@ -161,8 +161,8 @@ public class Point implements Comparable<Point>{
 	 */
 	public Point rotate(double ph,Point a, Point b) {
 		assert AOP.isZero(a.sc(b)) : a.sc(b);
-		assert AOP.equal(a.len(), 1) : a;
-		assert AOP.equal(b.len(), 1) : b;
+		assert AOP.eq(a.len(), 1) : a;
+		assert AOP.eq(b.len(), 1) : b;
 		double as = a.sc(this);
 		double bs = b.sc(this);
 		addby(a,-as);
@@ -185,11 +185,13 @@ public class Point implements Comparable<Point>{
 	/** rotates this by the rotation from vector a to vector b */
 	public Point rotate(Point a, Point b) {
 		double assertLength = len();
+		double ph = a.arc(b); 
+		if (AOP.eq(ph, 0)) return this;
 		Point a0 = a.clone();
 		Point b0 = b.clone();
 		AOP.orthoNormalize(a0,b0);
 		rotate(a.arc(b),a0,b0);
-		assert AOP.equal(assertLength, len()) : assertLength + "!=" + len();
+		assert AOP.eq(assertLength, len()) : assertLength + "!=" + len();
 		return this;
 	}
 	

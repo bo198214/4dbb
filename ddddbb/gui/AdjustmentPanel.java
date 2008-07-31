@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 
-import ddddbb.game.Opt;
+import ddddbb.game.ScreenValues;
 import ddddbb.gen.DoubleSpinner;
 import ddddbb.gen.DoubleUnitModel;
 
@@ -54,42 +54,13 @@ public class AdjustmentPanel extends JPanel {
 	/**
 	 * This is the default constructor
 	 */
-//	private MeasureModel eyesDistHalf;
-//	private MeasureModel screenEyeDist;
-//	private IntModel<Double> lengthUnit;
-//	private MeasureModel xcm;
-//	private MeasureModel ycm;
-//	private IntModel<Double> resolutionUnit;
-//	private DoubleModel mouseTransSens;
-//	private DoubleModel mouseRotSens;
-//	private DoubleModel barEyeFocusDelta;
-//	private BoundedRangeModel brightness_boundedRange;
-
-	public AdjustmentPanel(
-//			MeasureModel _eyesDistHalf,
-//			MeasureModel _screenEyeDist,
-//			IntModel<Double> _lengthUnit,
-//			MeasureModel _xcm,
-//			MeasureModel _ycm,
-//			IntModel<Double> _resolutionUnit,
-//			DoubleModel _mouseTransSens,
-//			DoubleModel _mouseRotSens,
-//			DoubleModel _barEyeFocusDelta,
-//			BoundedRangeModel _brightness_boundedRange
-			) {
+	private ScreenValues sv;
+	public AdjustmentPanel(ScreenValues _sv) {
 		super();
+		sv = _sv;
+
 		initialize();
 		
-//		eyesDistHalf = _eyesDistHalf;
-//		screenEyeDist = _screenEyeDist;
-//		lengthUnit = _lengthUnit;
-//		xcm = _xcm;
-//		ycm = _ycm;
-//		resolutionUnit = _resolutionUnit;
-//		mouseTransSens = _mouseTransSens; 
-//		mouseRotSens = _mouseRotSens;
-//		barEyeFocusDelta = _barEyeFocusDelta;
-//		brightness_boundedRange = _brightness_boundedRange;
 	}
 
 	/**
@@ -160,7 +131,7 @@ public class AdjustmentPanel extends JPanel {
 			defaultValuesButton = new JButton();
 			defaultValuesButton.setAction(new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
-					Opt.screenDefaults();
+					sv.screenDefaults();
 				}
 				private static final long serialVersionUID = 5092274037007117460L;	
 			});
@@ -171,7 +142,7 @@ public class AdjustmentPanel extends JPanel {
 	
 	private JSpinner getEyesDistSpinner() {
 		if ( eyesDistSpinner == null ) {
-			eyesDistSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.eyesDistHalf,Opt.lengthUnit));
+			eyesDistSpinner = new DoubleSpinner(new DoubleUnitModel(sv.eyesDistHalf,sv.lengthUnit));
 			eyesDistSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
 		}
 		return eyesDistSpinner;
@@ -179,7 +150,7 @@ public class AdjustmentPanel extends JPanel {
 
 	private JSpinner getScreenEyeDistSpinner() {
 		if (screenEyeDistSpinner == null) {
-			screenEyeDistSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.screenEyeDist,Opt.lengthUnit));
+			screenEyeDistSpinner = new DoubleSpinner(new DoubleUnitModel(sv.screenEyeDist,sv.lengthUnit));
 			screenEyeDistSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
 		}
 		return screenEyeDistSpinner;
@@ -187,14 +158,14 @@ public class AdjustmentPanel extends JPanel {
 
 	private JComboBox getUnitComboBox() {
 		if (unitComboBox == null) {
-			unitComboBox = new JComboBox(Opt.lengthUnit);
+			unitComboBox = new JComboBox(sv.lengthUnit);
 		}
 		return unitComboBox;
 	}
 
 	private JSpinner getScreenResolutionXSpinner() {
 		if ( screenResolutionXSpinner == null ) {
-			screenResolutionXSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.xdpcm,Opt.resolutionUnit));
+			screenResolutionXSpinner = new DoubleSpinner(new DoubleUnitModel(sv.xdpcm,sv.resolutionUnit));
 			screenResolutionXSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
 		}
 		return screenResolutionXSpinner;
@@ -202,7 +173,7 @@ public class AdjustmentPanel extends JPanel {
 
 	private JSpinner getScreenResolutionYSpinner() {
 		if ( screenResolutionYSpinner == null ) {
-			screenResolutionYSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.ydpcm,Opt.resolutionUnit));
+			screenResolutionYSpinner = new DoubleSpinner(new DoubleUnitModel(sv.ydpcm,sv.resolutionUnit));
 		}
 		return screenResolutionYSpinner;
 	}
@@ -214,7 +185,7 @@ public class AdjustmentPanel extends JPanel {
 	 */
 	private JComboBox getResolutionUnitComboBox() {
 		if (resolutionUnitComboBox == null) {
-			resolutionUnitComboBox = new JComboBox(Opt.resolutionUnit);
+			resolutionUnitComboBox = new JComboBox(sv.resolutionUnit);
 		}
 		return resolutionUnitComboBox;
 	}
@@ -226,7 +197,7 @@ public class AdjustmentPanel extends JPanel {
 	 */
 	private DoubleSpinner getMouseTransSensSpinner() {
 		if (mouseTransSensSpinner == null) {
-			mouseTransSensSpinner = new DoubleSpinner(Opt.mouseTransSens);
+			mouseTransSensSpinner = new DoubleSpinner(sv.mouseTransSens);
 		}
 		return mouseTransSensSpinner;
 	}
@@ -238,7 +209,7 @@ public class AdjustmentPanel extends JPanel {
 	 */
 	private DoubleSpinner getMouseRotSensSpinner() {
 		if (mouseRotSensSpinner == null) {
-			mouseRotSensSpinner = new DoubleSpinner(Opt.mouseRotSens);
+			mouseRotSensSpinner = new DoubleSpinner(sv.mouseRotSens);
 		}
 		return mouseRotSensSpinner;
 	}
@@ -250,7 +221,7 @@ public class AdjustmentPanel extends JPanel {
 	 */
 	private DoubleSpinner getBarEyeFocusDeltaSpinner() {
 		if (barEyeFocusDeltaSpinner == null) {
-			barEyeFocusDeltaSpinner = new DoubleSpinner(new DoubleUnitModel(Opt.barEyeFocusDelta,Opt.lengthUnit));
+			barEyeFocusDeltaSpinner = new DoubleSpinner(new DoubleUnitModel(sv.barEyeFocusDelta,sv.lengthUnit));
 		}
 		return barEyeFocusDeltaSpinner;
 	}
@@ -263,7 +234,7 @@ public class AdjustmentPanel extends JPanel {
 	private JSlider getBrightnessSlider() {
 		if (brightnessSlider == null) {
 			brightnessSlider = new JSlider();
-			brightnessSlider.setModel(Opt.brightness.boundedRange);
+			brightnessSlider.setModel(sv.brightness.boundedRange);
 		}
 		return brightnessSlider;
 	}

@@ -8,8 +8,7 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import ddddbb.game.Opt;
-import ddddbb.game.Opt.ShowedScreen;
+import ddddbb.game.Main.ShowedScreenEnum;
 import ddddbb.gen.MyChangeListener;
 
 public class MyContentPane extends JPanel {
@@ -17,39 +16,31 @@ public class MyContentPane extends JPanel {
 	
 	//by some reason with this focus listener buttons cant be pressed anymore
 	//TODO remove debugging code
-	protected final FocusListener mainFocusListener = new FocusListener() {
-		public void focusGained(FocusEvent e1) {
-			System.out.println("Main screen got input focus.");
-		}
-		public void focusLost(FocusEvent e1) {
-			System.out.println("Main screen lost input focus.");
-			ShowedScreen.MAIN.panel().requestFocusInWindow();
-		}
-	};
+	protected final FocusListener mainFocusListener; 
 
 	private CardLayout mainPanelCardLayout = null;
 	/**
 	 * This is the default constructor
 	 */
-	public MyContentPane() {
+	public MyContentPane(final ShowedScreenEnum showedScreen) {
 		super();
-		initialize();
-	}
-
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
-	private void initialize() {
+		mainFocusListener = new FocusListener() {
+			public void focusGained(FocusEvent e1) {
+				System.out.println("Main screen got input focus.");
+			}
+			public void focusLost(FocusEvent e1) {
+				System.out.println("Main screen lost input focus.");
+				showedScreen.MAIN.requestFocusInWindow();
+			}
+		};
 		//this.setSize(300, 200);
 		mainPanelCardLayout = new CardLayout(); 
 		setLayout(mainPanelCardLayout);
-		Opt.showedScreen.addAsCards(this,mainPanelCardLayout);
-		Opt.showedScreen.addChangeListener(new MyChangeListener() {
+		showedScreen.addAsCards(this,mainPanelCardLayout);
+		showedScreen.addChangeListener(new MyChangeListener() {
 			public void stateChanged() {
-				if (Opt.showedScreen.getSelectedObject() == ShowedScreen.MAIN) {
-					ShowedScreen.MAIN.panel().setInputVerifier(new InputVerifier() {
+				if (showedScreen.getSelectedObject() == showedScreen.MAIN) {
+					showedScreen.MAIN.setInputVerifier(new InputVerifier() {
 						@Override
 						public boolean verify(JComponent input) {
 							// this assures that focus never leaves this window
@@ -59,12 +50,11 @@ public class MyContentPane extends JPanel {
 //					ShowedScreen.MAIN.panel().addFocusListener(mainFocusListener);
 				}
 				else {
-					ShowedScreen.MAIN.panel().setInputVerifier(null);
+					showedScreen.MAIN.setInputVerifier(null);
 //					ShowedScreen.MAIN.panel().removeFocusListener(mainFocusListener);
 				}
-				Opt.showedScreen.getSelectedObject().panel().requestFocusInWindow();
+				showedScreen.getSelectedObject().requestFocusInWindow();
 			}
 		});
-	}
-	
+	}	
 }

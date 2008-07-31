@@ -44,13 +44,21 @@ public abstract class Camera4d extends Model {
 	
 	protected final Point4d initialEye;
 	protected final Point4d[] initialV;
+	private int orientation = +1; //+1 for left-handed  or -1 for right-handed
 	
+	/** Specify initial camera v coordinate system with origin at eye. 
+	 * v[3] is supposed to be the viewing direction in the left-handed case.
+	 * Coordinate system must be orthonormal.
+	 * */
 	protected Camera4d(Point4d _initialEye,Point4d[] _initialV) {
 		initialEye = _initialEye;
 		initialV = _initialV;
 		setToDefault(); //no changed() comes outside as long as initialization
 	}
 	
+	/** Camera coordinate system is derived by rotating 
+	 * the standard R4 basis and initial eye by (0,0,0,1) -> initialViewDir 
+	 */
 	protected Camera4d(Point4d _initialEye, Point4d initialViewDir) {
 		initialEye = _initialEye;
 		initialV = initialV(initialViewDir,eye);
@@ -59,7 +67,9 @@ public abstract class Camera4d extends Model {
 	}
 	
 	private void initAxes() {
-		v = initialV.clone();
+		for (int i=0;i<4;i++) {
+			v[i] = initialV[i].clone();
+		}
 		eye = initialEye.clone();
 	}
 	
@@ -112,31 +122,30 @@ public abstract class Camera4d extends Model {
 		changed();
 	}
 	
-	protected void rotateAxes(Point4d a,Point4d b) {
+	private void rotateAxes(Point4d a,Point4d b) {
 		assert a.isNormal() && b.isNormal();
 		for (int i=0;i<4;i++) {
 			v[i].rotate(a,b);
 		}
-		orthoNormalize();
+		AOP.orthoNormalize(v); //avoid those tiny drifts
 	}
 
-	public void orthoNormalize() {
-		AOP.orthoNormalize(v);
-	}
-	
 	public void rotate(double ph,Point4d a, Point4d b, Point4d c) {
 		for (int i=0;i<4;i++) {
 			v[i].rotate(ph, a,b);
 		}
-//		viewingDirection.rotate(ph,a, b);
 		eye.rotate(ph,a,b,c);
+		AOP.orthoNormalize(v); //avoid those tiny drifts
 		changed();
 	}
 
 	public void setToDefault() {
-		eye = initialEye.clone();
-		v = initialV.clone();
-//		viewingDirection = viewDirRel.clone();
+		initAxes();
+		if (orientation != 1) {
+			orientation = 1;
+			swapOrientation();
+			assert orientation == -1;
+		}
 		changed();
 	}
 
@@ -167,6 +176,26 @@ public abstract class Camera4d extends Model {
 	public void setDirec(DSignedAxis a) {
 		initAxes(a);		
 		changed();
+	}
+	
+	private void swapOrientation() {
+		orientation *= -1;
+		for (int i=0;i<4;i++) {
+			v[i].x[3] *= -1;
+		}
+		eye.x[3] *= -1;
+	}
+	
+	/** +1 for left handed, -1 for right handed */
+	public void setOrientation(int _orientation) {
+		if (orientation != _orientation) {
+			swapOrientation();
+		}
+		changed();
+	}
+	
+	public int getOrientation() {
+		return orientation;
 	}
 
 }

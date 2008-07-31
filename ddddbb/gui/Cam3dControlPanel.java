@@ -14,9 +14,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import ddddbb.game.Opt;
-import ddddbb.gui3d.ButtonLeft3d;
+import ddddbb.game.Main.ViewAbsRel;
+import ddddbb.game.Main.ViewAbsRelEnum;
+import ddddbb.gen.IntModel;
+import ddddbb.gui3d.DArrowButton;
+import ddddbb.gui3d.DLabel;
+import ddddbb.gui3d.DPanel;
 import ddddbb.math.AOP;
+import ddddbb.math.Camera3d;
 import ddddbb.math.Point3d;
 
 /**
@@ -32,15 +37,15 @@ import ddddbb.math.Point3d;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 @SuppressWarnings("serial")
-public class Cam3dControlPanel extends JPanel {
+public class Cam3dControlPanel extends DPanel {
 	private JLabel xLabel;
 	private JLabel yLabel;
 	private JSeparator vSeparator;
-	private JTextField yzVal;
-	private JTextField xzVal;
-	private JTextField yPos;
-	private JTextField zPos;
-	private JTextField xPos;
+	private DLabel yzVal;
+	private DLabel xzVal;
+	private DLabel yPos;
+	private DLabel zPos;
+	private DLabel xPos;
 	private JButton reset;
 	private JButton yzRight;
 	private JButton xzRight;
@@ -56,32 +61,37 @@ public class Cam3dControlPanel extends JPanel {
 	private JButton xLeft;
 	private JLabel zLabel;
 
-	public Cam3dControlPanel() {
+	public Cam3dControlPanel(
+			final Camera3d camera3d,
+			final ViewAbsRelEnum viewAbsRel
+			) {
 		initGUI();
 		
-		xRight.addActionListener(UIAction.transCam3d(1));
-		yRight.addActionListener(UIAction.transCam3d(2));
-		zRight.addActionListener(UIAction.transCam3d(3));
-		xLeft.addActionListener(UIAction.transCam3d(-1));
-		yLeft.addActionListener(UIAction.transCam3d(-2));
-		zLeft.addActionListener(UIAction.transCam3d(-3));
+		Cam3dAction c3a = new Cam3dAction(camera3d,viewAbsRel);
 		
-		xzRight.addActionListener(UIAction.rotCam3d(1, 3));
-		yzRight.addActionListener(UIAction.rotCam3d(2, 3));
-		xzLeft.addActionListener(UIAction.rotCam3d(3, 1));
-		yzLeft.addActionListener(UIAction.rotCam3d(3, 2));
+		xRight.addActionListener(c3a.transCam3d(1));
+		yRight.addActionListener(c3a.transCam3d(2));
+		zRight.addActionListener(c3a.transCam3d(3));
+		xLeft.addActionListener(c3a.transCam3d(-1));
+		yLeft.addActionListener(c3a.transCam3d(-2));
+		zLeft.addActionListener(c3a.transCam3d(-3));
 		
-		reset.addActionListener(UIShownAction.cam3dReset);
+		xzRight.addActionListener(c3a.rotCam3d(1, 3));
+		yzRight.addActionListener(c3a.rotCam3d(2, 3));
+		xzLeft.addActionListener(c3a.rotCam3d(3, 1));
+		yzLeft.addActionListener(c3a.rotCam3d(3, 2));
 		
-		Opt.scene.camera3d.addChangeListener(new ChangeListener() {
+		reset.addActionListener(camera3d.reset);
+		
+		camera3d.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				double[] o = Opt.scene.camera3d.eye.x;
+				double[] o = camera3d.eye.x;
 				xPos.setText(ViewPane.fnf.format(o[0]));
 				yPos.setText(ViewPane.fnf.format(o[1]));
 				zPos.setText(ViewPane.fnf.format(o[2]));
 				
-				Point3d v = Opt.scene.camera3d.viewingDirection();
+				Point3d v = camera3d.viewingDirection();
 				Point3d x = AOP.unitVector3(0);
 				Point3d y = AOP.unitVector3(1);
 				Point3d z = AOP.unitVector3(2);
@@ -124,27 +134,27 @@ public class Cam3dControlPanel extends JPanel {
 					zLabel.setText("z");
 				}
 				{
-					xLeft = new ButtonLeft3d();
+					xLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(xLeft, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yLeft = new BasicArrowButton(SwingConstants.WEST);
+					yLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(yLeft, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zLeft = new BasicArrowButton(SwingConstants.WEST);
+					zLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(zLeft, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xRight = new BasicArrowButton(SwingConstants.EAST);
+					xRight = new DArrowButton(SwingConstants.EAST);
 					this.add(xRight, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yRight = new BasicArrowButton(SwingConstants.EAST);
+					yRight = new DArrowButton(SwingConstants.EAST);
 					this.add(yRight, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zRight = new BasicArrowButton(SwingConstants.EAST);
+					zRight = new DArrowButton(SwingConstants.EAST);
 					this.add(zRight, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
@@ -158,19 +168,19 @@ public class Cam3dControlPanel extends JPanel {
 					yzLabel.setText("yz");
 				}
 				{
-					xzLeft = new BasicArrowButton(SwingConstants.WEST);
+					xzLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(xzLeft, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yzLeft = new BasicArrowButton(SwingConstants.WEST);
+					yzLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(yzLeft, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xzRight = new BasicArrowButton(SwingConstants.EAST);
+					xzRight = new DArrowButton(SwingConstants.EAST);
 					this.add(xzRight, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yzRight = new BasicArrowButton(SwingConstants.EAST);
+					yzRight = new DArrowButton(SwingConstants.EAST);
 					this.add(yzRight, new GridBagConstraints(8, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
@@ -179,34 +189,29 @@ public class Cam3dControlPanel extends JPanel {
 					reset.setText("reset");
 				}
 				{
-					xPos = new JTextField(3);
+					xPos = new DLabel(30,16);
 					this.add(xPos, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					xPos.setText("nan");
-					xPos.setEditable(false);
 				}
 				{
-					yPos = new JTextField(3);
+					yPos = new DLabel(30,16);
 					this.add(yPos, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					yPos.setText("nan");
-					yPos.setEditable(false);
 				}
 				{
-					zPos = new JTextField(3);
+					zPos = new DLabel(30,16);
 					this.add(zPos, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					zPos.setText("nan");
-					zPos.setEditable(false);
 				}
 				{
-					xzVal = new JTextField(3);
+					xzVal = new DLabel(30,16);
 					this.add(xzVal, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					xzVal.setText("nan");
-					xzVal.setEditable(false);
 				}
 				{
-					yzVal = new JTextField(3);
+					yzVal = new DLabel(30,16);
 					this.add(yzVal, new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					yzVal.setText("nan");
-					yzVal.setEditable(false);
 				}
 				{
 					vSeparator = new JSeparator(SwingConstants.VERTICAL);

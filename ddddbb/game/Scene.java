@@ -1,93 +1,48 @@
 package ddddbb.game;
 
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
-import ddddbb.comb.ACell;
-import ddddbb.comb.Cell;
-import ddddbb.comb.CellComplex;
-import ddddbb.comb.DCell;
 import ddddbb.comb.DLocation;
 import ddddbb.comb.DOp;
 import ddddbb.comb.DSignedAxis;
-import ddddbb.game.Opt.GameStatus;
+import ddddbb.game.Main.GameStatus;
 import ddddbb.gen.BoolModel;
+import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
-import ddddbb.gen.Model;
-import ddddbb.gen.MyChangeListener;
-import ddddbb.gen.SelectedListModel;
-import ddddbb.math.Camera4dParallel;
-import ddddbb.math.Camera3d;
+import ddddbb.gui.Performer;
 import ddddbb.math.Camera4d;
-import ddddbb.math.D3Graphics;
+import ddddbb.math.Camera4dParallel;
 import ddddbb.math.D4Tupel;
-import ddddbb.math.Param;
 import ddddbb.math.Point;
 import ddddbb.math.Point2d;
-import ddddbb.math.Point3d;
 import ddddbb.math.Point4d;
-import ddddbb.math.Camera4d.ProjectionException;
-import ddddbb.math.Param.Occlusion4dAllowance;
 import ddddbb.sound.Sound;
 
-public class Scene extends Model implements MyChangeListener {
+public class Scene extends Scene4d {
 	public final IntModel<GameStatus> gameStatus;
 	//	public Vector<Facet> allFacets = new Vector<Facet>();
 	public String name;
 	public Compound goal;
 
-	public SelectedListModel<Compound> compounds = new SelectedListModel<Compound>();
-	public Camera4d camera4d; //default
-	public Camera3d camera3d = new Camera3d();
-	
 	public D4Tupel cursor = new D4Tupel(0,0,0,0);
-	public BoolModel showGoal;
+	//public BoolModel showGoal;
 
-	private void setCompounds(int[][][] cs) {
-		compounds.clear();
-		for (int i=0;i<cs.length;i++) {
-			compounds.add(new Compound(DOp.clone(cs[i])));
-		}
-		updateFaces3d(compounds);
-	}
-	
-	public void setToDefault() {
-		//init(0);
-	}
-	
-	public Scene(IntModel<GameStatus> _gameStatus,BoolModel _showGoal) {
-		super();
+	public Scene(
+			final DoubleModel zoom, 
+			final IntModel<SimpleSwitches.Orientation4d> orientation4d,
+			final IntModel<SimpleSwitches.Orientation3d> orientation3d,
+			final BoolModel showGoal,
+			final IntModel<Camera4d> perspective,
+			final IntModel<SimpleSwitches.Occlusion4dAllowance> occlusion4dAllowance,
+			final BoolModel showInternalFaces,
+			final DoubleModel screenEyeDist,
+			final DoubleModel eyesDistHalf,
+			final DoubleModel barEyeFocusDelta,
+			IntModel<GameStatus> _gameStatus) {
+		super(zoom,orientation4d,orientation3d,showGoal,perspective,occlusion4dAllowance,showInternalFaces,screenEyeDist,eyesDistHalf,barEyeFocusDelta);
 		gameStatus = _gameStatus;
-		showGoal = _showGoal;
-		updateCamera();
-		showGoal.addChangeListener(new MyChangeListener() {
-			public void stateChanged() {
-				if (showGoal.isSelected()) {
-					Sound.SHOWGOAL.play();
-				}
-			}});
-		Param.perspective.addChangeListener(new MyChangeListener() {
-			public void stateChanged() {
-				updateCamera();
-			}
-		});
-		Param.occlusion4dAllowance.addChangeListener(recomputeFacing);
-//		Param.perspectiveAxis.addChangeListener(new MyChangeListener() {
-//			public void stateChanged() {
-//				camera4d.setDirec(Param.perspectiveAxis.getSelectedObject());
-//				changed();
-//			}});
-		Param.showInternalFaces.addChangeListener(new MyChangeListener(){
-			public void stateChanged() {
-				updateCompoundGrid();
-			}});
-		Opt.zoom.addChangeListener(new MyChangeListener() {
-			public void stateChanged() {
-				camera4d.setZoom(
-						((Double)Opt.zoom.getValue()).doubleValue());
-			}
-		});
-
 	}
 
 	private void propagateGameStatus() {
@@ -113,22 +68,6 @@ public class Scene extends Model implements MyChangeListener {
 		}
 	}
 	
-	public void updateCompoundGrid() {
-		for (Compound compound: compounds) {
-			compound.setShowGrid(Param.showInternalFaces.isSelected());
-		}		
-	}
-	protected void updateCamera() {
-		if (camera4d!=null) { 
-			camera4d.removeChangeListener(this);
-			camera4d.removeChangeListener(recomputeFacing);
-		}
-		camera4d = Param.perspective.getSelectedObject();
-		camera4d.addChangeListener(this);
-		camera4d.addChangeListener(recomputeFacing);
-		changed();		
-	}
-	
 	private void setGoal(int[][] c) {
 		goal = new Compound(c);
 	}
@@ -136,20 +75,12 @@ public class Scene extends Model implements MyChangeListener {
 	public void changeObjective(Objectives objective) {
 		setGoal(objective.goal);
 		setCompounds(objective.compounds);
-		updateVisibility();
 		propagateGameStatus();
 	}
 	
 //	public Compound getSelected() {
 //		return (Compound)compounds.getSelectedObject();
 //	}
-	
-	public void addChangeListener(MyChangeListener l) {
-		super.addChangeListener(l);
-		compounds.addChangeListener(l);
-		camera3d.addChangeListener(l);
-		showGoal.addChangeListener(l);
-	}
 	
 //	public boolean move(D4Tupel t) {
 //		return move(t.x1,t.x2,t.x3,t.x4);
@@ -169,10 +100,12 @@ public class Scene extends Model implements MyChangeListener {
 		return true;
 	}
 	
-	private void updateVisibility() {
-		for (DCell of: faces3d) {
-			of.setFacing(camera4d);
-		}		
+	public Performer transSelected(final int direc) {
+		return new Performer() {
+			public void actionPerformed(ActionEvent e) {
+				transSelected(new DSignedAxis(direc));
+			}
+		};
 	}
 	
 	public boolean rotateSelected(int v, int w) {
@@ -193,6 +126,15 @@ public class Scene extends Model implements MyChangeListener {
 		Sound.ROTATINGCOMPOUND.play();
 		return true;
 	}
+	
+	public ActionListener rotSelected(final int a1, final int a2) {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rotateSelected(a1-1, a2-1);
+			}
+		};
+	}
+
 	
 	private boolean isOverlapping() {
 		int[][][] cs = new int[compounds.size()][][];
@@ -235,6 +177,13 @@ public class Scene extends Model implements MyChangeListener {
 		propagateGameStatus();
 	}
 	
+	public Performer combineTouchingSelected  = new Performer() {
+		public void actionPerformed(ActionEvent e) {
+			combine();
+		}		
+	};
+
+	
 	public static final Point4d[][] unitVector4d = new Point4d[][] {
 		new Point4d[] {
 				new Point4d(1,0,0,0),
@@ -249,83 +198,6 @@ public class Scene extends Model implements MyChangeListener {
 				new Point4d( 0, 0, 0, -1 )
 		}
 	};
-	
-	protected List<DCell> faces3d;
-	
-	private void updateFaces3d(List<Compound> cs) {
-		faces3d = new Vector<DCell>(); 
-		for (Compound c : cs) {
-			DCell[] facets4d = c.getTopLevelFacets();
-			for (int i=0;i<facets4d.length;i++) {
-				faces3d.addAll(facets4d[i].getFaces(false));
-			}
-		}		
-	}
-
-	private final MyChangeListener recomputeFacing = new MyChangeListener() {
-		public void stateChanged() {
-			if (faces3d==null) return;
-			if (Param.occlusion4dAllowance.getInt()>=Param.Occlusion4dAllowance.BACKFACE.ordinal()) {
-				for (DCell of : faces3d) {
-					of.setFacing(camera4d);
-				}								
-			}
-			changed();
-		}
-	};
-	
-	private void paintScene(D3Graphics g3,List<Compound> cs) {
-		g3.clear();
-		//not in front faces:
-		
-		List<DCell> ffaces3d;
-		try {
-			for (DCell dc : faces3d) dc.proj3d2dIN(g3,camera4d);
-			ffaces3d = faces3d;
-		}
-		catch (ProjectionException e) {
-			ffaces3d = new Vector<DCell>();
-			for (DCell dc : faces3d) {
-				try {
-					dc.proj3d2dIN(g3,camera4d);
-					ffaces3d.add(dc);
-				} catch (ProjectionException ee) {}
-			}			
-		}
-//		for (Compound c: cs) for (DLocation v : c.getAllFaces()[0]) {
-//			v.proj3d2dIN(g3,camera4d);
-//		}
-
-		Occlusion4dAllowance oa = Param.occlusion4dAllowance.getSelectedObject();
-		
-		if (oa == Param.Occlusion4dAllowance.NONE) {
-			for (DCell df3 : ffaces3d) g3.render3dFacet(df3);
-		}
-		else if (oa==Occlusion4dAllowance.BACKFACE) {
-			for (DCell df3 : ffaces3d) {
-				if (df3.facing) g3.render3dFacet(df3);
-			}
-		}
-		else if (oa==Occlusion4dAllowance.COMPLETE) {
-			Vector<DCell> dvisibles3 = new Vector<DCell>();
-			for (DCell df3 : ffaces3d) {
-				if (df3.facing) dvisibles3.add(df3);
-			}
-			ACell.sortByOcclusion(dvisibles3);
-			CellComplex visibles3 = new CellComplex(dvisibles3,camera4d);
-			assert visibles3.checkSnap();
-			assert visibles3.outsideReferrers().size() == 0;
-
-			visibles3.occlude();
-
-			for (Cell f1 : visibles3.getFacesOfDim(1, Opt.debug.isSelected())) {
-				if (!f1.isInternal()) {
-					g3.drawLine((Point3d)f1.a().o(), (Point3d)f1.b().o());
-				}
-			}
-		}
-	}
-	
 	
 	public void BoundaryCuboid3d(Point a,Point b) {
 		for (Compound c: compounds) for (DLocation v : c.getAllFaces()[0]) {
@@ -354,16 +226,16 @@ public class Scene extends Model implements MyChangeListener {
 		}
 	}
 	
-	public void paint(D3Graphics g3) {
-		if (showGoal.isSelected()) {
-			Vector<Compound> v = new Vector<Compound>();
-			v.add(goal);
-			updateFaces3d(v);
-			paintScene(g3,v);
-			updateFaces3d(compounds);
-		}
-		else { paintScene(g3,compounds); }
-	}
+//	public void paint(D3Graphics g3) {
+//		if (showGoal.isSelected()) {
+//			Vector<Compound> v = new Vector<Compound>();
+//			v.add(goal);
+//			updateFaces3d(v);
+//			paintScene(g3,v);
+//			updateFaces3d(compounds);
+//		}
+//		else { paintScene(g3,compounds); }
+//	}
 
 	public void stateChanged() {
 		changed();

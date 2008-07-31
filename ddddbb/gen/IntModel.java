@@ -11,13 +11,15 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 
-import ddddbb.game.Opt;
+import ddddbb.game.Main;
+import ddddbb.gui.Performer;
 
 
 public class IntModel<T> extends Model implements ComboBoxModel {
@@ -43,19 +45,8 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		return i;
 	}
 	
-	public IntModel(T _selectedItem,T[] _values) {
-		this(obj2int(_selectedItem,_values),null,_values);
-	}
-
-	public IntModel(int i,T[] _values) {
-		this(i,null,_values);
-	}
-
-	public IntModel(T[] _values) {
-		this(0,null,_values);
-	}
-	
-	public IntModel(int _value,String[] _names,T[] _items) {
+	protected IntModel() {}
+	protected void init(int _value,String[] _names,T[] _items) {
 		assert 0 <= _value && _value < _items.length;
 		assert _names == null || _names.length == _items.length;
 		value = _value;
@@ -72,6 +63,38 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		}
 //		if (_names == null) { names = namesOf(items); } 
 //		else { names = arr2Vec(_names); }
+	}
+	
+	public IntModel(T _selectedItem,T[] _values) {
+		init(_selectedItem,_values);
+	}
+	protected void init(T _selectedItem,T[] _values) {
+		init(obj2int(_selectedItem,_values),null,_values);
+	}
+
+	public IntModel(int i,T[] _values) {
+		this(i,null,_values);
+	}
+
+	public IntModel(T[] _values) {
+		this(0,null,_values);
+	}
+	
+	public IntModel(int _value,String[] _names,T[] _items) {
+		init(_value,_names,_items);
+	}
+	
+	public IntModel(T initial, String[] _names, T[] _items) {
+		init(initial,_names,_items);
+	}
+	protected void init(T initial, String[] _names, T[] _items) {
+		int i=0;
+		for (;i<_items.length;i++) {
+			if (_items[i]==initial) {
+				break;
+			}
+		}
+		init(i,_names,_items);
 	}
 	
 	public void setToDefault() {
@@ -108,6 +131,12 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		changed();
 	}
 	
+	public ActionListener actionNextRot  = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			setInt((getInt()+1)%items.size());
+		}
+	};
+
 	private class MyActionListener implements ActionListener {
 		private int i;
 		public MyActionListener(int _i) {
@@ -124,7 +153,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 			b.setText(names.elementAt(index));
 		}
 		b.addActionListener(new MyActionListener(index));
-		changed(); //do we need this?
+		updateButtonStates();
 	}
 	
 	public void setSelectedItem(Object anItem) {
@@ -243,7 +272,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	
 	public void addAsCards(Container c, CardLayout l) {
 		for (int i=0;i<getSize();i++) {
-			c.add(((Opt.ShowedScreen)getObjects().get(i)).panel(),names.get(i));
+			c.add((JPanel)getObjects().get(i),names.get(i));
 		}
 		addChangeListener(new CardListener(c,l));
 	}
@@ -258,19 +287,23 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 			b.setEnabled(enabled);
 		}		
 	}
-	public void changed() {
-		super.changed();
+
+	public void updateButtonStates() {
 		for (Vector<AbstractButton> bs:buttons) for (AbstractButton b:bs) {
-			b.setSelected(false);
+			b.setSelected(false); //triggers no action event
 		}
 		if (-1 < value && value < buttons.size()) { 
 			//does not fire actionEvent
 			for (AbstractButton b:buttons.get(value)) {
-				b.setSelected(true);
+				b.setSelected(true); //triggers no action event
 			}
 		}
-		propagateEnabled();
-//		System.out.println(value);
+		propagateEnabled();		
+	}
+	
+	public void changed() {
+		super.changed();
+		updateButtonStates();
 	}
 
 

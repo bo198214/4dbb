@@ -12,7 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ddddbb.game.Opt;
+import ddddbb.game.ScreenValues;
+import ddddbb.game.SimpleSwitches;
+import ddddbb.gen.DoubleModel;
+import ddddbb.gen.IntModel;
 import ddddbb.math.Camera3d;
 import ddddbb.math.D2Graphics;
 import ddddbb.math.D3Graphics;
@@ -29,24 +32,47 @@ public class TestScreenCanvas extends JPanel implements ChangeListener {
 	private D3Graphics g3;
 	private Composite ocomposite;
 	
+
+	private final DoubleModel xdpcm;
+	private final DoubleModel ydpcm;
+	private final IntModel<SimpleSwitches.ViewType> viewType;
+	private final DoubleModel brightness;
+	private final DoubleModel eyesDistHalf;
+	private final DoubleModel screenEyeDist;
+	private final DoubleModel barEyeFocusDelta;
+	
+	public TestScreenCanvas(
+			final DoubleModel _xdpcm,
+			final DoubleModel _ydpcm,
+			final DoubleModel _brightness,
+			final IntModel<SimpleSwitches.ViewType> _viewType,
+			final DoubleModel _eyesDistHalf,
+			final DoubleModel _screenEyeDist,
+			final DoubleModel _barEyeFocusDelta
+	) {
+		super();
+		xdpcm = _xdpcm;
+		ydpcm = _ydpcm;
+		viewType = _viewType;
+		brightness = _brightness;
+		eyesDistHalf = _eyesDistHalf;
+		screenEyeDist = _screenEyeDist;
+		barEyeFocusDelta = _barEyeFocusDelta;
+		setPreferredSize();
+		eyesDistHalf.addChangeListener(this);
+		screenEyeDist.addChangeListener(this);
+		xdpcm.addChangeListener(this);
+		ydpcm.addChangeListener(this);
+		brightness.addChangeListener(this);
+		barEyeFocusDelta.addChangeListener(this);
+		viewType.addChangeListener(this);
+	}
 	
 	public void setPreferredSize() {
 		setPreferredSize(new Dimension(
-				10+(int)(Opt.xdpcm.getDouble(Opt.ResolutionUnit.DotsPerInch)),
-				10+(int)(Opt.ydpcm.getDouble(Opt.ResolutionUnit.DotsPerInch))
+				10+(int)(xdpcm.getDouble(ScreenValues.ResolutionUnit.DotsPerInch)),
+				10+(int)(ydpcm.getDouble(ScreenValues.ResolutionUnit.DotsPerInch))
 		));
-	}
-	
-	public TestScreenCanvas() {
-		super();
-		setPreferredSize();
-		Opt.eyesDistHalf.addChangeListener(this);
-		Opt.screenEyeDist.addChangeListener(this);
-		Opt.xdpcm.addChangeListener(this);
-		Opt.ydpcm.addChangeListener(this);
-		Opt.brightness.addChangeListener(this);
-		Opt.barEyeFocusDelta.addChangeListener(this);
-		Opt.viewType.addChangeListener(this);
 	}
 	
 	private void initializeGraphics() {
@@ -62,8 +88,8 @@ public class TestScreenCanvas extends JPanel implements ChangeListener {
 		g.setTransform(new AffineTransform());
 		g.translate(width/2,height/2);
 		ocomposite = g.getComposite();
-		g2 = new D2Graphics(g,Opt.xdpcm.getDouble(),Opt.ydpcm.getDouble());
-		g3 = Opt.viewType.getSelectedObject().getD3Graphics(g2, new Camera3d());
+		g2 = new D2Graphics(g,xdpcm.getDouble(),ydpcm.getDouble());
+		g3 = viewType.getSelectedObject().getD3Graphics(g2, new Camera3d(screenEyeDist,eyesDistHalf,barEyeFocusDelta));
 	}
 	
 	private void drawTestCube(double x0,double y0) {
@@ -100,7 +126,7 @@ public class TestScreenCanvas extends JPanel implements ChangeListener {
 	}
 
 	private void test3D(double y0) {
-		g3.setBrightness(Opt.brightness.getDouble());
+		g3.setBrightness(brightness.getDouble());
 		drawTestCube(0, y0);
 	}
 	

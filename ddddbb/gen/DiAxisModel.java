@@ -1,6 +1,6 @@
 package ddddbb.gen;
 
-import ddddbb.game.Opt;
+import ddddbb.game.Main;
 
 
 
@@ -8,12 +8,12 @@ public class DiAxisModel extends IntStringModel {
 	
 	public DiAxisModel(int axis1,int axis2) {
 		super(axis12(axis1,axis2), new String[] {
-			Opt.axisNames[0]+ Opt.axisNames[1],
-			Opt.axisNames[0]+ Opt.axisNames[2],
-			Opt.axisNames[0]+ Opt.axisNames[3],
-			Opt.axisNames[1]+ Opt.axisNames[2],
-			Opt.axisNames[1]+ Opt.axisNames[3],
-			Opt.axisNames[2]+ Opt.axisNames[3],
+			Main.axisNames[0]+ Main.axisNames[1],
+			Main.axisNames[0]+ Main.axisNames[2],
+			Main.axisNames[0]+ Main.axisNames[3],
+			Main.axisNames[1]+ Main.axisNames[2],
+			Main.axisNames[1]+ Main.axisNames[3],
+			Main.axisNames[2]+ Main.axisNames[3],
 			});
 	}
 

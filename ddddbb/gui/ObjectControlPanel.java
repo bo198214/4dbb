@@ -17,7 +17,12 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import ddddbb.game.Compound;
-import ddddbb.game.Opt;
+import ddddbb.game.Scene;
+import ddddbb.gen.BoolModel;
+import ddddbb.gen.SelectedListModel;
+import ddddbb.gui3d.DArrowButton;
+import ddddbb.gui3d.DLabel;
+import ddddbb.gui3d.DPanel;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -32,7 +37,7 @@ import ddddbb.game.Opt;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 @SuppressWarnings("serial")
-public class ObjectControlPanel extends JPanel {
+public class ObjectControlPanel extends DPanel {
 	private JLabel yLabel;
 	private JSeparator jSeparator1;
 	private JLabel ywLabel;
@@ -43,14 +48,14 @@ public class ObjectControlPanel extends JPanel {
 	private JButton xzRightRot;
 	private JButton xzLeftRot;
 	private JToggleButton goal;
-	private JTextField wPos;
-	private JTextField zPos;
-	private JTextField yPos;
-	private JTextField nPos;
+	private DLabel wPos;
+	private DLabel zPos;
+	private DLabel yPos;
+	private DLabel nPos;
 	private JLabel nLabel;
 	private JButton nRight;
 	private JButton nLeft;
-	private JTextField xPos;
+	private DLabel xPos;
 	private JButton wRight;
 	private JButton zRight;
 	private JButton yRight;
@@ -63,36 +68,39 @@ public class ObjectControlPanel extends JPanel {
 	private JLabel zLabel;
 	private JLabel xLabel;
 
-	public ObjectControlPanel() {
+	public ObjectControlPanel(
+			final Scene scene,
+			final BoolModel showGoal
+	) {
 		initGUI();
-		xRight.addActionListener(UIAction.transSelected(1));
-		yRight.addActionListener(UIAction.transSelected(2));
-		zRight.addActionListener(UIAction.transSelected(3));
-		wRight.addActionListener(UIAction.transSelected(4));
-		xLeft.addActionListener(UIAction.transSelected(-1));
-		yLeft.addActionListener(UIAction.transSelected(-2));
-		zLeft.addActionListener(UIAction.transSelected(-3));
-		wLeft.addActionListener(UIAction.transSelected(-4));
-		xzRightRot.addActionListener(UIAction.rotSelected(1, 3));
-		ywRightRot.addActionListener(UIAction.rotSelected(2, 4));
-		xzLeftRot.addActionListener(UIAction.rotSelected(3, 1));
-		ywLeftRot.addActionListener(UIAction.rotSelected(4, 2));
+		xRight.addActionListener(scene.transSelected(1));
+		yRight.addActionListener(scene.transSelected(2));
+		zRight.addActionListener(scene.transSelected(3));
+		wRight.addActionListener(scene.transSelected(4));
+		xLeft.addActionListener(scene.transSelected(-1));
+		yLeft.addActionListener(scene.transSelected(-2));
+		zLeft.addActionListener(scene.transSelected(-3));
+		wLeft.addActionListener(scene.transSelected(-4));
+		xzRightRot.addActionListener(scene.rotSelected(1, 3));
+		ywRightRot.addActionListener(scene.rotSelected(2, 4));
+		xzLeftRot.addActionListener(scene.rotSelected(3, 1));
+		ywLeftRot.addActionListener(scene.rotSelected(4, 2));
 		
-		nLeft.addActionListener(UIShownAction.prevSelected);
-		nRight.addActionListener(UIShownAction.nextSelected);
+		nLeft.addActionListener(scene.compounds.prevSelected);
+		nRight.addActionListener(scene.compounds.nextSelected);
 		
-		goal.addActionListener(UIShownAction.showGoal);
-		combine.addActionListener(UIShownAction.combineTouchingSelected);
+		goal.addActionListener(showGoal.toggle);
+		combine.addActionListener(scene.combineTouchingSelected);
 		
-		Opt.scene.compounds.addChangeListener(new ChangeListener() {
+		scene.compounds.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				nPos.setText((Opt.scene.compounds.getSelected()+1)+"");
+				nPos.setText((scene.compounds.getSelected()+1)+"");
 			}});
-		Opt.scene.addChangeListener(new ChangeListener() {
+		scene.compounds.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				Compound co = Opt.scene.compounds.getSelectedItem();
+				Compound co = scene.compounds.getSelectedItem();
 				if (co==null) {
 					xPos.setText("n/a");
 					yPos.setText("n/a");
@@ -143,49 +151,48 @@ public class ObjectControlPanel extends JPanel {
 					wLabel.setText("w");
 				}
 				{
-					xLeft = new BasicArrowButton(SwingConstants.WEST);
+					xLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(xLeft, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yLeft = new BasicArrowButton(SwingConstants.WEST);
+					yLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(yLeft, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zLeft = new BasicArrowButton(SwingConstants.WEST);
+					zLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(zLeft, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					wLeft = new BasicArrowButton(SwingConstants.WEST);
+					wLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(wLeft, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xRight = new BasicArrowButton(SwingConstants.EAST);
+					xRight = new DArrowButton(SwingConstants.EAST);
 					this.add(xRight, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yRight = new BasicArrowButton(SwingConstants.EAST);
+					yRight = new DArrowButton(SwingConstants.EAST);
 					this.add(yRight, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zRight = new BasicArrowButton(SwingConstants.EAST);
+					zRight = new DArrowButton(SwingConstants.EAST);
 					this.add(zRight, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					wRight = new BasicArrowButton(SwingConstants.EAST);
+					wRight = new DArrowButton(SwingConstants.EAST);
 					this.add(wRight, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xPos = new JTextField(3);
-					xPos.setEditable(false);
+					xPos = new DLabel(30,16);
 					this.add(xPos, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					xPos.setText(" -0");
 				}
 				{
-					nLeft = new BasicArrowButton(SwingConstants.WEST);
+					nLeft = new DArrowButton(SwingConstants.WEST);
 					this.add(nLeft, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					nRight = new BasicArrowButton(SwingConstants.EAST);
+					nRight = new DArrowButton(SwingConstants.EAST);
 					this.add(nRight, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
@@ -194,23 +201,19 @@ public class ObjectControlPanel extends JPanel {
 					nLabel.setText("n");
 				}
 				{
-					nPos = new JTextField(3);
-					nPos.setEditable(false);
+					nPos = new DLabel(30,16);
 					this.add(nPos, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					yPos = new JTextField(3);
-					yPos.setEditable(false);
+					yPos = new DLabel(30,16);
 					this.add(yPos, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					zPos = new JTextField(3);
-					zPos.setEditable(false);
+					zPos = new DLabel(30,16);
 					this.add(zPos, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					wPos = new JTextField(3);
-					wPos.setEditable(false);
+					wPos = new DLabel(30,16);
 					this.add(wPos, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
@@ -238,19 +241,19 @@ public class ObjectControlPanel extends JPanel {
 					this.add(jSeparator1, new GridBagConstraints(0, 1, 9, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xzLeftRot = new BasicArrowButton(SwingConstants.WEST);;
+					xzLeftRot = new DArrowButton(SwingConstants.WEST);;
 					this.add(xzLeftRot, new GridBagConstraints(6, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					xzRightRot = new BasicArrowButton(SwingConstants.EAST);;
+					xzRightRot = new DArrowButton(SwingConstants.EAST);;
 					this.add(xzRightRot, new GridBagConstraints(7, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					ywLeftRot = new BasicArrowButton(SwingConstants.WEST);;
+					ywLeftRot = new DArrowButton(SwingConstants.WEST);;
 					this.add(ywLeftRot, new GridBagConstraints(6, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 				{
-					ywRightRot = new BasicArrowButton(SwingConstants.EAST);
+					ywRightRot = new DArrowButton(SwingConstants.EAST);
 					this.add(ywRightRot, new GridBagConstraints(7, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				}
 			}

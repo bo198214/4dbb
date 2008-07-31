@@ -1,10 +1,14 @@
 package ddddbb.gen;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
+
+import ddddbb.gui.Performer;
 
 
 public class SelectedListModel<T> extends Model implements List<T> {
@@ -27,6 +31,14 @@ public class SelectedListModel<T> extends Model implements List<T> {
 		selected = i;
 		changed();
 	}
+	public ActionListener setSelectedAction(final int i) {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setSelected(i);
+			}
+			
+		};
+	}
 
 	public T getSelectedItem() {
 		if (selected == -1) { return null; }
@@ -38,12 +50,33 @@ public class SelectedListModel<T> extends Model implements List<T> {
 		else { setSelected(selected+1); }
 		changed();
 	}
-	
+
+	public Performer nextSelected  = new Performer()  {
+		public void actionPerformed(ActionEvent e) {
+			nextSelected();
+		}		
+	};
+
+	public ActionListener actionSetSelected(final int i) {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setSelected(i);
+			}		
+		};
+	}
+
 	public void prevSelected() {
 		if (selected == 0) { setSelected(items.size()-1); }
 		else { setSelected(selected-1); }
 		changed();
 	}
+	
+	public Performer prevSelected = new Performer()  {
+		public void actionPerformed(ActionEvent e) {
+			prevSelected();
+		}		
+	};
+
 	
 	
 	public void clear() {

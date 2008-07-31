@@ -6,99 +6,62 @@ import java.text.DecimalFormat;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ddddbb.game.Opt;
+import ddddbb.game.Objectives;
+import ddddbb.game.Scene;
+import ddddbb.game.Scene4d;
+import ddddbb.game.ScreenValues;
+import ddddbb.game.SimpleSwitches;
+import ddddbb.game.Main.ViewAbsRelEnum;
+import ddddbb.gen.BoolModel;
+import ddddbb.gen.DoubleModel;
+import ddddbb.gen.IntModel;
+import ddddbb.gen.IntStringModel;
 import ddddbb.gen.MyChangeListener;
+import ddddbb.math.Camera4d;
 
 public class ViewPane extends JPanel {
 	private static final long serialVersionUID = -6532380335237721850L;
-
-	private Cam4dControlPanel viewControlPanel = null;
-
-//	private ViewScreen viewScreen = null;
-
-	private JPanel modelPanel = null;
-
 	private JPanel southPanel = null;
-
 	protected JLabel objectiveLabel = null;
-
 	JLabel compoundx1Label = null;
-
 	JLabel compoundx2Label = null;
-
 	JLabel compoundx3Label = null;
-
 	JLabel compoundx4Label = null;
-
 	JLabel selectedCompoundLabel = null;
+	public ViewScreen viewScreen;
 
 	public static DecimalFormat nf = new DecimalFormat("###");
 	public static DecimalFormat fnf = new DecimalFormat("#.#");
 	/**
 	 * This is the default constructor
 	 */
-	public ViewPane() {
+	public ViewPane(
+			final Scene scene,
+			final BoolModel showGoal,
+			final DoubleModel zoom,
+			final ViewAbsRelEnum viewAbsRel,
+			final IntStringModel dim34,
+			final IntModel<Objectives> objectives,
+			final ScreenValues sv,
+			final IntModel<Camera4d> perspective,
+			final BoolModel drawTetrahedral,
+			final BoolModel showInternalFaces,
+			final BoolModel antiAliased,
+			final IntModel<SimpleSwitches.ViewType> viewType,
+			final IntStringModel viewTransAxis,
+			final IntStringModel d3ViewRotAxis,
+			final Scene4d goalScene
+		) {
 		super();
+		viewScreen = new ViewScreen(scene,sv,perspective,drawTetrahedral,showInternalFaces,zoom,antiAliased,viewType,dim34,
+				viewAbsRel,viewTransAxis,d3ViewRotAxis,showGoal,goalScene);
+		southPanel = new ControlPanel(scene,showGoal,zoom,viewAbsRel,dim34);
+		objectiveLabel = new JLabel();
+		objectives.addChangeListener(new MyChangeListener() {
+			public void stateChanged() {
+				objectiveLabel.setText(objectives.getSelectedObject().toString());
+			}});
 		initialize();
-	}
-
-	/**
-	 * This method initializes unitComboBox	
-	 * 	
-	 * @return javax.swing.JComboBox	
-	 */
-	/**
-	 * This method initializes viewControlPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */
-	private JPanel getCam4dControlPanel() {
-		if (viewControlPanel == null) {
-			viewControlPanel = new Cam4dControlPanel();
-			//Opt.scene.addChangeListener(viewControlPanel);
-		}
-		return viewControlPanel;
-	}
-
-	/**
-	 * This method initializes viewScreen	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */
-	ViewScreen getViewScreen() {
-		if (Opt.viewScreen == null) {
-			Opt.viewScreen = new ViewScreen();
-//			canvasPanelCardLayout = new CardLayout(); 
-//			viewScreen = new JPanel(canvasPanelCardLayout);
-////			System.out.println(ViewType.selected);
-//
-//			Opt.viewType.addAsCards(viewScreen,canvasPanelCardLayout);
-////			viewScreen.setFocusable(true);
-////			viewScreen.requestFocusInWindow();
-////			viewScreen.addKeyListener(new KeyControl());
-////			viewScreen.addMouseListener(new MouseListener() {
-////				public void mouseClicked(MouseEvent e) {}
-////				public void mouseEntered(MouseEvent e) {
-////					viewScreen.requestFocus();
-////				}
-////				public void mouseExited(MouseEvent e) {	}
-////				public void mousePressed(MouseEvent e) {}
-////				public void mouseReleased(MouseEvent e) {}
-////			});
-		}
-		return Opt.viewScreen;
-	}
-
-	/**
-	 * This method initializes modelPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */
-	private JPanel getObjectControlPanel() {
-		if (modelPanel == null) {
-			modelPanel = new ObjectControlPanel();
-		}
-		return modelPanel;
 	}
 
 	/**
@@ -110,8 +73,8 @@ public class ViewPane extends JPanel {
 		this.setSize(1002, 655);
 		setLayout(new BorderLayout());
 		//add(getViewPanel(), BorderLayout.CENTER);
-		this.add(getViewScreen(), java.awt.BorderLayout.CENTER);
-		this.add(getSouthPanel(), java.awt.BorderLayout.SOUTH);
+		this.add(viewScreen, java.awt.BorderLayout.CENTER);
+		this.add(southPanel, java.awt.BorderLayout.SOUTH);
 //		add(getCanvasPanel(), java.awt.BorderLayout.CENTER);
 //		this.add(getSouthPanel(), java.awt.BorderLayout.SOUTH);
 //		Opt.viewType.addChangeListener(new ChangeListener(){
@@ -119,29 +82,6 @@ public class ViewPane extends JPanel {
 //				showSelectedViewType();
 //			}
 //		});
-	}
-
-	/**
-	 * This method initializes southPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */
-	private JPanel getSouthPanel() {
-		if (southPanel == null) {
-			southPanel = new ControlPanel();
-		}
-		return southPanel;
-	}
-
-	private JLabel getObjectiveLabel() {
-		if (objectiveLabel == null) {
-			objectiveLabel = new JLabel();
-			Opt.objectives.addChangeListener(new MyChangeListener() {
-				public void stateChanged() {
-					objectiveLabel.setText(Opt.objectives.getSelectedObject().toString());
-				}});
-		}
-		return objectiveLabel;
 	}
 
 //	public String toString() {

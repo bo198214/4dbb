@@ -1,5 +1,7 @@
 package ddddbb.math;
 
+import ddddbb.gen.DoubleModel;
+
 
 
 

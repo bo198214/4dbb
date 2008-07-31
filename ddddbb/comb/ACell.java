@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Vector;
 
+import ddddbb.game.Main;
 import ddddbb.math.Camera4d;
 import ddddbb.math.HalfSpace;
-import ddddbb.math.Param;
 import ddddbb.math.Point;
 
 public abstract class ACell {
@@ -61,7 +61,7 @@ public abstract class ACell {
 	
 	/* Checks whether this cell is closed */
 	public boolean checkClosed() {
-		if ( ! Param.debug.isSelected() ) { return true; }
+		if ( ! Main.debug.isSelected() ) { return true; }
 		if ( dim() == 0 ) { return true; }
 		if ( dim() == 1 ) { return facets().size() == 2; }
 		for (ACell fm1: facets()) {

@@ -2,6 +2,7 @@ package ddddbb.math;
 
 import ddddbb.comb.DCell;
 import ddddbb.comb.DCenter;
+import ddddbb.gen.IntModel;
 import ddddbb.gen.MyChangeListener;
 
 public class D4Graphics {
@@ -9,12 +10,13 @@ public class D4Graphics {
 //	private double blobRadius = 0.2;
 	protected Camera4d c4;
 	
-	public D4Graphics(D3Graphics _g,Camera4d _c4) {
+	public D4Graphics(D3Graphics _g,Camera4d _c4,
+			final IntModel<Camera4d> perspective) {
 		c4 = _c4;
 		g3 = _g;
-		ddddbb.math.Param.perspective.addChangeListener(new MyChangeListener() {
+		perspective.addChangeListener(new MyChangeListener() {
 			public void stateChanged() {
-				c4 = ddddbb.math.Param.perspective.getSelectedObject();
+				c4 = perspective.getSelectedObject();
 			}});
 	}
 	

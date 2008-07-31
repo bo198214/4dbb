@@ -9,6 +9,8 @@ import javax.swing.AbstractButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JToggleButton;
 
+import ddddbb.gui.Performer;
+
 
 public class BoolModel extends Model {
 	private static final long serialVersionUID = -5154608494749418813L;
@@ -77,4 +79,11 @@ public class BoolModel extends Model {
 			b.setEnabled(enabled);
 		}
 	}
+
+	public ActionListener toggle  = new ActionListener()  {
+		public void actionPerformed(ActionEvent e) {
+			setSelected(!isSelected());
+		}
+	};
+
 }

@@ -1,8 +1,12 @@
 package ddddbb.gen;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.event.ChangeListener;
+
+import ddddbb.gui.Performer;
 
 public abstract class Model implements MyChangeListener {
 	public Vector<MyChangeListener> changeListeners = new Vector<MyChangeListener>();
@@ -12,6 +16,12 @@ public abstract class Model implements MyChangeListener {
 //			l.stateChanged(e);
 //		}
 //	}
+
+	public ActionListener reset = new Performer()  {
+		public void actionPerformed(ActionEvent e) {
+			setToDefault();
+		}
+	};
 
 	public void changed() {
 		for (MyChangeListener l : changeListeners) {

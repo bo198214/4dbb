@@ -1,7 +1,5 @@
 package ddddbb.math;
 
-
-
 public class CrossEyedGraphics extends BarEyeGraphics {
 	private static final long serialVersionUID = -1037265581164570519L;
 

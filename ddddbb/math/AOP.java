@@ -4,6 +4,8 @@ package ddddbb.math;
 
 public class AOP {
 
+	public static final double deg = Math.PI*2/360;
+
 	private static final Point4d[] UNITVECTOR4 = new Point4d[] {
 		new Point4d(1,0,0,0),
 		new Point4d(0,1,0,0),
@@ -85,6 +87,18 @@ public class AOP {
 		}
 	}
 	
+	public static boolean isOrthoNormal(Point[] v) {
+		int n = v.length;
+		for (int i=0;i<n;i++) {
+			for (int j=i+1;j<n;j++) {
+				if (!isZero(v[i].sc(v[j]))) return false;
+			}
+		}
+		for (int i=0;i<n;i++) {
+			if (!eq(v[i].len(),1)) return false;
+		}
+		return true;
+	}
 	public static void orthogonalize(Point v, Point w) {
 		w.subtract(v.proj(w));
 	}
@@ -113,6 +127,7 @@ public class AOP {
 		for (int i=0;i<v.length;i++) {
 			v[i].normalize();
 		}
+		assert isOrthoNormal(v);
 	}
 	
 //	/** @see #rotate(double, Point4d, Point4d) */
@@ -144,7 +159,7 @@ public class AOP {
 	public static boolean isZero(double x) {
 		return Math.abs(x) < ERR;
 	}
-	public static boolean equal(double x, double y) {
+	public static boolean eq(double x, double y) {
 		return isZero(x-y);
 	}
 
