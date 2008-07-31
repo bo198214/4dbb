@@ -253,7 +253,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		return cb;
 	}
 	
-	public class CardListener implements ChangeListener {
+	public class CardListener implements MyChangeListener {
 		Container container;
 		CardLayout layout;
 		CardListener(Container c,CardLayout l) {
@@ -261,7 +261,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 			layout=l;
 		}
 
-		public void stateChanged(ChangeEvent e) {
+		public void stateChanged() {
 			layout.show(container,getSelectedName());			
 		}
 		

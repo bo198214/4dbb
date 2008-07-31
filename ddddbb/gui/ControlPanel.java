@@ -5,15 +5,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ddddbb.game.Scene;
-import ddddbb.game.Main.ViewAbsRel;
 import ddddbb.game.Main.ViewAbsRelEnum;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.DoubleModel;
-import ddddbb.gen.IntModel;
 import ddddbb.gen.IntStringModel;
 import ddddbb.gui3d.DPanel;
-import ddddbb.math.Camera3d;
-import ddddbb.math.Camera4d;
 
 
 @SuppressWarnings("serial")
@@ -30,8 +26,8 @@ public class ControlPanel extends DPanel {
 			BoolModel showGoal,
 			DoubleModel zoom, 
 			ViewAbsRelEnum viewAbsRel, 
-			IntStringModel dim34) {
-		super();
+			IntStringModel dim34, 
+			DoubleModel brightness) {
 		{
 			viewAbsRelSelector = new DPanel();
 			{
@@ -56,11 +52,11 @@ public class ControlPanel extends DPanel {
 			mouseNCam3d.setLayout(new BoxLayout(mouseNCam3d,BoxLayout.Y_AXIS));
 			mouseNCam3d.add(viewAbsRelSelector);
 			mouseNCam3d.add(mouseSelector);
-			mouseNCam3d.add(new Cam3dControlPanel(scene.camera3d,viewAbsRel));
+			mouseNCam3d.add(new Cam3dControlPanel(scene.camera3d,viewAbsRel, brightness));
 		}
 		
-		add(new ObjectControlPanel(scene,showGoal), null);
-		add(new Cam4dControlPanel(scene.camera4d, zoom,viewAbsRel), null);
+		add(new ObjectControlPanel(scene,showGoal, brightness), null);
+		add(new Cam4dControlPanel(scene.camera4d, zoom,viewAbsRel, brightness), null);
 		add(mouseNCam3d, null );
 	}
 }

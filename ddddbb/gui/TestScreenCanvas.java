@@ -9,19 +9,18 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ddddbb.game.ScreenValues;
 import ddddbb.game.SimpleSwitches;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
+import ddddbb.gen.MyChangeListener;
 import ddddbb.math.Camera3d;
 import ddddbb.math.D2Graphics;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.Point3d;
 
-public class TestScreenCanvas extends JPanel implements ChangeListener {
+public class TestScreenCanvas extends JPanel implements MyChangeListener {
 	private static final long serialVersionUID = -6777833202679708271L;
 
 	int width;
@@ -150,7 +149,7 @@ public class TestScreenCanvas extends JPanel implements ChangeListener {
 		((Graphics2D)g0).drawImage(buffImg, null, 0, 0);
 	}
 	
-	public void stateChanged(ChangeEvent e) {
+	public void stateChanged() {
 		repaint();
 	}
 }

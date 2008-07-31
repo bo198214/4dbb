@@ -1,0 +1,1407 @@
+#
+# An unexpected error has been detected by Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00002b7a73bd825a, pid=24631, tid=1083386192
+#
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (10.0-b22 mixed mode linux-amd64)
+# Problematic frame:
+# V  [libjvm.so+0x1f125a]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00002aaadf001800):  JavaThread "CompilerThread0" daemon [_thread_in_native, id=24643, stack(0x0000000040832000,0x0000000040933000)]
+
+siginfo:si_signo=SIGSEGV: si_errno=0, si_code=1 (SEGV_MAPERR), si_addr=0x0000000000000000
+
+Registers:
+RAX=0x0000000000000000, RBX=0x00002aaae19508d8, RCX=0x00002aaae1c421c8, RDX=0x0000000000000048
+RSP=0x000000004092eee0, RBP=0x000000004092ef50, RSI=0x00002aaae1c421c8, RDI=0x00002aaae19508d8
+R8 =0x00002aaae1c42220, R9 =0x00002aaae1c421c8, R10=0x00002aaae1c421c8, R11=0x0000000000000000
+R12=0x00002aaae19508a0, R13=0x0000000000000000, R14=0x00002aaaded34870, R15=0x0000000000000001
+RIP=0x00002b7a73bd825a, EFL=0x0000000000010246, CSGSFS=0x0000000000000033, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x000000004092eee0)
+0x000000004092eee0:   00002aaae0e7ac20 0000000effffffff
+0x000000004092eef0:   00002aaae1c421c8 0000000273b7c361
+0x000000004092ef00:   00002aaae0e7ac18 000000114092fb10
+0x000000004092ef10:   000000004092fbd8 01000000000005c4
+0x000000004092ef20:   000000004092fb10 00002b7a74221910
+0x000000004092ef30:   000000004092fb10 000000004092f0a0
+0x000000004092ef40:   000000004092f060 000000004092f030
+0x000000004092ef50:   000000004092f170 00002b7a73bd779c
+0x000000004092ef60:   000000004092fbd8 000000004092f120
+0x000000004092ef70:   00002aaae16b2840 000000004092f000
+0x000000004092ef80:   00002aaae0dc9960 0000000000000000
+0x000000004092ef90:   000000004092f070 00002b7a73e61e81
+0x000000004092efa0:   00002aaae16b2840 0000000040932950
+0x000000004092efb0:   000000004092eff0 00002b7a7423d480
+0x000000004092efc0:   00002aaae1e92380 000000000000015c
+0x000000004092efd0:   000000004092fc30 00002b7a74011d82
+0x000000004092efe0:   0000000040110dd0 0000000040932950
+0x000000004092eff0:   000000004092f030 00002b7a7423d480
+0x000000004092f000:   0000000000007fe8 00002aaae16ba380
+0x000000004092f010:   000000004092fcc0 00002b7a74011d82
+0x000000004092f020:   0000000040110dd0 00002b7a74011e51
+0x000000004092f030:   00002b7a74221910 00002b7a0000000e
+0x000000004092f040:   00000000409314c0 000000004092fb10
+0x000000004092f050:   0000000000000902 00002aaadf001bf0
+0x000000004092f060:   000000000000000d 00000000409314c0
+0x000000004092f070:   00002aaae060d280 00002b7a73b7bd00
+0x000000004092f080:   00002aaae1942510 00000000000005c5
+0x000000004092f090:   000000004092f120 00002aaaf0a6f020
+0x000000004092f0a0:   000000000000000c 00000000409314c0
+0x000000004092f0b0:   00002aaae06d68a0 00002aaae0a2d870
+0x000000004092f0c0:   00002aaae19f28c0 00002aaae19f3460
+0x000000004092f0d0:   00002aaae0c45f20 000000004092fc30 
+
+Instructions: (pc=0x00002b7a73bd825a)
+0x00002b7a73bd824a:   48 89 cf 41 ff 95 80 00 00 00 48 89 df 49 89 c5
+0x00002b7a73bd825a:   8b 00 41 21 44 24 38 41 8b 45 04 21 43 04 41 8b 
+
+Stack: [0x0000000040832000,0x0000000040933000],  sp=0x000000004092eee0,  free space=1011k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x1f125a]
+V  [libjvm.so+0x1f079c]
+V  [libjvm.so+0x2445e5]
+V  [libjvm.so+0x2410f5]
+V  [libjvm.so+0x1e05f7]
+V  [libjvm.so+0x248f88]
+V  [libjvm.so+0x248926]
+V  [libjvm.so+0x62a7a9]
+V  [libjvm.so+0x624a51]
+V  [libjvm.so+0x50628a]
+
+
+Current CompileTask:
+C2:3789      org.eclipse.jdt.internal.compiler.lookup.ParameterizedMethodBinding.<init>(Lorg/eclipse/jdt/internal/compiler/lookup/ParameterizedTypeBinding;Lorg/eclipse/jdt/internal/compiler/lookup/MethodBinding;)V (596 bytes)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00002aaae0f9c000 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_blocked, id=32059, stack(0x0000000044459000,0x000000004455a000)]
+  0x00002aaae0c15000 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_blocked, id=32019, stack(0x0000000043b50000,0x0000000043c51000)]
+  0x00002aaaebdfd000 JavaThread "Worker-64" [_thread_blocked, id=31376, stack(0x0000000043c51000,0x0000000043d52000)]
+  0x00002aaaec400000 JavaThread "Worker-63" [_thread_blocked, id=31375, stack(0x0000000043f54000,0x0000000044055000)]
+  0x00002aaaec407400 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_in_vm, id=31349, stack(0x0000000044055000,0x0000000044156000)]
+  0x00002aaaebe02c00 JavaThread "Worker-61" [_thread_blocked, id=31347, stack(0x000000004103a000,0x000000004113b000)]
+  0x00002aaaec5da800 JavaThread "Worker-60" [_thread_blocked, id=31339, stack(0x000000004394e000,0x0000000043a4f000)]
+  0x00002aaaf0ca9000 JavaThread "Worker-59" [_thread_blocked, id=31284, stack(0x0000000044156000,0x0000000044257000)]
+  0x00002aaaebfbe800 JavaThread "Worker-47" [_thread_blocked, id=29659, stack(0x0000000041f49000,0x000000004204a000)]
+  0x00002aaae038fc00 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_blocked, id=29562, stack(0x0000000043d52000,0x0000000043e53000)]
+  0x00002aaae034c800 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_blocked, id=29539, stack(0x0000000043e53000,0x0000000043f54000)]
+  0x00002aaae8291000 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_blocked, id=29482, stack(0x0000000041c46000,0x0000000041d47000)]
+  0x00002aaae9ce9800 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_blocked, id=29397, stack(0x0000000041b45000,0x0000000041c46000)]
+  0x00002aaae9cb7c00 JavaThread "Process monitor" daemon [_thread_blocked, id=29381, stack(0x0000000040f39000,0x000000004103a000)]
+  0x00002aaaeae98400 JavaThread "Input Stream Monitor" daemon [_thread_blocked, id=29380, stack(0x0000000043a4f000,0x0000000043b50000)]
+  0x00002aaadf12a000 JavaThread "Output Stream Monitor" daemon [_thread_in_native, id=29379, stack(0x0000000041d47000,0x0000000041e48000)]
+  0x00002aaae8259400 JavaThread "Output Stream Monitor" daemon [_thread_in_native, id=29375, stack(0x0000000041e48000,0x0000000041f49000)]
+  0x00002aaaeac39c00 JavaThread "process reaper" daemon [_thread_in_native, id=29370, stack(0x000000004384d000,0x000000004394e000)]
+  0x00002aaae9a1b000 JavaThread "Worker-38" [_thread_blocked, id=28569, stack(0x000000004133d000,0x000000004143e000)]
+  0x00002aaae1245400 JavaThread "org.eclipse.jdt.internal.ui.text.JavaReconciler" daemon [_thread_blocked, id=24692, stack(0x000000004153f000,0x0000000041640000)]
+  0x00002aaaec08e000 JavaThread "Timer-1" [_thread_blocked, id=24690, stack(0x0000000041943000,0x0000000041a44000)]
+  0x00002aaaf0158800 JavaThread "Timer-0" [_thread_blocked, id=24689, stack(0x0000000041842000,0x0000000041943000)]
+  0x00002aaadf4b5c00 JavaThread "Worker-4" [_thread_blocked, id=24664, stack(0x0000000041640000,0x0000000041741000)]
+  0x00002aaadfedd400 JavaThread "JavaScript indexing" daemon [_thread_blocked, id=24662, stack(0x0000000041741000,0x0000000041842000)]
+  0x00002aaae0509800 JavaThread "Worker-2" [_thread_blocked, id=24655, stack(0x000000004143e000,0x000000004153f000)]
+  0x00002aaae0421400 JavaThread "Java indexing" daemon [_thread_blocked, id=24653, stack(0x000000004123c000,0x000000004133d000)]
+  0x00002aaae007bc00 JavaThread "Start Level Event Dispatcher" daemon [_thread_blocked, id=24649, stack(0x0000000040e38000,0x0000000040f39000)]
+  0x00002aaae00ee800 JavaThread "Framework Event Dispatcher" daemon [_thread_blocked, id=24648, stack(0x0000000040d37000,0x0000000040e38000)]
+  0x00002aaae0086400 JavaThread "State Data Manager" daemon [_thread_blocked, id=24647, stack(0x0000000040c36000,0x0000000040d37000)]
+  0x00002aaadf007400 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=24645, stack(0x0000000040a34000,0x0000000040b35000)]
+  0x00002aaadf005000 JavaThread "CompilerThread1" daemon [_thread_blocked, id=24644, stack(0x0000000040933000,0x0000000040a34000)]
+=>0x00002aaadf001800 JavaThread "CompilerThread0" daemon [_thread_in_native, id=24643, stack(0x0000000040832000,0x0000000040933000)]
+  0x00002aaadee33400 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=24642, stack(0x0000000040731000,0x0000000040832000)]
+  0x00002aaadee13800 JavaThread "Finalizer" daemon [_thread_blocked, id=24641, stack(0x0000000040630000,0x0000000040731000)]
+  0x00002aaadee12400 JavaThread "Reference Handler" daemon [_thread_blocked, id=24640, stack(0x000000004052f000,0x0000000040630000)]
+  0x0000000040113000 JavaThread "main" [_thread_in_native, id=24636, stack(0x000000004012b000,0x000000004022c000)]
+
+Other Threads:
+  0x00002aaadee0d000 VMThread [stack: 0x000000004042e000,0x000000004052f000] [id=24639]
+  0x00002aaadf009000 WatcherThread [stack: 0x0000000040b35000,0x0000000040c36000] [id=24646]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x000000004010fa00/0x000000004010fa50] Threads_lock - owner thread: 0x00002aaaec407400
+
+Heap
+ PSYoungGen      total 161984K, used 123773K [0x00002aaad3fc0000, 0x00002aaadea60000, 0x00002aaadea60000)
+  eden space 149376K, 74% used [0x00002aaad3fc0000,0x00002aaadac56898,0x00002aaadd1a0000)
+  from space 12608K, 99% used [0x00002aaadd1a0000,0x00002aaaddde8e18,0x00002aaadddf0000)
+  to   space 12736K, 0% used [0x00002aaadddf0000,0x00002aaadddf0000,0x00002aaadea60000)
+ PSOldGen        total 135616K, used 86641K [0x00002aaabea60000, 0x00002aaac6ed0000, 0x00002aaad3fc0000)
+  object space 135616K, 63% used [0x00002aaabea60000,0x00002aaac3efc540,0x00002aaac6ed0000)
+ PSPermGen       total 161600K, used 106566K [0x00002aaaaea60000, 0x00002aaab8830000, 0x00002aaabea60000)
+  object space 161600K, 65% used [0x00002aaaaea60000,0x00002aaab5271bd8,0x00002aaab8830000)
+
+Dynamic libraries:
+40000000-40009000 r-xp 00000000 08:03 16421357                           /opt/sun-jdk-1.6.0.06/bin/java
+40108000-4010a000 rwxp 00008000 08:03 16421357                           /opt/sun-jdk-1.6.0.06/bin/java
+4010a000-4012b000 rwxp 4010a000 00:00 0                                  [heap]
+4012b000-4012e000 ---p 4012b000 00:00 0 
+4012e000-4022c000 rwxp 4012e000 00:00 0 
+4022c000-4022d000 ---p 4022c000 00:00 0 
+4022d000-4032d000 rwxp 4022d000 00:00 0 
+4032d000-4032e000 ---p 4032d000 00:00 0 
+4032e000-4042e000 rwxp 4032e000 00:00 0 
+4042e000-4042f000 ---p 4042e000 00:00 0 
+4042f000-4052f000 rwxp 4042f000 00:00 0 
+4052f000-40532000 ---p 4052f000 00:00 0 
+40532000-40630000 rwxp 40532000 00:00 0 
+40630000-40633000 ---p 40630000 00:00 0 
+40633000-40731000 rwxp 40633000 00:00 0 
+40731000-40734000 ---p 40731000 00:00 0 
+40734000-40832000 rwxp 40734000 00:00 0 
+40832000-40835000 ---p 40832000 00:00 0 
+40835000-40933000 rwxp 40835000 00:00 0 
+40933000-40936000 ---p 40933000 00:00 0 
+40936000-40a34000 rwxp 40936000 00:00 0 
+40a34000-40a37000 ---p 40a34000 00:00 0 
+40a37000-40b35000 rwxp 40a37000 00:00 0 
+40b35000-40b36000 ---p 40b35000 00:00 0 
+40b36000-40c36000 rwxp 40b36000 00:00 0 
+40c36000-40c39000 ---p 40c36000 00:00 0 
+40c39000-40d37000 rwxp 40c39000 00:00 0 
+40d37000-40d3a000 ---p 40d37000 00:00 0 
+40d3a000-40e38000 rwxp 40d3a000 00:00 0 
+40e38000-40e3b000 ---p 40e38000 00:00 0 
+40e3b000-40f39000 rwxp 40e3b000 00:00 0 
+40f39000-40f3c000 ---p 40f39000 00:00 0 
+40f3c000-4103a000 rwxp 40f3c000 00:00 0 
+4103a000-4103d000 ---p 4103a000 00:00 0 
+4103d000-4113b000 rwxp 4103d000 00:00 0 
+4113b000-4113e000 rwxp 4113b000 00:00 0 
+4113e000-4123c000 rwxp 4113e000 00:00 0 
+4123c000-4123f000 ---p 4123c000 00:00 0 
+4123f000-4133d000 rwxp 4123f000 00:00 0 
+4133d000-41340000 ---p 4133d000 00:00 0 
+41340000-4143e000 rwxp 41340000 00:00 0 
+4143e000-41441000 ---p 4143e000 00:00 0 
+41441000-4153f000 rwxp 41441000 00:00 0 
+4153f000-41542000 ---p 4153f000 00:00 0 
+41542000-41640000 rwxp 41542000 00:00 0 
+41640000-41643000 ---p 41640000 00:00 0 
+41643000-41741000 rwxp 41643000 00:00 0 
+41741000-41744000 ---p 41741000 00:00 0 
+41744000-41842000 rwxp 41744000 00:00 0 
+41842000-41845000 ---p 41842000 00:00 0 
+41845000-41943000 rwxp 41845000 00:00 0 
+41943000-41946000 ---p 41943000 00:00 0 
+41946000-41a44000 rwxp 41946000 00:00 0 
+41a44000-41a47000 rwxp 41a44000 00:00 0 
+41a47000-41b45000 rwxp 41a47000 00:00 0 
+41b45000-41b48000 ---p 41b45000 00:00 0 
+41b48000-41c46000 rwxp 41b48000 00:00 0 
+41c46000-41c49000 ---p 41c46000 00:00 0 
+41c49000-41d47000 rwxp 41c49000 00:00 0 
+41d47000-41d4a000 ---p 41d47000 00:00 0 
+41d4a000-41e48000 rwxp 41d4a000 00:00 0 
+41e48000-41e4b000 ---p 41e48000 00:00 0 
+41e4b000-41f49000 rwxp 41e4b000 00:00 0 
+41f49000-41f4c000 ---p 41f49000 00:00 0 
+41f4c000-4204a000 rwxp 41f4c000 00:00 0 
+4204a000-4204b000 ---p 4204a000 00:00 0 
+4204b000-4284b000 rwxp 4204b000 00:00 0 
+4284b000-4284c000 ---p 4284b000 00:00 0 
+4284c000-4304c000 rwxp 4284c000 00:00 0 
+4304c000-4304f000 rwxp 4304c000 00:00 0 
+4304f000-4384d000 rwxp 4304f000 00:00 0 
+4384d000-43850000 ---p 4384d000 00:00 0 
+43850000-4394e000 rwxp 43850000 00:00 0 
+4394e000-43951000 ---p 4394e000 00:00 0 
+43951000-43a4f000 rwxp 43951000 00:00 0 
+43a4f000-43a52000 ---p 43a4f000 00:00 0 
+43a52000-43b50000 rwxp 43a52000 00:00 0 
+43b50000-43b53000 ---p 43b50000 00:00 0 
+43b53000-43c51000 rwxp 43b53000 00:00 0 
+43c51000-43c54000 ---p 43c51000 00:00 0 
+43c54000-43d52000 rwxp 43c54000 00:00 0 
+43d52000-43d55000 ---p 43d52000 00:00 0 
+43d55000-43e53000 rwxp 43d55000 00:00 0 
+43e53000-43e56000 ---p 43e53000 00:00 0 
+43e56000-43f54000 rwxp 43e56000 00:00 0 
+43f54000-43f57000 ---p 43f54000 00:00 0 
+43f57000-44055000 rwxp 43f57000 00:00 0 
+44055000-44058000 ---p 44055000 00:00 0 
+44058000-44156000 rwxp 44058000 00:00 0 
+44156000-44159000 ---p 44156000 00:00 0 
+44159000-44257000 rwxp 44159000 00:00 0 
+44257000-4425a000 rwxp 44257000 00:00 0 
+4425a000-44358000 rwxp 4425a000 00:00 0 
+44358000-4435b000 rwxp 44358000 00:00 0 
+4435b000-44459000 rwxp 4435b000 00:00 0 
+44459000-4445c000 ---p 44459000 00:00 0 
+4445c000-4455a000 rwxp 4445c000 00:00 0 
+4455a000-4455d000 rwxp 4455a000 00:00 0 
+4455d000-4465b000 rwxp 4455d000 00:00 0 
+4465b000-4465e000 rwxp 4465b000 00:00 0 
+4465e000-4475c000 rwxp 4465e000 00:00 0 
+4475c000-4475f000 rwxp 4475c000 00:00 0 
+4475f000-4485d000 rwxp 4475f000 00:00 0 
+4485d000-44860000 rwxp 4485d000 00:00 0 
+44860000-4495e000 rwxp 44860000 00:00 0 
+2aaaaaaab000-2aaaaaaac000 r-xs 0000a000 08:03 11178692                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher_1.0.100.v20080509-1800.jar
+2aaaaaaac000-2aaaaaab3000 r-xs 00110000 08:03 17285629                   /opt/sun-jdk-1.6.0.06/jre/lib/resources.jar
+2aaaaaab3000-2aaaaaab5000 r-xs 00007000 08:03 11178570                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.simpleconfigurator_1.0.0.v20080604.jar
+2aaaaaab5000-2aaaaaab8000 r-xs 00015000 08:03 11178340                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.common_3.4.0.v20080421-2006.jar
+2aaaaaab8000-2aaaaaaba000 r-xs 0000f000 08:03 11178267                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.runtime_3.4.0.v20080512.jar
+2aaaaaaba000-2aaaaaabe000 r-xs 00027000 08:03 11178541                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.registry_3.4.0.v20080516-0950.jar
+2aaaaaabe000-2aaaaaabf000 r-xs 00002000 08:03 11178493                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.runtime.compatibility.registry_3.2.200.v20080610/runtime_registry_compatibility.jar
+2aaaaaabf000-2aaaaaac1000 r-xs 00004000 08:03 11178772                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.runtime.compatibility.auth_3.2.100.v20070502.jar
+2aaaaaac1000-2aaaaaac4000 r-xs 00017000 08:03 11178625                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.preferences_3.2.200.v20080421-2006.jar
+2aaaaaac4000-2aaaaaac9000 r-xs 0002b000 08:03 11178170                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jface.databinding_1.2.0.I20080515-2000a.jar
+2aaaaaac9000-2aaaaaacc000 r-xs 00012000 08:03 11178382                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.expressions_3.4.0.v20080603-2000.jar
+2aaaaaacc000-2aaaaaad1000 r-xs 00037000 08:03 11178654                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.text_3.4.0.v20080605-1800.jar
+2aaaaaad1000-2aaaaaad9000 r-xp 00000000 08:03 3752092                    /lib64/librt-2.6.1.so
+2aaaaaad9000-2aaaaacd8000 ---p 00008000 08:03 3752092                    /lib64/librt-2.6.1.so
+2aaaaacd8000-2aaaaacd9000 r-xp 00007000 08:03 3752092                    /lib64/librt-2.6.1.so
+2aaaaacd9000-2aaaaacda000 rwxp 00008000 08:03 3752092                    /lib64/librt-2.6.1.so
+2aaaaacda000-2aaaaacdb000 r-xp 2aaaaacda000 00:00 0 
+2aaaaacdb000-2aaaaacdc000 rwxp 2aaaaacdb000 00:00 0 
+2aaaaacdc000-2aaaaace3000 r-xp 00000000 08:03 17285647                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/native_threads/libhpi.so
+2aaaaace3000-2aaaaade4000 ---p 00007000 08:03 17285647                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/native_threads/libhpi.so
+2aaaaade4000-2aaaaade6000 rwxp 00008000 08:03 17285647                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/native_threads/libhpi.so
+2aaaaade6000-2aaaaade7000 rwxp 2aaaaade6000 00:00 0 
+2aaaaade7000-2aaaaadef000 rwxs 00000000 08:03 19611677                   /tmp/hsperfdata_bo198214/24631
+2aaaaadef000-2aaaaadf8000 r-xs 0004c000 08:03 11178194                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.databinding_1.1.0.I20080527-2000.jar
+2aaaaadf8000-2aaaaadff000 r-xs 00052000 08:03 11178645                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.apt.core_3.3.100.v20080513-1235.jar
+2aaaaadff000-2aaaaae01000 r-xs 00006000 08:03 11178113                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.apt.pluggable.core_1.0.100.v20080407-1345.jar
+2aaaaae01000-2aaaaae03000 r-xs 00016000 08:03 11178330                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ant.core_3.2.0.v20080529.jar
+2aaaaae03000-2aaaaae07000 r-xs 00021000 08:03 11178737                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.j2ee.navigator.ui_1.1.200.v200805221242.jar
+2aaaaae07000-2aaaaae0b000 r-xs 00019000 08:03 11178674                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.jee.ui_1.0.100.v200805221242.jar
+2aaaaae0b000-2aaaaae1f000 r-xp 00000000 08:03 3752072                    /lib64/libnsl-2.6.1.so
+2aaaaae1f000-2aaaab01e000 ---p 00014000 08:03 3752072                    /lib64/libnsl-2.6.1.so
+2aaaab01e000-2aaaab01f000 r-xp 00013000 08:03 3752072                    /lib64/libnsl-2.6.1.so
+2aaaab01f000-2aaaab020000 rwxp 00014000 08:03 3752072                    /lib64/libnsl-2.6.1.so
+2aaaab020000-2aaaab022000 rwxp 2aaaab020000 00:00 0 
+2aaaab022000-2aaaab029000 r-xp 00000000 08:03 3752079                    /lib64/libnss_compat-2.6.1.so
+2aaaab029000-2aaaab228000 ---p 00007000 08:03 3752079                    /lib64/libnss_compat-2.6.1.so
+2aaaab228000-2aaaab229000 r-xp 00006000 08:03 3752079                    /lib64/libnss_compat-2.6.1.so
+2aaaab229000-2aaaab22a000 rwxp 00007000 08:03 3752079                    /lib64/libnss_compat-2.6.1.so
+2aaaab22a000-2aaaab233000 r-xp 00000000 08:03 3752068                    /lib64/libnss_nis-2.6.1.so
+2aaaab233000-2aaaab433000 ---p 00009000 08:03 3752068                    /lib64/libnss_nis-2.6.1.so
+2aaaab433000-2aaaab434000 r-xp 00009000 08:03 3752068                    /lib64/libnss_nis-2.6.1.so
+2aaaab434000-2aaaab435000 rwxp 0000a000 08:03 3752068                    /lib64/libnss_nis-2.6.1.so
+2aaaab435000-2aaaab43f000 r-xp 00000000 08:03 3752083                    /lib64/libnss_files-2.6.1.so
+2aaaab43f000-2aaaab63e000 ---p 0000a000 08:03 3752083                    /lib64/libnss_files-2.6.1.so
+2aaaab63e000-2aaaab63f000 r-xp 00009000 08:03 3752083                    /lib64/libnss_files-2.6.1.so
+2aaaab63f000-2aaaab640000 rwxp 0000a000 08:03 3752083                    /lib64/libnss_files-2.6.1.so
+2aaaab640000-2aaaab64d000 r-xp 00000000 08:03 17285682                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libverify.so
+2aaaab64d000-2aaaab74c000 ---p 0000d000 08:03 17285682                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libverify.so
+2aaaab74c000-2aaaab74f000 rwxp 0000c000 08:03 17285682                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libverify.so
+2aaaab74f000-2aaaab777000 r-xp 00000000 08:03 17285665                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libjava.so
+2aaaab777000-2aaaab877000 ---p 00028000 08:03 17285665                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libjava.so
+2aaaab877000-2aaaab87e000 rwxp 00028000 08:03 17285665                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libjava.so
+2aaaab87e000-2aaaab88c000 r-xp 00000000 08:03 17285684                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libzip.so
+2aaaab88c000-2aaaab98e000 ---p 0000e000 08:03 17285684                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libzip.so
+2aaaab98e000-2aaaab991000 rwxp 00010000 08:03 17285684                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libzip.so
+2aaaab991000-2aaaace42000 rwxp 2aaaab991000 00:00 0 
+2aaaace42000-2aaaae992000 rwxp 2aaaace42000 00:00 0 
+2aaaae992000-2aaaae9e5000 rwxp 2aaaae992000 00:00 0 
+2aaaae9e5000-2aaaaea52000 rwxp 2aaaae9e5000 00:00 0 
+2aaaaea52000-2aaaaea54000 r-xs 0000a000 08:03 11178379                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.j2ee.webservice.ui_1.1.200.v200805140020.jar
+2aaaaea54000-2aaaaea56000 r-xs 00001000 08:03 11178236                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.enablement.sybase.asa.dbdefinition_1.0.0.v200805240040.jar
+2aaaaea56000-2aaaaea57000 r-xs 00002000 08:03 11178723                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.enablement.sybase.ase.dbdefinition_1.0.0.v200805240040.jar
+2aaaaea57000-2aaaaea5d000 r-xs 00039000 08:03 11178598                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.j2ee.webservice_1.1.200.v200805150230.jar
+2aaaaea5d000-2aaaaea5f000 r-xs 00009000 08:03 11178660                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.common.project.facet.core_1.3.0.v200805151903.jar
+2aaaaea5f000-2aaaaea60000 r-xs 00001000 08:03 11178428                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.compatibility_3.0.0.v20080619-1900.jar
+2aaaaea60000-2aaab8830000 rwxp 2aaaaea60000 00:00 0 
+2aaab8830000-2aaabea60000 rwxp 2aaab8830000 00:00 0 
+2aaabea60000-2aaac6ed0000 rwxp 2aaabea60000 00:00 0 
+2aaac6ed0000-2aaad3fc0000 rwxp 2aaac6ed0000 00:00 0 
+2aaad3fc0000-2aaadea60000 rwxp 2aaad3fc0000 00:00 0 
+2aaadea60000-2aaadeaaf000 rwxp 2aaadea60000 00:00 0 
+2aaadeaaf000-2aaadeae0000 rwxp 2aaadeaaf000 00:00 0 
+2aaadeae0000-2aaadeb23000 rwxp 2aaadeae0000 00:00 0 
+2aaadeb23000-2aaadeb8a000 rwxp 2aaadeb23000 00:00 0 
+2aaadeb8a000-2aaadebe0000 rwxp 2aaadeb8a000 00:00 0 
+2aaadebe0000-2aaadec24000 rwxp 2aaadebe0000 00:00 0 
+2aaadec24000-2aaadec8c000 rwxp 2aaadec24000 00:00 0 
+2aaadec8c000-2aaadecdb000 rwxp 2aaadec8c000 00:00 0 
+2aaadecdb000-2aaaded0c000 rwxp 2aaadecdb000 00:00 0 
+2aaaded0c000-2aaadee34000 rwxp 2aaaded0c000 00:00 0 
+2aaadee34000-2aaadefbf000 r-xs 02df0000 08:03 17285149                   /opt/sun-jdk-1.6.0.06/jre/lib/rt.jar
+2aaadefbf000-2aaadeff5000 r-xp 00000000 08:03 6652286                    /usr/lib64/locale/de_DE/LC_CTYPE
+2aaadeff5000-2aaadf5f5000 rwxp 2aaadeff5000 00:00 0 
+2aaadf5f5000-2aaadf5ff000 r-xs 00069000 08:03 11178276                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.help.ui_3.3.100.v20080521.jar
+2aaadf5ff000-2aaadf604000 r-xs 00029000 08:03 11178549                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.browser_3.2.200.v20080507.jar
+2aaadf604000-2aaadf60c000 r-xs 00049000 08:03 11178662                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.cheatsheets_3.3.100.v20080508.jar
+2aaadf60c000-2aaadf610000 r-xs 00031000 08:03 11178133                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.help_3.3.100.v20080610.jar
+2aaadf610000-2aaadf639000 r-xs 00401000 08:03 11178648                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.core_3.4.0.v_874.jar
+2aaadf639000-2aaadf63c000 r-xs 00022000 08:03 11178527                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.compiler.apt_1.0.100.v20080513-1235.jar
+2aaadf63c000-2aaadf63d000 r-xs 0000c000 08:03 11178478                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.compiler.tool_1.0.100.v_874.jar
+2aaadf63d000-2aaadf659000 r-xs 00427000 08:03 11178614                   /usr/lib64/eclipse-3.4/plugins/com.ibm.icu_3.8.1.v20080530.jar
+2aaadf659000-2aaadf65a000 r-xs 00001000 08:03 11178338                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn_3.0.0.v20080619-1900.jar
+2aaadf65a000-2aaadf65b000 r-xs 00003000 08:03 11178181                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.databinding.edit_1.0.0.v200806091234.jar
+2aaadf65b000-2aaadf65f000 r-xs 0002a000 08:03 11178243                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.common_2.4.0.v200806091234.jar
+2aaadf65f000-2aaadf662000 r-xs 0001a000 08:03 11178418                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.ecore.edit_2.4.0.v200806091234.jar
+2aaadf662000-2aaadf665000 r-xs 00014000 08:03 11178677                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.ecore.editor_2.4.0.v200806091234.jar
+2aaadf665000-2aaadf66b000 r-xs 0004d000 08:03 11178694                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.help.base_3.3.100.v20080617.jar
+2aaadf66b000-2aaadf672000 r-xs 000dc000 08:03 11178121                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.codegen.ecore_2.4.0.v200806091234.jar
+2aaadf672000-2aaadf674000 r-xs 00006000 08:03 11178126                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.databinding_1.0.0.v200806091234.jar
+2aaadf674000-2aaadf678000 r-xs 00023000 08:03 11178582                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.enablement.sybase_1.0.1.v200805310538.jar
+2aaadf678000-2aaadf680000 r-xs 0005a000 08:03 11178626                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.core_3.0.0.v20080616.jar
+2aaadf680000-2aaadf682000 r-xs 00009000 08:03 11178426                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt_3.4.0.v20080603-2000.jar
+2aaadf682000-2aaadf686000 r-xs 00022000 08:03 11178473                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.edit.ui_2.4.0.v200806091234.jar
+2aaadf686000-2aaadf688000 r-xs 0000c000 08:03 11178436                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.terminals.ui_0.1.0.v20080609.jar
+2aaadf688000-2aaadf68d000 r-xs 0002a000 08:03 11178335                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.mapping_2.4.0.v200806091234.jar
+2aaadf68d000-2aaadf690000 r-xs 0001b000 08:03 11178457                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.codegen.ecore.ui_2.4.0.v200806091234.jar
+2aaadf690000-2aaadf691000 r-xs 0000d000 08:03 11178384                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.services.local_2.1.0.v20080604.jar
+2aaadf691000-2aaadf692000 r-xs 00005000 08:03 11178139                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.services.telnet_1.1.0.v20080604.jar
+2aaadf692000-2aaadf695000 r-xs 00016000 08:03 11178564                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.connectivity.oda_3.1.2.v200805152355.jar
+2aaadf695000-2aaadf69c000 r-xs 000b0000 08:03 11178197                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.xsd_2.4.0.v200806091234.jar
+2aaadf69c000-2aaadf69d000 r-xs 00002000 08:03 11178672                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf_2.4.0.v200806091234.jar
+2aaadf69d000-2aaadf6a2000 r-xs 0003a000 08:03 11178522                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.edit_2.4.0.v200806091234.jar
+2aaadf6a2000-2aaadf6a3000 r-xs 00002000 08:03 11178683                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.mapping.ecore.editor_2.4.0.v200806091234.jar
+2aaadf6a3000-2aaadf6a4000 r-xs 00004000 08:03 11178651                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.commons.core_3.0.0.v20080619-1900.jar
+2aaadf6a4000-2aaadf7a4000 rwxp 2aaadf6a4000 00:00 0 
+2aaadf7a4000-2aaadf7b2000 r-xp 00000000 08:03 11190486                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.0.100.v20080606/eclipse_1114b.so
+2aaadf7b2000-2aaadf8b2000 ---p 0000e000 08:03 11190486                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.0.100.v20080606/eclipse_1114b.so
+2aaadf8b2000-2aaadf8b3000 rwxp 0000e000 08:03 11190486                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.0.100.v20080606/eclipse_1114b.so
+2aaadf8b3000-2aaadf8b4000 r-xp 00000000 08:03 6652301                    /usr/lib64/locale/de_DE/LC_IDENTIFICATION
+2aaadf8b4000-2aaadf8b5000 r-xp 00000000 08:03 6652300                    /usr/lib64/locale/de_DE/LC_MEASUREMENT
+2aaadf8b5000-2aaadf8b6000 r-xp 00000000 08:03 6652295                    /usr/lib64/locale/de_DE/LC_TELEPHONE
+2aaadf8b6000-2aaadf8b7000 r-xp 00000000 08:03 6652294                    /usr/lib64/locale/de_DE/LC_ADDRESS
+2aaadf8b7000-2aaadf8b8000 r-xp 00000000 08:03 6652293                    /usr/lib64/locale/de_DE/LC_NAME
+2aaadf8b8000-2aaadf8b9000 r-xp 00000000 08:03 6652292                    /usr/lib64/locale/de_DE/LC_PAPER
+2aaadf8b9000-2aaadf8ba000 r-xp 00000000 08:03 6652291                    /usr/lib64/locale/de_DE/LC_MESSAGES/SYS_LC_MESSAGES
+2aaadf8ba000-2aaadf8bb000 r-xp 00000000 08:03 6652289                    /usr/lib64/locale/de_DE/LC_MONETARY
+2aaadf8bb000-2aaadf8c0000 r-xp 00000000 08:03 6652275                    /usr/lib64/locale/de_DE/LC_COLLATE
+2aaadf8c0000-2aaadf8c1000 r-xp 00000000 08:03 6652288                    /usr/lib64/locale/de_DE/LC_TIME
+2aaadf8c1000-2aaadf8c2000 r-xp 00000000 08:03 6652287                    /usr/lib64/locale/de_DE/LC_NUMERIC
+2aaadf8c2000-2aaadf8d3000 r-xp 00000000 08:03 16270985                   /usr/share/locale/de/LC_MESSAGES/gtk20.mo
+2aaadf8d3000-2aaadf8d6000 r-xs 00012000 08:03 11178447                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.converter_2.4.0.v200806091234.jar
+2aaadf8d6000-2aaadf8d7000 rwxp 2aaadf8d6000 00:00 0 
+2aaadf8d7000-2aaadf916000 r-xp 00000000 08:03 6581851                    /usr/lib64/libgobject-2.0.so.0.1400.6
+2aaadf916000-2aaadfb16000 ---p 0003f000 08:03 6581851                    /usr/lib64/libgobject-2.0.so.0.1400.6
+2aaadfb16000-2aaadfb17000 r-xp 0003f000 08:03 6581851                    /usr/lib64/libgobject-2.0.so.0.1400.6
+2aaadfb17000-2aaadfb18000 rwxp 00040000 08:03 6581851                    /usr/lib64/libgobject-2.0.so.0.1400.6
+2aaadfb18000-2aaadfb19000 rwxp 2aaadfb18000 00:00 0 
+2aaadfb19000-2aaadfbe3000 r-xp 00000000 08:03 6581834                    /usr/lib64/libglib-2.0.so.0.1400.6
+2aaadfbe3000-2aaadfde2000 ---p 000ca000 08:03 6581834                    /usr/lib64/libglib-2.0.so.0.1400.6
+2aaadfde2000-2aaadfde3000 r-xp 000c9000 08:03 6581834                    /usr/lib64/libglib-2.0.so.0.1400.6
+2aaadfde3000-2aaadfde4000 rwxp 000ca000 08:03 6581834                    /usr/lib64/libglib-2.0.so.0.1400.6
+2aaadfde4000-2aaadfdeb000 r-xs 00000000 08:03 6621823                    /usr/lib64/gconv/gconv-modules.cache
+2aaadfdeb000-2aaadfe0f000 r-xp 00000000 08:03 16271598                   /usr/share/locale/de/LC_MESSAGES/gtk20-properties.mo
+2aaadfe0f000-2aaadff0f000 rwxp 2aaadfe0f000 00:00 0 
+2aaadff0f000-2aaadff13000 r-xs 00027000 08:03 11178670                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.connectivity.oda.design.ui_3.0.6.v200805152355.jar
+2aaadff13000-2aaadff15000 r-xs 0000f000 08:03 11178199                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.pde_3.4.0.v20080603.jar
+2aaadff15000-2aaadff18000 r-xs 00019000 08:03 11178578                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.common.ui_2.4.0.v200806091234.jar
+2aaadff18000-2aaadff1a000 r-xs 00027000 08:03 11178671                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.ecore.sdo_2.4.0.v200806091234.jar
+2aaadff1a000-2aaadff1e000 r-xs 0002e000 08:03 11178712                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.services.dstore_3.0.0.v20080609.jar
+2aaadff1e000-2aaadff22000 r-xs 00024000 08:03 11178756                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.tm.terminal_2.0.0.v20080620.jar
+2aaadff22000-2aaadff25000 r-xs 00017000 08:03 11178136                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.enablement.oda.xml_1.1.0.v200805270900.jar
+2aaadff25000-2aaadff2e000 r-xs 00060000 08:03 11178664                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.modelbase.sql_1.0.0.v200805152355.jar
+2aaadff2e000-2aaadff30000 r-xs 00002000 08:03 11178327                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.cvs_1.0.100.v20080603.jar
+2aaadff30000-2aaadff41000 r-xs 000b7000 08:03 11178238                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.gef_3.4.0.v20080526.jar
+2aaadff41000-2aaadff43000 r-xs 00008000 08:03 11178360                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.services.files.ftp_3.0.0.v20080605.jar
+2aaadff43000-2aaadff48000 r-xs 00030000 08:03 11178724                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.xsd.edit_2.4.0.v200806091234.jar
+2aaadff48000-2aaadff4d000 r-xs 00034000 08:03 11178155                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.connectivity_1.1.0.v200805160228.jar
+2aaadff4d000-2aaadff51000 r-xs 0001b000 08:03 11178641                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.sqltools.common.ui_1.0.0.v200805152355.jar
+2aaadff51000-2aaadff53000 r-xs 00002000 08:03 11178443                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rcp_3.4.0.v20080507.jar
+2aaadff53000-2aaadff54000 r-xs 00002000 08:03 11178193                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.mapping.ecore_2.4.0.v200806091234.jar
+2aaadff54000-2aaadff55000 r-xs 00002000 08:03 11178554                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse_3.0.0.v20080529.jar
+2aaadff55000-2aaadff59000 r-xs 0001f000 08:03 11178274                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.mapping.ui_2.4.0.v200806091234.jar
+2aaadff59000-2aaadff5e000 r-xs 00040000 08:03 11178768                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.codegen_2.4.0.v200806091234.jar
+2aaadff5e000-2aaadff61000 rwxs 00000000 00:08 4030481                    /SYSV00000000 (deleted)
+2aaadff61000-2aaadffef000 r-xs 008a4000 08:03 11178467                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.ui_3.4.0.v20080603-2000.jar
+2aaadffef000-2aaadfffb000 r-xs 00081000 08:03 11178668                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.workbench.texteditor_3.4.0.v20080603-2000.jar
+2aaadfffb000-2aaadfffe000 r-xs 00010000 08:03 11178501                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.core.manipulation_1.2.0.v20080603-2000.jar
+2aaadfffe000-2aaae0000000 r-xs 0000c000 08:03 11178329                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.net_1.1.0.I20080604.jar
+2aaae0000000-2aaae3ff3000 rwxp 2aaae0000000 00:00 0 
+2aaae3ff3000-2aaae4000000 ---p 2aaae3ff3000 00:00 0 
+2aaae4000000-2aaae4092000 r-xp 00000000 08:03 16287640                   /usr/lib64/libgdk-x11-2.0.so.0.1200.8
+2aaae4092000-2aaae4291000 ---p 00092000 08:03 16287640                   /usr/lib64/libgdk-x11-2.0.so.0.1200.8
+2aaae4291000-2aaae4295000 r-xp 00091000 08:03 16287640                   /usr/lib64/libgdk-x11-2.0.so.0.1200.8
+2aaae4295000-2aaae4297000 rwxp 00095000 08:03 16287640                   /usr/lib64/libgdk-x11-2.0.so.0.1200.8
+2aaae4297000-2aaae42a0000 r-xp 00000000 08:03 16024101                   /usr/lib64/libpangocairo-1.0.so.0.1800.4
+2aaae42a0000-2aaae449f000 ---p 00009000 08:03 16024101                   /usr/lib64/libpangocairo-1.0.so.0.1800.4
+2aaae449f000-2aaae44a0000 r-xp 00008000 08:03 16024101                   /usr/lib64/libpangocairo-1.0.so.0.1800.4
+2aaae44a0000-2aaae44a1000 rwxp 00009000 08:03 16024101                   /usr/lib64/libpangocairo-1.0.so.0.1800.4
+2aaae44a1000-2aaae44e2000 r-xp 00000000 08:03 16024106                   /usr/lib64/libpango-1.0.so.0.1800.4
+2aaae44e2000-2aaae46e1000 ---p 00041000 08:03 16024106                   /usr/lib64/libpango-1.0.so.0.1800.4
+2aaae46e1000-2aaae46e3000 r-xp 00040000 08:03 16024106                   /usr/lib64/libpango-1.0.so.0.1800.4
+2aaae46e3000-2aaae46e4000 rwxp 00042000 08:03 16024106                   /usr/lib64/libpango-1.0.so.0.1800.4
+2aaae46e4000-2aaae4760000 r-xp 00000000 08:03 16023791                   /usr/lib64/libcairo.so.2.11.7
+2aaae4760000-2aaae495f000 ---p 0007c000 08:03 16023791                   /usr/lib64/libcairo.so.2.11.7
+2aaae495f000-2aaae4961000 r-xp 0007b000 08:03 16023791                   /usr/lib64/libcairo.so.2.11.7
+2aaae4961000-2aaae4962000 rwxp 0007d000 08:03 16023791                   /usr/lib64/libcairo.so.2.11.7
+2aaae4962000-2aaae4965000 r-xp 00000000 08:03 6581836                    /usr/lib64/libgmodule-2.0.so.0.1400.6
+2aaae4965000-2aaae4b64000 ---p 00003000 08:03 6581836                    /usr/lib64/libgmodule-2.0.so.0.1400.6
+2aaae4b64000-2aaae4b65000 r-xp 00002000 08:03 6581836                    /usr/lib64/libgmodule-2.0.so.0.1400.6
+2aaae4b65000-2aaae4b66000 rwxp 00003000 08:03 6581836                    /usr/lib64/libgmodule-2.0.so.0.1400.6
+2aaae4b66000-2aaae4b94000 r-xp 00000000 08:03 15960236                   /usr/lib64/libfontconfig.so.1.3.0
+2aaae4b94000-2aaae4d94000 ---p 0002e000 08:03 15960236                   /usr/lib64/libfontconfig.so.1.3.0
+2aaae4d94000-2aaae4d95000 r-xp 0002e000 08:03 15960236                   /usr/lib64/libfontconfig.so.1.3.0
+2aaae4d95000-2aaae4d96000 rwxp 0002f000 08:03 15960236                   /usr/lib64/libfontconfig.so.1.3.0
+2aaae4d96000-2aaae4da6000 r-xp 00000000 08:03 6576223                    /usr/lib64/libXext.so.6.4.0
+2aaae4da6000-2aaae4fa5000 ---p 00010000 08:03 6576223                    /usr/lib64/libXext.so.6.4.0
+2aaae4fa5000-2aaae4fa6000 r-xp 0000f000 08:03 6576223                    /usr/lib64/libXext.so.6.4.0
+2aaae4fa6000-2aaae4fa7000 rwxp 00010000 08:03 6576223                    /usr/lib64/libXext.so.6.4.0
+2aaae4fa7000-2aaae4fb0000 r-xp 00000000 08:03 15828014                   /usr/lib64/libXrender.so.1.3.0
+2aaae4fb0000-2aaae51af000 ---p 00009000 08:03 15828014                   /usr/lib64/libXrender.so.1.3.0
+2aaae51af000-2aaae51b0000 r-xp 00008000 08:03 15828014                   /usr/lib64/libXrender.so.1.3.0
+2aaae51b0000-2aaae51b1000 rwxp 00009000 08:03 15828014                   /usr/lib64/libXrender.so.1.3.0
+2aaae51b1000-2aaae52b4000 r-xp 00000000 08:03 6575866                    /usr/lib64/libX11.so.6.2.0
+2aaae52b4000-2aaae54b3000 ---p 00103000 08:03 6575866                    /usr/lib64/libX11.so.6.2.0
+2aaae54b3000-2aaae54b5000 r-xp 00102000 08:03 6575866                    /usr/lib64/libX11.so.6.2.0
+2aaae54b5000-2aaae54ba000 rwxp 00104000 08:03 6575866                    /usr/lib64/libX11.so.6.2.0
+2aaae54ba000-2aaae54c2000 r-xp 00000000 08:03 15828336                   /usr/lib64/libXi.so.6.0.0
+2aaae54c2000-2aaae56c1000 ---p 00008000 08:03 15828336                   /usr/lib64/libXi.so.6.0.0
+2aaae56c1000-2aaae56c2000 r-xp 00007000 08:03 15828336                   /usr/lib64/libXi.so.6.0.0
+2aaae56c2000-2aaae56c3000 rwxp 00008000 08:03 15828336                   /usr/lib64/libXi.so.6.0.0
+2aaae56c3000-2aaae56ca000 r-xp 00000000 08:03 15860279                   /usr/lib64/libXrandr.so.2.1.0
+2aaae56ca000-2aaae58c9000 ---p 00007000 08:03 15860279                   /usr/lib64/libXrandr.so.2.1.0
+2aaae58c9000-2aaae58ca000 r-xp 00006000 08:03 15860279                   /usr/lib64/libXrandr.so.2.1.0
+2aaae58ca000-2aaae58cb000 rwxp 00007000 08:03 15860279                   /usr/lib64/libXrandr.so.2.1.0
+2aaae58cb000-2aaae58d4000 r-xp 00000000 08:03 15860337                   /usr/lib64/libXcursor.so.1.0.2
+2aaae58d4000-2aaae5ad3000 ---p 00009000 08:03 15860337                   /usr/lib64/libXcursor.so.1.0.2
+2aaae5ad3000-2aaae5ad4000 r-xp 00008000 08:03 15860337                   /usr/lib64/libXcursor.so.1.0.2
+2aaae5ad4000-2aaae5ad5000 rwxp 00009000 08:03 15860337                   /usr/lib64/libXcursor.so.1.0.2
+2aaae5ad5000-2aaae5ad7000 r-xp 00000000 08:03 16025086                   /usr/lib64/libXcomposite.so.1.0.0
+2aaae5ad7000-2aaae5cd6000 ---p 00002000 08:03 16025086                   /usr/lib64/libXcomposite.so.1.0.0
+2aaae5cd6000-2aaae5cd7000 r-xp 00001000 08:03 16025086                   /usr/lib64/libXcomposite.so.1.0.0
+2aaae5cd7000-2aaae5cd8000 rwxp 00002000 08:03 16025086                   /usr/lib64/libXcomposite.so.1.0.0
+2aaae5cd8000-2aaae5cda000 r-xp 00000000 08:03 15993692                   /usr/lib64/libXdamage.so.1.1.0
+2aaae5cda000-2aaae5ed9000 ---p 00002000 08:03 15993692                   /usr/lib64/libXdamage.so.1.1.0
+2aaae5ed9000-2aaae5eda000 r-xp 00001000 08:03 15993692                   /usr/lib64/libXdamage.so.1.1.0
+2aaae5eda000-2aaae5edb000 rwxp 00002000 08:03 15993692                   /usr/lib64/libXdamage.so.1.1.0
+2aaae5edb000-2aaae5ee0000 r-xp 00000000 08:03 15828203                   /usr/lib64/libXfixes.so.3.1.0
+2aaae5ee0000-2aaae60df000 ---p 00005000 08:03 15828203                   /usr/lib64/libXfixes.so.3.1.0
+2aaae60df000-2aaae60e0000 r-xp 00004000 08:03 15828203                   /usr/lib64/libXfixes.so.3.1.0
+2aaae60e0000-2aaae60e1000 rwxp 00005000 08:03 15828203                   /usr/lib64/libXfixes.so.3.1.0
+2aaae60e1000-2aaae60f9000 r-xp 00000000 08:03 16287637                   /usr/lib64/libgdk_pixbuf-2.0.so.0.1200.8
+2aaae60f9000-2aaae62f8000 ---p 00018000 08:03 16287637                   /usr/lib64/libgdk_pixbuf-2.0.so.0.1200.8
+2aaae62f8000-2aaae62f9000 r-xp 00017000 08:03 16287637                   /usr/lib64/libgdk_pixbuf-2.0.so.0.1200.8
+2aaae62f9000-2aaae62fa000 rwxp 00018000 08:03 16287637                   /usr/lib64/libgdk_pixbuf-2.0.so.0.1200.8
+2aaae62fa000-2aaae632a000 r-xp 00000000 08:03 16024165                   /usr/lib64/libpangoft2-1.0.so.0.1800.4
+2aaae632a000-2aaae652a000 ---p 00030000 08:03 16024165                   /usr/lib64/libpangoft2-1.0.so.0.1800.4
+2aaae652a000-2aaae652b000 r-xp 00030000 08:03 16024165                   /usr/lib64/libpangoft2-1.0.so.0.1800.4
+2aaae652b000-2aaae652c000 rwxp 00031000 08:03 16024165                   /usr/lib64/libpangoft2-1.0.so.0.1800.4
+2aaae652c000-2aaae65b2000 r-xp 00000000 08:03 15647090                   /usr/lib64/libfreetype.so.6.3.16
+2aaae65b2000-2aaae67b1000 ---p 00086000 08:03 15647090                   /usr/lib64/libfreetype.so.6.3.16
+2aaae67b1000-2aaae67b6000 r-xp 00085000 08:03 15647090                   /usr/lib64/libfreetype.so.6.3.16
+2aaae67b6000-2aaae67b7000 rwxp 0008a000 08:03 15647090                   /usr/lib64/libfreetype.so.6.3.16
+2aaae67b7000-2aaae67cb000 r-xp 00000000 08:03 3751940                    /lib64/libz.so.1.2.3
+2aaae67cb000-2aaae69ca000 ---p 00014000 08:03 3751940                    /lib64/libz.so.1.2.3
+2aaae69ca000-2aaae69cb000 r-xp 00013000 08:03 3751940                    /lib64/libz.so.1.2.3
+2aaae69cb000-2aaae69cc000 rwxp 00014000 08:03 3751940                    /lib64/libz.so.1.2.3
+2aaae69cc000-2aaae69f0000 r-xp 00000000 08:03 15826973                   /usr/lib64/libpng12.so.0.26.0
+2aaae69f0000-2aaae6bef000 ---p 00024000 08:03 15826973                   /usr/lib64/libpng12.so.0.26.0
+2aaae6bef000-2aaae6bf0000 r-xp 00023000 08:03 15826973                   /usr/lib64/libpng12.so.0.26.0
+2aaae6bf0000-2aaae6bf1000 rwxp 00024000 08:03 15826973                   /usr/lib64/libpng12.so.0.26.0
+2aaae6bf1000-2aaae6d29000 r-xp 00000000 08:03 6580252                    /usr/lib64/libxml2.so.2.6.30
+2aaae6d29000-2aaae6f28000 ---p 00138000 08:03 6580252                    /usr/lib64/libxml2.so.2.6.30
+2aaae6f28000-2aaae6f30000 r-xp 00137000 08:03 6580252                    /usr/lib64/libxml2.so.2.6.30
+2aaae6f30000-2aaae6f32000 rwxp 0013f000 08:03 6580252                    /usr/lib64/libxml2.so.2.6.30
+2aaae6f32000-2aaae6f33000 rwxp 2aaae6f32000 00:00 0 
+2aaae6f33000-2aaae6f35000 r-xp 00000000 08:03 6574818                    /usr/lib64/libXau.so.6.0.0
+2aaae6f35000-2aaae7134000 ---p 00002000 08:03 6574818                    /usr/lib64/libXau.so.6.0.0
+2aaae7134000-2aaae7135000 r-xp 00001000 08:03 6574818                    /usr/lib64/libXau.so.6.0.0
+2aaae7135000-2aaae7136000 rwxp 00002000 08:03 6574818                    /usr/lib64/libXau.so.6.0.0
+2aaae7136000-2aaae713b000 r-xp 00000000 08:03 6574891                    /usr/lib64/libXdmcp.so.6.0.0
+2aaae713b000-2aaae733a000 ---p 00005000 08:03 6574891                    /usr/lib64/libXdmcp.so.6.0.0
+2aaae733a000-2aaae733b000 r-xp 00004000 08:03 6574891                    /usr/lib64/libXdmcp.so.6.0.0
+2aaae733b000-2aaae733c000 rwxp 00005000 08:03 6574891                    /usr/lib64/libXdmcp.so.6.0.0
+2aaae733c000-2aaae76da000 r-xp 00000000 08:03 16285698                   /usr/lib64/libgtk-x11-2.0.so.0.1200.8
+2aaae76da000-2aaae78da000 ---p 0039e000 08:03 16285698                   /usr/lib64/libgtk-x11-2.0.so.0.1200.8
+2aaae78da000-2aaae78e1000 r-xp 0039e000 08:03 16285698                   /usr/lib64/libgtk-x11-2.0.so.0.1200.8
+2aaae78e1000-2aaae78e5000 rwxp 003a5000 08:03 16285698                   /usr/lib64/libgtk-x11-2.0.so.0.1200.8
+2aaae78e5000-2aaae78e7000 rwxp 2aaae78e5000 00:00 0 
+2aaae78e7000-2aaae7904000 r-xp 00000000 08:03 15646787                   /usr/lib64/libatk-1.0.so.0.2009.1
+2aaae7904000-2aaae7b03000 ---p 0001d000 08:03 15646787                   /usr/lib64/libatk-1.0.so.0.2009.1
+2aaae7b03000-2aaae7b06000 r-xp 0001c000 08:03 15646787                   /usr/lib64/libatk-1.0.so.0.2009.1
+2aaae7b06000-2aaae7b07000 rwxp 0001f000 08:03 15646787                   /usr/lib64/libatk-1.0.so.0.2009.1
+2aaae7b07000-2aaae7b10000 r-xp 00000000 08:03 15861237                   /usr/lib64/gtk-2.0/2.10.0/engines/libxfce.so
+2aaae7b10000-2aaae7d0f000 ---p 00009000 08:03 15861237                   /usr/lib64/gtk-2.0/2.10.0/engines/libxfce.so
+2aaae7d0f000-2aaae7d10000 r-xp 00008000 08:03 15861237                   /usr/lib64/gtk-2.0/2.10.0/engines/libxfce.so
+2aaae7d10000-2aaae7d11000 rwxp 00009000 08:03 15861237                   /usr/lib64/gtk-2.0/2.10.0/engines/libxfce.so
+2aaae7d11000-2aaae7d30000 r-xp 00000000 08:03 6580577                    /usr/share/locale/de/LC_MESSAGES/libc.mo
+2aaae7d31000-2aaae7d34000 r-xp 00000000 08:03 16286534                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-bmp.so
+2aaae7d34000-2aaae7f34000 ---p 00003000 08:03 16286534                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-bmp.so
+2aaae7f34000-2aaae7f35000 r-xp 00003000 08:03 16286534                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-bmp.so
+2aaae7f35000-2aaae7f36000 rwxp 00004000 08:03 16286534                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-bmp.so
+2aaae7f36000-2aaae7f99000 rwxp 2aaae7f36000 00:00 0 
+2aaae7f99000-2aaae7ff9000 rwxs 00000000 00:08 3964943                    /SYSV00000000 (deleted)
+2aaae7ff9000-2aaae8008000 r-xs 000e4000 08:03 11178721                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.osgi_3.4.0.v20080605-1900.jar
+2aaae8008000-2aaae8308000 rwxp 2aaae8008000 00:00 0 
+2aaae8308000-2aaae831b000 r-xp 00000000 08:03 17285670                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libnet.so
+2aaae831b000-2aaae841c000 ---p 00013000 08:03 17285670                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libnet.so
+2aaae841c000-2aaae841f000 rwxp 00014000 08:03 17285670                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libnet.so
+2aaae841f000-2aaae8426000 r-xp 00000000 08:03 17285683                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libnio.so
+2aaae8426000-2aaae8525000 ---p 00007000 08:03 17285683                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libnio.so
+2aaae8525000-2aaae8527000 rwxp 00006000 08:03 17285683                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/libnio.so
+2aaae8527000-2aaae8529000 r-xp 00000000 08:03 6621721                    /usr/lib64/gconv/ISO8859-1.so
+2aaae8529000-2aaae8728000 ---p 00002000 08:03 6621721                    /usr/lib64/gconv/ISO8859-1.so
+2aaae8728000-2aaae8729000 r-xp 00001000 08:03 6621721                    /usr/lib64/gconv/ISO8859-1.so
+2aaae8729000-2aaae872a000 rwxp 00002000 08:03 6621721                    /usr/lib64/gconv/ISO8859-1.so
+2aaae872a000-2aaae872d000 r-xs 00012000 08:03 11178728                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.jobs_3.4.0.v20080512.jar
+2aaae872d000-2aaae872f000 r-xs 00012000 08:03 11178223                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.app_1.1.0.v20080421-2006.jar
+2aaae872f000-2aaae8732000 r-xs 00014000 08:03 11178761                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.runtime.compatibility_3.2.0.v20071008.jar
+2aaae8732000-2aaae8734000 r-xs 00008000 08:03 11178198                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.reconciler.dropins_1.0.0.v20080611.jar
+2aaae8734000-2aaae8735000 r-xs 00005000 08:03 11178573                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.directorywatcher_1.0.0.v20080505-1850.jar
+2aaae8735000-2aaae8738000 r-xs 00010000 08:03 11178108                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.core_1.0.0.v20080530-1237.jar
+2aaae8738000-2aaae873a000 r-xs 0000a000 08:03 11178632                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.ide.application_1.0.0.I20080603-2000.jar
+2aaae873a000-2aaae877d000 r-xs 0037b000 08:03 11178705                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.workbench_3.4.0.I20080606-1300.jar
+2aaae877d000-2aaae877e000 r-xs 00001000 08:03 11178175                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20080509-2000/compatibility.jar
+2aaae877e000-2aaae8791000 r-xs 000eb000 08:03 11178581                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jface_3.4.0.I20080606-1300.jar
+2aaae8791000-2aaae8792000 r-xs 00003000 08:03 11178216                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.swt_3.4.0.v3448f.jar
+2aaae8792000-2aaae87a4000 r-xs 001f3000 08:03 11178115                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.0.v3448f.jar
+2aaae87a4000-2aaae87a8000 r-xs 00020000 08:03 11178703                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui_3.4.0.I20080610-1200.jar
+2aaae87a8000-2aaae87ab000 r-xs 00017000 08:03 11178729                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.commands_3.4.0.I20080509-2000.jar
+2aaae87ab000-2aaae87eb000 r-xp 00000000 08:03 11207106                   /usr/lib64/eclipse-3.4/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-gtk-3448.so
+2aaae87eb000-2aaae88eb000 ---p 00040000 08:03 11207106                   /usr/lib64/eclipse-3.4/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-gtk-3448.so
+2aaae88eb000-2aaae88ef000 rwxp 00040000 08:03 11207106                   /usr/lib64/eclipse-3.4/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-gtk-3448.so
+2aaae88ef000-2aaae88f0000 rwxp 2aaae88ef000 00:00 0 
+2aaae88f0000-2aaae895b000 r-xp 00000000 08:03 11207107                   /usr/lib64/eclipse-3.4/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-pi-gtk-3448.so
+2aaae895b000-2aaae8a5a000 ---p 0006b000 08:03 11207107                   /usr/lib64/eclipse-3.4/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-pi-gtk-3448.so
+2aaae8a5a000-2aaae8a5e000 rwxp 0006a000 08:03 11207107                   /usr/lib64/eclipse-3.4/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-pi-gtk-3448.so
+2aaae8a5e000-2aaae8a5f000 rwxp 2aaae8a5e000 00:00 0 
+2aaae8a5f000-2aaae8a6b000 r-xs 0007b000 08:03 11178680                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.editors_3.4.0.v20080603-2000.jar
+2aaae8a6b000-2aaae8a7e000 r-xs 000d4000 08:03 11178764                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jface.text_3.4.0.v20080603-2000.jar
+2aaae8a7e000-2aaae8a81000 r-xs 00019000 08:03 11178434                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.filebuffers_3.4.0.v20080603-2000.jar
+2aaae8a81000-2aaae8a83000 r-xs 00006000 08:03 11178184                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.update.scheduler_3.2.100.v20080404.jar
+2aaae8a83000-2aaae8a87000 r-xp 00000000 08:03 6581838                    /usr/lib64/libgthread-2.0.so.0.1400.6
+2aaae8a87000-2aaae8c86000 ---p 00004000 08:03 6581838                    /usr/lib64/libgthread-2.0.so.0.1400.6
+2aaae8c86000-2aaae8c87000 r-xp 00003000 08:03 6581838                    /usr/lib64/libgthread-2.0.so.0.1400.6
+2aaae8c87000-2aaae8c88000 rwxp 00004000 08:03 6581838                    /usr/lib64/libgthread-2.0.so.0.1400.6
+2aaae8c88000-2aaae8c8d000 r-xp 00000000 08:03 15895358                   /usr/lib64/libXtst.so.6.1.0
+2aaae8c8d000-2aaae8e8c000 ---p 00005000 08:03 15895358                   /usr/lib64/libXtst.so.6.1.0
+2aaae8e8c000-2aaae8e8d000 r-xp 00004000 08:03 15895358                   /usr/lib64/libXtst.so.6.1.0
+2aaae8e8d000-2aaae8e8e000 rwxp 00005000 08:03 15895358                   /usr/lib64/libXtst.so.6.1.0
+2aaae8e8e000-2aaae8e93000 r-xp 00000000 08:03 16287504                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-gif.so
+2aaae8e93000-2aaae9093000 ---p 00005000 08:03 16287504                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-gif.so
+2aaae9093000-2aaae9094000 r-xp 00005000 08:03 16287504                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-gif.so
+2aaae9094000-2aaae9095000 rwxp 00006000 08:03 16287504                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-gif.so
+2aaae9095000-2aaae90f5000 rwxs 00000000 00:08 3997712                    /SYSV00000000 (deleted)
+2aaae90f6000-2aaae90fa000 r-xp 00000000 08:03 16285724                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-png.so
+2aaae90fa000-2aaae92f9000 ---p 00004000 08:03 16285724                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-png.so
+2aaae92f9000-2aaae92fa000 r-xp 00003000 08:03 16285724                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-png.so
+2aaae92fa000-2aaae92fb000 rwxp 00004000 08:03 16285724                   /usr/lib64/gtk-2.0/2.10.0/loaders/libpixbufloader-png.so
+2aaae92fb000-2aaae931e000 r-xs 001ce000 08:03 11178574                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.ide_3.4.0.I20080606-1300.jar
+2aaae931e000-2aaae9320000 r-xs 00016000 08:03 11178234                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.update.configurator_3.2.200.v20080417.jar
+2aaae9320000-2aaae932a000 r-xs 000a1000 08:03 11178535                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.resources_3.4.0.v20080604-1400.jar
+2aaae932a000-2aaae932d000 r-xs 0001b000 08:03 11178681                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.resources.compatibility_3.4.0.v20080604-1400.jar
+2aaae932d000-2aaae952d000 rwxp 2aaae932d000 00:00 0 
+2aaae952d000-2aaae952f000 r-xs 00009000 08:03 11178226                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.filesystem_1.2.0.v20080604-1400.jar
+2aaae952f000-2aaae9531000 r-xs 00003000 08:03 11178450                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.filesystem.linux.x86_64_1.0.100.v20080604-1400.jar
+2aaae9531000-2aaae9533000 r-xp 00000000 08:03 4571835                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/22/1/.cp/os/linux/x86_64/liblocalfile_1_0_0.so
+2aaae9533000-2aaae9632000 ---p 00002000 08:03 4571835                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/22/1/.cp/os/linux/x86_64/liblocalfile_1_0_0.so
+2aaae9632000-2aaae9633000 rwxp 00001000 08:03 4571835                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/22/1/.cp/os/linux/x86_64/liblocalfile_1_0_0.so
+2aaae9633000-2aaae9636000 r-xs 00013000 08:03 11178580                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.contenttype_3.3.0.v20080604-1400.jar
+2aaae9636000-2aaae9936000 rwxp 2aaae9636000 00:00 0 
+2aaae9936000-2aaae993e000 r-xs 00056000 08:03 11178593                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.team.core_3.4.0.I20080605.jar
+2aaae993e000-2aaaea067000 rwxp 2aaae993e000 00:00 0 
+2aaaea067000-2aaaea098000 r-xs 00000000 08:03 15959547                   /var/cache/fontconfig/17090aa38d5c6f09fb8c5c354938f1d7-x86-64.cache-2
+2aaaea098000-2aaaea31c000 rwxp 2aaaea098000 00:00 0 
+2aaaea31c000-2aaaea335000 r-xs 00000000 08:03 15959548                   /var/cache/fontconfig/4b5cf4386f1cde02a336ba961b4ac82d-x86-64.cache-2
+2aaaea335000-2aaaea348000 r-xs 00000000 08:03 15958961                   /var/cache/fontconfig/8d4af663993b81a124ee82e610bb31f9-x86-64.cache-2
+2aaaea348000-2aaaea350000 r-xs 00000000 08:03 15959546                   /var/cache/fontconfig/87f5e051180a7a75f16eb6fe7dbd3749-x86-64.cache-2
+2aaaea350000-2aaaea354000 r-xp 00000000 08:03 15976690                   /usr/share/fonts/75dpi/helvB12.pcf.gz
+2aaaea354000-2aaaea358000 r-xp 00000000 08:03 15976546                   /usr/share/fonts/75dpi/helvR12.pcf.gz
+2aaaea35c000-2aaaea360000 r-xp 00000000 08:03 15976684                   /usr/share/fonts/75dpi/courR12.pcf.gz
+2aaaea360000-2aaaea365000 r-xp 00000000 08:03 15976763                   /usr/share/fonts/75dpi/timR14.pcf.gz
+2aaaea36c000-2aaaea370000 r-xp 00000000 08:03 15976711                   /usr/share/fonts/75dpi/helvR10.pcf.gz
+2aaaea373000-2aaaea375000 r-xp 00000000 08:03 16024174                   /usr/lib64/pango/1.6.0/modules/pango-basic-fc.so
+2aaaea375000-2aaaea574000 ---p 00002000 08:03 16024174                   /usr/lib64/pango/1.6.0/modules/pango-basic-fc.so
+2aaaea574000-2aaaea575000 r-xp 00001000 08:03 16024174                   /usr/lib64/pango/1.6.0/modules/pango-basic-fc.so
+2aaaea575000-2aaaea576000 rwxp 00002000 08:03 16024174                   /usr/lib64/pango/1.6.0/modules/pango-basic-fc.so
+2aaaea576000-2aaaea579000 r-xp 00000000 08:03 15646918                   /usr/share/locale/de/LC_MESSAGES/atk10.mo
+2aaaea579000-2aaaeb17e000 rwxp 2aaaea579000 00:00 0 
+2aaaeb17e000-2aaaeb1aa000 r-xs 001fe000 08:03 11178161                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.debug.ui_3.4.0.v20080529-1300.jar
+2aaaeb1aa000-2aaaeb1b4000 r-xs 00068000 08:03 11178158                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.search_3.4.0.v20080603-2000.jar
+2aaaeb1b4000-2aaaeb237000 r-xs 007d0000 08:03 11178719                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.jsdt.ui_1.0.0.v200805282135.jar
+2aaaeb237000-2aaaeb637000 rwxp 2aaaeb237000 00:00 0 
+2aaaeb637000-2aaaeb63e000 r-xp 00000000 08:03 4571867                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-atk-gtk-3448.so
+2aaaeb63e000-2aaaeb73d000 ---p 00007000 08:03 4571867                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-atk-gtk-3448.so
+2aaaeb73d000-2aaaeb73e000 rwxp 00006000 08:03 4571867                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-atk-gtk-3448.so
+2aaaeb73e000-2aaaeb75c000 r-xs 0011c000 08:03 11178669                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jpt.ui_2.0.0.v200806050000.jar
+2aaaeb75c000-2aaaeb75f000 r-xs 0001f000 08:03 11178740                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.java.ui_3.0.0.v20080619-1900.jar
+2aaaeb75f000-2aaaeb763000 r-xs 0001e000 08:03 11178708                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.jsdt.web.core_1.0.0.v200805221604.jar
+2aaaeb763000-2aaaeb766000 r-xs 00017000 08:03 11178588                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.security_1.0.0.v20080512-1800.jar
+2aaaeb766000-2aaaeb769000 r-xs 00013000 08:03 17285148                   /opt/sun-jdk-1.6.0.06/jre/lib/jce.jar
+2aaaeb769000-2aaaeb76b000 r-xs 00008000 08:03 11178743                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.net_1.0.0.I20080605.jar
+2aaaeb76b000-2aaaeb76f000 r-xs 0001c000 08:03 11178445                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.ui.sdk_1.0.0.v20080605-1731.jar
+2aaaeb76f000-2aaaeb777000 r-xs 00053000 08:03 11178533                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.ui_1.0.0.v20080530-1237.jar
+2aaaeb777000-2aaaeb778000 r-xs 00001000 08:03 11178572                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.exemplarysetup_1.0.0.v20080427-2136.jar
+2aaaeb778000-2aaaeb77c000 r-xs 0001b000 08:03 11178461                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.engine_1.0.0.v20080522-1735.jar
+2aaaeb77c000-2aaaeb77e000 r-xs 00016000 08:03 11178319                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.director_1.0.0.v20080604.jar
+2aaaeb77e000-2aaaeb782000 r-xs 00019000 08:03 11178291                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.metadata.repository_1.0.0.v20080604.jar
+2aaaeb782000-2aaaeb784000 r-xs 00009000 08:03 11178464                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.metadata_1.0.0.v20080514-1900.jar
+2aaaeb785000-2aaaeb788000 r-xs 00011000 08:03 11178271                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.views_3.3.0.I20080509-2000.jar
+2aaaeb78c000-2aaaeb7af000 r-xp 00000000 08:03 15716572                   /usr/share/fonts/corefonts/verdana.ttf
+2aaaeb7d0000-2aaaeb7d7000 r-xs 00047000 08:03 11178196                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ltk.core.refactoring_3.4.0.v20080603-2000.jar
+2aaaeb7d7000-2aaaeb7f0000 r-xs 00128000 08:03 11178245                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.debug.ui_3.3.0.v20080603.jar
+2aaaeb7f0000-2aaaebd1c000 rwxp 2aaaeb7f0000 00:00 0 
+2aaaebd1c000-2aaaebd21000 r-xs 00041000 08:03 11178732                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.launching_3.4.0.v20080529-1300.jar
+2aaaebd21000-2aaaebd28000 r-xs 00044000 08:03 11178275                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.debug.core_3.4.0.v20080612.jar
+2aaaebd28000-2aaaec554000 rwxp 2aaaebd28000 00:00 0 
+2aaaec554000-2aaaec55f000 r-xs 00073000 08:03 11178785                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.junit_3.4.0.v20080603-2000.jar
+2aaaec55f000-2aaaeca71000 rwxp 2aaaec55f000 00:00 0 
+2aaaeca71000-2aaaeca7d000 r-xp 00000000 08:03 4571874                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-cairo-gtk-3448.so
+2aaaeca7d000-2aaaecb7d000 ---p 0000c000 08:03 4571874                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-cairo-gtk-3448.so
+2aaaecb7d000-2aaaecb7e000 rwxp 0000c000 08:03 4571874                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-cairo-gtk-3448.so
+2aaaecb82000-2aaaecba8000 r-xp 00000000 08:03 15716574                   /usr/share/fonts/corefonts/verdanai.ttf
+2aaaecbbe000-2aaaecbc5000 r-xs 00038000 08:03 11178686                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.common.snippets_1.1.200.v200805140415.jar
+2aaaecbc5000-2aaaecbc9000 r-xp 00000000 08:03 16285895                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-file.so
+2aaaecbc9000-2aaaecdc8000 ---p 00004000 08:03 16285895                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-file.so
+2aaaecdc8000-2aaaecdc9000 r-xp 00003000 08:03 16285895                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-file.so
+2aaaecdc9000-2aaaecdca000 rwxp 00004000 08:03 16285895                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-file.so
+2aaaecdca000-2aaaecdd4000 r-xs 00065000 08:03 11178783                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ltk.ui.refactoring_3.4.0.v20080605-1800.jar
+2aaaecdd4000-2aaaecde3000 r-xs 000b9000 08:03 11178778                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.j2ee.ui_1.1.200.v200805140020.jar
+2aaaecde3000-2aaaecdf4000 r-xs 000b2000 08:03 11178482                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.server.ui_1.1.0.v20080515.jar
+2aaaecdf4000-2aaaecdf7000 r-xs 00010000 08:03 11178471                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.connectivity.ui.dse_1.1.0.v200805152355.jar
+2aaaecdf7000-2aaaecdfb000 r-xs 00023000 08:03 11178601                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.console_3.3.0.v20080529-1300.jar
+2aaaecdfb000-2aaaecdfe000 r-xs 00019000 08:03 11178164                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.navigator.resources_3.3.100.I20080606-1300.jar
+2aaaecdfe000-2aaaece17000 r-xs 00122000 08:03 11178715                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.team.ui_3.4.0.I20080604.jar
+2aaaece17000-2aaaece1d000 r-xs 0002f000 08:03 11178182                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.context.ui_3.0.0.v20080619-1900.jar
+2aaaece1d000-2aaaece24000 r-xs 00047000 08:03 11178118                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.navigator_3.3.100.I20080606-1300.jar
+2aaaece24000-2aaaece4e000 r-xs 0038c000 08:03 11178745                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.jsdt.core_1.0.0.v200805291857.jar
+2aaaece4e000-2aaaece51000 r-xs 0000a000 08:03 11178188                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.jsdt.manipulation_1.0.0.v200804302218.jar
+2aaaece51000-2aaaece55000 r-xs 0001f000 08:03 11178569                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.common.emfworkbench.integration_1.1.200.v200805140020.jar
+2aaaece55000-2aaaece58000 r-xs 00019000 08:03 11178225                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.common.frameworks_1.1.200.v200805140020.jar
+2aaaece58000-2aaaece5b000 r-xs 00017000 08:03 11178413                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jem.util_2.0.100.v200805140020.jar
+2aaaece5b000-2aaaece60000 r-xs 0002f000 08:03 11178422                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.common.emf_1.1.200.v200805140020.jar
+2aaaece60000-2aaaece63000 r-xs 00032000 08:03 11178416                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.ecore.xmi_2.4.0.v200806091234.jar
+2aaaece63000-2aaaece6b000 r-xs 00042000 08:03 11178714                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.common.project.facet.core_1.3.0.v200805140020.jar
+2aaaece6b000-2aaaece6e000 r-xs 0000d000 08:03 11178726                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.tasks.bugs_3.0.0.v20080619-1900.jar
+2aaaece6e000-2aaaece75000 r-xs 0006a000 08:03 11178470                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.files.ui_3.0.0.v20080609.jar
+2aaaece75000-2aaaece79000 r-xs 00022000 08:03 11178372                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.externaltools_3.2.0.v20080514-1542.jar
+2aaaece79000-2aaaece7d000 r-xs 0002a000 08:03 11178167                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.servlet.ui_1.1.200.v200805150230.jar
+2aaaece7d000-2aaaed1d7000 rwxp 2aaaece7d000 00:00 0 
+2aaaed1d7000-2aaaed1d8000 r-xs 00002000 08:03 11178242                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst_1.0.100.v200805140017.jar
+2aaaed1d8000-2aaaed2d8000 rwxp 2aaaed1d8000 00:00 0 
+2aaaed2d8000-2aaaed2da000 r-xs 00002000 08:03 11178749                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.enablement.finfo_1.5.1.v200805152355.jar
+2aaaed2da000-2aaaed2dc000 r-xs 00004000 08:03 11178690                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.doc.user_1.6.0.20080606124249.jar
+2aaaed2dc000-2aaaed2dd000 r-xs 00007000 08:03 11178616                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.codegen.ui_2.4.0.v200806091234.jar
+2aaaed2dd000-2aaaed2ec000 r-xs 000ee000 08:03 11178571                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.emf.ecore_2.4.0.v200806091234.jar
+2aaaed2ec000-2aaaed2ed000 r-xs 00002000 08:03 11178781                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst_1.0.100.v200805140017.jar
+2aaaed2ed000-2aaaed3ed000 rwxp 2aaaed2ed000 00:00 0 
+2aaaed3ed000-2aaaed3ef000 r-xs 0000b000 08:03 11178371                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.rse.services.ssh_2.1.0.v20080604.jar
+2aaaed3ef000-2aaaed3f8000 r-xs 00078000 08:03 11178605                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.draw2d_3.4.0.v20080529.jar
+2aaaed3f8000-2aaaed3fc000 r-xs 0001f000 08:03 11178750                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.enablement.oda.xml.ui_1.1.0.v200805270900.jar
+2aaaed3fc000-2aaaed40a000 r-xp 00000000 08:03 16287630                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-cups.so
+2aaaed40a000-2aaaed609000 ---p 0000e000 08:03 16287630                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-cups.so
+2aaaed609000-2aaaed60a000 r-xp 0000d000 08:03 16287630                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-cups.so
+2aaaed60a000-2aaaed60b000 rwxp 0000e000 08:03 16287630                   /usr/lib64/gtk-2.0/2.10.0/printbackends/libprintbackend-cups.so
+2aaaed60b000-2aaaed621000 r-xs 000d2000 08:03 11178331                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.jsf.core_1.1.0.v20080606.jar
+2aaaed621000-2aaaed62f000 r-xs 00069000 08:03 11178602                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.jsf.common_1.1.0.v20080605.jar
+2aaaed62f000-2aaaed632000 r-xs 0000e000 08:03 11178468                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.web.ui_1.1.200.v200805281530.jar
+2aaaed632000-2aaaed634000 r-xs 00006000 08:03 11178733                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.core.variables_3.2.100.v20080529-1300.jar
+2aaaed634000-2aaaed636000 r-xs 00006000 08:03 11178448                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.ide.ui_3.0.0.v20080619-1900.jar
+2aaaed636000-2aaaed656000 r-xs 00162000 08:03 11178685                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.tasks.ui_3.0.0.v20080619-1900.jar
+2aaaed656000-2aaaed678000 r-xs 001a4000 08:03 11178525                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.ws.explorer_1.0.305.v200806041425.jar
+2aaaed678000-2aaaed67b000 r-xs 00013000 08:03 11206973                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.intro.universal_3.2.200.v20080508/universal.jar
+2aaaed67b000-2aaaed682000 r-xs 00052000 08:03 11178505                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.validation_1.2.0.v200806051402.jar
+2aaaed682000-2aaaed690000 r-xs 000ae000 08:03 4588716                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/plugins/net.sourceforge.texlipse_1.2.1/texlipse.jar
+2aaaed690000-2aaaed691000 r-xs 00004000 08:03 11178480                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.garbagecollector_1.0.0.v20080506-1939.jar
+2aaaed691000-2aaaed694000 r-xs 00011000 08:03 11178231                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.context.core_3.0.0.v20080619-1900.jar
+2aaaed694000-2aaaed695000 r-xs 00007000 08:03 11178576                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.monitor.core_3.0.0.v20080619-1900.jar
+2aaaed695000-2aaaed697000 r-xs 0000c000 08:03 11178323                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.frameworkadmin.equinox_1.0.0.v20080529-1225.jar
+2aaaed697000-2aaaed69a000 r-xs 0000d000 08:03 11178363                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.osgi.services_3.1.200.v20071203.jar
+2aaaed69a000-2aaaed69c000 r-xs 00007000 08:03 11178716                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.frameworkadmin_1.0.0.v20080430-1750.jar
+2aaaed69c000-2aaaed69d000 r-xs 00004000 08:03 11178437                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.simpleconfigurator.manipulator_1.0.0.v20080427-2136.jar
+2aaaed69d000-2aaaed69e000 r-xs 00003000 08:03 11178406                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.p2.updatechecker_1.0.0.v20080427-2136.jar
+2aaaed69e000-2aaaed6a5000 r-xs 0004f000 08:03 11178109                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.tasks.core_3.0.0.v20080619-1900.jar
+2aaaed6a5000-2aaaed6c2000 r-xs 00174000 08:03 11178653                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.team.cvs.ui_3.3.100.I20080604.jar
+2aaaed6c2000-2aaaed6cc000 r-xs 00083000 08:03 11178530                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.team.cvs.core_3.3.100.I20080605.jar
+2aaaed6cc000-2aaaed6ce000 r-xs 00007000 08:03 11178185                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jsch.core_1.1.100.I20080604.jar
+2aaaed6ce000-2aaaed6d1000 r-xs 00032000 08:03 11178483                   /usr/lib64/eclipse-3.4/plugins/com.jcraft.jsch_0.1.37.v200803061811.jar
+2aaaed6d1000-2aaaed6d5000 r-xs 0000d000 08:03 11178290                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.debug_3.4.0.v20080604/jdi.jar
+2aaaed6d5000-2aaaed6e2000 r-xs 000b6000 08:03 11178289                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jdt.debug_3.4.0.v20080604/jdimodel.jar
+2aaaed6e2000-2aaaed702000 r-xs 0017c000 08:03 11178536                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.j2ee_1.1.200.v200806051600.jar
+2aaaed702000-2aaaed729000 r-xs 0021f000 08:03 11178432                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.j2ee.core_1.1.200.v200806052000.jar
+2aaaed729000-2aaaed72f000 r-xs 0003e000 08:03 11178689                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jem_2.0.200.v200806051600.jar
+2aaaed72f000-2aaaed746000 r-xs 00127000 08:03 11178477                   /usr/lib64/eclipse-3.4/plugins/org.apache.xerces_2.9.0.v200805270400.jar
+2aaaed746000-2aaaed749000 r-xs 00014000 08:03 11178465                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.jee_1.0.100.v200805140020.jar
+2aaaed749000-2aaaed757000 r-xs 00096000 08:03 11178736                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.xml.core_1.1.300.v200806051910.jar
+2aaaed757000-2aaaed760000 r-xs 00059000 08:03 11178474                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.sse.core_1.1.300.v200805221633.jar
+2aaaed760000-2aaaed764000 r-xs 0001f000 08:03 11178189                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jem.ui_2.0.100.v200806051600.jar
+2aaaed764000-2aaaed76b000 r-xs 00040000 08:03 11178506                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.common.modulecore_1.1.200.v200806091800.jar
+2aaaed76b000-2aaaed76c000 r-xp 2aaaed76b000 00:00 0 
+2aaaed76c000-2aaaed77d000 r-xs 000f6000 08:03 11178228                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ant.ui_3.3.0.v20080529.jar
+2aaaed77d000-2aaaed786000 r-xs 0008b000 08:03 11178403                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.update.core_3.2.200.v20080515.jar
+2aaaed786000-2aaaed787000 r-xs 00007000 08:03 11178635                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.epp.usagedata.gathering_1.0.0.R200806162215.jar
+2aaaed787000-2aaaed789000 r-xs 00009000 08:03 11178738                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.epp.usagedata.recording_1.0.0.R200806162215.jar
+2aaaed789000-2aaaed78c000 r-xs 0000f000 08:03 11178441                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.commons.net_3.0.0.v20080619-1900.jar
+2aaaed78c000-2aaaed792000 r-xs 00049000 08:03 11178538                   /usr/lib64/eclipse-3.4/plugins/org.apache.commons.httpclient_3.1.0.v20080605-1935.jar
+2aaaed792000-2aaaed793000 r-xs 0000a000 08:03 11178559                   /usr/lib64/eclipse-3.4/plugins/org.apache.commons.logging_1.0.4.v20080605-1930.jar
+2aaaed793000-2aaaed799000 r-xs 00091000 08:03 17285718                   /opt/sun-jdk-1.6.0.06/jre/lib/jsse.jar
+2aaaed799000-2aaaed79c000 r-xs 00022000 08:03 11178640                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.bugzilla.core_3.0.0.v20080619-1900.jar
+2aaaed79c000-2aaaed7a0000 r-xs 0001e000 08:03 11178407                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.bugzilla.ui_3.0.0.v20080619-1900.jar
+2aaaed7a0000-2aaaed7a6000 r-xs 00029000 08:03 11178317                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.commons.ui_3.0.0.v20080619-1900.jar
+2aaaed7a6000-2aaaed7ac000 r-xs 00043000 08:03 11178550                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.forms_3.3.100.v20080611.jar
+2aaaed7ac000-2aaaed7b0000 r-xs 00018000 08:03 11178542                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.team.ui_3.0.0.v20080619-1900.jar
+2aaaed7b0000-2aaaed7b3000 r-xs 00010000 08:03 11178127                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.ws.service.policy.ui_1.0.0.v200806031937.jar
+2aaaed7b3000-2aaaed7b5000 r-xs 0000a000 08:03 11178565                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.monitor.ui_3.0.0.v20080619-1900.jar
+2aaaed7b5000-2aaaed7b7000 r-xs 00003000 08:03 11178503                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.team.cvs_3.0.0.v20080619-1900.jar
+2aaaed7b7000-2aaaed7b8000 r-xs 00001000 08:03 11178779                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.update.core.linux_3.2.0.v20080422.jar
+2aaaed7b8000-2aaaed7bd000 r-xs 00029000 08:03 11178415                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.sqltools.routineeditor_1.0.0.v200805261703.jar
+2aaaed7bd000-2aaaed7bf000 r-xs 00011000 08:03 11178433                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.server.generic.ui_1.0.305.v200805140145.jar
+2aaaed7bf000-2aaaed7c1000 r-xs 00008000 08:03 11178212                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.server.preview.adapter_1.0.100.v200805140145.jar
+2aaaed7c1000-2aaaed7c4000 r-xs 0001d000 08:03 11178314                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.server.tomcat.ui_1.1.100.v20080528.jar
+2aaaed7c4000-2aaaed7c6000 r-xs 00007000 08:03 11178452                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.server.preview.adapter_1.0.100.v200805140145.jar
+2aaaed7c6000-2aaaed7ce000 r-xs 0005c000 08:03 11178562                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.dtd.core_1.1.200.v200805140200.jar
+2aaaed7ce000-2aaaed7d4000 r-xs 0003c000 08:03 11178537                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.html.ui_1.0.300.v200805152207.jar
+2aaaed7d4000-2aaaed7e3000 r-xs 000b0000 08:03 11178154                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.sse.ui_1.1.0.v200806041847.jar
+2aaaed7e3000-2aaaed7ed000 r-xs 00086000 08:03 11178543                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.jsp.core_1.2.100.v200806050300.jar
+2aaaed7ed000-2aaaed7f1000 r-xs 00029000 08:03 11178491                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.wsdl.validation_1.1.301.v200805140300.jar
+2aaaed7f1000-2aaaed7f3000 r-xs 00004000 08:03 11178264                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.common.annotations.core_1.1.100.v200805140020.jar
+2aaaed7f3000-2aaaed7f7000 r-xs 0001b000 08:03 11178124                   /usr/lib64/eclipse-3.4/plugins/javax.wsdl_1.4.0.v200806030407.jar
+2aaaed7f7000-2aaaed7f9000 r-xs 0000f000 08:03 11178739                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.xsd.core_1.1.300.v200805282012.jar
+2aaaed7f9000-2aaaed7fb000 r-xs 0000d000 08:03 11178268                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.server.ui_1.0.303.v200805140145.jar
+2aaaed7fb000-2aaaed7ff000 r-xs 0001d000 08:03 11178789                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.ui.views.log_1.0.0.v20080522-2200.jar
+2aaaed7ff000-2aaaed802000 r-xs 00010000 08:03 11178339                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.server.core_1.1.0.v20080528.jar
+2aaaed802000-2aaaed808000 r-xp 00000000 08:03 6581792                    /usr/share/locale/de/LC_MESSAGES/glib20.mo
+2aaaed808000-2aaaed80a000 r-xs 0000c000 08:03 11178788                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.web_1.1.202.v200805140200.jar
+2aaaed80a000-2aaaeda65000 rwxp 2aaaed80a000 00:00 0 
+2aaaeda65000-2aaaedaae000 r-xs 003c7000 08:03 11178430                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.pde.ui_3.4.0.v20080530.jar
+2aaaedaae000-2aaaedabd000 r-xs 000b8000 08:03 11178454                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.xml.ui_1.0.400.v200806051910.jar
+2aaaedabd000-2aaaedaed000 r-xp 00000000 08:03 16353454                   /usr/lib64/libcups.so.2
+2aaaedaed000-2aaaedcec000 ---p 00030000 08:03 16353454                   /usr/lib64/libcups.so.2
+2aaaedcec000-2aaaedcee000 r-xp 0002f000 08:03 16353454                   /usr/lib64/libcups.so.2
+2aaaedcee000-2aaaedcef000 rwxp 00031000 08:03 16353454                   /usr/lib64/libcups.so.2
+2aaaedcef000-2aaaedd6d000 r-xp 00000000 08:03 15958950                   /usr/lib64/libgnutls.so.26.1.3
+2aaaedd6d000-2aaaedf6c000 ---p 0007e000 08:03 15958950                   /usr/lib64/libgnutls.so.26.1.3
+2aaaedf6c000-2aaaedf76000 r-xp 0007d000 08:03 15958950                   /usr/lib64/libgnutls.so.26.1.3
+2aaaedf76000-2aaaedf78000 rwxp 00087000 08:03 15958950                   /usr/lib64/libgnutls.so.26.1.3
+2aaaedf78000-2aaaedf87000 r-xp 00000000 08:03 15795424                   /usr/lib64/libtasn1.so.3.0.13
+2aaaedf87000-2aaaee186000 ---p 0000f000 08:03 15795424                   /usr/lib64/libtasn1.so.3.0.13
+2aaaee186000-2aaaee187000 r-xp 0000e000 08:03 15795424                   /usr/lib64/libtasn1.so.3.0.13
+2aaaee187000-2aaaee188000 rwxp 0000f000 08:03 15795424                   /usr/lib64/libtasn1.so.3.0.13
+2aaaee188000-2aaaee1ed000 r-xp 00000000 08:03 15827351                   /usr/lib64/libgcrypt.so.11.4.3
+2aaaee1ed000-2aaaee3ec000 ---p 00065000 08:03 15827351                   /usr/lib64/libgcrypt.so.11.4.3
+2aaaee3ec000-2aaaee3ed000 r-xp 00064000 08:03 15827351                   /usr/lib64/libgcrypt.so.11.4.3
+2aaaee3ed000-2aaaee3ef000 rwxp 00065000 08:03 15827351                   /usr/lib64/libgcrypt.so.11.4.3
+2aaaee3ef000-2aaaee3f2000 r-xp 00000000 08:03 15634469                   /usr/lib64/libgpg-error.so.0.4.0
+2aaaee3f2000-2aaaee5f1000 ---p 00003000 08:03 15634469                   /usr/lib64/libgpg-error.so.0.4.0
+2aaaee5f1000-2aaaee5f2000 r-xp 00002000 08:03 15634469                   /usr/lib64/libgpg-error.so.0.4.0
+2aaaee5f2000-2aaaee5f3000 rwxp 00003000 08:03 15634469                   /usr/lib64/libgpg-error.so.0.4.0
+2aaaee5f3000-2aaaee5f8000 r-xp 00000000 08:03 3752063                    /lib64/libcrypt-2.6.1.so
+2aaaee5f8000-2aaaee7f7000 ---p 00005000 08:03 3752063                    /lib64/libcrypt-2.6.1.so
+2aaaee7f7000-2aaaee7f8000 r-xp 00004000 08:03 3752063                    /lib64/libcrypt-2.6.1.so
+2aaaee7f8000-2aaaee7f9000 rwxp 00005000 08:03 3752063                    /lib64/libcrypt-2.6.1.so
+2aaaee7f9000-2aaaee827000 rwxp 2aaaee7f9000 00:00 0 
+2aaaee827000-2aaaee82d000 r-xs 00048000 08:03 11178129                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.server.core_1.1.0.v20080530.jar
+2aaaee82d000-2aaaeec56000 r-xp 00000000 08:03 6668460                    /usr/share/icons/Rodent/icon-theme.cache
+2aaaeec56000-2aaaef07f000 r-xp 00000000 08:03 6668460                    /usr/share/icons/Rodent/icon-theme.cache
+2aaaef07f000-2aaaef75c000 r-xp 00000000 08:03 6673140                    /usr/share/icons/gnome/icon-theme.cache
+2aaaef75c000-2aaaefe39000 r-xp 00000000 08:03 6673140                    /usr/share/icons/gnome/icon-theme.cache
+2aaaefe45000-2aaaefe4c000 r-xp 00000000 08:03 4572576                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-xpcominit-gtk-3448.so
+2aaaefe4c000-2aaaeff4c000 ---p 00007000 08:03 4572576                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-xpcominit-gtk-3448.so
+2aaaeff4c000-2aaaeff4e000 rwxp 00007000 08:03 4572576                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-xpcominit-gtk-3448.so
+2aaaeff4e000-2aaaeff4f000 rwxp 2aaaeff4e000 00:00 0 
+2aaaeff4f000-2aaaeff57000 r-xp 00000000 08:03 16384571                   /usr/share/locale/de/LC_MESSAGES/libgnome-2.0.mo
+2aaaeff64000-2aaaeff6a000 r-xs 00031000 08:03 11178623                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.pde.api.tools.ui_1.0.0.v20080603.jar
+2aaaeff6a000-2aaaeff73000 r-xs 0005c000 08:03 11178766                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.datatools.sqltools.sqleditor_1.0.0.v200805152355.jar
+2aaaeff73000-2aaaeff7c000 r-xs 00061000 08:03 11178583                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.jsp.ui_1.1.300.v200805152207.jar
+2aaaeff7c000-2aaaeff82000 r-xs 00039000 08:03 11178239                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.css.ui_1.0.300.v200805152207.jar
+2aaaeff82000-2aaaeff88000 r-xs 00030000 08:03 11178600                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.dtd.ui_1.0.300.v200805152207.jar
+2aaaeff88000-2aaaeff95000 r-xs 00089000 08:03 11178107                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.wst.html.core_1.1.200.v200806050300.jar
+2aaaeffa1000-2aaaeffae000 r-xs 0009c000 08:03 11178547                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.compare_3.4.0.I20080604.jar
+2aaaeffae000-2aaaeffb0000 r-xs 0000a000 08:03 11178592                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.mylyn.resources.ui_3.0.0.v20080619-1900.jar
+2aaaeffb0000-2aaaeffd6000 r-xp 00000000 08:03 15716575                   /usr/share/fonts/corefonts/verdanaz.ttf
+2aaaeffd6000-2aaaefff8000 r-xp 00000000 08:03 15716573                   /usr/share/fonts/corefonts/verdanab.ttf
+2aaaf0000000-2aaaf35cc000 rwxp 2aaaf0000000 00:00 0 
+2aaaf35cc000-2aaaf4000000 ---p 2aaaf35cc000 00:00 0 
+2aaaf4000000-2aaaf41d6000 r-xp 00000000 08:03 6673147                    /usr/share/icons/hicolor/icon-theme.cache
+2aaaf41d6000-2aaaf43ac000 r-xp 00000000 08:03 6673147                    /usr/share/icons/hicolor/icon-theme.cache
+2aaaf43ac000-2aaaf43ae000 r-xp 00000000 08:03 16532808                   /usr/lib64/gtk-2.0/2.10.0/loaders/svg_loader.so
+2aaaf43ae000-2aaaf45ad000 ---p 00002000 08:03 16532808                   /usr/lib64/gtk-2.0/2.10.0/loaders/svg_loader.so
+2aaaf45ad000-2aaaf45ae000 r-xp 00001000 08:03 16532808                   /usr/lib64/gtk-2.0/2.10.0/loaders/svg_loader.so
+2aaaf45ae000-2aaaf45af000 rwxp 00002000 08:03 16532808                   /usr/lib64/gtk-2.0/2.10.0/loaders/svg_loader.so
+2aaaf45af000-2aaaf45c9000 r-xp 00000000 08:03 15716221                   /usr/share/fonts/corefonts/andalemo.ttf
+2aaaf45d3000-2aaaf4606000 r-xp 00000000 08:03 16532888                   /usr/lib64/librsvg-2.so.2.20.0
+2aaaf4606000-2aaaf4806000 ---p 00033000 08:03 16532888                   /usr/lib64/librsvg-2.so.2.20.0
+2aaaf4806000-2aaaf4807000 r-xp 00033000 08:03 16532888                   /usr/lib64/librsvg-2.so.2.20.0
+2aaaf4807000-2aaaf4808000 rwxp 00034000 08:03 16532888                   /usr/lib64/librsvg-2.so.2.20.0
+2aaaf4808000-2aaaf4869000 r-xp 00000000 08:03 15860724                   /usr/lib64/libgnomevfs-2.so.0.2000.1
+2aaaf4869000-2aaaf4a68000 ---p 00061000 08:03 15860724                   /usr/lib64/libgnomevfs-2.so.0.2000.1
+2aaaf4a68000-2aaaf4a6b000 r-xp 00060000 08:03 15860724                   /usr/lib64/libgnomevfs-2.so.0.2000.1
+2aaaf4a6b000-2aaaf4a6d000 rwxp 00063000 08:03 15860724                   /usr/lib64/libgnomevfs-2.so.0.2000.1
+2aaaf4a6d000-2aaaf4a6e000 rwxp 2aaaf4a6d000 00:00 0 
+2aaaf4a6e000-2aaaf4a9d000 r-xp 00000000 08:03 16025590                   /usr/lib64/libgconf-2.so.4.1.2
+2aaaf4a9d000-2aaaf4c9d000 ---p 0002f000 08:03 16025590                   /usr/lib64/libgconf-2.so.4.1.2
+2aaaf4c9d000-2aaaf4c9f000 r-xp 0002f000 08:03 16025590                   /usr/lib64/libgconf-2.so.4.1.2
+2aaaf4c9f000-2aaaf4ca2000 rwxp 00031000 08:03 16025590                   /usr/lib64/libgconf-2.so.4.1.2
+2aaaf4ca2000-2aaaf4cff000 r-xp 00000000 08:03 15828290                   /usr/lib64/libORBit-2.so.0.1.0
+2aaaf4cff000-2aaaf4efe000 ---p 0005d000 08:03 15828290                   /usr/lib64/libORBit-2.so.0.1.0
+2aaaf4efe000-2aaaf4f0d000 r-xp 0005c000 08:03 15828290                   /usr/lib64/libORBit-2.so.0.1.0
+2aaaf4f0d000-2aaaf4f10000 rwxp 0006b000 08:03 15828290                   /usr/lib64/libORBit-2.so.0.1.0
+2aaaf4f10000-2aaaf4f11000 rwxp 2aaaf4f10000 00:00 0 
+2aaaf4f11000-2aaaf4f46000 r-xp 00000000 08:03 16597062                   /usr/lib64/libgsf-1.so.114.0.7
+2aaaf4f46000-2aaaf5145000 ---p 00035000 08:03 16597062                   /usr/lib64/libgsf-1.so.114.0.7
+2aaaf5145000-2aaaf5148000 r-xp 00034000 08:03 16597062                   /usr/lib64/libgsf-1.so.114.0.7
+2aaaf5148000-2aaaf514a000 rwxp 00037000 08:03 16597062                   /usr/lib64/libgsf-1.so.114.0.7
+2aaaf514a000-2aaaf514b000 rwxp 2aaaf514a000 00:00 0 
+2aaaf514b000-2aaaf5182000 r-xp 00000000 08:03 15959328                   /usr/lib64/libcroco-0.6.so.3.0.1
+2aaaf5182000-2aaaf5382000 ---p 00037000 08:03 15959328                   /usr/lib64/libcroco-0.6.so.3.0.1
+2aaaf5382000-2aaaf5383000 r-xp 00037000 08:03 15959328                   /usr/lib64/libcroco-0.6.so.3.0.1
+2aaaf5383000-2aaaf5386000 rwxp 00038000 08:03 15959328                   /usr/lib64/libcroco-0.6.so.3.0.1
+2aaaf5386000-2aaaf53a4000 r-xp 00000000 08:03 15826963                   /usr/lib64/libdbus-glib-1.so.2.1.0
+2aaaf53a4000-2aaaf55a4000 ---p 0001e000 08:03 15826963                   /usr/lib64/libdbus-glib-1.so.2.1.0
+2aaaf55a4000-2aaaf55a5000 r-xp 0001e000 08:03 15826963                   /usr/lib64/libdbus-glib-1.so.2.1.0
+2aaaf55a5000-2aaaf55a6000 rwxp 0001f000 08:03 15826963                   /usr/lib64/libdbus-glib-1.so.2.1.0
+2aaaf55a6000-2aaaf55e1000 r-xp 00000000 08:03 15647415                   /usr/lib64/libdbus-1.so.3.4.0
+2aaaf55e1000-2aaaf57e0000 ---p 0003b000 08:03 15647415                   /usr/lib64/libdbus-1.so.3.4.0
+2aaaf57e0000-2aaaf57e1000 r-xp 0003a000 08:03 15647415                   /usr/lib64/libdbus-1.so.3.4.0
+2aaaf57e1000-2aaaf57e2000 rwxp 0003b000 08:03 15647415                   /usr/lib64/libdbus-1.so.3.4.0
+2aaaf57e2000-2aaaf582c000 r-xp 00000000 08:03 6579367                    /usr/lib64/libssl.so.0.9.8
+2aaaf582c000-2aaaf5a2b000 ---p 0004a000 08:03 6579367                    /usr/lib64/libssl.so.0.9.8
+2aaaf5a2b000-2aaaf5a2d000 r-xp 00049000 08:03 6579367                    /usr/lib64/libssl.so.0.9.8
+2aaaf5a2d000-2aaaf5a33000 rwxp 0004b000 08:03 6579367                    /usr/lib64/libssl.so.0.9.8
+2aaaf5a33000-2aaaf5b8f000 r-xp 00000000 08:03 6579368                    /usr/lib64/libcrypto.so.0.9.8
+2aaaf5b8f000-2aaaf5d8e000 ---p 0015c000 08:03 6579368                    /usr/lib64/libcrypto.so.0.9.8
+2aaaf5d8e000-2aaaf5d9c000 r-xp 0015b000 08:03 6579368                    /usr/lib64/libcrypto.so.0.9.8
+2aaaf5d9c000-2aaaf5db2000 rwxp 00169000 08:03 6579368                    /usr/lib64/libcrypto.so.0.9.8
+2aaaf5db2000-2aaaf5db6000 rwxp 2aaaf5db2000 00:00 0 
+2aaaf5db6000-2aaaf5dc6000 r-xp 00000000 08:03 3752088                    /lib64/libresolv-2.6.1.so
+2aaaf5dc6000-2aaaf5fc6000 ---p 00010000 08:03 3752088                    /lib64/libresolv-2.6.1.so
+2aaaf5fc6000-2aaaf5fc7000 r-xp 00010000 08:03 3752088                    /lib64/libresolv-2.6.1.so
+2aaaf5fc7000-2aaaf5fc8000 rwxp 00011000 08:03 3752088                    /lib64/libresolv-2.6.1.so
+2aaaf5fc8000-2aaaf5fca000 rwxp 2aaaf5fc8000 00:00 0 
+2aaaf5fca000-2aaaf5fcc000 r-xp 00000000 08:03 3752059                    /lib64/libutil-2.6.1.so
+2aaaf5fcc000-2aaaf61cb000 ---p 00002000 08:03 3752059                    /lib64/libutil-2.6.1.so
+2aaaf61cb000-2aaaf61cc000 r-xp 00001000 08:03 3752059                    /lib64/libutil-2.6.1.so
+2aaaf61cc000-2aaaf61cd000 rwxp 00002000 08:03 3752059                    /lib64/libutil-2.6.1.so
+2aaaf61cd000-2aaaf61db000 r-xp 00000000 08:03 3751962                    /lib64/libbz2.so.1.0.5
+2aaaf61db000-2aaaf63db000 ---p 0000e000 08:03 3751962                    /lib64/libbz2.so.1.0.5
+2aaaf63db000-2aaaf63dc000 r-xp 0000e000 08:03 3751962                    /lib64/libbz2.so.1.0.5
+2aaaf63dc000-2aaaf63dd000 rwxp 0000f000 08:03 3751962                    /lib64/libbz2.so.1.0.5
+2aaaf63dd000-2aaaf6406000 r-xp 00000000 08:03 6576006                    /usr/lib64/libgssapi_krb5.so.2.2
+2aaaf6406000-2aaaf6606000 ---p 00029000 08:03 6576006                    /usr/lib64/libgssapi_krb5.so.2.2
+2aaaf6606000-2aaaf6607000 r-xp 00029000 08:03 6576006                    /usr/lib64/libgssapi_krb5.so.2.2
+2aaaf6607000-2aaaf6608000 rwxp 0002a000 08:03 6576006                    /usr/lib64/libgssapi_krb5.so.2.2
+2aaaf6608000-2aaaf669a000 r-xp 00000000 08:03 6575992                    /usr/lib64/libkrb5.so.3.3
+2aaaf669a000-2aaaf6899000 ---p 00092000 08:03 6575992                    /usr/lib64/libkrb5.so.3.3
+2aaaf6899000-2aaaf689c000 r-xp 00091000 08:03 6575992                    /usr/lib64/libkrb5.so.3.3
+2aaaf689c000-2aaaf689e000 rwxp 00094000 08:03 6575992                    /usr/lib64/libkrb5.so.3.3
+2aaaf689e000-2aaaf68a0000 r-xp 00000000 08:03 17268947                   /lib64/libcom_err.so.2.1
+2aaaf68a0000-2aaaf6a9f000 ---p 00002000 08:03 17268947                   /lib64/libcom_err.so.2.1
+2aaaf6a9f000-2aaaf6aa0000 r-xp 00001000 08:03 17268947                   /lib64/libcom_err.so.2.1
+2aaaf6aa0000-2aaaf6aa1000 rwxp 00002000 08:03 17268947                   /lib64/libcom_err.so.2.1
+2aaaf6aa1000-2aaaf6ac4000 r-xp 00000000 08:03 6576004                    /usr/lib64/libk5crypto.so.3.1
+2aaaf6ac4000-2aaaf6cc3000 ---p 00023000 08:03 6576004                    /usr/lib64/libk5crypto.so.3.1
+2aaaf6cc3000-2aaaf6cc5000 r-xp 00022000 08:03 6576004                    /usr/lib64/libk5crypto.so.3.1
+2aaaf6cc5000-2aaaf6cc6000 rwxp 00024000 08:03 6576004                    /usr/lib64/libk5crypto.so.3.1
+2aaaf6cc6000-2aaaf6ccd000 r-xp 00000000 08:03 6576018                    /usr/lib64/libkrb5support.so.0.1
+2aaaf6ccd000-2aaaf6ecc000 ---p 00007000 08:03 6576018                    /usr/lib64/libkrb5support.so.0.1
+2aaaf6ecc000-2aaaf6ecd000 r-xp 00006000 08:03 6576018                    /usr/lib64/libkrb5support.so.0.1
+2aaaf6ecd000-2aaaf6ece000 rwxp 00007000 08:03 6576018                    /usr/lib64/libkrb5support.so.0.1
+2aaaf6ece000-2aaaf6fb6000 r-xp 00000000 08:03 16257455                   /usr/lib64/gcc/x86_64-pc-linux-gnu/4.1.2/libstdc++.so.6.0.8
+2aaaf6fb6000-2aaaf71b6000 ---p 000e8000 08:03 16257455                   /usr/lib64/gcc/x86_64-pc-linux-gnu/4.1.2/libstdc++.so.6.0.8
+2aaaf71b6000-2aaaf71bd000 r-xp 000e8000 08:03 16257455                   /usr/lib64/gcc/x86_64-pc-linux-gnu/4.1.2/libstdc++.so.6.0.8
+2aaaf71bd000-2aaaf71bf000 rwxp 000ef000 08:03 16257455                   /usr/lib64/gcc/x86_64-pc-linux-gnu/4.1.2/libstdc++.so.6.0.8
+2aaaf71bf000-2aaaf71d1000 rwxp 2aaaf71bf000 00:00 0 
+2aaaf71d1000-2aaaf71de000 r-xp 00000000 08:03 3752335                    /lib64/libgcc_s.so.1
+2aaaf71de000-2aaaf73dd000 ---p 0000d000 08:03 3752335                    /lib64/libgcc_s.so.1
+2aaaf73dd000-2aaaf73de000 r-xp 0000c000 08:03 3752335                    /lib64/libgcc_s.so.1
+2aaaf73de000-2aaaf73df000 rwxp 0000d000 08:03 3752335                    /lib64/libgcc_s.so.1
+2aaaf73df000-2aaaf73f1000 r-xp 00000000 08:03 4572577                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-mozilla-gtk-3448.so
+2aaaf73f1000-2aaaf74f1000 ---p 00012000 08:03 4572577                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-mozilla-gtk-3448.so
+2aaaf74f1000-2aaaf74f2000 rwxp 00012000 08:03 4572577                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-mozilla-gtk-3448.so
+2aaaf74f2000-2aaaf74f5000 r-xp 00000000 08:03 17486199                   /usr/lib64/mozilla-firefox/libxpcom.so
+2aaaf74f5000-2aaaf76f4000 ---p 00003000 08:03 17486199                   /usr/lib64/mozilla-firefox/libxpcom.so
+2aaaf76f4000-2aaaf76f5000 r-xp 00002000 08:03 17486199                   /usr/lib64/mozilla-firefox/libxpcom.so
+2aaaf76f5000-2aaaf76f6000 rwxp 00003000 08:03 17486199                   /usr/lib64/mozilla-firefox/libxpcom.so
+2aaaf76f6000-2aaaf7707000 r-xs 000f6000 08:03 11178484                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.pde.core_3.4.0.v20080604-2000.jar
+2aaaf771a000-2aaaf774f000 r-xp 00000000 08:03 16532803                   /usr/lib64/nspr/libnspr4.so.6
+2aaaf774f000-2aaaf794f000 ---p 00035000 08:03 16532803                   /usr/lib64/nspr/libnspr4.so.6
+2aaaf794f000-2aaaf7950000 r-xp 00035000 08:03 16532803                   /usr/lib64/nspr/libnspr4.so.6
+2aaaf7950000-2aaaf7952000 rwxp 00036000 08:03 16532803                   /usr/lib64/nspr/libnspr4.so.6
+2aaaf7952000-2aaaf7954000 rwxp 2aaaf7952000 00:00 0 
+2aaaf7954000-2aaaf7957000 r-xp 00000000 08:03 16532801                   /usr/lib64/nspr/libplds4.so.6
+2aaaf7957000-2aaaf7b56000 ---p 00003000 08:03 16532801                   /usr/lib64/nspr/libplds4.so.6
+2aaaf7b56000-2aaaf7b57000 r-xp 00002000 08:03 16532801                   /usr/lib64/nspr/libplds4.so.6
+2aaaf7b57000-2aaaf7b58000 rwxp 00003000 08:03 16532801                   /usr/lib64/nspr/libplds4.so.6
+2aaaf7b58000-2aaaf7b5c000 r-xp 00000000 08:03 16532789                   /usr/lib64/nspr/libplc4.so.6
+2aaaf7b5c000-2aaaf7d5c000 ---p 00004000 08:03 16532789                   /usr/lib64/nspr/libplc4.so.6
+2aaaf7d5c000-2aaaf7d5d000 r-xp 00004000 08:03 16532789                   /usr/lib64/nspr/libplc4.so.6
+2aaaf7d5d000-2aaaf7d5e000 rwxp 00005000 08:03 16532789                   /usr/lib64/nspr/libplc4.so.6
+2aaaf7d5e000-2aaaf7e2b000 r-xp 00000000 08:03 17486186                   /usr/lib64/mozilla-firefox/libxpcom_core.so
+2aaaf7e2b000-2aaaf802b000 ---p 000cd000 08:03 17486186                   /usr/lib64/mozilla-firefox/libxpcom_core.so
+2aaaf802b000-2aaaf8037000 r-xp 000cd000 08:03 17486186                   /usr/lib64/mozilla-firefox/libxpcom_core.so
+2aaaf8037000-2aaaf8039000 rwxp 000d9000 08:03 17486186                   /usr/lib64/mozilla-firefox/libxpcom_core.so
+2aaaf8039000-2aaaf803c000 r-xp 00000000 08:03 6621662                    /usr/lib64/gconv/UTF-16.so
+2aaaf803c000-2aaaf823b000 ---p 00003000 08:03 6621662                    /usr/lib64/gconv/UTF-16.so
+2aaaf823b000-2aaaf823c000 r-xp 00002000 08:03 6621662                    /usr/lib64/gconv/UTF-16.so
+2aaaf823c000-2aaaf823d000 rwxp 00003000 08:03 6621662                    /usr/lib64/gconv/UTF-16.so
+2aaaf823d000-2aaaf825a000 r-xp 00000000 08:03 17486372                   /usr/lib64/mozilla-firefox/components/libimglib2.so
+2aaaf825a000-2aaaf845a000 ---p 0001d000 08:03 17486372                   /usr/lib64/mozilla-firefox/components/libimglib2.so
+2aaaf845a000-2aaaf845c000 r-xp 0001d000 08:03 17486372                   /usr/lib64/mozilla-firefox/components/libimglib2.so
+2aaaf845c000-2aaaf845d000 rwxp 0001f000 08:03 17486372                   /usr/lib64/mozilla-firefox/components/libimglib2.so
+2aaaf8481000-2aaaf84ad000 r-xp 00000000 08:03 16994265                   /usr/lib64/libjpeg.so.62.0.0
+2aaaf84ad000-2aaaf86ac000 ---p 0002c000 08:03 16994265                   /usr/lib64/libjpeg.so.62.0.0
+2aaaf86ac000-2aaaf86ad000 r-xp 0002b000 08:03 16994265                   /usr/lib64/libjpeg.so.62.0.0
+2aaaf86ad000-2aaaf86ae000 rwxp 0002c000 08:03 16994265                   /usr/lib64/libjpeg.so.62.0.0
+2aaaf86ae000-2aaaf86d1000 r-xp 00000000 08:03 17486198                   /usr/lib64/mozilla-firefox/libgkgfx.so
+2aaaf86d1000-2aaaf88d1000 ---p 00023000 08:03 17486198                   /usr/lib64/mozilla-firefox/libgkgfx.so
+2aaaf88d1000-2aaaf88d3000 r-xp 00023000 08:03 17486198                   /usr/lib64/mozilla-firefox/libgkgfx.so
+2aaaf88d3000-2aaaf88d4000 rwxp 00025000 08:03 17486198                   /usr/lib64/mozilla-firefox/libgkgfx.so
+2aaaf88d4000-2aaaf893c000 r-xp 00000000 08:03 17485903                   /usr/lib64/mozilla-firefox/components/libtransformiix.so
+2aaaf893c000-2aaaf8b3b000 ---p 00068000 08:03 17485903                   /usr/lib64/mozilla-firefox/components/libtransformiix.so
+2aaaf8b3b000-2aaaf8b42000 r-xp 00067000 08:03 17485903                   /usr/lib64/mozilla-firefox/components/libtransformiix.so
+2aaaf8b42000-2aaaf8b43000 rwxp 0006e000 08:03 17485903                   /usr/lib64/mozilla-firefox/components/libtransformiix.so
+2aaaf8b43000-2aaaf8bfe000 r-xp 00000000 08:03 17486193                   /usr/lib64/mozilla-firefox/libmozjs.so
+2aaaf8bfe000-2aaaf8dfd000 ---p 000bb000 08:03 17486193                   /usr/lib64/mozilla-firefox/libmozjs.so
+2aaaf8dfd000-2aaaf8e00000 r-xp 000ba000 08:03 17486193                   /usr/lib64/mozilla-firefox/libmozjs.so
+2aaaf8e00000-2aaaf8e07000 rwxp 000bd000 08:03 17486193                   /usr/lib64/mozilla-firefox/libmozjs.so
+2aaaf8e07000-2aaaf8e1f000 r-xp 00000000 08:03 17485904                   /usr/lib64/mozilla-firefox/components/libcomposer.so
+2aaaf8e1f000-2aaaf901e000 ---p 00018000 08:03 17485904                   /usr/lib64/mozilla-firefox/components/libcomposer.so
+2aaaf901e000-2aaaf9021000 r-xp 00017000 08:03 17485904                   /usr/lib64/mozilla-firefox/components/libcomposer.so
+2aaaf9021000-2aaaf9022000 rwxp 0001a000 08:03 17485904                   /usr/lib64/mozilla-firefox/components/libcomposer.so
+2aaaf9022000-2aaaf9026000 r-xp 00000000 08:03 17485905                   /usr/lib64/mozilla-firefox/components/libremoteservice.so
+2aaaf9026000-2aaaf9225000 ---p 00004000 08:03 17485905                   /usr/lib64/mozilla-firefox/components/libremoteservice.so
+2aaaf9225000-2aaaf9226000 r-xp 00003000 08:03 17485905                   /usr/lib64/mozilla-firefox/components/libremoteservice.so
+2aaaf9226000-2aaaf9227000 rwxp 00004000 08:03 17485905                   /usr/lib64/mozilla-firefox/components/libremoteservice.so
+2aaaf9227000-2aaaf9235000 r-xp 00000000 08:03 17485907                   /usr/lib64/mozilla-firefox/components/libnecko2.so
+2aaaf9235000-2aaaf9434000 ---p 0000e000 08:03 17485907                   /usr/lib64/mozilla-firefox/components/libnecko2.so
+2aaaf9434000-2aaaf9436000 r-xp 0000d000 08:03 17485907                   /usr/lib64/mozilla-firefox/components/libnecko2.so
+2aaaf9436000-2aaaf9437000 rwxp 0000f000 08:03 17485907                   /usr/lib64/mozilla-firefox/components/libnecko2.so
+2aaaf9437000-2aaaf9477000 r-xp 00000000 08:03 17485911                   /usr/lib64/mozilla-firefox/components/libi18n.so
+2aaaf9477000-2aaaf9676000 ---p 00040000 08:03 17485911                   /usr/lib64/mozilla-firefox/components/libi18n.so
+2aaaf9676000-2aaaf967a000 r-xp 0003f000 08:03 17485911                   /usr/lib64/mozilla-firefox/components/libi18n.so
+2aaaf967a000-2aaaf967c000 rwxp 00043000 08:03 17485911                   /usr/lib64/mozilla-firefox/components/libi18n.so
+2aaaf967c000-2aaaf96d3000 r-xp 00000000 08:03 17485913                   /usr/lib64/mozilla-firefox/components/libtoolkitcomps.so
+2aaaf96d3000-2aaaf98d3000 ---p 00057000 08:03 17485913                   /usr/lib64/mozilla-firefox/components/libtoolkitcomps.so
+2aaaf98d3000-2aaaf98d8000 r-xp 00057000 08:03 17485913                   /usr/lib64/mozilla-firefox/components/libtoolkitcomps.so
+2aaaf98d8000-2aaaf98d9000 rwxp 0005c000 08:03 17485913                   /usr/lib64/mozilla-firefox/components/libtoolkitcomps.so
+2aaaf98d9000-2aaaf98f2000 r-xp 00000000 08:03 17485914                   /usr/lib64/mozilla-firefox/components/libappcomps.so
+2aaaf98f2000-2aaaf9af1000 ---p 00019000 08:03 17485914                   /usr/lib64/mozilla-firefox/components/libappcomps.so
+2aaaf9af1000-2aaaf9af3000 r-xp 00018000 08:03 17485914                   /usr/lib64/mozilla-firefox/components/libappcomps.so
+2aaaf9af3000-2aaaf9af4000 rwxp 0001a000 08:03 17485914                   /usr/lib64/mozilla-firefox/components/libappcomps.so
+2aaaf9af4000-2aaafa21e000 r-xp 00000000 08:03 17485917                   /usr/lib64/mozilla-firefox/components/libgklayout.so
+2aaafa21e000-2aaafa41d000 ---p 0072a000 08:03 17485917                   /usr/lib64/mozilla-firefox/components/libgklayout.so
+2aaafa41d000-2aaafa4d1000 r-xp 00729000 08:03 17485917                   /usr/lib64/mozilla-firefox/components/libgklayout.so
+2aaafa4d1000-2aaafa4d9000 rwxp 007dd000 08:03 17485917                   /usr/lib64/mozilla-firefox/components/libgklayout.so
+2aaafa4d9000-2aaafa4e3000 rwxp 2aaafa4d9000 00:00 0 
+2aaafa507000-2aaafa51a000 r-xp 00000000 08:03 15861989                   /usr/lib64/libXft.so.2.1.2
+2aaafa51a000-2aaafa719000 ---p 00013000 08:03 15861989                   /usr/lib64/libXft.so.2.1.2
+2aaafa719000-2aaafa71a000 r-xp 00012000 08:03 15861989                   /usr/lib64/libXft.so.2.1.2
+2aaafa71a000-2aaafa71b000 rwxp 00013000 08:03 15861989                   /usr/lib64/libXft.so.2.1.2
+2aaafa71b000-2aaafa721000 r-xp 00000000 08:03 17485919                   /usr/lib64/mozilla-firefox/components/libtxmgr.so
+2aaafa721000-2aaafa921000 ---p 00006000 08:03 17485919                   /usr/lib64/mozilla-firefox/components/libtxmgr.so
+2aaafa921000-2aaafa922000 r-xp 00006000 08:03 17485919                   /usr/lib64/mozilla-firefox/components/libtxmgr.so
+2aaafa922000-2aaafa923000 rwxp 00007000 08:03 17485919                   /usr/lib64/mozilla-firefox/components/libtxmgr.so
+2aaafa923000-2aaafa958000 r-xp 00000000 08:03 17485921                   /usr/lib64/mozilla-firefox/components/libembedcomponents.so
+2aaafa958000-2aaafab58000 ---p 00035000 08:03 17485921                   /usr/lib64/mozilla-firefox/components/libembedcomponents.so
+2aaafab58000-2aaafab5b000 r-xp 00035000 08:03 17485921                   /usr/lib64/mozilla-firefox/components/libembedcomponents.so
+2aaafab5b000-2aaafab5c000 rwxp 00038000 08:03 17485921                   /usr/lib64/mozilla-firefox/components/libembedcomponents.so
+2aaafab5c000-2aaafac44000 r-xp 00000000 08:03 17485926                   /usr/lib64/mozilla-firefox/components/libnecko.so
+2aaafac44000-2aaafae43000 ---p 000e8000 08:03 17485926                   /usr/lib64/mozilla-firefox/components/libnecko.so
+2aaafae43000-2aaafae51000 r-xp 000e7000 08:03 17485926                   /usr/lib64/mozilla-firefox/components/libnecko.so
+2aaafae51000-2aaafae53000 rwxp 000f5000 08:03 17485926                   /usr/lib64/mozilla-firefox/components/libnecko.so
+2aaafae53000-2aaafae58000 r-xp 00000000 08:03 17485940                   /usr/lib64/mozilla-firefox/components/libmozgnome.so
+2aaafae58000-2aaafb057000 ---p 00005000 08:03 17485940                   /usr/lib64/mozilla-firefox/components/libmozgnome.so
+2aaafb057000-2aaafb058000 r-xp 00004000 08:03 17485940                   /usr/lib64/mozilla-firefox/components/libmozgnome.so
+2aaafb058000-2aaafb059000 rwxp 00005000 08:03 17485940                   /usr/lib64/mozilla-firefox/components/libmozgnome.so
+2aaafb07d000-2aaafb093000 r-xp 00000000 08:03 16384197                   /usr/lib64/libgnome-2.so.0.1999.2
+2aaafb093000-2aaafb293000 ---p 00016000 08:03 16384197                   /usr/lib64/libgnome-2.so.0.1999.2
+2aaafb293000-2aaafb294000 r-xp 00016000 08:03 16384197                   /usr/lib64/libgnome-2.so.0.1999.2
+2aaafb294000-2aaafb295000 rwxp 00017000 08:03 16384197                   /usr/lib64/libgnome-2.so.0.1999.2
+2aaafb295000-2aaafb29c000 r-xp 00000000 08:03 15861710                   /usr/lib64/libpopt.so.0.0.0
+2aaafb29c000-2aaafb49b000 ---p 00007000 08:03 15861710                   /usr/lib64/libpopt.so.0.0.0
+2aaafb49b000-2aaafb49c000 r-xp 00006000 08:03 15861710                   /usr/lib64/libpopt.so.0.0.0
+2aaafb49c000-2aaafb49d000 rwxp 00007000 08:03 15861710                   /usr/lib64/libpopt.so.0.0.0
+2aaafb49d000-2aaafb502000 r-xp 00000000 08:03 15876266                   /usr/lib64/libbonobo-2.so.0.0.0
+2aaafb502000-2aaafb702000 ---p 00065000 08:03 15876266                   /usr/lib64/libbonobo-2.so.0.0.0
+2aaafb702000-2aaafb708000 r-xp 00065000 08:03 15876266                   /usr/lib64/libbonobo-2.so.0.0.0
+2aaafb708000-2aaafb713000 rwxp 0006b000 08:03 15876266                   /usr/lib64/libbonobo-2.so.0.0.0
+2aaafb713000-2aaafb72a000 r-xp 00000000 08:03 15876260                   /usr/lib64/libbonobo-activation.so.4.0.0
+2aaafb72a000-2aaafb92a000 ---p 00017000 08:03 15876260                   /usr/lib64/libbonobo-activation.so.4.0.0
+2aaafb92a000-2aaafb92c000 r-xp 00017000 08:03 15876260                   /usr/lib64/libbonobo-activation.so.4.0.0
+2aaafb92c000-2aaafb92e000 rwxp 00019000 08:03 15876260                   /usr/lib64/libbonobo-activation.so.4.0.0
+2aaafb92e000-2aaafb937000 r-xp 00000000 08:03 16286431                   /usr/lib64/libesd.so.0.2.38
+2aaafb937000-2aaafbb37000 ---p 00009000 08:03 16286431                   /usr/lib64/libesd.so.0.2.38
+2aaafbb37000-2aaafbb38000 r-xp 00009000 08:03 16286431                   /usr/lib64/libesd.so.0.2.38
+2aaafbb38000-2aaafbb39000 rwxp 0000a000 08:03 16286431                   /usr/lib64/libesd.so.0.2.38
+2aaafbb39000-2aaafbb61000 r-xp 00000000 08:03 15681852                   /usr/lib64/libaudiofile.so.0.0.2
+2aaafbb61000-2aaafbd60000 ---p 00028000 08:03 15681852                   /usr/lib64/libaudiofile.so.0.0.2
+2aaafbd60000-2aaafbd62000 r-xp 00027000 08:03 15681852                   /usr/lib64/libaudiofile.so.0.0.2
+2aaafbd62000-2aaafbd65000 rwxp 00029000 08:03 15681852                   /usr/lib64/libaudiofile.so.0.0.2
+2aaafbd65000-2aaafbd6a000 r-xp 00000000 08:03 15828216                   /usr/lib64/libORBitCosNaming-2.so.0.1.0
+2aaafbd6a000-2aaafbf6a000 ---p 00005000 08:03 15828216                   /usr/lib64/libORBitCosNaming-2.so.0.1.0
+2aaafbf6a000-2aaafbf6b000 r-xp 00005000 08:03 15828216                   /usr/lib64/libORBitCosNaming-2.so.0.1.0
+2aaafbf6b000-2aaafbf6c000 rwxp 00006000 08:03 15828216                   /usr/lib64/libORBitCosNaming-2.so.0.1.0
+2aaafbf6c000-2aaafc02d000 r-xp 00000000 08:03 16974173                   /usr/lib64/libasound.so.2.0.0
+2aaafc02d000-2aaafc22c000 ---p 000c1000 08:03 16974173                   /usr/lib64/libasound.so.2.0.0
+2aaafc22c000-2aaafc22f000 r-xp 000c0000 08:03 16974173                   /usr/lib64/libasound.so.2.0.0
+2aaafc22f000-2aaafc234000 rwxp 000c3000 08:03 16974173                   /usr/lib64/libasound.so.2.0.0
+2aaafc234000-2aaafc250000 r-xp 00000000 08:03 17485944                   /usr/lib64/mozilla-firefox/components/liboji.so
+2aaafc250000-2aaafc450000 ---p 0001c000 08:03 17485944                   /usr/lib64/mozilla-firefox/components/liboji.so
+2aaafc450000-2aaafc451000 r-xp 0001c000 08:03 17485944                   /usr/lib64/mozilla-firefox/components/liboji.so
+2aaafc451000-2aaafc452000 rwxp 0001d000 08:03 17485944                   /usr/lib64/mozilla-firefox/components/liboji.so
+2aaafc452000-2aaafc46b000 r-xp 00000000 08:03 17486183                   /usr/lib64/mozilla-firefox/libjsj.so
+2aaafc46b000-2aaafc66b000 ---p 00019000 08:03 17486183                   /usr/lib64/mozilla-firefox/libjsj.so
+2aaafc66b000-2aaafc66c000 r-xp 00019000 08:03 17486183                   /usr/lib64/mozilla-firefox/libjsj.so
+2aaafc66c000-2aaafc66d000 rwxp 0001a000 08:03 17486183                   /usr/lib64/mozilla-firefox/libjsj.so
+2aaafc66d000-2aaafc66e000 rwxp 2aaafc66d000 00:00 0 
+2aaafc66e000-2aaafc671000 r-xp 00000000 08:03 17485946                   /usr/lib64/mozilla-firefox/components/libbrowserdirprovider.so
+2aaafc671000-2aaafc871000 ---p 00003000 08:03 17485946                   /usr/lib64/mozilla-firefox/components/libbrowserdirprovider.so
+2aaafc871000-2aaafc872000 r-xp 00003000 08:03 17485946                   /usr/lib64/mozilla-firefox/components/libbrowserdirprovider.so
+2aaafc872000-2aaafc873000 rwxp 00004000 08:03 17485946                   /usr/lib64/mozilla-firefox/components/libbrowserdirprovider.so
+2aaafc873000-2aaafc927000 r-xp 00000000 08:03 17485951                   /usr/lib64/mozilla-firefox/components/libaccessibility.so
+2aaafc927000-2aaafcb27000 ---p 000b4000 08:03 17485951                   /usr/lib64/mozilla-firefox/components/libaccessibility.so
+2aaafcb27000-2aaafcb48000 r-xp 000b4000 08:03 17485951                   /usr/lib64/mozilla-firefox/components/libaccessibility.so
+2aaafcb48000-2aaafcb4b000 rwxp 000d5000 08:03 17485951                   /usr/lib64/mozilla-firefox/components/libaccessibility.so
+2aaafcb4b000-2aaafcb4d000 r-xp 00000000 08:03 17485956                   /usr/lib64/mozilla-firefox/components/libmozfind.so
+2aaafcb4d000-2aaafcd4c000 ---p 00002000 08:03 17485956                   /usr/lib64/mozilla-firefox/components/libmozfind.so
+2aaafcd4c000-2aaafcd4d000 r-xp 00001000 08:03 17485956                   /usr/lib64/mozilla-firefox/components/libmozfind.so
+2aaafcd4d000-2aaafcd4e000 rwxp 00002000 08:03 17485956                   /usr/lib64/mozilla-firefox/components/libmozfind.so
+2aaafcd4e000-2aaafcd58000 r-xp 00000000 08:03 17485957                   /usr/lib64/mozilla-firefox/components/libcookie.so
+2aaafcd58000-2aaafcf58000 ---p 0000a000 08:03 17485957                   /usr/lib64/mozilla-firefox/components/libcookie.so
+2aaafcf58000-2aaafcf59000 r-xp 0000a000 08:03 17485957                   /usr/lib64/mozilla-firefox/components/libcookie.so
+2aaafcf59000-2aaafcf5a000 rwxp 0000b000 08:03 17485957                   /usr/lib64/mozilla-firefox/components/libcookie.so
+2aaafcf5a000-2aaafcf6e000 r-xp 00000000 08:03 17485958                   /usr/lib64/mozilla-firefox/components/libspellchecker.so
+2aaafcf6e000-2aaafd16d000 ---p 00014000 08:03 17485958                   /usr/lib64/mozilla-firefox/components/libspellchecker.so
+2aaafd16d000-2aaafd16f000 r-xp 00013000 08:03 17485958                   /usr/lib64/mozilla-firefox/components/libspellchecker.so
+2aaafd16f000-2aaafd170000 rwxp 00015000 08:03 17485958                   /usr/lib64/mozilla-firefox/components/libspellchecker.so
+2aaafd170000-2aaafd18d000 r-xp 00000000 08:03 17485959                   /usr/lib64/mozilla-firefox/components/libnsappshell.so
+2aaafd18d000-2aaafd38c000 ---p 0001d000 08:03 17485959                   /usr/lib64/mozilla-firefox/components/libnsappshell.so
+2aaafd38c000-2aaafd38f000 r-xp 0001c000 08:03 17485959                   /usr/lib64/mozilla-firefox/components/libnsappshell.so
+2aaafd38f000-2aaafd390000 rwxp 0001f000 08:03 17485959                   /usr/lib64/mozilla-firefox/components/libnsappshell.so
+2aaafd390000-2aaafd399000 r-xp 00000000 08:03 17485963                   /usr/lib64/mozilla-firefox/components/libpipboot.so
+2aaafd399000-2aaafd598000 ---p 00009000 08:03 17485963                   /usr/lib64/mozilla-firefox/components/libpipboot.so
+2aaafd598000-2aaafd599000 r-xp 00008000 08:03 17485963                   /usr/lib64/mozilla-firefox/components/libpipboot.so
+2aaafd599000-2aaafd59a000 rwxp 00009000 08:03 17485963                   /usr/lib64/mozilla-firefox/components/libpipboot.so
+2aaafd59a000-2aaafd5ad000 r-xp 00000000 08:03 17485983                   /usr/lib64/mozilla-firefox/components/libpref.so
+2aaafd5ad000-2aaafd7ac000 ---p 00013000 08:03 17485983                   /usr/lib64/mozilla-firefox/components/libpref.so
+2aaafd7ac000-2aaafd7ae000 r-xp 00012000 08:03 17485983                   /usr/lib64/mozilla-firefox/components/libpref.so
+2aaafd7ae000-2aaafd7af000 rwxp 00014000 08:03 17485983                   /usr/lib64/mozilla-firefox/components/libpref.so
+2aaafd7af000-2aaafd7e2000 r-xp 00000000 08:03 17485984                   /usr/lib64/mozilla-firefox/components/libgkplugin.so
+2aaafd7e2000-2aaafd9e1000 ---p 00033000 08:03 17485984                   /usr/lib64/mozilla-firefox/components/libgkplugin.so
+2aaafd9e1000-2aaafd9e4000 r-xp 00032000 08:03 17485984                   /usr/lib64/mozilla-firefox/components/libgkplugin.so
+2aaafd9e4000-2aaafd9e5000 rwxp 00035000 08:03 17485984                   /usr/lib64/mozilla-firefox/components/libgkplugin.so
+2aaafd9e5000-2aaafd9e9000 r-xp 00000000 08:03 17486187                   /usr/lib64/mozilla-firefox/libgtkxtbin.so
+2aaafd9e9000-2aaafdbe8000 ---p 00004000 08:03 17486187                   /usr/lib64/mozilla-firefox/libgtkxtbin.so
+2aaafdbe8000-2aaafdbe9000 r-xp 00003000 08:03 17486187                   /usr/lib64/mozilla-firefox/libgtkxtbin.so
+2aaafdbe9000-2aaafdbea000 rwxp 00004000 08:03 17486187                   /usr/lib64/mozilla-firefox/libgtkxtbin.so
+2aaafdc0e000-2aaafdc69000 r-xp 00000000 08:03 6576617                    /usr/lib64/libXt.so.6.0.0
+2aaafdc69000-2aaafde69000 ---p 0005b000 08:03 6576617                    /usr/lib64/libXt.so.6.0.0
+2aaafde69000-2aaafde6a000 r-xp 0005b000 08:03 6576617                    /usr/lib64/libXt.so.6.0.0
+2aaafde6a000-2aaafde6f000 rwxp 0005c000 08:03 6576617                    /usr/lib64/libXt.so.6.0.0
+2aaafde6f000-2aaafde70000 rwxp 2aaafde6f000 00:00 0 
+2aaafde70000-2aaafde78000 r-xp 00000000 08:03 6576091                    /usr/lib64/libSM.so.6.0.0
+2aaafde78000-2aaafe077000 ---p 00008000 08:03 6576091                    /usr/lib64/libSM.so.6.0.0
+2aaafe077000-2aaafe078000 r-xp 00007000 08:03 6576091                    /usr/lib64/libSM.so.6.0.0
+2aaafe078000-2aaafe079000 rwxp 00008000 08:03 6576091                    /usr/lib64/libSM.so.6.0.0
+2aaafe079000-2aaafe08f000 r-xp 00000000 08:03 6574897                    /usr/lib64/libICE.so.6.3.0
+2aaafe08f000-2aaafe28f000 ---p 00016000 08:03 6574897                    /usr/lib64/libICE.so.6.3.0
+2aaafe28f000-2aaafe290000 r-xp 00016000 08:03 6574897                    /usr/lib64/libICE.so.6.3.0
+2aaafe290000-2aaafe291000 rwxp 00017000 08:03 6574897                    /usr/lib64/libICE.so.6.3.0
+2aaafe291000-2aaafe295000 rwxp 2aaafe291000 00:00 0 
+2aaafe295000-2aaafe2cc000 r-xp 00000000 08:03 17485989                   /usr/lib64/mozilla-firefox/components/libwidget_gtk2.so
+2aaafe2cc000-2aaafe4cb000 ---p 00037000 08:03 17485989                   /usr/lib64/mozilla-firefox/components/libwidget_gtk2.so
+2aaafe4cb000-2aaafe4cf000 r-xp 00036000 08:03 17485989                   /usr/lib64/mozilla-firefox/components/libwidget_gtk2.so
+2aaafe4cf000-2aaafe4d1000 rwxp 0003a000 08:03 17485989                   /usr/lib64/mozilla-firefox/components/libwidget_gtk2.so
+2aaafe4d1000-2aaafe4d2000 rwxp 2aaafe4d1000 00:00 0 
+2aaafe4d2000-2aaafe4e8000 r-xp 00000000 08:03 17485990                   /usr/lib64/mozilla-firefox/components/libjar50.so
+2aaafe4e8000-2aaafe6e8000 ---p 00016000 08:03 17485990                   /usr/lib64/mozilla-firefox/components/libjar50.so
+2aaafe6e8000-2aaafe6ea000 r-xp 00016000 08:03 17485990                   /usr/lib64/mozilla-firefox/components/libjar50.so
+2aaafe6ea000-2aaafe6eb000 rwxp 00018000 08:03 17485990                   /usr/lib64/mozilla-firefox/components/libjar50.so
+2aaafe6eb000-2aaafe712000 r-xp 00000000 08:03 17486003                   /usr/lib64/mozilla-firefox/components/libsearchservice.so
+2aaafe712000-2aaafe911000 ---p 00027000 08:03 17486003                   /usr/lib64/mozilla-firefox/components/libsearchservice.so
+2aaafe911000-2aaafe913000 r-xp 00026000 08:03 17486003                   /usr/lib64/mozilla-firefox/components/libsearchservice.so
+2aaafe913000-2aaafe914000 rwxp 00028000 08:03 17486003                   /usr/lib64/mozilla-firefox/components/libsearchservice.so
+2aaafe914000-2aaafe9a8000 r-xp 00000000 08:03 17486011                   /usr/lib64/mozilla-firefox/components/libwebsrvcs.so
+2aaafe9a8000-2aaafeba8000 ---p 00094000 08:03 17486011                   /usr/lib64/mozilla-firefox/components/libwebsrvcs.so
+2aaafeba8000-2aaafebb2000 r-xp 00094000 08:03 17486011                   /usr/lib64/mozilla-firefox/components/libwebsrvcs.so
+2aaafebb2000-2aaafebb3000 rwxp 0009e000 08:03 17486011                   /usr/lib64/mozilla-firefox/components/libwebsrvcs.so
+2aaafebb3000-2aaafebc0000 r-xp 00000000 08:03 17486012                   /usr/lib64/mozilla-firefox/components/libmyspell.so
+2aaafebc0000-2aaafedbf000 ---p 0000d000 08:03 17486012                   /usr/lib64/mozilla-firefox/components/libmyspell.so
+2aaafedbf000-2aaafedc0000 r-xp 0000c000 08:03 17486012                   /usr/lib64/mozilla-firefox/components/libmyspell.so
+2aaafedc0000-2aaafedc1000 rwxp 0000d000 08:03 17486012                   /usr/lib64/mozilla-firefox/components/libmyspell.so
+2aaafedc1000-2aaafee7d000 r-xp 00000000 08:03 17486017                   /usr/lib64/mozilla-firefox/components/libeditor.so
+2aaafee7d000-2aaaff07c000 ---p 000bc000 08:03 17486017                   /usr/lib64/mozilla-firefox/components/libeditor.so
+2aaaff07c000-2aaaff084000 r-xp 000bb000 08:03 17486017                   /usr/lib64/mozilla-firefox/components/libeditor.so
+2aaaff084000-2aaaff085000 rwxp 000c3000 08:03 17486017                   /usr/lib64/mozilla-firefox/components/libeditor.so
+2aaaff085000-2aaaff099000 r-xp 00000000 08:03 17486023                   /usr/lib64/mozilla-firefox/components/libuniversalchardet.so
+2aaaff099000-2aaaff299000 ---p 00014000 08:03 17486023                   /usr/lib64/mozilla-firefox/components/libuniversalchardet.so
+2aaaff299000-2aaaff29a000 r-xp 00014000 08:03 17486023                   /usr/lib64/mozilla-firefox/components/libuniversalchardet.so
+2aaaff29a000-2aaaff2a4000 rwxp 00015000 08:03 17486023                   /usr/lib64/mozilla-firefox/components/libuniversalchardet.so
+2aaaff2a4000-2aaaff2bc000 r-xp 00000000 08:03 17486028                   /usr/lib64/mozilla-firefox/components/libcaps.so
+2aaaff2bc000-2aaaff4bb000 ---p 00018000 08:03 17486028                   /usr/lib64/mozilla-firefox/components/libcaps.so
+2aaaff4bb000-2aaaff4bd000 r-xp 00017000 08:03 17486028                   /usr/lib64/mozilla-firefox/components/libcaps.so
+2aaaff4bd000-2aaaff4be000 rwxp 00019000 08:03 17486028                   /usr/lib64/mozilla-firefox/components/libcaps.so
+2aaaff4be000-2aaaff4c4000 r-xp 00000000 08:03 17486029                   /usr/lib64/mozilla-firefox/components/libsystem-pref.so
+2aaaff4c4000-2aaaff6c4000 ---p 00006000 08:03 17486029                   /usr/lib64/mozilla-firefox/components/libsystem-pref.so
+2aaaff6c4000-2aaaff6c5000 r-xp 00006000 08:03 17486029                   /usr/lib64/mozilla-firefox/components/libsystem-pref.so
+2aaaff6c5000-2aaaff6c6000 rwxp 00007000 08:03 17486029                   /usr/lib64/mozilla-firefox/components/libsystem-pref.so
+2aaaff6c6000-2aaaff735000 r-xp 00000000 08:03 17486031                   /usr/lib64/mozilla-firefox/components/libpipnss.so
+2aaaff735000-2aaaff934000 ---p 0006f000 08:03 17486031                   /usr/lib64/mozilla-firefox/components/libpipnss.so
+2aaaff934000-2aaaff93a000 r-xp 0006e000 08:03 17486031                   /usr/lib64/mozilla-firefox/components/libpipnss.so
+2aaaff93a000-2aaaff93c000 rwxp 00074000 08:03 17486031                   /usr/lib64/mozilla-firefox/components/libpipnss.so
+2aaaff93c000-2aaaff966000 r-xp 00000000 08:03 16564746                   /usr/lib64/nss/libssl3.so.11
+2aaaff966000-2aaaffb65000 ---p 0002a000 08:03 16564746                   /usr/lib64/nss/libssl3.so.11
+2aaaffb65000-2aaaffb67000 r-xp 00029000 08:03 16564746                   /usr/lib64/nss/libssl3.so.11
+2aaaffb67000-2aaaffb68000 rwxp 0002b000 08:03 16564746                   /usr/lib64/nss/libssl3.so.11
+2aaaffb68000-2aaaffb8e000 r-xp 00000000 08:03 16564743                   /usr/lib64/nss/libsmime3.so.11
+2aaaffb8e000-2aaaffd8e000 ---p 00026000 08:03 16564743                   /usr/lib64/nss/libsmime3.so.11
+2aaaffd8e000-2aaaffd91000 r-xp 00026000 08:03 16564743                   /usr/lib64/nss/libsmime3.so.11
+2aaaffd91000-2aaaffd92000 rwxp 00029000 08:03 16564743                   /usr/lib64/nss/libsmime3.so.11
+2aaaffd92000-2aaaffe12000 r-xp 00000000 08:03 16564747                   /usr/lib64/nss/libnss3.so.11
+2aaaffe12000-2aab00011000 ---p 00080000 08:03 16564747                   /usr/lib64/nss/libnss3.so.11
+2aab00011000-2aab00019000 r-xp 0007f000 08:03 16564747                   /usr/lib64/nss/libnss3.so.11
+2aab00019000-2aab0001b000 rwxp 00087000 08:03 16564747                   /usr/lib64/nss/libnss3.so.11
+2aab0001b000-2aab0006f000 r-xp 00000000 08:03 16564745                   /usr/lib64/nss/libsoftokn3.so.11
+2aab0006f000-2aab0026e000 ---p 00054000 08:03 16564745                   /usr/lib64/nss/libsoftokn3.so.11
+2aab0026e000-2aab00274000 r-xp 00053000 08:03 16564745                   /usr/lib64/nss/libsoftokn3.so.11
+2aab00274000-2aab00275000 rwxp 00059000 08:03 16564745                   /usr/lib64/nss/libsoftokn3.so.11
+2aab00275000-2aab0027a000 r-xp 00000000 08:03 17486033                   /usr/lib64/mozilla-firefox/components/libcommandlines.so
+2aab0027a000-2aab0047a000 ---p 00005000 08:03 17486033                   /usr/lib64/mozilla-firefox/components/libcommandlines.so
+2aab0047a000-2aab0047b000 r-xp 00005000 08:03 17486033                   /usr/lib64/mozilla-firefox/components/libcommandlines.so
+2aab0047b000-2aab0047c000 rwxp 00006000 08:03 17486033                   /usr/lib64/mozilla-firefox/components/libcommandlines.so
+2aab0047c000-2aab00486000 r-xp 00000000 08:03 17486036                   /usr/lib64/mozilla-firefox/components/libimgicon.so
+2aab00486000-2aab00686000 ---p 0000a000 08:03 17486036                   /usr/lib64/mozilla-firefox/components/libimgicon.so
+2aab00686000-2aab00687000 r-xp 0000a000 08:03 17486036                   /usr/lib64/mozilla-firefox/components/libimgicon.so
+2aab00687000-2aab00688000 rwxp 0000b000 08:03 17486036                   /usr/lib64/mozilla-firefox/components/libimgicon.so
+2aab006ac000-2aab00742000 r-xp 00000000 08:03 16452602                   /usr/lib64/libgnomeui-2.so.0.2000.1
+2aab00742000-2aab00942000 ---p 00096000 08:03 16452602                   /usr/lib64/libgnomeui-2.so.0.2000.1
+2aab00942000-2aab00945000 r-xp 00096000 08:03 16452602                   /usr/lib64/libgnomeui-2.so.0.2000.1
+2aab00945000-2aab00948000 rwxp 00099000 08:03 16452602                   /usr/lib64/libgnomeui-2.so.0.2000.1
+2aab00948000-2aab009b2000 r-xp 00000000 08:03 16452184                   /usr/lib64/libbonoboui-2.so.0.0.0
+2aab009b2000-2aab00bb1000 ---p 0006a000 08:03 16452184                   /usr/lib64/libbonoboui-2.so.0.0.0
+2aab00bb1000-2aab00bb2000 r-xp 00069000 08:03 16452184                   /usr/lib64/libbonoboui-2.so.0.0.0
+2aab00bb2000-2aab00bb6000 rwxp 0006a000 08:03 16452184                   /usr/lib64/libbonoboui-2.so.0.0.0
+2aab00bb6000-2aab00be9000 r-xp 00000000 08:03 16269348                   /usr/lib64/libgnomecanvas-2.so.0.2001.0
+2aab00be9000-2aab00de8000 ---p 00033000 08:03 16269348                   /usr/lib64/libgnomecanvas-2.so.0.2001.0
+2aab00de8000-2aab00de9000 r-xp 00032000 08:03 16269348                   /usr/lib64/libgnomecanvas-2.so.0.2001.0
+2aab00de9000-2aab00dea000 rwxp 00033000 08:03 16269348                   /usr/lib64/libgnomecanvas-2.so.0.2001.0
+2aab00dea000-2aab00deb000 rwxp 2aab00dea000 00:00 0 
+2aab00deb000-2aab00e02000 r-xp 00000000 08:03 15634409                   /usr/lib64/libart_lgpl_2.so.2.3.19
+2aab00e02000-2aab01001000 ---p 00017000 08:03 15634409                   /usr/lib64/libart_lgpl_2.so.2.3.19
+2aab01001000-2aab01002000 r-xp 00016000 08:03 15634409                   /usr/lib64/libart_lgpl_2.so.2.3.19
+2aab01002000-2aab01003000 rwxp 00017000 08:03 15634409                   /usr/lib64/libart_lgpl_2.so.2.3.19
+2aab01003000-2aab01013000 r-xp 00000000 08:03 16402267                   /usr/lib64/libgnome-keyring.so.0.1.1
+2aab01013000-2aab01212000 ---p 00010000 08:03 16402267                   /usr/lib64/libgnome-keyring.so.0.1.1
+2aab01212000-2aab01213000 r-xp 0000f000 08:03 16402267                   /usr/lib64/libgnome-keyring.so.0.1.1
+2aab01213000-2aab01214000 rwxp 00010000 08:03 16402267                   /usr/lib64/libgnome-keyring.so.0.1.1
+2aab01214000-2aab0121b000 r-xp 00000000 08:03 16041231                   /usr/lib64/libgailutil.so.18.0.1
+2aab0121b000-2aab0141a000 ---p 00007000 08:03 16041231                   /usr/lib64/libgailutil.so.18.0.1
+2aab0141a000-2aab0141b000 r-xp 00006000 08:03 16041231                   /usr/lib64/libgailutil.so.18.0.1
+2aab0141b000-2aab0141c000 rwxp 00007000 08:03 16041231                   /usr/lib64/libgailutil.so.18.0.1
+2aab0141c000-2aab0142c000 r-xp 00000000 08:03 17486044                   /usr/lib64/mozilla-firefox/components/libtypeaheadfindsea.so
+2aab0142c000-2aab0162c000 ---p 00010000 08:03 17486044                   /usr/lib64/mozilla-firefox/components/libtypeaheadfindsea.so
+2aab0162c000-2aab0162d000 r-xp 00010000 08:03 17486044                   /usr/lib64/mozilla-firefox/components/libtypeaheadfindsea.so
+2aab0162d000-2aab0162e000 rwxp 00011000 08:03 17486044                   /usr/lib64/mozilla-firefox/components/libtypeaheadfindsea.so
+2aab0162e000-2aab01689000 r-xp 00000000 08:03 17486046                   /usr/lib64/mozilla-firefox/components/libstoragecomps.so
+2aab01689000-2aab01889000 ---p 0005b000 08:03 17486046                   /usr/lib64/mozilla-firefox/components/libstoragecomps.so
+2aab01889000-2aab0188c000 r-xp 0005b000 08:03 17486046                   /usr/lib64/mozilla-firefox/components/libstoragecomps.so
+2aab0188c000-2aab0188d000 rwxp 0005e000 08:03 17486046                   /usr/lib64/mozilla-firefox/components/libstoragecomps.so
+2aab0188d000-2aab018f1000 r-xp 00000000 08:03 17486047                   /usr/lib64/mozilla-firefox/components/libdocshell.so
+2aab018f1000-2aab01af0000 ---p 00064000 08:03 17486047                   /usr/lib64/mozilla-firefox/components/libdocshell.so
+2aab01af0000-2aab01af8000 r-xp 00063000 08:03 17486047                   /usr/lib64/mozilla-firefox/components/libdocshell.so
+2aab01af8000-2aab01af9000 rwxp 0006b000 08:03 17486047                   /usr/lib64/mozilla-firefox/components/libdocshell.so
+2aab01af9000-2aab01b02000 r-xp 00000000 08:03 17486055                   /usr/lib64/mozilla-firefox/components/libpippki.so
+2aab01b02000-2aab01d01000 ---p 00009000 08:03 17486055                   /usr/lib64/mozilla-firefox/components/libpippki.so
+2aab01d01000-2aab01d03000 r-xp 00008000 08:03 17486055                   /usr/lib64/mozilla-firefox/components/libpippki.so
+2aab01d03000-2aab01d04000 rwxp 0000a000 08:03 17486055                   /usr/lib64/mozilla-firefox/components/libpippki.so
+2aab01d04000-2aab01d09000 r-xp 00000000 08:03 17486057                   /usr/lib64/mozilla-firefox/components/libauth.so
+2aab01d09000-2aab01f09000 ---p 00005000 08:03 17486057                   /usr/lib64/mozilla-firefox/components/libauth.so
+2aab01f09000-2aab01f0a000 r-xp 00005000 08:03 17486057                   /usr/lib64/mozilla-firefox/components/libauth.so
+2aab01f0a000-2aab01f0b000 rwxp 00006000 08:03 17486057                   /usr/lib64/mozilla-firefox/components/libauth.so
+2aab01f0b000-2aab01f11000 r-xp 00000000 08:03 17486059                   /usr/lib64/mozilla-firefox/components/libnkgnomevfs.so
+2aab01f11000-2aab02110000 ---p 00006000 08:03 17486059                   /usr/lib64/mozilla-firefox/components/libnkgnomevfs.so
+2aab02110000-2aab02111000 r-xp 00005000 08:03 17486059                   /usr/lib64/mozilla-firefox/components/libnkgnomevfs.so
+2aab02111000-2aab02112000 rwxp 00006000 08:03 17486059                   /usr/lib64/mozilla-firefox/components/libnkgnomevfs.so
+2aab02112000-2aab02119000 r-xp 00000000 08:03 17486060                   /usr/lib64/mozilla-firefox/components/libxpcom_compat_c.so
+2aab02119000-2aab02319000 ---p 00007000 08:03 17486060                   /usr/lib64/mozilla-firefox/components/libxpcom_compat_c.so
+2aab02319000-2aab0231a000 r-xp 00007000 08:03 17486060                   /usr/lib64/mozilla-firefox/components/libxpcom_compat_c.so
+2aab0231a000-2aab0231b000 rwxp 00008000 08:03 17486060                   /usr/lib64/mozilla-firefox/components/libxpcom_compat_c.so
+2aab0231b000-2aab02339000 r-xp 00000000 08:03 17485868                   /usr/lib64/mozilla-firefox/libxpcom_compat.so
+2aab02339000-2aab02539000 ---p 0001e000 08:03 17485868                   /usr/lib64/mozilla-firefox/libxpcom_compat.so
+2aab02539000-2aab0253b000 r-xp 0001e000 08:03 17485868                   /usr/lib64/mozilla-firefox/libxpcom_compat.so
+2aab0253b000-2aab0253c000 rwxp 00020000 08:03 17485868                   /usr/lib64/mozilla-firefox/libxpcom_compat.so
+2aab0253c000-2aab0259f000 r-xp 00000000 08:03 17486062                   /usr/lib64/mozilla-firefox/components/libxpconnect.so
+2aab0259f000-2aab0279f000 ---p 00063000 08:03 17486062                   /usr/lib64/mozilla-firefox/components/libxpconnect.so
+2aab0279f000-2aab027a5000 r-xp 00063000 08:03 17486062                   /usr/lib64/mozilla-firefox/components/libxpconnect.so
+2aab027a5000-2aab027a7000 rwxp 00069000 08:03 17486062                   /usr/lib64/mozilla-firefox/components/libxpconnect.so
+2aab027a7000-2aab027a8000 rwxp 2aab027a7000 00:00 0 
+2aab027a8000-2aab027b0000 r-xp 00000000 08:03 17486063                   /usr/lib64/mozilla-firefox/components/libfileview.so
+2aab027b0000-2aab029af000 ---p 00008000 08:03 17486063                   /usr/lib64/mozilla-firefox/components/libfileview.so
+2aab029af000-2aab029b0000 r-xp 00007000 08:03 17486063                   /usr/lib64/mozilla-firefox/components/libfileview.so
+2aab029b0000-2aab029b1000 rwxp 00008000 08:03 17486063                   /usr/lib64/mozilla-firefox/components/libfileview.so
+2aab029b1000-2aab029c4000 r-xp 00000000 08:03 17486066                   /usr/lib64/mozilla-firefox/components/libchrome.so
+2aab029c4000-2aab02bc4000 ---p 00013000 08:03 17486066                   /usr/lib64/mozilla-firefox/components/libchrome.so
+2aab02bc4000-2aab02bc5000 r-xp 00013000 08:03 17486066                   /usr/lib64/mozilla-firefox/components/libchrome.so
+2aab02bc5000-2aab02bc6000 rwxp 00014000 08:03 17486066                   /usr/lib64/mozilla-firefox/components/libchrome.so
+2aab02bc6000-2aab02c0d000 r-xp 00000000 08:03 17486068                   /usr/lib64/mozilla-firefox/components/libgfxps.so
+2aab02c0d000-2aab02e0d000 ---p 00047000 08:03 17486068                   /usr/lib64/mozilla-firefox/components/libgfxps.so
+2aab02e0d000-2aab02e10000 r-xp 00047000 08:03 17486068                   /usr/lib64/mozilla-firefox/components/libgfxps.so
+2aab02e10000-2aab02e11000 rwxp 0004a000 08:03 17486068                   /usr/lib64/mozilla-firefox/components/libgfxps.so
+2aab02e11000-2aab02e13000 r-xp 00000000 08:03 17486189                   /usr/lib64/mozilla-firefox/libgfxpsshar.so
+2aab02e13000-2aab03013000 ---p 00002000 08:03 17486189                   /usr/lib64/mozilla-firefox/libgfxpsshar.so
+2aab03013000-2aab03014000 r-xp 00002000 08:03 17486189                   /usr/lib64/mozilla-firefox/libgfxpsshar.so
+2aab03014000-2aab03015000 rwxp 00003000 08:03 17486189                   /usr/lib64/mozilla-firefox/libgfxpsshar.so
+2aab03015000-2aab0302d000 r-xp 00000000 08:03 17486079                   /usr/lib64/mozilla-firefox/components/libwebbrwsr.so
+2aab0302d000-2aab0322d000 ---p 00018000 08:03 17486079                   /usr/lib64/mozilla-firefox/components/libwebbrwsr.so
+2aab0322d000-2aab03230000 r-xp 00018000 08:03 17486079                   /usr/lib64/mozilla-firefox/components/libwebbrwsr.so
+2aab03230000-2aab03231000 rwxp 0001b000 08:03 17486079                   /usr/lib64/mozilla-firefox/components/libwebbrwsr.so
+2aab03231000-2aab03239000 r-xp 00000000 08:03 17486086                   /usr/lib64/mozilla-firefox/components/libautoconfig.so
+2aab03239000-2aab03439000 ---p 00008000 08:03 17486086                   /usr/lib64/mozilla-firefox/components/libautoconfig.so
+2aab03439000-2aab0343a000 r-xp 00008000 08:03 17486086                   /usr/lib64/mozilla-firefox/components/libautoconfig.so
+2aab0343a000-2aab0343b000 rwxp 00009000 08:03 17486086                   /usr/lib64/mozilla-firefox/components/libautoconfig.so
+2aab0343b000-2aab0343e000 r-xp 00000000 08:03 17486087                   /usr/lib64/mozilla-firefox/components/libpermissions.so
+2aab0343e000-2aab0363e000 ---p 00003000 08:03 17486087                   /usr/lib64/mozilla-firefox/components/libpermissions.so
+2aab0363e000-2aab0363f000 r-xp 00003000 08:03 17486087                   /usr/lib64/mozilla-firefox/components/libpermissions.so
+2aab0363f000-2aab03640000 rwxp 00004000 08:03 17486087                   /usr/lib64/mozilla-firefox/components/libpermissions.so
+2aab03640000-2aab03684000 r-xp 00000000 08:03 17486092                   /usr/lib64/mozilla-firefox/components/libbrowsercomps.so
+2aab03684000-2aab03883000 ---p 00044000 08:03 17486092                   /usr/lib64/mozilla-firefox/components/libbrowsercomps.so
+2aab03883000-2aab03886000 r-xp 00043000 08:03 17486092                   /usr/lib64/mozilla-firefox/components/libbrowsercomps.so
+2aab03886000-2aab03888000 rwxp 00046000 08:03 17486092                   /usr/lib64/mozilla-firefox/components/libbrowsercomps.so
+2aab03888000-2aab03889000 rwxp 2aab03888000 00:00 0 
+2aab03889000-2aab038ca000 r-xp 00000000 08:03 17486093                   /usr/lib64/mozilla-firefox/components/libmork.so
+2aab038ca000-2aab03ac9000 ---p 00041000 08:03 17486093                   /usr/lib64/mozilla-firefox/components/libmork.so
+2aab03ac9000-2aab03ace000 r-xp 00040000 08:03 17486093                   /usr/lib64/mozilla-firefox/components/libmork.so
+2aab03ace000-2aab03acf000 rwxp 00045000 08:03 17486093                   /usr/lib64/mozilla-firefox/components/libmork.so
+2aab03acf000-2aab03ad5000 r-xp 00000000 08:03 17486098                   /usr/lib64/mozilla-firefox/components/libxmlextras.so
+2aab03ad5000-2aab03cd5000 ---p 00006000 08:03 17486098                   /usr/lib64/mozilla-firefox/components/libxmlextras.so
+2aab03cd5000-2aab03cd6000 r-xp 00006000 08:03 17486098                   /usr/lib64/mozilla-firefox/components/libxmlextras.so
+2aab03cd6000-2aab03cd7000 rwxp 00007000 08:03 17486098                   /usr/lib64/mozilla-firefox/components/libxmlextras.so
+2aab03cd7000-2aab03d15000 r-xp 00000000 08:03 17486099                   /usr/lib64/mozilla-firefox/components/libxpinstall.so
+2aab03d15000-2aab03f15000 ---p 0003e000 08:03 17486099                   /usr/lib64/mozilla-firefox/components/libxpinstall.so
+2aab03f15000-2aab03f17000 r-xp 0003e000 08:03 17486099                   /usr/lib64/mozilla-firefox/components/libxpinstall.so
+2aab03f17000-2aab03f1a000 rwxp 00040000 08:03 17486099                   /usr/lib64/mozilla-firefox/components/libxpinstall.so
+2aab03f1a000-2aab03f25000 r-xp 00000000 08:03 17486100                   /usr/lib64/mozilla-firefox/components/libucvmath.so
+2aab03f25000-2aab04124000 ---p 0000b000 08:03 17486100                   /usr/lib64/mozilla-firefox/components/libucvmath.so
+2aab04124000-2aab04126000 r-xp 0000a000 08:03 17486100                   /usr/lib64/mozilla-firefox/components/libucvmath.so
+2aab04126000-2aab04127000 rwxp 0000c000 08:03 17486100                   /usr/lib64/mozilla-firefox/components/libucvmath.so
+2aab04127000-2aab0416a000 r-xp 00000000 08:03 17486108                   /usr/lib64/mozilla-firefox/components/libgfx_gtk.so
+2aab0416a000-2aab04369000 ---p 00043000 08:03 17486108                   /usr/lib64/mozilla-firefox/components/libgfx_gtk.so
+2aab04369000-2aab0436d000 r-xp 00042000 08:03 17486108                   /usr/lib64/mozilla-firefox/components/libgfx_gtk.so
+2aab0436d000-2aab0436f000 rwxp 00046000 08:03 17486108                   /usr/lib64/mozilla-firefox/components/libgfx_gtk.so
+2aab0436f000-2aab04438000 r-xp 00000000 08:03 17486109                   /usr/lib64/mozilla-firefox/components/libuconv.so
+2aab04438000-2aab04637000 ---p 000c9000 08:03 17486109                   /usr/lib64/mozilla-firefox/components/libuconv.so
+2aab04637000-2aab04641000 r-xp 000c8000 08:03 17486109                   /usr/lib64/mozilla-firefox/components/libuconv.so
+2aab04641000-2aab04642000 rwxp 000d2000 08:03 17486109                   /usr/lib64/mozilla-firefox/components/libuconv.so
+2aab04642000-2aab0464c000 rwxp 2aab04642000 00:00 0 
+2aab0464c000-2aab046bc000 r-xp 00000000 08:03 17486110                   /usr/lib64/mozilla-firefox/components/libhtmlpars.so
+2aab046bc000-2aab048bb000 ---p 00070000 08:03 17486110                   /usr/lib64/mozilla-firefox/components/libhtmlpars.so
+2aab048bb000-2aab048c7000 r-xp 0006f000 08:03 17486110                   /usr/lib64/mozilla-firefox/components/libhtmlpars.so
+2aab048c7000-2aab048c8000 rwxp 0007b000 08:03 17486110                   /usr/lib64/mozilla-firefox/components/libhtmlpars.so
+2aab048c8000-2aab048f9000 r-xp 00000000 08:03 17486115                   /usr/lib64/mozilla-firefox/components/librdf.so
+2aab048f9000-2aab04af8000 ---p 00031000 08:03 17486115                   /usr/lib64/mozilla-firefox/components/librdf.so
+2aab04af8000-2aab04afc000 r-xp 00030000 08:03 17486115                   /usr/lib64/mozilla-firefox/components/librdf.so
+2aab04afc000-2aab04afd000 rwxp 00034000 08:03 17486115                   /usr/lib64/mozilla-firefox/components/librdf.so
+2aab04b23000-2aab04b29000 r-xs 00045000 08:03 11178526                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.ejb.ui_1.1.200.v200805292155.jar
+2aab04b29000-2aab04b2b000 r-xs 00005000 08:03 11178649                   /usr/lib64/eclipse-3.4/plugins/org.eclipse.jst.j2ee.jca.ui_1.1.200.v200805140020.jar
+2aab04b4f000-2aab04b53000 r-xp 00000000 08:03 3752085                    /lib64/libnss_dns-2.6.1.so
+2aab04b53000-2aab04d52000 ---p 00004000 08:03 3752085                    /lib64/libnss_dns-2.6.1.so
+2aab04d52000-2aab04d53000 r-xp 00003000 08:03 3752085                    /lib64/libnss_dns-2.6.1.so
+2aab04d53000-2aab04d54000 rwxp 00004000 08:03 3752085                    /lib64/libnss_dns-2.6.1.so
+2aab04d54000-2aab06170000 rwxp 2aab04d54000 00:00 0 
+2aab06170000-2aab06173000 r-xp 00000000 08:03 4572542                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-gnome-gtk-3448.so
+2aab06173000-2aab06272000 ---p 00003000 08:03 4572542                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-gnome-gtk-3448.so
+2aab06272000-2aab06273000 rwxp 00002000 08:03 4572542                    /home/bo198214/.eclipse/org.eclipse.platform_3.4.0_272132067/configuration/org.eclipse.osgi/bundles/96/1/.cp/libswt-gnome-gtk-3448.so
+2aab06273000-2aab06280000 r-xp 00000000 08:03 16452097                   /usr/lib64/gnome-vfs-2.0/modules/libfile.so
+2aab06280000-2aab06480000 ---p 0000d000 08:03 16452097                   /usr/lib64/gnome-vfs-2.0/modules/libfile.so
+2aab06480000-2aab06481000 r-xp 0000d000 08:03 16452097                   /usr/lib64/gnome-vfs-2.0/modules/libfile.so
+2aab06481000-2aab06482000 rwxp 0000e000 08:03 16452097                   /usr/lib64/gnome-vfs-2.0/modules/libfile.so
+2aab064a6000-2aab064aa000 r-xp 00000000 08:03 3751955                    /lib64/libattr.so.1.1.0
+2aab064aa000-2aab066a9000 ---p 00004000 08:03 3751955                    /lib64/libattr.so.1.1.0
+2aab066a9000-2aab066aa000 r-xp 00003000 08:03 3751955                    /lib64/libattr.so.1.1.0
+2aab066aa000-2aab066ab000 rwxp 00004000 08:03 3751955                    /lib64/libattr.so.1.1.0
+2aab066ab000-2aab066b1000 r-xp 00000000 08:03 3751972                    /lib64/libacl.so.1.1.0
+2aab066b1000-2aab068b0000 ---p 00006000 08:03 3751972                    /lib64/libacl.so.1.1.0
+2aab068b0000-2aab068b1000 r-xp 00005000 08:03 3751972                    /lib64/libacl.so.1.1.0
+2aab068b1000-2aab068b2000 rwxp 00006000 08:03 3751972                    /lib64/libacl.so.1.1.0
+2aab068b2000-2aab068b7000 r-xp 00000000 08:03 15959039                   /usr/lib64/libfam.so.0.0.0
+2aab068b7000-2aab06ab7000 ---p 00005000 08:03 15959039                   /usr/lib64/libfam.so.0.0.0
+2aab06ab7000-2aab06ab8000 r-xp 00005000 08:03 15959039                   /usr/lib64/libfam.so.0.0.0
+2aab06ab8000-2aab06ab9000 rwxp 00006000 08:03 15959039                   /usr/lib64/libfam.so.0.0.0
+2aab06ab9000-2aab06ee2000 r-xp 00000000 08:03 6668460                    /usr/share/icons/Rodent/icon-theme.cache
+2aab06ee2000-2aab0730b000 r-xp 00000000 08:03 6668460                    /usr/share/icons/Rodent/icon-theme.cache
+2aab0730b000-2aab079e8000 r-xp 00000000 08:03 6673140                    /usr/share/icons/gnome/icon-theme.cache
+2aab079e8000-2aab080c5000 r-xp 00000000 08:03 6673140                    /usr/share/icons/gnome/icon-theme.cache
+2aab080c5000-2aab0829b000 r-xp 00000000 08:03 6673147                    /usr/share/icons/hicolor/icon-theme.cache
+2aab0829b000-2aab08471000 r-xp 00000000 08:03 6673147                    /usr/share/icons/hicolor/icon-theme.cache
+2aab0c000000-2aab0cb8c000 rwxp 2aab0c000000 00:00 0 
+2aab0cb8c000-2aab10000000 ---p 2aab0cb8c000 00:00 0 
+2b7a72f60000-2b7a72f7b000 r-xp 00000000 08:03 3752055                    /lib64/ld-2.6.1.so
+2b7a72f7b000-2b7a72f7d000 rwxp 2b7a72f7b000 00:00 0 
+2b7a7317a000-2b7a7317b000 r-xp 0001a000 08:03 3752055                    /lib64/ld-2.6.1.so
+2b7a7317b000-2b7a7317c000 rwxp 0001b000 08:03 3752055                    /lib64/ld-2.6.1.so
+2b7a7317c000-2b7a73191000 r-xp 00000000 08:03 3752070                    /lib64/libpthread-2.6.1.so
+2b7a73191000-2b7a73391000 ---p 00015000 08:03 3752070                    /lib64/libpthread-2.6.1.so
+2b7a73391000-2b7a73392000 r-xp 00015000 08:03 3752070                    /lib64/libpthread-2.6.1.so
+2b7a73392000-2b7a73393000 rwxp 00016000 08:03 3752070                    /lib64/libpthread-2.6.1.so
+2b7a73393000-2b7a73397000 rwxp 2b7a73393000 00:00 0 
+2b7a73397000-2b7a7339e000 r-xp 00000000 08:03 17285664                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/jli/libjli.so
+2b7a7339e000-2b7a7349f000 ---p 00007000 08:03 17285664                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/jli/libjli.so
+2b7a7349f000-2b7a734a1000 rwxp 00008000 08:03 17285664                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/jli/libjli.so
+2b7a734a1000-2b7a734a2000 rwxp 2b7a734a1000 00:00 0 
+2b7a734a2000-2b7a734a4000 r-xp 00000000 08:03 3752067                    /lib64/libdl-2.6.1.so
+2b7a734a4000-2b7a736a4000 ---p 00002000 08:03 3752067                    /lib64/libdl-2.6.1.so
+2b7a736a4000-2b7a736a5000 r-xp 00002000 08:03 3752067                    /lib64/libdl-2.6.1.so
+2b7a736a5000-2b7a736a6000 rwxp 00003000 08:03 3752067                    /lib64/libdl-2.6.1.so
+2b7a736a6000-2b7a737dc000 r-xp 00000000 08:03 3752081                    /lib64/libc-2.6.1.so
+2b7a737dc000-2b7a739db000 ---p 00136000 08:03 3752081                    /lib64/libc-2.6.1.so
+2b7a739db000-2b7a739df000 r-xp 00135000 08:03 3752081                    /lib64/libc-2.6.1.so
+2b7a739df000-2b7a739e0000 rwxp 00139000 08:03 3752081                    /lib64/libc-2.6.1.so
+2b7a739e0000-2b7a739e7000 rwxp 2b7a739e0000 00:00 0 
+2b7a739e7000-2b7a740dc000 r-xp 00000000 08:03 17285688                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/server/libjvm.so
+2b7a740dc000-2b7a741db000 ---p 006f5000 08:03 17285688                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/server/libjvm.so
+2b7a741db000-2b7a74325000 rwxp 006f4000 08:03 17285688                   /opt/sun-jdk-1.6.0.06/jre/lib/amd64/server/libjvm.so
+2b7a74325000-2b7a74362000 rwxp 2b7a74325000 00:00 0 
+2b7a74386000-2b7a74406000 r-xp 00000000 08:03 3752057                    /lib64/libm-2.6.1.so
+2b7a74406000-2b7a74605000 ---p 00080000 08:03 3752057                    /lib64/libm-2.6.1.so
+2b7a74605000-2b7a74606000 r-xp 0007f000 08:03 3752057                    /lib64/libm-2.6.1.so
+2b7a74606000-2b7a74607000 rwxp 00080000 08:03 3752057                    /lib64/libm-2.6.1.so
+7fff37b14000-7fff37b4a000 rwxp 7ffffffc9000 00:00 0                      [stack]
+7fff37bfe000-7fff37c00000 r-xp 7fff37bfe000 00:00 0                      [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+VM Arguments:
+jvm_args: -Dosgi.requiredJavaVersion=1.5 -Xms40m -Xmx512m -XX:MaxPermSize=256m 
+java_command: /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher_1.0.100.v20080509-1800.jar -os linux -ws gtk -arch x86_64 -showsplash -launcher /usr/lib64/eclipse-3.4/eclipse -name Eclipse --launcher.library /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.0.100.v20080606/eclipse_1114b.so -startup /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher_1.0.100.v20080509-1800.jar -exitdata 3c000e -framework plugins/org.eclipse.osgi_3.4.0.v20080605-1900.jar -vm /usr/bin/java -vmargs -Dosgi.requiredJavaVersion=1.5 -Xms40m -Xmx512m -XX:MaxPermSize=256m -jar /usr/lib64/eclipse-3.4/plugins/org.eclipse.equinox.launcher_1.0.100.v20080509-1800.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=/etc/java-config-2/current-system-vm
+CLASSPATH=.
+PATH=/home/bo198214/l/sh:/home/bo198214/sh:/home/bo198214/bin/x86_64:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.1.2:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/kde/3.5/bin:/usr/qt/3/bin
+LD_LIBRARY_PATH=/opt/sun-jdk-1.6.0.06/jre/lib/amd64/server:/opt/sun-jdk-1.6.0.06/jre/lib/amd64:/opt/sun-jdk-1.6.0.06/jre/../lib/amd64:/usr/lib64/mozilla-firefox/
+SHELL=/bin/bash
+DISPLAY=:0.0
+
+Signal Handlers:
+SIGSEGV: [libjvm.so+0x6616e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGBUS: [libjvm.so+0x6616e0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGFPE: [libjvm.so+0x5044d0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGPIPE: SIG_IGN, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGXFSZ: [libjvm.so+0x5044d0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGILL: [libjvm.so+0x5044d0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGUSR1: SIG_DFL, sa_mask[0]=0x00000000, sa_flags=0x00000000
+SIGUSR2: [libjvm.so+0x506740], sa_mask[0]=0x00000000, sa_flags=0x10000004
+SIGHUP: [libjvm.so+0x5064a0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGINT: [libjvm.so+0x5064a0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGTERM: [libjvm.so+0x5064a0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+SIGQUIT: [libjvm.so+0x5064a0], sa_mask[0]=0x7ffbfeff, sa_flags=0x10000004
+
+
+---------------  S Y S T E M  ---------------
+
+OS:Gentoo Base System release 1.12.11.1
+
+uname:Linux 2.6.24-gentoo-r5 #4 SMP PREEMPT Sun May 25 19:05:11 CEST 2008 x86_64
+libc:glibc 2.6.1 NPTL 2.6.1 
+rlimit: STACK 8192k, CORE 0k, NPROC 75520, NOFILE 1024, AS infinity
+load average:0,35 0,28 0,21
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 15 model 107 stepping 2, cmov, cx8, fxsr, mmx, sse, sse2, sse3, mmxext, 3dnow, 3dnowext
+
+Memory: 4k page, physical 8236128k(5812424k free), swap 8193140k(8193140k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (10.0-b22) for linux-amd64 JRE (1.6.0_06-b02), built on Mar 25 2008 01:03:02 by "java_re" with gcc 3.2.2 (SuSE Linux)
+
+time: Thu Jul 31 01:20:50 2008
+elapsed time: 13188 seconds
+

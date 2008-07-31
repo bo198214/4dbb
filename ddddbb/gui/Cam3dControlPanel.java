@@ -8,10 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ddddbb.game.Main.ViewAbsRelEnum;
+import ddddbb.gen.DoubleModel;
+import ddddbb.gen.MyChangeListener;
 import ddddbb.gui3d.DArrowButton;
 import ddddbb.gui3d.DLabel;
 import ddddbb.gui3d.DPanel;
@@ -58,9 +58,116 @@ public class Cam3dControlPanel extends DPanel {
 
 	public Cam3dControlPanel(
 			final Camera3d camera3d,
-			final ViewAbsRelEnum viewAbsRel
+			final ViewAbsRelEnum viewAbsRel, 
+			final DoubleModel brightness
 			) {
-		initGUI();
+		GridBagLayout thisLayout = new GridBagLayout();
+		thisLayout.rowWeights = new double[] {0.01, 0.01, 0.0};
+		thisLayout.rowHeights = new int[] {7, 7, 7};
+		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		thisLayout.columnWidths = new int[] {15, 15, 40, 15, 7, 20, 15, 40, 15};
+		this.setLayout(thisLayout);
+		this.setBorder(BorderFactory.createTitledBorder("3d camera control"));
+		this.setPreferredSize(new java.awt.Dimension(199, 99));
+		{
+			xLabel = new JLabel();
+			this.add(xLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			xLabel.setText("x");
+		}
+		{
+			yLabel = new JLabel();
+			this.add(yLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			yLabel.setText("y");
+		}
+		{
+			zLabel = new JLabel();
+			this.add(zLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			zLabel.setText("z");
+		}
+		{
+			xLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			this.add(xLeft, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			yLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			this.add(yLeft, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			zLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			this.add(zLeft, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			xRight = new DArrowButton(SwingConstants.EAST, brightness);
+			this.add(xRight, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			yRight = new DArrowButton(SwingConstants.EAST, brightness);
+			this.add(yRight, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			zRight = new DArrowButton(SwingConstants.EAST, brightness);
+			this.add(zRight, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			xzLabel = new JLabel();
+			this.add(xzLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			xzLabel.setText("xz");
+		}
+		{
+			yzLabel = new JLabel();
+			this.add(yzLabel, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			yzLabel.setText("yz");
+		}
+		{
+			xzLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			this.add(xzLeft, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			yzLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			this.add(yzLeft, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			xzRight = new DArrowButton(SwingConstants.EAST, brightness);
+			this.add(xzRight, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			yzRight = new DArrowButton(SwingConstants.EAST, brightness);
+			this.add(yzRight, new GridBagConstraints(8, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		{
+			reset = new JButton();
+			this.add(reset, new GridBagConstraints(5, 2, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			reset.setText("reset");
+		}
+		{
+			xPos = new DLabel(30,16, brightness);
+			this.add(xPos, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			xPos.setText("nan");
+		}
+		{
+			yPos = new DLabel(30,16, brightness);
+			this.add(yPos, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			yPos.setText("nan");
+		}
+		{
+			zPos = new DLabel(30,16, brightness);
+			this.add(zPos, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			zPos.setText("nan");
+		}
+		{
+			xzVal = new DLabel(30,16, brightness);
+			this.add(xzVal, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			xzVal.setText("nan");
+		}
+		{
+			yzVal = new DLabel(30,16, brightness);
+			this.add(yzVal, new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+			yzVal.setText("nan");
+		}
+		{
+			vSeparator = new JSeparator(SwingConstants.VERTICAL);
+			this.add(vSeparator, new GridBagConstraints(4, 0, 1, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
 		
 		Cam3dAction c3a = new Cam3dAction(camera3d,viewAbsRel);
 		
@@ -78,9 +185,8 @@ public class Cam3dControlPanel extends DPanel {
 		
 		reset.addActionListener(camera3d.reset);
 		
-		camera3d.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
+		camera3d.addChangeListener(new MyChangeListener() {
+			public void stateChanged() {
 				double[] o = camera3d.eye.x;
 				xPos.setText(ViewPane.fnf.format(o[0]));
 				yPos.setText(ViewPane.fnf.format(o[1]));
@@ -101,121 +207,4 @@ public class Cam3dControlPanel extends DPanel {
 				yzVal.setText(ViewPane.nf.format(ayzd));
 			}});
 	}
-	
-	private void initGUI() {
-		try {
-			{
-				GridBagLayout thisLayout = new GridBagLayout();
-				thisLayout.rowWeights = new double[] {0.01, 0.01, 0.0};
-				thisLayout.rowHeights = new int[] {7, 7, 7};
-				thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				thisLayout.columnWidths = new int[] {15, 15, 40, 15, 7, 20, 15, 40, 15};
-				this.setLayout(thisLayout);
-				this.setBorder(BorderFactory.createTitledBorder("3d camera control"));
-				this.setPreferredSize(new java.awt.Dimension(199, 99));
-				{
-					xLabel = new JLabel();
-					this.add(xLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					xLabel.setText("x");
-				}
-				{
-					yLabel = new JLabel();
-					this.add(yLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					yLabel.setText("y");
-				}
-				{
-					zLabel = new JLabel();
-					this.add(zLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					zLabel.setText("z");
-				}
-				{
-					xLeft = new DArrowButton(SwingConstants.WEST);
-					this.add(xLeft, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					yLeft = new DArrowButton(SwingConstants.WEST);
-					this.add(yLeft, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					zLeft = new DArrowButton(SwingConstants.WEST);
-					this.add(zLeft, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					xRight = new DArrowButton(SwingConstants.EAST);
-					this.add(xRight, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					yRight = new DArrowButton(SwingConstants.EAST);
-					this.add(yRight, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					zRight = new DArrowButton(SwingConstants.EAST);
-					this.add(zRight, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					xzLabel = new JLabel();
-					this.add(xzLabel, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					xzLabel.setText("xz");
-				}
-				{
-					yzLabel = new JLabel();
-					this.add(yzLabel, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					yzLabel.setText("yz");
-				}
-				{
-					xzLeft = new DArrowButton(SwingConstants.WEST);
-					this.add(xzLeft, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					yzLeft = new DArrowButton(SwingConstants.WEST);
-					this.add(yzLeft, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					xzRight = new DArrowButton(SwingConstants.EAST);
-					this.add(xzRight, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					yzRight = new DArrowButton(SwingConstants.EAST);
-					this.add(yzRight, new GridBagConstraints(8, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-				{
-					reset = new JButton();
-					this.add(reset, new GridBagConstraints(5, 2, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					reset.setText("reset");
-				}
-				{
-					xPos = new DLabel(30,16);
-					this.add(xPos, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					xPos.setText("nan");
-				}
-				{
-					yPos = new DLabel(30,16);
-					this.add(yPos, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					yPos.setText("nan");
-				}
-				{
-					zPos = new DLabel(30,16);
-					this.add(zPos, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					zPos.setText("nan");
-				}
-				{
-					xzVal = new DLabel(30,16);
-					this.add(xzVal, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					xzVal.setText("nan");
-				}
-				{
-					yzVal = new DLabel(30,16);
-					this.add(yzVal, new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					yzVal.setText("nan");
-				}
-				{
-					vSeparator = new JSeparator(SwingConstants.VERTICAL);
-					this.add(vSeparator, new GridBagConstraints(4, 0, 1, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				}
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 }

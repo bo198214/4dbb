@@ -112,7 +112,7 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 //				(int)(10.0*Opt.xcm.getDouble()),
 //				(int)(10.0*Opt.ycm.getDouble()))); // 10x10cm
 
-		MouseControl mouseControl = new MouseControl(zoom,dim34,viewAbsRel,scene.camera3d,scene.camera4d,viewTransAxis,d3ViewRotAxis,sv.mouseTransSens,sv.mouseRotSens,sv.xdpcm,sv.ydpcm);
+		MouseControl mouseControl = new MouseControl(zoom,dim34,viewAbsRel,scene.camera3d,scene.camera4d,sv.mouseTransSens,sv.mouseRotSens,sv.xdpcm,sv.ydpcm);
 		addMouseMotionListener(mouseControl);
 		addMouseListener(mouseControl);
 		addHierarchyBoundsListener(new HierarchyBoundsListener() {
@@ -201,6 +201,8 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		g4.drawBlob(scene.compounds.getSelectedItem().center);
 
 		((Graphics2D)g0).drawImage(buffImg, null, 0, 0);
+		super.paintChildren(g0);
+//		super.p
 	}
 	
 //	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {

@@ -3,26 +3,17 @@ package ddddbb;
 import javax.swing.JApplet;
 
 import ddddbb.game.Main;
-import ddddbb.gui.MyMenuBar;
+import ddddbb.gui.TheMenuBar;
 
+@SuppressWarnings("serial")
 public class Applet extends JApplet {
-	private static final long serialVersionUID = 6142102208419131502L;
-
 	/**
-	 * This is the default constructor
+	 * Applet initialization
 	 */
-	public Applet() {
-		super();
-	}
-
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
+	@Override
 	public void init() {
 		Main main = new Main(this);
-		setJMenuBar(new MyMenuBar(main));
+		setJMenuBar(new TheMenuBar(main));
 		setContentPane(main.contentPane);
 		invalidate();
 	}

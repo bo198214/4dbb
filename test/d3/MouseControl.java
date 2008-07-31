@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class MouseControl implements MouseListener, MouseMotionListener, ChangeListener {
+import ddddbb.gen.MyChangeListener;
+
+public class MouseControl implements MouseListener, MouseMotionListener, MyChangeListener {
 	private int mouseX;
 	private int mouseY;
 	private double frx;
@@ -22,7 +24,7 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 		Opt.ycm.addChangeListener(this);
 		Opt.mouseTransSens.addChangeListener(this);
 		Opt.mouseRotSens.addChangeListener(this);
-		stateChanged(null);
+		stateChanged();
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -132,7 +134,7 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 	public void mouseMoved(MouseEvent arg0) {}
 
 
-	public void stateChanged(ChangeEvent e) {
+	public void stateChanged() {
 		frx = Opt.mouseRotSens.getDouble()/Opt.xcm.getDouble();
 		fry = Opt.mouseRotSens.getDouble()/Opt.ycm.getDouble();
 		ftx = Opt.mouseTransSens.getDouble()/Opt.xcm.getDouble();

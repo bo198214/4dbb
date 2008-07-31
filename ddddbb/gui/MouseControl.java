@@ -5,17 +5,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import ddddbb.game.Main.ViewAbsRel;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
 import ddddbb.gen.IntStringModel;
+import ddddbb.gen.MyChangeListener;
 import ddddbb.math.Camera3d;
 import ddddbb.math.Camera4d;
 
-public class MouseControl implements MouseListener, MouseMotionListener, ChangeListener {
+public class MouseControl implements MouseListener, MouseMotionListener, MyChangeListener {
 	private int mouseX;
 	private int mouseY;
 	private double frx;
@@ -28,8 +26,6 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 	private final IntModel<ViewAbsRel> viewAbsRel;
 	private final Camera3d camera3d;
 	private final Camera4d camera4d;
-	private final IntStringModel viewTransAxis;
-	private final IntStringModel d3ViewTransAxis;
 	private final DoubleModel mouseTransSens;
 	private final DoubleModel mouseRotSens;
 	private final DoubleModel xdpcm;
@@ -41,8 +37,6 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 			IntModel<ViewAbsRel> _viewAbsRel,
 			Camera3d _camera3d,
 			Camera4d _camera4d,
-			IntStringModel _viewTransAxis,
-			IntStringModel _d3ViewTransAxis,
 			DoubleModel _mouseTransSens,
 			DoubleModel _mouseRotSens,
 			DoubleModel _xdpcm,
@@ -53,8 +47,6 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 		viewAbsRel = _viewAbsRel;
 		camera3d = _camera3d;
 		camera4d = _camera4d;
-		viewTransAxis = _viewTransAxis;
-		d3ViewTransAxis = _d3ViewTransAxis;
 		mouseTransSens = _mouseTransSens;
 		mouseRotSens = _mouseRotSens;
 		xdpcm = _xdpcm;
@@ -64,7 +56,7 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 		ydpcm.addChangeListener(this);
 		mouseTransSens.addChangeListener(this);
 		mouseRotSens.addChangeListener(this);
-		stateChanged(null);
+		stateChanged();
 	}
 	
 	public void mouseClicked(MouseEvent e) {
@@ -106,18 +98,15 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 					camera3d.translate(
 							viewAbsRel.getSelectedObject().selectDirec3d(2),
 							-(e.getY()-mouseY)*fty
-//							selectDirec3d(Opt.d3ViewTransAxis.getInt()+2)
 					);
 				}
 				else {
-//					Main.scene.camera3d.translate(
-//							(e.getX()-mouseX)*ftx,
-////							selectDirec3d(0)
-//							selectDirec3d(Opt.d3ViewTransAxis.getInt()-1)
-//					);
 					camera3d.translate(
-							viewAbsRel.getSelectedObject().selectDirec3d(d3ViewTransAxis.getInt()),
-//							selectDirec3d(1)
+							viewAbsRel.getSelectedObject().selectDirec3d(0),
+							(e.getX()-mouseX)*ftx
+					);
+					camera3d.translate(
+							viewAbsRel.getSelectedObject().selectDirec3d(1),
 							-(e.getY()-mouseY)*fty
 					);
 				}
@@ -143,25 +132,21 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 				if (shiftPressed) {
 					camera4d.translate(
 							viewAbsRel.getSelectedObject().selectDirec4d(2),
-//							selectDirec(Opt.viewTransAxis.getInt()-1),
 							(e.getX()-mouseX)*ftx
 							);
 					camera4d.translate(
 							viewAbsRel.getSelectedObject().selectDirec4d(3),
-//							selectDirec(Opt.viewTransAxis.getInt()),
 							-(e.getY()-mouseY)*fty
 							);					
 				}
 				else {
-//					Main.scene.camera.translate(
-//							(e.getX()-mouseX)*ftx,
-////							selectDirec(0)
-//							selectDirec(Opt.viewTransAxis.getInt()-1)
-//							);
 					camera4d.translate(
-							//							selectDirec(1)
-							viewAbsRel.getSelectedObject().selectDirec4d(viewTransAxis.getInt()),
--(e.getY()-mouseY)*fty
+							viewAbsRel.getSelectedObject().selectDirec4d(0),
+							(e.getX()-mouseX)*ftx
+							);
+					camera4d.translate(
+							viewAbsRel.getSelectedObject().selectDirec4d(1),
+							-(e.getY()-mouseY)*fty
 							);
 				}
 				break;
@@ -235,7 +220,7 @@ public class MouseControl implements MouseListener, MouseMotionListener, ChangeL
 	public void mouseMoved(MouseEvent arg0) {}
 
 
-	public void stateChanged(ChangeEvent e) {
+	public void stateChanged() {
 		frx = mouseRotSens.getDouble()/xdpcm.getDouble();
 		fry = mouseRotSens.getDouble()/ydpcm.getDouble();
 		ftx = mouseTransSens.getDouble()/xdpcm.getDouble();

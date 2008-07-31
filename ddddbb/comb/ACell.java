@@ -176,8 +176,8 @@ public abstract class ACell {
 		for (T t: l) predecessors.put(t, new HashSet<T>());
 		int n = l.size();
 		for (int i=0;i<n;i++) {
+			T t1 = l.get(i);
 			for (int j=i+1;j<n;j++) {
-				T t1 = l.get(i);
 				T t2 = l.get(j);
 				int cmp = c.compare(t1, t2);
 				if (cmp<0) {//t1<t2
@@ -191,11 +191,26 @@ public abstract class ACell {
 		
 		l.clear();
 		while (l.size()<n) {
+			boolean isCycles = true;
 			for (T t: predecessors.keySet()) {
 				if (predecessors.get(t).size() == 0) {
+					isCycles = false;
 					l.add(t);
 				}
 			}
+			if (isCycles) {
+				System.out.println("Cycle detected:");
+				T start = predecessors.keySet().iterator().next();
+				System.out.println(start);
+				T t = predecessors.get(start).iterator().next();
+				while (start!=t) {
+					t = predecessors.get(t).iterator().next();
+					System.out.println(t);
+				}
+				assert false;
+			}
+			
+				
 			for (T t: predecessors.keySet()) {
 				for (T s:l) predecessors.get(t).remove(s);
 			}
