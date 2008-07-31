@@ -4,11 +4,6 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import ddddbb.gen.DoubleModel;
-
 public abstract class BarEyeGraphics extends D3Graphics {
 
 	public static final Composite COMPOSITE = 

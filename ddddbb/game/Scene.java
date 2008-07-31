@@ -28,7 +28,8 @@ public class Scene extends Scene4d {
 
 	public D4Tupel cursor = new D4Tupel(0,0,0,0);
 	//public BoolModel showGoal;
-
+	private final Sound sound;
+	
 	public Scene(
 			final DoubleModel zoom, 
 			final IntModel<SimpleSwitches.Orientation4d> orientation4d,
@@ -40,9 +41,12 @@ public class Scene extends Scene4d {
 			final DoubleModel screenEyeDist,
 			final DoubleModel eyesDistHalf,
 			final DoubleModel barEyeFocusDelta,
-			IntModel<GameStatus> _gameStatus) {
-		super(zoom,orientation4d,orientation3d,showGoal,perspective,occlusion4dAllowance,showInternalFaces,screenEyeDist,eyesDistHalf,barEyeFocusDelta);
+			final Sound _sound,
+			IntModel<GameStatus> _gameStatus
+			) {
+		super(zoom,orientation4d,orientation3d,showGoal,perspective,occlusion4dAllowance,showInternalFaces,screenEyeDist,eyesDistHalf,barEyeFocusDelta,_sound);
 		gameStatus = _gameStatus;
+		sound = _sound;
 	}
 
 	private void propagateGameStatus() {
@@ -92,11 +96,11 @@ public class Scene extends Scene4d {
 		compound.translate(v);
 		if (isOverlapping()) {
 			compound.translate(new DSignedAxis(-v.human()));
-			Sound.BARRINGCOMPOUND.play();
+			sound.BARRINGCOMPOUND.play();
 			return false;
 		}
 		changed();
-		Sound.MOVINGCOMPOUND.play();
+		sound.MOVINGCOMPOUND.play();
 		return true;
 	}
 	
@@ -114,7 +118,7 @@ public class Scene extends Scene4d {
 		compound.rotate(v,w);
 		if (isOverlapping()) { 
 			compound.rotate(w,v);
-			Sound.BARRINGCOMPOUND.play();
+			sound.BARRINGCOMPOUND.play();
 			return false;
 		}
 		if (camera4d instanceof Camera4dParallel) {
@@ -123,7 +127,7 @@ public class Scene extends Scene4d {
 			updateVisibility();
 		}
 		changed();
-		Sound.ROTATINGCOMPOUND.play();
+		sound.ROTATINGCOMPOUND.play();
 		return true;
 	}
 	
@@ -172,7 +176,7 @@ public class Scene extends Scene4d {
 			compounds.size() != 1 &&
 			bordering.size() > 0
 		) {
-			Sound.SNAPPINGCOMPOUNDS.play2end();
+			sound.SNAPPINGCOMPOUNDS.play2end();
 		}
 		propagateGameStatus();
 	}

@@ -93,7 +93,7 @@ public class KeyControl implements KeyListener {
 
 		Cam3dAction c3a = new Cam3dAction(scene.camera3d,viewAbsRel);
 		Camera4dAction c4a = new Camera4dAction(scene.camera4d,viewAbsRel);
-		UIAction ua = new UIAction(scene,viewRotXAxis12,d3ViewRotAxis,dim34,c3a,c4a);
+		UIAction ua = new UIAction(viewRotXAxis12,d3ViewRotAxis,dim34,c3a,c4a);
 		
 		s.put(0,37,scene.transSelected(-1)); // <-
 		s.put(0,39,scene.transSelected(+1)); // ->

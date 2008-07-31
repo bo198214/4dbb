@@ -17,12 +17,10 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import ddddbb.game.Main;
 import ddddbb.game.Scene;
 import ddddbb.game.Scene4d;
 import ddddbb.game.ScreenValues;
 import ddddbb.game.SimpleSwitches;
-import ddddbb.game.Main.PerspectiveEnum;
 import ddddbb.game.Main.ViewAbsRelEnum;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.DoubleModel;

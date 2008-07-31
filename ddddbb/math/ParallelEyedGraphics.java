@@ -1,10 +1,5 @@
 package ddddbb.math;
 
-import ddddbb.gen.DoubleModel;
-
-
-
-
 public class ParallelEyedGraphics extends BarEyeGraphics {
 	public ParallelEyedGraphics(D2GraphicsIF g, Camera3d c) { 
 		super(g,c);

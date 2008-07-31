@@ -18,9 +18,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 
-import ddddbb.game.Main;
-import ddddbb.gui.Performer;
-
 
 public class IntModel<T> extends Model implements ComboBoxModel {
 	protected int defaultValue;

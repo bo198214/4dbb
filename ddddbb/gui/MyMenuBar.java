@@ -4,8 +4,6 @@ import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-//import java.awt.print.PrinterException;
-//import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,12 +17,6 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import ddddbb.game.Main;
-import ddddbb.game.Objectives;
-import ddddbb.game.SimpleSwitches;
-import ddddbb.game.Main.PerspectiveEnum;
-import ddddbb.game.Main.ShowedScreenEnum;
-import ddddbb.gen.IntModel;
-import ddddbb.math.Camera4d;
 
 
 /**
@@ -159,7 +151,7 @@ public class MyMenuBar extends JMenuBar {
 			main.ss.showInternalFaces.addAsCheckBoxMenuItem(viewMenu);
 			main.ss.antiAliased.addAsCheckBoxMenuItem(viewMenu);
 			viewMenu.addSeparator();
-			main.ss.soundOn.addAsCheckBoxMenuItem(viewMenu);
+			main.sound.soundOn.addAsCheckBoxMenuItem(viewMenu);
 			Main.debug.addAsCheckBoxMenuItem(viewMenu);
 
 		}

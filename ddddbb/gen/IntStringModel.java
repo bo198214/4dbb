@@ -1,9 +1,5 @@
 package ddddbb.gen;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import ddddbb.gui.Performer;
 
 
 public class IntStringModel extends IntModel<String> {

@@ -2,19 +2,11 @@ package ddddbb.gui;
 
 import java.awt.event.ActionEvent;
 
-import ddddbb.comb.DSignedAxis;
-import ddddbb.game.Main;
-import ddddbb.game.Scene;
-import ddddbb.game.Main.ViewAbsRel;
 import ddddbb.gen.DiAxisModel;
-import ddddbb.gen.IntModel;
 import ddddbb.gen.IntStringModel;
-import ddddbb.math.Camera3d;
-import ddddbb.math.Camera4d;
 
 public class UIAction {
 	
-	private final Scene scene;
 	private final DiAxisModel viewRotXAxis12;
 	private final IntStringModel d3ViewRotAxis;
 	private final IntStringModel dim34;
@@ -22,14 +14,12 @@ public class UIAction {
 	private final Camera4dAction c4a;
 	
 	UIAction(
-			Scene _scene,
 			DiAxisModel _viewRotXAxis12,
 			IntStringModel _d3ViewRotAxs,
 			IntStringModel _dim34,
 			Cam3dAction _c3a,
 			Camera4dAction _c4a
 	) {
-		scene = _scene;
 		viewRotXAxis12 = _viewRotXAxis12;
 		d3ViewRotAxis = _d3ViewRotAxs;
 		dim34 = _dim34;

@@ -6,17 +6,12 @@ import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicArrowButton;
 
-import ddddbb.game.Main.ViewAbsRel;
 import ddddbb.game.Main.ViewAbsRelEnum;
-import ddddbb.gen.IntModel;
 import ddddbb.gui3d.DArrowButton;
 import ddddbb.gui3d.DLabel;
 import ddddbb.gui3d.DPanel;
