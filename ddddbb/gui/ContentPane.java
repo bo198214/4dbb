@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import ddddbb.game.Main.ShowedScreenEnum;
 import ddddbb.gen.AChangeListener;
-import ddddbb.gen.MyChangeListener;
 
 @SuppressWarnings("serial")
 public class ContentPane extends JPanel {

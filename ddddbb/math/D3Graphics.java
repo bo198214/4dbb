@@ -100,7 +100,7 @@ public abstract class D3Graphics {
 	}
 	
 	public static final double dx=0.2;
-	public static final double dd=0.2;
+	public static final double dd=0.05;
 	public static final Point3d[] xArrowTip = {
 		new Point3d(-dx,dd,dd),
 		new Point3d(-dx,-dd,dd),
@@ -114,9 +114,9 @@ public abstract class D3Graphics {
 		Point3d dir = dst.clone();
 		dir.subtract(src).normalize();
 		for (int i=0;i<xArrowTip.length;i++) {
-			arrowTip[i] = xArrowTip[i];
+			arrowTip[i] = xArrowTip[i].clone();
 			arrowTip[i].rotate(AOP.D100,dir);
-			//arrowTip[i].add(dst);
+			arrowTip[i].add(dst);
 			drawLine(arrowTip[i],dst);
 		}
 		drawLine(arrowTip[0],arrowTip[1]);

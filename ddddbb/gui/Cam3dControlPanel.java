@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import ddddbb.game.Scene4d;
 import ddddbb.gen.AChangeListener;
 import ddddbb.gui3d.DArrowButton;
+import ddddbb.gui3d.DButton;
 import ddddbb.gui3d.DLabel;
 import ddddbb.gui3d.DPanel;
 import ddddbb.math.AOP;
@@ -58,8 +59,8 @@ public class Cam3dControlPanel extends DPanel {
 			final Scene4d scene
 			) {
 		GridBagLayout thisLayout = new GridBagLayout();
-		thisLayout.rowWeights = new double[] {0.01, 0.01, 0.0};
-		thisLayout.rowHeights = new int[] {7, 7, 7};
+		thisLayout.rowWeights = new double[] {0.0, 0.0, 0.0};
+		thisLayout.rowHeights = new int[] {18, 18, 18};
 		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.columnWidths = new int[] {15, 15, 40, 15, 7, 20, 15, 40, 15};
 		this.setLayout(thisLayout);
@@ -131,9 +132,8 @@ public class Cam3dControlPanel extends DPanel {
 			this.add(yzRight, new GridBagConstraints(8, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			reset = new JButton();
+			reset = new DButton("reset");
 			this.add(reset, new GridBagConstraints(5, 2, 4, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			reset.setText("reset");
 		}
 		{
 			xPos = new DLabel(30,16);

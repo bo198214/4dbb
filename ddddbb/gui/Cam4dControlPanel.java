@@ -15,6 +15,7 @@ import ddddbb.game.Scene4d;
 import ddddbb.gen.AChangeListener;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gui3d.DArrowButton;
+import ddddbb.gui3d.DButton;
 import ddddbb.gui3d.DLabel;
 import ddddbb.gui3d.DPanel;
 import ddddbb.math.AOP;
@@ -46,7 +47,7 @@ public class Cam4dControlPanel extends DPanel {
 	private JButton xzLeft;
 	private JButton zoomRight;
 	private JButton zoomLeft;
-	private JButton reset;
+	private DButton reset;
 	private JLabel ywLabel;
 	private JLabel xzLabel;
 	private JLabel zoomLabel;
@@ -71,12 +72,21 @@ public class Cam4dControlPanel extends DPanel {
 			DoubleModel brightness) {
 		GridBagLayout thisLayout = new GridBagLayout();
 		thisLayout.rowWeights = new double[] {0.00, 0.00, 0.00, 0.0};
-		thisLayout.rowHeights = new int[] {16, 16, 16, 16};
+		thisLayout.rowHeights = new int[] {18, 18, 18, 18};
 		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.columnWidths = new int[] {16, 16, 40, 16, 8, 30, 16, 40, 15};
 		this.setLayout(thisLayout);
 		this.setBorder(BorderFactory.createTitledBorder("4d camera control"));
-		this.setPreferredSize(new java.awt.Dimension(222, 130));
+
+		{
+			int[] ws = thisLayout.columnWidths;
+			int width = 0; 
+			for (int i=0;i<ws.length;i++) { width+= ws[i]; }
+			int[] hs = thisLayout.rowHeights;
+			int height = 0;
+			for (int i=0;i<hs.length;i++) { height+= hs[i]; }
+			this.setPreferredSize(new java.awt.Dimension(width+25, height+25));
+		}
 		{
 			xLabel = new JLabel();
 			this.add(xLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -161,10 +171,9 @@ public class Cam4dControlPanel extends DPanel {
 			ywLabel.setText("yw");
 		}
 		{
-			reset = new JButton();
+			reset = new DButton("reset");
 			reset.setSize(50,16);
 			this.add(reset, new GridBagConstraints(5, 3, 5, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			reset.setText("reset");
 		}
 		{
 			zoomLeft = new DArrowButton(SwingConstants.WEST);
@@ -224,6 +233,7 @@ public class Cam4dControlPanel extends DPanel {
 		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				scene.camera4d.setToDefault();
+				//Settings.zoom.setToDefault();
 			}
 		});
 		zoomRight.addActionListener(zoom.increaseAction);

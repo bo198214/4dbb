@@ -17,6 +17,7 @@ import ddddbb.gen.AChangeListener;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gui3d.DArrowButton;
+import ddddbb.gui3d.DButton;
 import ddddbb.gui3d.DLabel;
 import ddddbb.gui3d.DPanel;
 
@@ -72,8 +73,8 @@ public class ObjectControlPanel extends DPanel {
 		this.setPreferredSize(new java.awt.Dimension(186, 154));
 		setMinimumSize(new Dimension(169,154));
 		this.setBorder(BorderFactory.createTitledBorder("object control"));
-		thisLayout.rowWeights = new double[] {0.1, 0.0, 0.1, 0.1, 0.1, 0.1};
-		thisLayout.rowHeights = new int[] {7, 7, 7, 7, 7, 20};
+		thisLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		thisLayout.rowHeights = new int[] {18, 3, 18, 18, 18, 18};
 		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.columnWidths = new int[] {15, 15, 40, 15, 7, 20, 15, 15};
 		this.setLayout(thisLayout);
@@ -169,9 +170,8 @@ public class ObjectControlPanel extends DPanel {
 			goal.setText("Goal");
 		}
 		{
-			combine = new JButton();
+			combine = new DButton("comb.");
 			this.add(combine, new GridBagConstraints(5, 0, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-			combine.setText("comb.");
 		}
 		{
 			xzLabel = new JLabel();

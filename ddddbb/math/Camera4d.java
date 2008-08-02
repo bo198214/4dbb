@@ -39,7 +39,7 @@ public abstract class Camera4d extends Camera {
 	public abstract boolean facedBy(ACell d);
 
 	public Point4d eye;
-	private double zoom;
+	private double zoom = 1;
 	
 	protected final Point4d initialEye;
 	protected final Point4d[] initialV;
@@ -147,12 +147,12 @@ public abstract class Camera4d extends Camera {
 
 	public void setToDefault() {
 		initAxes();
-		if (orientation != 1) {
-			orientation = 1;
-			swapOrientation();
-			assert orientation == -1;
-		}
-		zoom = 1;
+//		if (orientation != 1) {
+//			orientation = 1;
+//			swapOrientation();
+//			assert orientation == -1;
+//		}
+//		zoom = 1;
 		changed();
 	}
 

@@ -200,8 +200,7 @@ public class Settings {
 			ViewType.ANAGLYPH,
 			ViewType.values()
 	);
-	//TODO: adapt zoom to screen resolution/window size
-	public final DoubleModel zoom = new DoubleModel(1,0.2);
+	public final static DoubleModel zoom = new DoubleModel(1,0.2);
 	public final IntModel<DSignedAxis> perspectiveAxis = new IntModel<DSignedAxis>(
 			0,
 			new String[] {

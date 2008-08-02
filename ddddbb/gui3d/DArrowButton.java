@@ -77,14 +77,14 @@ public class DArrowButton extends BasicArrowButton {
 		gc.drawLine(d.width, 0, 0, 0);
 		switch (direction) {
 		case SwingConstants.WEST:
-			gc.drawLine(8, 4, 4, 8);
-			gc.drawLine(4, 8, 8, 12);
-			gc.drawLine(8, 12, 8, 4);
+			gc.drawLine(8+2, 4, 4+2, 8);
+			gc.drawLine(4+2, 8, 8+2, 12);
+			gc.drawLine(8+2, 12, 8+2, 4);
 			break;
 		case SwingConstants.EAST:
-			gc.drawLine(8, 4, 12, 8);
-			gc.drawLine(12, 8, 8, 12);
-			gc.drawLine(8, 12, 8, 4);
+			gc.drawLine(8-2, 4, 12-2, 8);
+			gc.drawLine(12-2, 8, 8-2, 12);
+			gc.drawLine(8-2, 12, 8-2, 4);
 		}		
 	}
 	
