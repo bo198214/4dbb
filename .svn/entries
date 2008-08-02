@@ -2,7 +2,7 @@
 
 dir
 1320
-svn+ssh://henryk@unixpool.math.tu-berlin.de/homes/excoll/henryk/svn/projects/4dbb_good/src
+svn+ssh://henryk@unixpool.math.tu-berlin.de/homes/excoll/henryk/svn/projects/4dbb_good
 svn+ssh://henryk@unixpool.math.tu-berlin.de/homes/excoll/henryk/svn
 
 
@@ -26,9 +26,69 @@ svn:special svn:externals svn:needs-lock
 
 d575b312-1ee9-0310-bc0e-968c3066d1e4
 
-test
+.cdtproject
+file
+1267
+
+
+
+2007-02-23T18:05:34.828125Z
+94281228c33ac7bb868412ecad4b50d1
+2005-12-05T01:10:00.162241Z
+1026
+henryk
+
+release.xml
+file
+1267
+
+
+
+2007-02-23T18:05:34.843750Z
+aa071bae47e859010013853a1b6bc29a
+2007-02-05T01:14:48.536721Z
+1243
+henryk
+
+.classpath
+file
+1374
+
+
+
+2008-03-23T08:21:44.328125Z
+dad8d2df90db83459fdf0003dc252899
+2008-03-23T08:20:58.058097Z
+1374
+henryk
+
+releases
 dir
 
-ddddbb
+html
+dir
+
+.project
+file
+1267
+
+
+
+2007-02-23T18:05:34.843750Z
+666066bb33f5e48b687ba5e365c7c5a4
+2005-10-01T14:35:56.841431Z
+922
+henryk
+
+src
+dir
+
+extsrc
+dir
+
+pm
+dir
+
+.settings
 dir
 
