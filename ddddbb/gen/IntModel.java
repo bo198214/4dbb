@@ -16,7 +16,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.event.ListDataListener;
 
-
 public class IntModel<T> extends Model implements ComboBoxModel {
 	protected int defaultValue;
 	protected int value = -1;
@@ -126,10 +125,32 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		changed();
 	}
 	
-	public ActionListener actionNextRot  = new ActionListener() {
+	public ActionListener nextAction  = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			setInt(getInt()+1);
+		}
+	};
+	
+	public ActionListener prevAction = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			setInt(getInt()-1);
+		}
+		
+	};
+	
+	public ActionListener cyclicNextAction  = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			setInt((getInt()+1)%items.size());
 		}
+	};
+	
+	public ActionListener cyclicPrevAction = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			setInt((getInt()-1)%items.size());
+		}
+		
 	};
 
 	private class MyActionListener implements ActionListener {
@@ -251,25 +272,15 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		return cb;
 	}
 	
-	public class CardListener implements MyChangeListener {
-		Container container;
-		CardLayout layout;
-		CardListener(Container c,CardLayout l) {
-			container=c;
-			layout=l;
-		}
-
-		public void stateChanged() {
-			layout.show(container,getSelectedName());			
-		}
-		
-	}
-	
-	public void addAsCards(Container c, CardLayout l) {
+	public void addAsCards(final Container c, final CardLayout l) {
 		for (int i=0;i<getSize();i++) {
 			c.add((JPanel)getObjects().get(i),names.get(i));
 		}
-		addChangeListener(new CardListener(c,l));
+		new AChangeListener() {
+			public void stateChanged() {
+				l.show(c,getSelectedName());			
+			}			
+		}.addTo(this);
 	}
 	
 	public void setEnabled(boolean _enabled) {

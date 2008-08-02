@@ -17,6 +17,7 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import ddddbb.game.Main;
+import ddddbb.game.Settings;
 
 
 /**
@@ -136,7 +137,7 @@ public class TheMenuBar extends JMenuBar {
 		add(fileMenu);
 		{
 			objectivesMenu = new JMenu("Objectives");
-			main.objectives.addAsRadioButtonMenuItems(objectivesMenu);
+			main.ss.objectives.addAsRadioButtonMenuItems(objectivesMenu);
 		}
 		add(objectivesMenu);
 		{
@@ -151,7 +152,7 @@ public class TheMenuBar extends JMenuBar {
 			main.ss.showInternalFaces.addAsCheckBoxMenuItem(viewMenu);
 			main.ss.antiAliased.addAsCheckBoxMenuItem(viewMenu);
 			viewMenu.addSeparator();
-			main.sound.soundOn.addAsCheckBoxMenuItem(viewMenu);
+			Settings.soundOn.addAsCheckBoxMenuItem(viewMenu);
 			Main.debug.addAsCheckBoxMenuItem(viewMenu);
 
 		}
@@ -160,7 +161,7 @@ public class TheMenuBar extends JMenuBar {
 			projMenu = new JMenu();
 			projMenu.setText("Projection");
 			projMenu.setBounds(0, 0, 19, 18);
-			main.perspective.addAsRadioButtonMenuItems(projMenu);
+			main.ss.perspective.addAsRadioButtonMenuItems(projMenu);
 			projMenu.addSeparator();
 			main.ss.orientation3d.addAsRadioButtonMenuItems(projMenu);
 			projMenu.addSeparator();

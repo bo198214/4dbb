@@ -15,6 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ddddbb.game.Level;
+import ddddbb.game.ScreenValues;
+import ddddbb.game.Settings;
+import ddddbb.gen.AChangeListener;
 import ddddbb.gen.MyChangeListener;
 import ddddbb.gui.KeyControl;
 import ddddbb.math.D2Graphics;
@@ -30,46 +34,41 @@ public class ViewScreen3d extends JPanel implements MyChangeListener {
 	D2Graphics g2;
 	D3Graphics g3;
 
-	public ViewScreen3d() {
-		super();
-		initialize();
-	}
-
-	private void initialize() {
-		Test3d.opt.scene.addChangeListener(this);
-		Opt.eyesDistHalf.addChangeListener(this);
-		Opt.screenEyeDist.addChangeListener(this);
-		Opt.xcm.addChangeListener(this);
-		Opt.ycm.addChangeListener(this);
-		Opt.barEyeFocusDelta.addChangeListener(this);
+	public ViewScreen3d(final Settings ss, final ScreenValues sv, final Scene3d scene) {
+		scene.addChangeListener(this);
+		sv.eyesDistHalf.addChangeListener(this);
+		sv.screenEyeDist.addChangeListener(this);
+		sv.xdpcm.addChangeListener(this);
+		sv.ydpcm.addChangeListener(this);
+		sv.barEyeFocusDelta.addChangeListener(this);
 		Test3d.opt.drawTrihedral.addChangeListener(this);
-		Test3d.opt.showCompoundGrid.addChangeListener(this);
-		Test3d.opt.zoom.addChangeListener(this);
+		ss.showInternalFaces.addChangeListener(this);
+		ss.zoom.addChangeListener(this);
 
-		Test3d.opt.antiAliased.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
 				updateAlias();
 				repaint();
-			}});
-		Test3d.opt.brightness.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				if (g3==null) { return; }
-				g3.setBrightness(Test3d.opt.brightness.getDouble());
-				repaint();
-			}});
-		Test3d.opt.viewType.addChangeListener(new MyChangeListener() {
+			}}.addTo(ss.antiAliased);
+		new AChangeListener() {
 			public void stateChanged() {
 				if (g3==null) { return; }
-				g3 = Test3d.opt.viewType.getSelectedObject().getD3Graphics(g2,Test3d.opt.scene.camera3d);
+				g3.setBrightness(sv.brightness.getDouble());
 				repaint();
-			}});
+			}}.addTo(ss.brightness);
+		new AChangeListener() {
+			public void stateChanged() {
+				if (g3==null) { return; }
+				g3 = ss.viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
+				repaint();
+			}}.addTo(ss.viewType);
 
 //		setPreferredSize(new Dimension(
 //				(int)(10.0*Test3d.opt.xcm.getDouble()),
 //				(int)(10.0*Test3d.opt.ycm.getDouble()))); // 10x10cm
 
 		setFocusable(true);
-		addKeyListener(new KeyControl() );
+		addKeyListener(new KeyControl(scene,ss.showGoal,ss.viewRotXAxis12,ss.d3ViewRotAxis,ss.dim34,viewAbsRel) );
 		MouseControl mouseControl = new MouseControl();
 		addMouseMotionListener(mouseControl);
 		addMouseListener(mouseControl);
@@ -83,7 +82,7 @@ public class ViewScreen3d extends JPanel implements MyChangeListener {
 			
 		});
 	}
-	
+
 	/** double buffered paint */
 	public void paint(Graphics g0) {
 		if ( g == null ) { updateGraphics(); }
@@ -93,7 +92,7 @@ public class ViewScreen3d extends JPanel implements MyChangeListener {
 			g3.drawTrihedral();
 		}
 		
-		Test3d.opt.scene.paint(g3);
+		scene.paint(g3);
 
 		((Graphics2D)g0).drawImage(buffImg, null, 0, 0);
 	}
@@ -113,20 +112,20 @@ public class ViewScreen3d extends JPanel implements MyChangeListener {
 			g.translate(x0,y0);
 			if ( g2 == null ) {
 				g2 = new D2Graphics(g,test.d3.Opt.xcm.getDouble(),test.d3.Opt.ycm.getDouble());
-				g3 = Test3d.opt.viewType.getSelectedObject().getD3Graphics(g2,Test3d.opt.scene.camera3d);
+				g3 = ss.viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
 			}
 			else {
 				g2.setGraphics(g);
 				g3.setGraphics(g2); 
 			}
 			updateAlias();
-			g3.setBrightness(Test3d.opt.brightness.getDouble());
+			g3.setBrightness(ss.brightness.getDouble());
 		}		
 	}
 
 	protected void updateAlias() {
 		if (g==null) { return; }
-		if (Test3d.opt.antiAliased.isSelected()) {
+		if (ss.antiAliased.isSelected()) {
 			g.setRenderingHint(
 					RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON

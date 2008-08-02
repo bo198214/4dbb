@@ -4,11 +4,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ddddbb.game.Scene;
-import ddddbb.game.Main.ViewAbsRelEnum;
-import ddddbb.gen.BoolModel;
-import ddddbb.gen.DoubleModel;
-import ddddbb.gen.IntStringModel;
+import ddddbb.game.Level;
+import ddddbb.game.Settings;
 import ddddbb.gui3d.DPanel;
 
 
@@ -22,12 +19,8 @@ public class ControlPanel extends DPanel {
 	
 	
 	public ControlPanel(
-			Scene scene,
-			BoolModel showGoal,
-			DoubleModel zoom, 
-			ViewAbsRelEnum viewAbsRel, 
-			IntStringModel dim34, 
-			DoubleModel brightness) {
+			Settings ss,
+			Level scene) {
 		{
 			viewAbsRelSelector = new DPanel();
 			{
@@ -35,7 +28,7 @@ public class ControlPanel extends DPanel {
 				viewAbsRelLabel.setText("coords");
 			}
 			viewAbsRelSelector.add(viewAbsRelLabel);
-			viewAbsRel.addAsRadioButtons(viewAbsRelSelector);
+			scene.viewAbsRel.addAsCheckBoxMenuItem(viewAbsRelSelector);
 			
 		}
 		{
@@ -45,18 +38,18 @@ public class ControlPanel extends DPanel {
 				mouseLabel.setText("Mouse");
 			}
 			mouseSelector.add(mouseLabel);
-			dim34.addAsRadioButtons(mouseSelector);
+			ss.dim34.addAsRadioButtons(mouseSelector);
 		}
 		{
 			mouseNCam3d = new DPanel();
 			mouseNCam3d.setLayout(new BoxLayout(mouseNCam3d,BoxLayout.Y_AXIS));
 			mouseNCam3d.add(viewAbsRelSelector);
 			mouseNCam3d.add(mouseSelector);
-			mouseNCam3d.add(new Cam3dControlPanel(scene.camera3d,viewAbsRel, brightness));
+			mouseNCam3d.add(new Cam3dControlPanel(scene));
 		}
 		
-		add(new ObjectControlPanel(scene,showGoal, brightness), null);
-		add(new Cam4dControlPanel(scene.camera4d, zoom,viewAbsRel, brightness), null);
+		add(new ObjectControlPanel(scene,ss.showGoal, ss.brightness), null);
+		add(new Cam4dControlPanel(scene, ss.zoom,ss.brightness), null);
 		add(mouseNCam3d, null );
 	}
 }

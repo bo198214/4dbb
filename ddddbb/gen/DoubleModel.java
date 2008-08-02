@@ -7,8 +7,6 @@ import javax.swing.BoundedRangeModel;
 import javax.swing.SpinnerModel;
 import javax.swing.event.ChangeListener;
 
-import ddddbb.gui.Performer;
-
 
 public class DoubleModel extends Model implements SpinnerModel {
 
@@ -156,13 +154,13 @@ public class DoubleModel extends Model implements SpinnerModel {
 		return new Double(getDouble(u));
 	}
 	
-	public ActionListener increase = new Performer()  {
+	public ActionListener increaseAction = new ActionListener()  {
 		public void actionPerformed(ActionEvent e) {
 			setDouble(getDouble()+delta);
 		}
 	};
 	
-	public ActionListener decrease = new Performer()  {
+	public ActionListener decreaseAction = new ActionListener()  {
 		public void actionPerformed(ActionEvent e) {
 			setDouble(getDouble()-delta);
 		}		

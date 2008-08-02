@@ -61,11 +61,11 @@ public class MouseControl implements MouseListener, MouseMotionListener, MyChang
 				);
 				break;
 			case 1: // rotate
-				Test3d.opt.scene.camera3d.rotate(
+				Test3d.opt.scene.camera3d.rotate3d(
 						(e.getX()-mouseX)*frx,
 						Test3d.opt.viewAbsRel.getSelectedObject().selectDirec3d(1),
 						Test3d.opt.viewAbsRel.getSelectedObject().selectCenter3d());
-				Test3d.opt.scene.camera3d.rotate(
+				Test3d.opt.scene.camera3d.rotate3d(
 						(e.getY()-mouseY)*fry,
 						Test3d.opt.viewAbsRel.getSelectedObject().selectDirec3d(0),
 						Test3d.opt.viewAbsRel.getSelectedObject().selectCenter3d());

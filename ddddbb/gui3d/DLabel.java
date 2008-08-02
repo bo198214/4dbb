@@ -1,19 +1,17 @@
 package ddddbb.gui3d;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 import javax.swing.JLabel;
 
-import ddddbb.game.Main;
-import ddddbb.gen.DoubleModel;
+import ddddbb.game.Settings;
 
 @SuppressWarnings("serial")
 public class DLabel extends JLabel {
-	public DLabel(int width, int height, DoubleModel _brightness) {
+	public DLabel(int width, int height) {
 		setSize(width,height);
 		
-		float brightness = (float)_brightness.getDouble();
+		float brightness = (float)Settings.brightness.getDouble();
 		setForeground(new Color(brightness,brightness,brightness));
 	}
 

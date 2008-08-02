@@ -7,68 +7,48 @@ import java.util.Vector;
 import ddddbb.comb.DLocation;
 import ddddbb.comb.DOp;
 import ddddbb.comb.DSignedAxis;
-import ddddbb.game.Main.GameStatus;
-import ddddbb.gen.BoolModel;
-import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
-import ddddbb.gui.Performer;
-import ddddbb.math.Camera4d;
 import ddddbb.math.Camera4dParallel;
 import ddddbb.math.D4Tupel;
 import ddddbb.math.Point;
 import ddddbb.math.Point2d;
 import ddddbb.math.Point4d;
-import ddddbb.sound.Sound;
+import ddddbb.sound.SoundEnum;
 
-public class Scene extends Scene4d {
-	public final IntModel<GameStatus> gameStatus;
+public class Level extends Scene4d {
+	public final IntModel<Settings.GameStatus> gameStatus;
 	//	public Vector<Facet> allFacets = new Vector<Facet>();
 	public String name;
 	public Compound goal;
 
 	public D4Tupel cursor = new D4Tupel(0,0,0,0);
 	//public BoolModel showGoal;
-	private final Sound sound;
 	
-	public Scene(
-			final DoubleModel zoom, 
-			final IntModel<SimpleSwitches.Orientation4d> orientation4d,
-			final IntModel<SimpleSwitches.Orientation3d> orientation3d,
-			final BoolModel showGoal,
-			final IntModel<Camera4d> perspective,
-			final IntModel<SimpleSwitches.Occlusion4dAllowance> occlusion4dAllowance,
-			final BoolModel showInternalFaces,
-			final DoubleModel screenEyeDist,
-			final DoubleModel eyesDistHalf,
-			final DoubleModel barEyeFocusDelta,
-			final Sound _sound,
-			IntModel<GameStatus> _gameStatus
-			) {
-		super(zoom,orientation4d,orientation3d,showGoal,perspective,occlusion4dAllowance,showInternalFaces,screenEyeDist,eyesDistHalf,barEyeFocusDelta,_sound);
-		gameStatus = _gameStatus;
-		sound = _sound;
+	public Level(final Settings ss) {
+		super(ss);
+		gameStatus = ss.gameStatus;
 	}
 
 	private void propagateGameStatus() {
 		if (goal == null) { 
-			gameStatus.setSelectedObject(GameStatus.NONE);
+			gameStatus.setSelectedObject(Settings.GameStatus.NONE);
 			return;
 		}
 		if (compounds.size() == 1) {
 			if (DOp.motionEqual(goal.cubes,compounds.getSelectedItem().cubes)) {
-				gameStatus.setSelectedObject(GameStatus.REACHED);
+				gameStatus.setSelectedObject(Settings.GameStatus.REACHED);
 			} 
 			else {
-				gameStatus.setSelectedObject(GameStatus.MISSED);
+				gameStatus.setSelectedObject(Settings.GameStatus.MISSED);
 			}
 			return;
 		}
 		if (!DOp.motionContained(compounds.getSelectedItem().cubes,goal.cubes)) {
-			gameStatus.setSelectedObject(GameStatus.MISSED);
+			gameStatus.setSelectedObject(Settings.GameStatus.MISSED);
 			return;
 		}
-		if (gameStatus.getSelectedObject() != GameStatus.PENDING ) {
-			gameStatus.setSelectedObject(GameStatus.PENDING);
+		if (gameStatus.getSelectedObject() != Settings.GameStatus.PENDING ) {
+			gameStatus.setSelectedObject(Settings.GameStatus.PENDING);
 		}
 	}
 	
@@ -96,45 +76,45 @@ public class Scene extends Scene4d {
 		compound.translate(v);
 		if (isOverlapping()) {
 			compound.translate(new DSignedAxis(-v.human()));
-			sound.BARRINGCOMPOUND.play();
+			SoundEnum.BARRINGCOMPOUND.play();
 			return false;
 		}
-		changed();
-		sound.MOVINGCOMPOUND.play();
+		compounds.changed();
+		SoundEnum.MOVINGCOMPOUND.play();
 		return true;
 	}
 	
-	public Performer transSelected(final int direc) {
-		return new Performer() {
+	public ActionListener transSelectedAction(final int direc) {
+		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				transSelected(new DSignedAxis(direc));
 			}
 		};
 	}
 	
-	public boolean rotateSelected(int v, int w) {
+	public boolean rotSelected(int v, int w) {
 		if ( compounds.getSelected() == -1 ) { return false; }
 		Compound compound = compounds.getSelectedItem();
 		compound.rotate(v,w);
 		if (isOverlapping()) { 
 			compound.rotate(w,v);
-			sound.BARRINGCOMPOUND.play();
+			SoundEnum.BARRINGCOMPOUND.play();
 			return false;
 		}
 		if (camera4d instanceof Camera4dParallel) {
 			//for other cases visibility is set in paint method
 			//for programming lazyness set new visibility of *all* compounds
-			updateVisibility();
+			updateFacing();
 		}
-		changed();
-		sound.ROTATINGCOMPOUND.play();
+		compounds.changed();
+		SoundEnum.ROTATINGCOMPOUND.play();
 		return true;
 	}
 	
-	public ActionListener rotSelected(final int a1, final int a2) {
+	public ActionListener rotSelectedAction(final int a1, final int a2) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rotateSelected(a1-1, a2-1);
+				rotSelected(a1-1, a2-1);
 			}
 		};
 	}
@@ -163,25 +143,27 @@ public class Scene extends Scene4d {
 		for (Compound c : cs) {
 			compounds.remove(c);
 		}
+		c0.setBaryCenter();
 		updateFaces3d(compounds);
-		updateVisibility();
+		updateFacing();
 	}
 	
 	public void combine() {
 		Compound c0 = compounds.getSelectedItem();
 		Vector<Compound> bordering = combinables(c0); 
-		combine(c0,bordering);
-		changed();
 		if (
 			compounds.size() != 1 &&
 			bordering.size() > 0
 		) {
-			sound.SNAPPINGCOMPOUNDS.play2end();
+			combine(c0,bordering);
+			compounds.changed();			
+			SoundEnum.SNAPPINGCOMPOUNDS.play();
+			System.out.println("sound played");
 		}
 		propagateGameStatus();
 	}
 	
-	public Performer combineTouchingSelected  = new Performer() {
+	public ActionListener combineAction  = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			combine();
 		}		

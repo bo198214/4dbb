@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
-import ddddbb.gui.Performer;
-
 
 public class SelectedListModel<T> extends Model implements List<T> {
 	private int selected;
@@ -51,19 +49,11 @@ public class SelectedListModel<T> extends Model implements List<T> {
 		changed();
 	}
 
-	public Performer nextSelected  = new Performer()  {
+	public ActionListener nextAction  = new ActionListener()  {
 		public void actionPerformed(ActionEvent e) {
 			nextSelected();
 		}		
 	};
-
-	public ActionListener actionSetSelected(final int i) {
-		return new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setSelected(i);
-			}		
-		};
-	}
 
 	public void prevSelected() {
 		if (selected == 0) { setSelected(items.size()-1); }
@@ -71,7 +61,7 @@ public class SelectedListModel<T> extends Model implements List<T> {
 		changed();
 	}
 	
-	public Performer prevSelected = new Performer()  {
+	public ActionListener prevAction = new ActionListener()  {
 		public void actionPerformed(ActionEvent e) {
 			prevSelected();
 		}		

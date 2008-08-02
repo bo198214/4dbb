@@ -37,7 +37,7 @@ public abstract class Camera4dCentral extends Camera4d {
 	public Point4d viewingDirection() {
 //		assert v[3].isNormal();
 //		if (orientation > 0) {
-			return v[3];
+			return (Point4d)v[3];
 //		}
 //		Point4d vd = v[3].clone();
 //		vd.multiply(orientation);

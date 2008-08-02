@@ -5,57 +5,30 @@ import java.awt.BorderLayout;
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 
+import ddddbb.game.ScreenValues;
+import ddddbb.game.Settings;
+
+@SuppressWarnings("serial")
 public class Test3d extends JApplet {
-	private static final long serialVersionUID = 8870460436654326338L;
+	public final Settings ss = new Settings();
+	public final ScreenValues sv;
+	private JPanel jContentPane;
 
-	public static Opt opt = new Opt();  //  @jve:decl-index=0:
-	
-	private JPanel jContentPane = null;
-
-	private ViewScreen3d viewScreen3d = null;
+	private ViewScreen3d viewScreen3d;
 
 	/**
 	 * This is the xxx default constructor
 	 */
 	public Test3d() {
-		super();
-		opt.initialize();
+		sv = new ScreenValues(this);
 	}
 
-	/**
-	 * This method initializes this
-	 * 
-	 * @return void
-	 */
 	public void init() {
-		this.setSize(300, 200);
-		this.setContentPane(getJContentPane());
+		setSize(300, 200);
+		viewScreen3d = new ViewScreen3d();
+		jContentPane = new JPanel();
+		jContentPane.setLayout(new BorderLayout());
+		jContentPane.add(viewScreen3d, BorderLayout.CENTER);
+		setContentPane(jContentPane);
 	}
-
-	/**
-	 * This method initializes jContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJContentPane() {
-		if (jContentPane == null) {
-			jContentPane = new JPanel();
-			jContentPane.setLayout(new BorderLayout());
-			jContentPane.add(getViewScreen3d(), BorderLayout.CENTER);
-		}
-		return jContentPane;
-	}
-
-	/**
-	 * This method initializes viewScreen3d	
-	 * 	
-	 * @return test.d3.ViewScreen3d	
-	 */
-	private ViewScreen3d getViewScreen3d() {
-		if (viewScreen3d == null) {
-			viewScreen3d = new ViewScreen3d();
-		}
-		return viewScreen3d;
-	}
-
 }

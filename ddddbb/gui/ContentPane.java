@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import ddddbb.game.Main.ShowedScreenEnum;
+import ddddbb.gen.AChangeListener;
 import ddddbb.gen.MyChangeListener;
 
 @SuppressWarnings("serial")
@@ -36,7 +37,7 @@ public class ContentPane extends JPanel {
 		mainPanelCardLayout = new CardLayout(); 
 		setLayout(mainPanelCardLayout);
 		showedScreen.addAsCards(this,mainPanelCardLayout);
-		showedScreen.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
 				if (showedScreen.getSelectedObject() == showedScreen.MAIN) {
 					showedScreen.MAIN.setInputVerifier(new InputVerifier() {
@@ -54,6 +55,6 @@ public class ContentPane extends JPanel {
 				}
 				showedScreen.getSelectedObject().requestFocusInWindow();
 			}
-		});
+		}.addTo(showedScreen);
 	}	
 }

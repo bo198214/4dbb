@@ -10,8 +10,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import ddddbb.game.ScreenValues;
-import ddddbb.game.SimpleSwitches;
+import ddddbb.game.Settings;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
 import ddddbb.gen.MyChangeListener;
@@ -34,7 +33,7 @@ public class TestScreenCanvas extends JPanel implements MyChangeListener {
 
 	private final DoubleModel xdpcm;
 	private final DoubleModel ydpcm;
-	private final IntModel<SimpleSwitches.ViewType> viewType;
+	private final IntModel<Settings.ViewType> viewType;
 	private final DoubleModel brightness;
 	private final DoubleModel eyesDistHalf;
 	private final DoubleModel screenEyeDist;
@@ -44,12 +43,11 @@ public class TestScreenCanvas extends JPanel implements MyChangeListener {
 			final DoubleModel _xdpcm,
 			final DoubleModel _ydpcm,
 			final DoubleModel _brightness,
-			final IntModel<SimpleSwitches.ViewType> _viewType,
+			final IntModel<Settings.ViewType> _viewType,
 			final DoubleModel _eyesDistHalf,
 			final DoubleModel _screenEyeDist,
 			final DoubleModel _barEyeFocusDelta
 	) {
-		super();
 		xdpcm = _xdpcm;
 		ydpcm = _ydpcm;
 		viewType = _viewType;
@@ -69,8 +67,8 @@ public class TestScreenCanvas extends JPanel implements MyChangeListener {
 	
 	public void setPreferredSize() {
 		setPreferredSize(new Dimension(
-				10+(int)(xdpcm.getDouble(ScreenValues.ResolutionUnit.DotsPerInch)),
-				10+(int)(ydpcm.getDouble(ScreenValues.ResolutionUnit.DotsPerInch))
+				10+(int)(xdpcm.getDouble(Settings.ResolutionUnit.DotsPerInch)),
+				10+(int)(ydpcm.getDouble(Settings.ResolutionUnit.DotsPerInch))
 		));
 	}
 	

@@ -17,23 +17,17 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import ddddbb.game.Scene;
+import ddddbb.game.Level;
 import ddddbb.game.Scene4d;
-import ddddbb.game.ScreenValues;
-import ddddbb.game.SimpleSwitches;
-import ddddbb.game.Main.ViewAbsRelEnum;
-import ddddbb.gen.BoolModel;
-import ddddbb.gen.DoubleModel;
-import ddddbb.gen.IntModel;
-import ddddbb.gen.IntStringModel;
+import ddddbb.game.Settings;
+import ddddbb.gen.AChangeListener;
 import ddddbb.gen.MyChangeListener;
-import ddddbb.math.Camera4d;
 import ddddbb.math.D2Graphics;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.D4Graphics;
 
+@SuppressWarnings("serial")
 public class ViewScreen extends JPanel implements MyChangeListener, ItemListener {
-	private static final long serialVersionUID = -8373563348401770940L;
 
 	protected int x0,y0,width=0,height=0;
 	protected BufferedImage buffImg;
@@ -44,75 +38,54 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 	D3Graphics g3;
 	D4Graphics g4;
 	
-	private final Scene scene;
-	private final ScreenValues sv;
-	private final IntModel<Camera4d> perspective;
-	private final IntModel<SimpleSwitches.ViewType> viewType;
-	private final BoolModel antiAliased;
-	private final BoolModel drawTetrahedral;
-	private final BoolModel showGoal;
+	private final Level scene;
+	private final Settings ss;
 	private final Scene4d goalScene;
 	
 	public ViewScreen(
-			final Scene _scene,
-			final ScreenValues _sv,
-			final IntModel<Camera4d> _perspective,
-			final BoolModel _drawTetrahedral,
-			final BoolModel showInternalFaces,
-			final DoubleModel zoom,
-			final BoolModel _antiAliased,
-			final IntModel<SimpleSwitches.ViewType> _viewType,
-			final IntStringModel dim34,
-			final ViewAbsRelEnum viewAbsRel,
-			final IntStringModel viewTransAxis,
-			final IntStringModel d3ViewRotAxis,
-			final BoolModel _showGoal,
+			final Settings _ss,
+			final Level _scene,
 			final Scene4d _goalScene
 	) {
 		scene = _scene;
-		sv = _sv;
-		perspective = _perspective;
-		viewType = _viewType;
-		antiAliased = _antiAliased;
-		drawTetrahedral = _drawTetrahedral;
-		showGoal = _showGoal;
+		ss = _ss;
 		goalScene = _goalScene;
 		
 		scene.addChangeListener(this);
-		sv.eyesDistHalf.addChangeListener(this);
-		sv.screenEyeDist.addChangeListener(this);
-		sv.xdpcm.addChangeListener(this);
-		sv.ydpcm.addChangeListener(this);
-		sv.barEyeFocusDelta.addChangeListener(this);
-		drawTetrahedral.addChangeListener(this);
+		ss.eyesDistHalf.addChangeListener(this);
+		ss.screenEyeDist.addChangeListener(this);
+		ss.xdpcm.addChangeListener(this);
+		ss.ydpcm.addChangeListener(this);
+		ss.barEyeFocusDelta.addChangeListener(this);
+		ss.drawTetrahedral.addChangeListener(this);
 		//Opt.drawTrihedral.addChangeListener(this);
-		showInternalFaces.addChangeListener(this);
-		zoom.addChangeListener(this);
+		ss.showInternalFaces.addChangeListener(this);
+		ss.zoom.addChangeListener(this);
 
-		antiAliased.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
 				updateAlias();
 				repaint();
-			}});
-		sv.brightness.addChangeListener(new MyChangeListener() {
+			}}.addTo(ss.antiAliased);
+		new AChangeListener() {
 			public void stateChanged() {
 				if (g3==null) { return; }
-				g3.setBrightness(sv.brightness.getDouble());
+				g3.setBrightness(ss.brightness.getDouble());
 				repaint();
-			}});
-		viewType.addChangeListener(new MyChangeListener() {
+			}}.addTo(ss.brightness);
+		new AChangeListener() {
 			public void stateChanged() {
 				if (g3==null) { return; }
-				g3 = viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
+				g3 = ss.viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
 				g4.setGraphics(g3);
 				repaint();
-			}});
+			}}.addTo(ss.viewType);
 
 //		setPreferredSize(new Dimension(
 //				(int)(10.0*Opt.xcm.getDouble()),
 //				(int)(10.0*Opt.ycm.getDouble()))); // 10x10cm
 
-		MouseControl mouseControl = new MouseControl(zoom,dim34,viewAbsRel,scene.camera3d,scene.camera4d,sv.mouseTransSens,sv.mouseRotSens,sv.xdpcm,sv.ydpcm);
+		MouseControl mouseControl = new MouseControl(ss,scene);
 		addMouseMotionListener(mouseControl);
 		addMouseListener(mouseControl);
 		addHierarchyBoundsListener(new HierarchyBoundsListener() {
@@ -149,9 +122,9 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 			g.setTransform(new AffineTransform());
 			g.translate(x0,y0);
 			if ( g2 == null ) {
-				g2 = new D2Graphics(g,sv.xdpcm.getDouble(),sv.ydpcm.getDouble());
-				g3 = viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
-				g4 = new D4Graphics(g3,scene.camera4d, perspective);
+				g2 = new D2Graphics(g,ss.xdpcm.getDouble(),ss.ydpcm.getDouble());
+				g3 = ss.viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
+				g4 = new D4Graphics(g3,ss.perspective);
 			}
 			else {
 				g2.setGraphics(g);
@@ -159,13 +132,13 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 				g4.setGraphics(g3);
 			}
 			updateAlias();
-			g3.setBrightness(sv.brightness.getDouble());
+			g3.setBrightness(ss.brightness.getDouble());
 		}		
 	}
 
 	protected void updateAlias() {
 		if (g==null) { return; }
-		if (antiAliased.isSelected()) {
+		if (ss.antiAliased.isSelected()) {
 			g.setRenderingHint(
 					RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON
@@ -185,14 +158,14 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		if ( g == null ) { updateGraphics(); }
 		g.clearRect(-width/2,-height/2,width,height);
 		
-		if (drawTetrahedral.isSelected()) { 
+		if (ss.drawTetrahedral.isSelected()) { 
 			g4.drawTetrahedral();
 		}
 //		if (Opt.drawTrihedral.isSelected()) { 
 //			g3.drawTrihedral();
 //		}
 		
-		if (showGoal.isSelected()) {
+		if (ss.showGoal.isSelected()) {
 			goalScene.paint(g3);
 		}
 		else {

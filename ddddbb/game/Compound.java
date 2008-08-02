@@ -52,9 +52,8 @@ public class Compound {
 		}
 	}
 	
-	public void setBaryCenter() {
+	protected void setBaryCenter() {
 		center = new DCenter(cubes,true);
-		//state changed
 	}
 	
 	public void combine(Vector<Compound> cs) {
@@ -92,14 +91,11 @@ public class Compound {
 	}
 
 	protected void setShowGrid(boolean showGrid) {
+		DCell.setAllExternal(topLevelFacets);
 		if (!showGrid) {
-			DCell.setAllExternal(topLevelFacets);
 			DCell.markInternalFacets(
 //					4,
 					topLevelFacets);
-		}
-		else {
-			DCell.setAllExternal(topLevelFacets);
 		}
 	}
 	

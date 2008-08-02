@@ -1,6 +1,7 @@
 package ddddbb.gui;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 
@@ -12,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 
-import ddddbb.game.ScreenValues;
+import ddddbb.game.Settings;
 import ddddbb.gen.DoubleSpinner;
 import ddddbb.gen.DoubleUnitModel;
 
@@ -54,10 +55,12 @@ public class AdjustmentPanel extends JPanel {
 	/**
 	 * This is the default constructor
 	 */
-	private ScreenValues sv;
-	public AdjustmentPanel(ScreenValues _sv) {
+	private Settings sv;
+	private Container window;
+	public AdjustmentPanel(Settings _sv, Container _window) {
 		super();
 		sv = _sv;
+		window = _window;
 
 		initialize();
 		
@@ -131,7 +134,7 @@ public class AdjustmentPanel extends JPanel {
 			defaultValuesButton = new JButton();
 			defaultValuesButton.setAction(new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
-					sv.screenDefaults();
+					sv.screenDefaults(window);
 				}
 				private static final long serialVersionUID = 5092274037007117460L;	
 			});

@@ -6,10 +6,9 @@ import java.util.Vector;
 
 import javax.swing.event.ChangeListener;
 
-import ddddbb.gui.Performer;
-
 public abstract class Model implements MyChangeListener {
 	public Vector<MyChangeListener> changeListeners = new Vector<MyChangeListener>();
+	public boolean notify = true;
 	
 //	public void changed(ChangeEvent e) {
 //		for (ChangeListener l : changeListeners) {
@@ -17,13 +16,15 @@ public abstract class Model implements MyChangeListener {
 //		}
 //	}
 
-	public ActionListener reset = new Performer()  {
+	public ActionListener resetAction = new ActionListener()  {
 		public void actionPerformed(ActionEvent e) {
 			setToDefault();
 		}
 	};
 
+	/** invokes stateChanged of all listeners */
 	public void changed() {
+		if (!notify) return;
 		for (MyChangeListener l : changeListeners) {
 			l.stateChanged();
 		}		
@@ -31,7 +32,6 @@ public abstract class Model implements MyChangeListener {
 	
 	public void addChangeListener(MyChangeListener l) {
 		changeListeners.add(l);
-		l.stateChanged();
 	}
 	public void removeChangeListener(MyChangeListener l) {
 		changeListeners.remove(l);

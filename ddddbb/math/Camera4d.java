@@ -2,9 +2,9 @@ package ddddbb.math;
 
 import ddddbb.comb.ACell;
 import ddddbb.comb.DSignedAxis;
-import ddddbb.gen.Model;
 
-public abstract class Camera4d extends Model {
+public abstract class Camera4d extends Camera {
+	
 	public static Point4d[] initialV(Point4d viewDirIn, Point4d eyeInOut) {
 		Point4d w = new Point4d(0,0,0,1);
 		Point4d[] v = new Point4d[] { new Point4d(1,0,0,0), new Point4d(0,1,0,0), new Point4d(0,0,1,0), new Point4d(0,0,0,1) };
@@ -39,8 +39,7 @@ public abstract class Camera4d extends Model {
 	public abstract boolean facedBy(ACell d);
 
 	public Point4d eye;
-	public Point4d[] v = new Point4d[4];  //v[0],v[1],v[2] projection plane; v[3] viewing direction
-	public double zoom = 1;
+	private double zoom;
 	
 	protected final Point4d initialEye;
 	protected final Point4d[] initialV;
@@ -53,6 +52,7 @@ public abstract class Camera4d extends Model {
 	protected Camera4d(Point4d _initialEye,Point4d[] _initialV) {
 		initialEye = _initialEye;
 		initialV = _initialV;
+		v = new Point4d[4];  //v[0],v[1],v[2] projection plane; v[3] viewing direction
 		setToDefault(); //no changed() comes outside as long as initialization
 	}
 	
@@ -91,8 +91,10 @@ public abstract class Camera4d extends Model {
 	}
 
 	public void setZoom(double _zoom) {
-		zoom = _zoom;
-		changed();
+		if (zoom!=_zoom) {
+			zoom = _zoom;
+			changed();
+		}
 	}
 	
 	//sets cameras viewing direction given by the poloar coordinate arcs
@@ -116,7 +118,8 @@ public abstract class Camera4d extends Model {
 		changed();
 	}
 
-	public void translate(Point4d a,double dist) {
+	public void translate(Point a,double dist) {
+		assert a.dim() == 4;
 		assert a.isNormal();
 		eye.addby(a,dist);
 		changed();
@@ -130,7 +133,10 @@ public abstract class Camera4d extends Model {
 		AOP.orthoNormalize(v); //avoid those tiny drifts
 	}
 
-	public void rotate(double ph,Point4d a, Point4d b, Point4d c) {
+	public void rotate(double ph,Point a, Point b, Point c) {
+		assert a.dim() == 4 : a.dim();
+		assert b.dim() == 4 : b.dim();
+		assert c.dim() == 4 : c.dim();
 		for (int i=0;i<4;i++) {
 			v[i].rotate(ph, a,b);
 		}
@@ -146,6 +152,7 @@ public abstract class Camera4d extends Model {
 			swapOrientation();
 			assert orientation == -1;
 		}
+		zoom = 1;
 		changed();
 	}
 
@@ -198,4 +205,5 @@ public abstract class Camera4d extends Model {
 		return orientation;
 	}
 
+	
 }

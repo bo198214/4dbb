@@ -9,14 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import ddddbb.game.Main.ViewAbsRelEnum;
-import ddddbb.gen.DoubleModel;
-import ddddbb.gen.MyChangeListener;
+import ddddbb.game.Scene4d;
+import ddddbb.gen.AChangeListener;
 import ddddbb.gui3d.DArrowButton;
 import ddddbb.gui3d.DLabel;
 import ddddbb.gui3d.DPanel;
 import ddddbb.math.AOP;
-import ddddbb.math.Camera3d;
 import ddddbb.math.Point3d;
 
 /**
@@ -57,9 +55,7 @@ public class Cam3dControlPanel extends DPanel {
 	private JLabel zLabel;
 
 	public Cam3dControlPanel(
-			final Camera3d camera3d,
-			final ViewAbsRelEnum viewAbsRel, 
-			final DoubleModel brightness
+			final Scene4d scene
 			) {
 		GridBagLayout thisLayout = new GridBagLayout();
 		thisLayout.rowWeights = new double[] {0.01, 0.01, 0.0};
@@ -85,27 +81,27 @@ public class Cam3dControlPanel extends DPanel {
 			zLabel.setText("z");
 		}
 		{
-			xLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			xLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xLeft, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			yLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			yLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(yLeft, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			zLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			zLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(zLeft, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			xRight = new DArrowButton(SwingConstants.EAST, brightness);
+			xRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xRight, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			yRight = new DArrowButton(SwingConstants.EAST, brightness);
+			yRight = new DArrowButton(SwingConstants.EAST);
 			this.add(yRight, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			zRight = new DArrowButton(SwingConstants.EAST, brightness);
+			zRight = new DArrowButton(SwingConstants.EAST);
 			this.add(zRight, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
@@ -119,19 +115,19 @@ public class Cam3dControlPanel extends DPanel {
 			yzLabel.setText("yz");
 		}
 		{
-			xzLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			xzLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xzLeft, new GridBagConstraints(6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			yzLeft = new DArrowButton(SwingConstants.WEST, brightness);
+			yzLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(yzLeft, new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			xzRight = new DArrowButton(SwingConstants.EAST, brightness);
+			xzRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xzRight, new GridBagConstraints(8, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
-			yzRight = new DArrowButton(SwingConstants.EAST, brightness);
+			yzRight = new DArrowButton(SwingConstants.EAST);
 			this.add(yzRight, new GridBagConstraints(8, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		{
@@ -140,27 +136,27 @@ public class Cam3dControlPanel extends DPanel {
 			reset.setText("reset");
 		}
 		{
-			xPos = new DLabel(30,16, brightness);
+			xPos = new DLabel(30,16);
 			this.add(xPos, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			xPos.setText("nan");
 		}
 		{
-			yPos = new DLabel(30,16, brightness);
+			yPos = new DLabel(30,16);
 			this.add(yPos, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			yPos.setText("nan");
 		}
 		{
-			zPos = new DLabel(30,16, brightness);
+			zPos = new DLabel(30,16);
 			this.add(zPos, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			zPos.setText("nan");
 		}
 		{
-			xzVal = new DLabel(30,16, brightness);
+			xzVal = new DLabel(30,16);
 			this.add(xzVal, new GridBagConstraints(7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			xzVal.setText("nan");
 		}
 		{
-			yzVal = new DLabel(30,16, brightness);
+			yzVal = new DLabel(30,16);
 			this.add(yzVal, new GridBagConstraints(7, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 			yzVal.setText("nan");
 		}
@@ -169,30 +165,28 @@ public class Cam3dControlPanel extends DPanel {
 			this.add(vSeparator, new GridBagConstraints(4, 0, 1, 3, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
 		
-		Cam3dAction c3a = new Cam3dAction(camera3d,viewAbsRel);
+		xRight.addActionListener(scene.transCam3dAction(1));
+		yRight.addActionListener(scene.transCam3dAction(2));
+		zRight.addActionListener(scene.transCam3dAction(3));
+		xLeft.addActionListener(scene.transCam3dAction(-1));
+		yLeft.addActionListener(scene.transCam3dAction(-2));
+		zLeft.addActionListener(scene.transCam3dAction(-3));
 		
-		xRight.addActionListener(c3a.transCam3d(1));
-		yRight.addActionListener(c3a.transCam3d(2));
-		zRight.addActionListener(c3a.transCam3d(3));
-		xLeft.addActionListener(c3a.transCam3d(-1));
-		yLeft.addActionListener(c3a.transCam3d(-2));
-		zLeft.addActionListener(c3a.transCam3d(-3));
+		xzRight.addActionListener(scene.rotCam3dAction(1, 3));
+		yzRight.addActionListener(scene.rotCam3dAction(2, 3));
+		xzLeft.addActionListener(scene.rotCam3dAction(3, 1));
+		yzLeft.addActionListener(scene.rotCam3dAction(3, 2));
 		
-		xzRight.addActionListener(c3a.rotCam3d(1, 3));
-		yzRight.addActionListener(c3a.rotCam3d(2, 3));
-		xzLeft.addActionListener(c3a.rotCam3d(3, 1));
-		yzLeft.addActionListener(c3a.rotCam3d(3, 2));
+		reset.addActionListener(scene.camera3d.resetAction);
 		
-		reset.addActionListener(camera3d.reset);
-		
-		camera3d.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
-				double[] o = camera3d.eye.x;
+				double[] o = scene.camera3d.eye.x;
 				xPos.setText(ViewPane.fnf.format(o[0]));
 				yPos.setText(ViewPane.fnf.format(o[1]));
 				zPos.setText(ViewPane.fnf.format(o[2]));
 				
-				Point3d v = camera3d.viewingDirection();
+				Point3d v = scene.camera3d.viewingDirection();
 				Point3d x = AOP.unitVector3(0);
 				Point3d y = AOP.unitVector3(1);
 				Point3d z = AOP.unitVector3(2);
@@ -205,6 +199,6 @@ public class Cam3dControlPanel extends DPanel {
 				int ayzd = (int)Math.round(ayz/Math.PI/2*360);
 				xzVal.setText(ViewPane.nf.format(axzd));
 				yzVal.setText(ViewPane.nf.format(ayzd));
-			}});
+			}}.addTo(scene.camera3d);
 	}
 }

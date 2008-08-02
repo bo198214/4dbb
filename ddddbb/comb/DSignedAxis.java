@@ -16,7 +16,7 @@ public class DSignedAxis {
 	int axis; // -1 means diffuse direction
 	
 	/** 1,2,3,4,... are the positive axes
-	 * -1,-2,3,-4,... are the negative axes
+	 * -1,-2,-3,-4,... are the negative axes
 	 * 0 is not allowed as value
 	 */
 	public DSignedAxis(int i) {

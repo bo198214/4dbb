@@ -78,7 +78,7 @@ public class BoolModel extends Model {
 		}
 	}
 
-	public ActionListener toggle  = new ActionListener()  {
+	public ActionListener toggleAction  = new ActionListener()  {
 		public void actionPerformed(ActionEvent e) {
 			setSelected(!isSelected());
 		}

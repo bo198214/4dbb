@@ -2,22 +2,20 @@ package ddddbb.math;
 
 import ddddbb.comb.DCell;
 import ddddbb.comb.DCenter;
+import ddddbb.gen.AChangeListener;
 import ddddbb.gen.IntModel;
-import ddddbb.gen.MyChangeListener;
 
 public class D4Graphics {
 	protected D3Graphics g3;
 //	private double blobRadius = 0.2;
 	protected Camera4d c4;
 	
-	public D4Graphics(D3Graphics _g,Camera4d _c4,
-			final IntModel<Camera4d> perspective) {
-		c4 = _c4;
+	public D4Graphics(D3Graphics _g,final IntModel<Camera4d> perspective) {
 		g3 = _g;
-		perspective.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
 				c4 = perspective.getSelectedObject();
-			}});
+			}}.addTo(perspective);
 	}
 	
 	/** dot is a center (i.e c=2*o+1) */

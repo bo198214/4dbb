@@ -6,20 +6,11 @@ import java.text.DecimalFormat;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.sun.net.ssl.SSLContext;
-
-import ddddbb.game.Objectives;
-import ddddbb.game.Scene;
+import ddddbb.game.Level;
 import ddddbb.game.Scene4d;
-import ddddbb.game.ScreenValues;
-import ddddbb.game.SimpleSwitches;
-import ddddbb.game.Main.ViewAbsRelEnum;
-import ddddbb.gen.BoolModel;
-import ddddbb.gen.DoubleModel;
-import ddddbb.gen.IntModel;
-import ddddbb.gen.IntStringModel;
+import ddddbb.game.Settings;
+import ddddbb.gen.AChangeListener;
 import ddddbb.gen.MyChangeListener;
-import ddddbb.math.Camera4d;
 
 @SuppressWarnings("serial")
 public class ViewPane extends JPanel {
@@ -32,29 +23,14 @@ public class ViewPane extends JPanel {
 	public static DecimalFormat fnf = new DecimalFormat("#.#");
 
 	public ViewPane(
-			final Scene scene,
-			final BoolModel showGoal,
-			final DoubleModel zoom,
-			final ViewAbsRelEnum viewAbsRel,
-			final IntStringModel dim34,
-			final IntModel<Objectives> objectives,
-			final ScreenValues sv,
-			final IntModel<Camera4d> perspective,
-			final BoolModel drawTetrahedral,
-			final BoolModel showInternalFaces,
-			final BoolModel antiAliased,
-			final IntModel<SimpleSwitches.ViewType> viewType,
-			final IntStringModel viewTransAxis,
-			final IntStringModel d3ViewRotAxis,
-			final Scene4d goalScene) {
-		viewScreen = new ViewScreen(scene,sv,perspective,drawTetrahedral,showInternalFaces,zoom,antiAliased,viewType,dim34,
-				viewAbsRel,viewTransAxis,d3ViewRotAxis,showGoal,goalScene);
-		controlPanel = new ControlPanel(scene,showGoal,zoom,viewAbsRel,dim34, sv.brightness);
+			final Settings ss, final Level scene, final Scene4d goalScene) {
+		viewScreen = new ViewScreen(ss,scene,goalScene);
+		controlPanel = new ControlPanel(ss,scene);
 		objectiveLabel = new JLabel();
-		objectives.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
-				objectiveLabel.setText(objectives.getSelectedObject().toString());
-			}});
+				objectiveLabel.setText(ss.objectives.getSelectedObject().toString());
+			}}.addTo(ss.objectives);
 		this.setSize(1002, 655);
 		setLayout(new BorderLayout());
 		//add(getViewPanel(), BorderLayout.CENTER);

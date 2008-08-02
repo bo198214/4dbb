@@ -26,7 +26,7 @@ public abstract class Camera4dOrthographic extends Camera4dParallel {
 	public Point4d viewingDirection() {
 		assert v[3].isNormal();
 //		if (orientation ==1) {
-			return v[3];
+			return (Point4d)v[3];
 //		}
 //		Point4d vd = v[3].clone();
 //		vd.multiply(orientation);
@@ -34,11 +34,12 @@ public abstract class Camera4dOrthographic extends Camera4dParallel {
 	}
 	
 	@Override
-	public void rotate(double ph,Point4d a, Point4d b, Point4d c) {
+	public void rotate(double ph,Point a, Point b, Point c) {
 		for (int i=0;i<4;i++) {
 			v[i].rotate(ph, a,b);
 		}
 		eye.rotate(ph,a,b,c);
+		AOP.orthoNormalize(v); //avoid those tiny drifts
 		changed();
 	}
 	

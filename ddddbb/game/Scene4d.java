@@ -1,17 +1,16 @@
 package ddddbb.game;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
-import ddddbb.comb.ACell;
 import ddddbb.comb.Cell;
 import ddddbb.comb.CellComplex;
 import ddddbb.comb.DCell;
 import ddddbb.comb.DOp;
 import ddddbb.gen.AChangeListener;
 import ddddbb.gen.BoolModel;
-import ddddbb.gen.DoubleModel;
-import ddddbb.gen.IntModel;
 import ddddbb.gen.Model;
 import ddddbb.gen.MyChangeListener;
 import ddddbb.gen.SelectedListModel;
@@ -19,95 +18,107 @@ import ddddbb.math.Camera3d;
 import ddddbb.math.Camera4d;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.Point3d;
+import ddddbb.math.Point4d;
 import ddddbb.math.Camera4d.ProjectionException;
-import ddddbb.sound.Sound;
+import ddddbb.sound.SoundEnum;
 
 public class Scene4d extends Model implements MyChangeListener {
-
-	public SelectedListModel<Compound> compounds = new SelectedListModel<Compound>();
-	public Camera4d camera4d;
-	public final Camera3d camera3d;
+	public final SelectedListModel<Compound> compounds = new SelectedListModel<Compound>();
 	protected List<DCell> faces3d;
 
-	private boolean showInternalFaces;
-	private SimpleSwitches.Occlusion4dAllowance occlusion4dAllowance;
-	private int occlusion4dAllowanceInt;
-	private int orientation4d;
-	private double zoom;
-	public Scene4d(
-			final DoubleModel _zoom, 
-			final IntModel<SimpleSwitches.Orientation4d> _orientation4d,
-			final IntModel<SimpleSwitches.Orientation3d> orientation3d,
-			final BoolModel showGoal,
-			final IntModel<Camera4d> _camera4d,
-			final IntModel<SimpleSwitches.Occlusion4dAllowance> _occlusion4dAllowance,
-			final BoolModel _showInternalFaces,
-			final DoubleModel screenEyeDist,
-			final DoubleModel eyesDistHalf,
-			final DoubleModel barEyeFocusDelta,	
-			final Sound sound
-	) {
-		super();
-		camera3d = new Camera3d(screenEyeDist,eyesDistHalf,barEyeFocusDelta);
+	public final Camera3d camera3d;
+	public Camera4d camera4d;
 
+	private boolean showInternalFaces;
+	private Settings.Occlusion4dAllowance occlusion4dAllowance;
+	private int occlusion4dAllowanceInt;
+
+	public final BoolModel viewAbsRel = new BoolModel(true,"Cam coords");;
+	
+	public Scene4d(	final Settings ss) {
+		camera3d = new Camera3d(ss.screenEyeDist,ss.eyesDistHalf,ss.barEyeFocusDelta);
 		new AChangeListener() {
 			public void stateChanged() {
 				Camera4d prev = camera4d;
-				camera4d = _camera4d.getSelectedObject();
+				camera4d = ss.perspective.getSelectedObject();
+				if (camera4d==prev) return;
+				assert camera4d.changeListeners.isEmpty() : camera4d + ":" + camera4d.changeListeners;
+				//following lines do not cause propagation of changes
+				camera4d.setOrientation(ss.orientation4d.getSelectedObject().value);
+				camera4d.setZoom(ss.zoom.getDouble());
 				if (prev!=null) { 
-					//prev.removeChangeListener(this);
-					prev.removeChangeListener(recomputeFacing);
+					//move ChangeListeners to new camera4d
+					Vector<MyChangeListener> listeners = prev.changeListeners;
+					prev.changeListeners = camera4d.changeListeners;
+					camera4d.changeListeners = listeners;
 				}
-				//camera4d.addChangeListener(this);
-				camera4d.setOrientation(orientation4d);
-				camera4d.setZoom(zoom);
-				camera4d.addChangeListener(recomputeFacing);
+				else {
+					camera4d.addChangeListener(updateFacing);					
+					camera4d.addChangeListener(Scene4d.this);
+				}
 				changed();
 			}
-		}.addTo(_camera4d);
-		
-		new AChangeListener() {
-			@Override
-			public void stateChanged() {
-				occlusion4dAllowance = _occlusion4dAllowance.getSelectedObject();
-				occlusion4dAllowanceInt = _occlusion4dAllowance.getInt();
-			}			
-		}.addTo(_occlusion4dAllowance);
-		_occlusion4dAllowance.addChangeListener(recomputeFacing);
+		}.addTo(ss.perspective);
 
 		new AChangeListener() {
 			public void stateChanged() {
-				showInternalFaces = _showInternalFaces.isSelected();
-				updateCompoundGrid();
-			}}.addTo(_showInternalFaces);
-			
-		new AChangeListener() {
-			public void stateChanged() {
-				zoom = _zoom.getDouble();
-				camera4d.setZoom(zoom);
+				camera4d.setZoom(ss.zoom.getDouble());
 			}
-		}.addTo(_zoom);
+		}.addTo(ss.zoom);
 		
 		new AChangeListener() {
 			public void stateChanged() {
-				orientation4d = _orientation4d.getSelectedObject().value;
-				camera4d.setOrientation(orientation4d);
-			}}.addTo(_orientation4d);
+				camera4d.setOrientation(ss.orientation4d.getSelectedObject().value);
+			}}.addTo(ss.orientation4d);
 			
 		new AChangeListener() {
 			public void stateChanged() {
 				camera3d.setOrientation(
-						orientation3d.getSelectedObject().value());
+						ss.orientation3d.getSelectedObject().value());
 				changed();
-			}}.addTo(orientation3d);
+			}}.addTo(ss.orientation3d);
 			
 		new AChangeListener() {
 			public void stateChanged() {
-				if (showGoal.isSelected()) sound.SHOWGOAL.play();
+				if (ss.showGoal.isSelected()) SoundEnum.SHOWGOAL.play();
 				changed();
-			}}.addTo(showGoal);
+			}}.addTo(ss.showGoal);
+			
+		initCompounds(ss);
 	}
 
+	private void initCompounds(final Settings ss) {
+		new AChangeListener() {
+			@Override
+			public void stateChanged() {
+				occlusion4dAllowance = ss.occlusion4dAllowance.getSelectedObject();
+				occlusion4dAllowanceInt = ss.occlusion4dAllowance.getInt();
+				changed();
+			}			
+		}.addTo(ss.occlusion4dAllowance);
+		ss.occlusion4dAllowance.addChangeListener(updateFacing);
+
+		new AChangeListener() {
+			public void stateChanged() {
+				showInternalFaces = ss.showInternalFaces.isSelected();
+				updateCompoundGrid();
+			}}.addTo(ss.showInternalFaces);		
+	}
+	
+	private Scene4d(Camera3d c3d) {
+		camera3d = c3d;
+	}
+		
+	public Scene4d cloneCamRefs(final Settings ss) {
+		Scene4d res = new Scene4d(camera3d);
+		res.camera4d = camera4d;
+		res.showInternalFaces = showInternalFaces;
+		res.occlusion4dAllowance = occlusion4dAllowance;
+		res.occlusion4dAllowanceInt = occlusion4dAllowanceInt;
+		res.initCompounds(ss);
+		return res;
+	}
+	
 	public void setToDefault() {
 		//init(0);
 	}
@@ -118,7 +129,7 @@ public class Scene4d extends Model implements MyChangeListener {
 			compounds.add(new Compound(DOp.clone(cs[i])));
 		}
 		updateFaces3d(compounds);
-		updateVisibility();
+		updateFacing();
 	}
 
 	public void updateCompoundGrid() {
@@ -127,21 +138,19 @@ public class Scene4d extends Model implements MyChangeListener {
 		}		
 	}
 
-	protected void updateVisibility() {
-		for (DCell of: faces3d) {
-			of.setFacing(camera4d);
-		}		
+	protected void updateFacing() {
+		if (faces3d==null) return;
+		if (occlusion4dAllowanceInt>=Settings.Occlusion4dAllowance.BACKFACE.ordinal()) {
+			for (DCell of : faces3d) {
+				of.setFacing(camera4d);
+			}								
+		}
 	}
 
-	protected final MyChangeListener recomputeFacing = new MyChangeListener() {
+	protected final MyChangeListener updateFacing = new MyChangeListener() {
 			public void stateChanged() {
-				if (faces3d==null) return;
-				if (occlusion4dAllowanceInt>=SimpleSwitches.Occlusion4dAllowance.BACKFACE.ordinal()) {
-					for (DCell of : faces3d) {
-						of.setFacing(camera4d);
-					}								
-				}
-				changed();
+				updateFacing();
+				//changed();
 			}
 		};
 
@@ -177,17 +186,17 @@ public class Scene4d extends Model implements MyChangeListener {
 	//			v.proj3d2dIN(g3,camera4d);
 	//		}
 	
-			SimpleSwitches.Occlusion4dAllowance oa = occlusion4dAllowance;
+			Settings.Occlusion4dAllowance oa = occlusion4dAllowance;
 			
-			if (oa == SimpleSwitches.Occlusion4dAllowance.NONE) {
+			if (oa == Settings.Occlusion4dAllowance.NONE) {
 				for (DCell df3 : ffaces3d) g3.render3dFacet(df3);
 			}
-			else if (oa==SimpleSwitches.Occlusion4dAllowance.BACKFACE) {
+			else if (oa==Settings.Occlusion4dAllowance.BACKFACE) {
 				for (DCell df3 : ffaces3d) {
 					if (df3.facing) g3.render3dFacet(df3);
 				}
 			}
-			else if (oa==SimpleSwitches.Occlusion4dAllowance.COMPLETE) {
+			else if (oa==Settings.Occlusion4dAllowance.COMPLETE) {
 				Vector<DCell> dvisibles3 = new Vector<DCell>();
 				for (DCell df3 : ffaces3d) {
 					if (df3.facing) dvisibles3.add(df3);
@@ -210,4 +219,39 @@ public class Scene4d extends Model implements MyChangeListener {
 		camera3d.addChangeListener(l);
 	}
 	
+	public void rotCam3d(double ph, int a1, int a2) {
+		Point3d p3 = new Point3d();
+		camera4d.proj3d(selectedCenter4d(),p3);
+		camera3d.rot(ph, a1, a2, p3, viewAbsRel.isSelected());
+	}
+	
+	public void rotCam4d(double ph, int a1, int a2) {
+		camera4d.rot(ph, a1, a2, selectedCenter4d(), viewAbsRel.isSelected());
+	}
+
+	public ActionListener rotCam3dAction(final int a1, final int a2) {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rotCam3d(0.1,a1,a2);
+			}
+		};
+	}
+	
+	public ActionListener rotCam4dAction(final int a1, final int a2) {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rotCam4d(0.1,a1,a2);
+			}
+		};
+	}
+	
+	private Point4d selectedCenter4d() {
+		return (Point4d)compounds.getSelectedItem().center.loc(); 
+	}
+	public ActionListener transCam3dAction(final int axis) {
+		return camera3d.transAction(axis, viewAbsRel);
+	}
+	public ActionListener transCam4dAction(final int axis) {
+		return camera4d.transAction(axis, viewAbsRel);
+	}
 }

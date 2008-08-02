@@ -9,8 +9,10 @@ import java.awt.event.MouseListener;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import ddddbb.gen.DoubleModel;
+import ddddbb.game.Settings;
+import ddddbb.gen.AChangeListener;
 import ddddbb.gen.MyChangeListener;
+import ddddbb.sound.SoundEnum;
 
 public class DArrowButton extends BasicArrowButton {
 	int w;
@@ -22,15 +24,14 @@ public class DArrowButton extends BasicArrowButton {
 	int direction;
 	private float brightness;
 	
-	public DArrowButton(int _direction, final DoubleModel _brightness) {
+	public DArrowButton(int _direction) {
 		super(_direction);
-		brightness = (float)_brightness.getDouble();
-		_brightness.addChangeListener(new MyChangeListener() {
+		new AChangeListener() {
 			public void stateChanged() {
-				brightness = (float)_brightness.getDouble();	
+				brightness = (float)Settings.brightness.getDouble();	
 				repaint();
 			}
-		});
+		}.addTo(Settings.brightness);
 		direction = _direction;
 		addMouseListener(new MouseListener() {
 			@Override
@@ -39,6 +40,7 @@ public class DArrowButton extends BasicArrowButton {
 			public void mouseEntered(MouseEvent e) {
 				mouseInside = true;
 				repaint();
+				SoundEnum.MOUSEOVER.play();
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
