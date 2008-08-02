@@ -60,7 +60,6 @@ public abstract class D3Graphics {
 //	}
 	
 	public void drawString(String s, Point3d p) {
-		assert p.dim() == 3;
 		Point2d l=new Point2d(),r=new Point2d();
 		screenProj(p,l,r);
 		g2.setColor(lColor);
@@ -68,7 +67,41 @@ public abstract class D3Graphics {
 		g2.setColor(rColor);
 		g2.drawString(s,r);		
 	}
+
+	public void drawEndString(String s, Point3d p, Point3d from) {
+		Point2d l=new Point2d(),r=new Point2d();
+		screenProj(p,l,r);
+		Point2d lfrom=new Point2d(), rfrom=new Point2d();
+		screenProj(from,lfrom,rfrom);
+		double x = (l.x1+r.x1-lfrom.x1-rfrom.x1)/2;
+		double y = (l.x2+r.x2-lfrom.x2-rfrom.x2)/2;
+		if (y>0 && y>Math.abs(x)) {
+			g2.setColor(lColor);
+			g2.drawStringNorth(s,l);
+			g2.setColor(rColor);
+			g2.drawStringNorth(s,r);		
+		}
+		if (y<0 && -y>Math.abs(x)) {
+			g2.setColor(lColor);
+			g2.drawStringSouth(s,l);
+			g2.setColor(rColor);
+			g2.drawStringSouth(s,r);		
+		}
+		if (x>0 && x>Math.abs(y)) {
+			g2.setColor(lColor);
+			g2.drawStringEast(s,l);
+			g2.setColor(rColor);
+			g2.drawStringEast(s,r);		
+		}
+		if (x<0 && -x>Math.abs(y)) {
+			g2.setColor(lColor);
+			g2.drawStringWest(s,l);
+			g2.setColor(rColor);
+			g2.drawStringWest(s,r);		
+		}
+	}
 	
+
 
 	public boolean screenProj(Point3d _p, double e, double s, Point2d pl, Point2d pr) {
 
@@ -123,6 +156,11 @@ public abstract class D3Graphics {
 		drawLine(arrowTip[1],arrowTip[2]);
 		drawLine(arrowTip[2],arrowTip[3]);
 		drawLine(arrowTip[3],arrowTip[0]);
+	}
+	
+	public void drawArrow(Point3d src, Point3d dst, String label) {
+		drawArrow(src,dst);
+		drawEndString(label, dst, src);
 	}
 	
 	public void drawBlob(Point3d dot3d) {
@@ -277,12 +315,9 @@ public abstract class D3Graphics {
 		o1 = new Point3d(s,0,0); o1.add(o);
 		o2 = new Point3d(0,s,0); o2.add(o);
 		o3 = new Point3d(0,0,s); o3.add(o);
-		drawArrow(o,o1);
-		drawString("x",o1);
-		drawArrow(o,o2);
-		drawString("y",o2);
-		drawArrow(o,o3);
-		drawString("z",o3);
+		drawArrow(o,o1,"x");
+		drawArrow(o,o2,"y");
+		drawArrow(o,o3,"z");
 	}
 	
 	public void drawTrihedral(double s) {

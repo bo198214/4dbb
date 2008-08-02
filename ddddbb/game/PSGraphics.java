@@ -58,4 +58,28 @@ public class PSGraphics implements D2GraphicsIF {
 		
 	}
 
+	@Override
+	public void drawStringEast(String s, Point2d p) {
+		// TODO 
+		drawString(s,p);
+	}
+
+	@Override
+	public void drawStringNorth(String s, Point2d p) {
+		// TODO 
+		drawString(s,p);
+	}
+
+	@Override
+	public void drawStringSouth(String s, Point2d p) {
+		// TODO 
+		drawString(s,p);		
+	}
+
+	@Override
+	public void drawStringWest(String s, Point2d p) {
+		// TODO 
+		drawString(s,p);
+	}
+
 }

@@ -119,20 +119,24 @@ public class D4Graphics {
 		g3.drawArrow(a3d,b3d);		
 	}
 	
+	public void drawArrow(Point4d a, Point4d b, String label) {
+		Point3d a3d = new Point3d();
+		c4.proj3d(a,a3d);
+		Point3d b3d = new Point3d();
+		c4.proj3d(b,b3d);
+		g3.drawArrow(a3d,b3d,label);				
+	}
+	
 	public void drawTetrahedral(Point4d o,double s) {
 		Point4d o1,o2,o3,o4;
 		o1 = new Point4d(s,0,0,0); o1.add(o);
 		o2 = new Point4d(0,s,0,0); o1.add(o);
 		o3 = new Point4d(0,0,s,0); o1.add(o);
 		o4 = new Point4d(0,0,0,s); o1.add(o);
-		drawArrow(o,o1);
-		drawString("x",o1);
-		drawArrow(o,o2);
-		drawString("y",o2);
-		drawArrow(o,o3);
-		drawString("z",o3);
-		drawArrow(o,o4);
-		drawString("w",o4);
+		drawArrow(o,o1,"x");
+		drawArrow(o,o2,"y");
+		drawArrow(o,o3,"z");
+		drawArrow(o,o4,"w");
 	}
 	
 	public void drawTetrahedral(double s) {

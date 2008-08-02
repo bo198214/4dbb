@@ -2,6 +2,7 @@ package ddddbb.math;
 
 import java.awt.Color;
 import java.awt.Composite;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
 
@@ -9,11 +10,14 @@ public class D2Graphics implements D2GraphicsIF {
 	private Graphics2D g;
 	private double xcm;
 	private double ycm;
+	FontMetrics fm;
 	
 	public D2Graphics(Graphics2D _g,double _xcm, double _ycm) {
 		g = _g;
+		fm = g.getFontMetrics();
 		xcm = _xcm;
 		ycm = _ycm;
+		
 	}
 
 	public void proj(Point2d p,D2Tupel s) {
@@ -25,6 +29,35 @@ public class D2Graphics implements D2GraphicsIF {
 		D2Tupel pi = new D2Tupel();
 		proj(p,pi);
 		g.drawString(s,pi.x1,pi.x2);
+	}
+	
+	public void drawStringEast(String s, Point2d p) {
+		D2Tupel pi = new D2Tupel();
+		proj(p,pi);
+		g.drawString(s,pi.x1+1,pi.x2);
+	}
+	
+	public void drawStringNorth(String s, Point2d p) {
+		D2Tupel pi = new D2Tupel();
+		proj(p,pi);
+		int descent = fm.getDescent();
+		int w = fm.stringWidth(s);
+		g.drawString(s,pi.x1-w/2,pi.x2-descent);
+	}
+	
+	public void drawStringSouth(String s, Point2d p) {
+		D2Tupel pi = new D2Tupel();
+		proj(p,pi);
+		int ascent = fm.getAscent();
+		int w = fm.stringWidth(s);
+		g.drawString(s, pi.x1-w/2, pi.x2+ascent);
+	}
+	
+	public void drawStringWest(String s, Point2d p) {
+		D2Tupel pi = new D2Tupel();
+		proj(p,pi);
+		int w = fm.stringWidth(s);
+		g.drawString(s, pi.x1-w-1, pi.x2);
 	}
 	
 	public void drawString(String s,double x,double y) {
