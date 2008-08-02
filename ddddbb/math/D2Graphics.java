@@ -1,9 +1,11 @@
 package ddddbb.math;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 
 public class D2Graphics implements D2GraphicsIF {
@@ -69,6 +71,15 @@ public class D2Graphics implements D2GraphicsIF {
 		D2Tupel bi = new D2Tupel();
 		proj(a,ai);
 		proj(b,bi);
+		g.drawLine(ai.x1,ai.x2,bi.x1,bi.x2);
+	}
+	
+	public void drawThickLine(Point2d a, Point2d b) {
+		D2Tupel ai = new D2Tupel();
+		D2Tupel bi = new D2Tupel();
+		proj(a,ai);
+		proj(b,bi);
+		g.setStroke(new BasicStroke(2));
 		g.drawLine(ai.x1,ai.x2,bi.x1,bi.x2);
 	}
 	
