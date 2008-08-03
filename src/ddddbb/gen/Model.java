@@ -6,8 +6,25 @@ import java.util.Vector;
 
 import javax.swing.event.ChangeListener;
 
+/** A class for supporting the Model View paradigm.
+ * Basically it has a changed() method that notifies all the registered 
+ * ChangeListeners (which are the viewers).
+ * The class is itself a ChangeListener, that just propagates changes.
+ * For example you can add this to attribute Models, their changes become
+ * then also this's changes.
+ *  
+ * @author bo198214
+ *
+ */
 public abstract class Model implements MyChangeListener {
 	public Vector<MyChangeListener> changeListeners = new Vector<MyChangeListener>();
+	
+	/** Switch on or off notifications of the ChangeListeners.
+	 * Useful if you call several methods that contain a changed-call but you
+	 * only want to call changed once. Then you put just a 
+	 * nofify=false before the calls and a notify=true after the calls.
+	 * and call then changed() separately.
+	 */
 	public boolean notify = true;
 	
 //	public void changed(ChangeEvent e) {

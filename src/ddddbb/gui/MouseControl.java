@@ -7,6 +7,8 @@ import java.awt.event.MouseMotionListener;
 
 import ddddbb.game.Level;
 import ddddbb.game.Settings;
+import ddddbb.game.Settings.DiAxis3d;
+import ddddbb.game.Settings.DiAxis4d;
 import ddddbb.gen.MyChangeListener;
 
 public class MouseControl implements MouseListener, MouseMotionListener, MyChangeListener {
@@ -73,13 +75,15 @@ public class MouseControl implements MouseListener, MouseMotionListener, MyChang
 					scene.camera3d.trans(3,-(e.getY()-mouseY)*fty, scene.viewAbsRel.isSelected());
 				}
 				else {
-					scene.camera3d.trans(1,(e.getX()-mouseX)*ftx,scene.viewAbsRel.isSelected());
-					scene.camera3d.trans(2,-(e.getY()-mouseY)*fty,scene.viewAbsRel.isSelected());
+					scene.camera3d.trans(Settings.mouseTransAxes3d.sel1().axis(),(e.getX()-mouseX)*ftx,scene.viewAbsRel.isSelected());
+					scene.camera3d.trans(Settings.mouseTransAxes3d.sel2().axis(),-(e.getY()-mouseY)*fty,scene.viewAbsRel.isSelected());
 				}
 				break;
 			case 1: // rotate
-				scene.rotCam3d((e.getX()-mouseX)*frx,1,3);
-				scene.rotCam3d((e.getY()-mouseY)*fry,2,3);
+				DiAxis3d sel1 = Settings.mouseRotDiAxes3d.sel1();
+				DiAxis3d sel2 = Settings.mouseRotDiAxes3d.sel2();
+				scene.rotCam3d((e.getX()-mouseX)*frx,sel1.axis1(),sel1.axis2());
+				scene.rotCam3d((e.getY()-mouseY)*fry,sel2.axis1(),sel2.axis2());
 				break;
 			}
 		}
@@ -92,13 +96,15 @@ public class MouseControl implements MouseListener, MouseMotionListener, MyChang
 					scene.camera4d.trans(4,-(e.getY()-mouseY)*fty,scene.viewAbsRel.isSelected());					
 				}
 				else {
-					scene.camera4d.trans(1,(e.getX()-mouseX)*ftx,scene.viewAbsRel.isSelected());
-					scene.camera4d.trans(2,-(e.getY()-mouseY)*fty,scene.viewAbsRel.isSelected());
+					scene.camera4d.trans(Settings.mouseTransAxes4d.sel1().axis(),(e.getX()-mouseX)*ftx,scene.viewAbsRel.isSelected());
+					scene.camera4d.trans(Settings.mouseTransAxes4d.sel2().axis(),-(e.getY()-mouseY)*fty,scene.viewAbsRel.isSelected());
 				}
 				break;
-			case 1: 
-				scene.rotCam4d((e.getX()-mouseX)*fry,1,3);
-				scene.rotCam4d((e.getY()-mouseY)*fry,2,4);
+			case 1:
+				DiAxis4d sel1 = Settings.mouseRotDiAxes4d.sel1();
+				DiAxis4d sel2 = Settings.mouseRotDiAxes4d.sel2();
+				scene.rotCam4d((e.getX()-mouseX)*fry,sel1.axis1(),sel1.axis2());
+				scene.rotCam4d((e.getY()-mouseY)*fry,sel2.axis1(),sel2.axis2());
 				break;
 			}
 		}

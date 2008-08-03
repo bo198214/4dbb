@@ -13,11 +13,11 @@ public class DoubleUnitModel implements SpinnerModel {
 	}
 	
 	public void setValue(Object _value) {
-		valueModel.setValue(_value,unitModel.getSelectedObject());
+		valueModel.setValue(_value,unitModel.sel());
 	}
 	
 	public Object getValue() {
-		return valueModel.getValue(unitModel.getSelectedObject());
+		return valueModel.getValue(unitModel.sel());
 	}
 
 	public void addChangeListener(ChangeListener l) {
@@ -27,12 +27,12 @@ public class DoubleUnitModel implements SpinnerModel {
 
 	public Object getNextValue() {
 		double v = ((Number)valueModel.getNextValue()).doubleValue();
-		return v/unitModel.getSelectedObject().unitFactor();
+		return v/unitModel.sel().unitFactor();
 	}
 
 	public Object getPreviousValue() {
 		double v = ((Number)valueModel.getPreviousValue()).doubleValue();
-		return v/unitModel.getSelectedObject().unitFactor();
+		return v/unitModel.sel().unitFactor();
 	}
 
 	public void removeChangeListener(ChangeListener l) {

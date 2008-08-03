@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import ddddbb.comb.DSignedAxis;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.DiAxisModel;
+import ddddbb.gen.DiIntModel;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
 import ddddbb.gen.IntStringModel;
@@ -79,6 +80,72 @@ public class Settings {
 	public final DoubleModel 
 	barEyeFocusDelta = new	DoubleModel(0,1,LengthUnit.CM);
 	
+
+	public static enum Axis4d {
+		X(1,"x"),
+		Y(2,"y"),
+		Z(3,"z"),
+		W(4,"w");
+		String name; int axis;
+		Axis4d(int axis, String name) {
+			this.axis = axis; this.name = name;
+		}
+		public int axis() { return axis; }
+		public String toString() { return name; }
+	}
+	public final static DiIntModel<Axis4d> mouseTransAxes4d =
+		new DiIntModel<Axis4d>(Axis4d.X,Axis4d.Y,Axis4d.values());
+	
+	public static enum Axis3d {
+		X(1,"x"),
+		Y(2,"y"),
+		Z(3,"z");
+		String name; int axis;
+		Axis3d(int axis, String name) {
+			this.axis = axis; this.name = name;
+		}
+		public int axis() { return axis; }
+		public String toString() { return name; }
+	}
+	public final static DiIntModel<Axis3d> mouseTransAxes3d =
+		new DiIntModel<Axis3d>(Axis3d.X,Axis3d.Y,Axis3d.values());
+	
+	public static enum DiAxis4d {
+		XY(1,2,"xy"),
+		XZ(1,3,"xz"),
+		XW(1,4,"xw"),
+		YZ(2,3,"yz"),
+		YW(2,3,"yw"),
+		ZW(3,4,"zw");
+		
+		String name; int axis1; int axis2;
+		DiAxis4d(int axis1, int axis2, String name) {
+			this.axis1 = axis1; this.axis2 = axis2; this.name=name;
+		}
+		public String toString() { return name; }
+		public int axis1() { return axis1; }
+		public int axis2() { return axis2; }
+	};
+	public static final DiIntModel<DiAxis4d> mouseRotDiAxes4d = 
+		new DiIntModel<DiAxis4d>(DiAxis4d.XZ,DiAxis4d.YW,DiAxis4d.values());
+	
+	public static enum DiAxis3d {
+		XY(1,2,"xy"),
+		XZ(1,3,"xz"),
+		YZ(2,3,"yz");
+		String name; int axis1; int axis2;
+		DiAxis3d(int axis1, int axis2, String name) {
+			this.axis1 = axis1; this.axis2 = axis2; this.name=name;
+		}
+
+		public String toString() { return name; }
+		public int axis1() { return axis1; }
+		public int axis2() { return axis2; }
+	};
+	public static final DiIntModel<DiAxis3d> mouseRotDiAxes3d =
+		new DiIntModel<DiAxis3d>(DiAxis3d.XZ,DiAxis3d.YZ,DiAxis3d.values());
+		
+	
 	public static enum Occlusion4dAllowance {
 		NONE("No 4D occlusion") {},
 		BACKFACE("4D Backface culling"),
@@ -89,6 +156,9 @@ public class Settings {
 		}
 		public String toString() { return name; }
 	}
+	public final IntModel<Occlusion4dAllowance> occlusion4dAllowance = 
+		new IntModel<Occlusion4dAllowance>(Occlusion4dAllowance.COMPLETE,Occlusion4dAllowance.values());
+
 	public static enum Orientation3d {
 		LEFTHANDED("3d left handed",+1),
 		RIGHTHANDED("3d right handed",-1);
@@ -103,6 +173,9 @@ public class Settings {
 		}
 		public String toString() { return name; }
 	}
+	public final IntModel<Orientation3d> orientation3d = 
+		new IntModel<Orientation3d>(Orientation3d.LEFTHANDED,Orientation3d.values());
+
 	public static enum Orientation4d {
 		LEFTHANDED("4d left handed",+1),
 		RIGHTHANDED("4d right handed",-1);
@@ -115,6 +188,9 @@ public class Settings {
 		public String toString() { return name; }
 		
 	}
+	public final IntModel<Orientation4d> orientation4d =
+		new IntModel<Orientation4d>(Orientation4d.RIGHTHANDED,Orientation4d.values());
+
 	public static enum ViewType {
 		FLAT("flat") {
 			public D3Graphics getD3Graphics(D2GraphicsIF g,Camera3d c) {
@@ -141,6 +217,11 @@ public class Settings {
 		public abstract D3Graphics getD3Graphics(D2GraphicsIF g,Camera3d c);
 		public String toString() { return name; }
 	}
+	public final IntModel<ViewType> viewType = new IntModel<ViewType>(
+			ViewType.ANAGLYPH,
+			ViewType.values()
+	);
+
 	public static class PerspectiveEnum extends IntModel<Camera4d>{
 		public final Camera4d LINEAR;
 		public final Camera4d ISOMETRIC30;
@@ -169,6 +250,8 @@ public class Settings {
 	public static enum GameStatus {
 		NONE, PENDING, REACHED, MISSED;
 	}
+	public final IntModel<GameStatus> gameStatus = new IntModel<Settings.GameStatus>(Settings.GameStatus.PENDING, Settings.GameStatus.values());
+
 	public final BoolModel antiAliased = new BoolModel(true,"Antialiased");
 	public final IntStringModel compRotAxis1 = new IntStringModel(0,Main.axisNames);
 	public final IntStringModel compRotAxis2 = new IntStringModel(1,Main.axisNames);
@@ -179,12 +262,6 @@ public class Settings {
 	public final IntStringModel dim34 = new IntStringModel(0,new String[] {"3d","4d"});
 	//public final BoolModel drawTrihedral = new BoolModel(false,"Trihedral");
 	public final BoolModel drawTetrahedral = new BoolModel(true,"Tetrahedral");
-	public final IntModel<Occlusion4dAllowance> occlusion4dAllowance = 
-	new IntModel<Occlusion4dAllowance>(Occlusion4dAllowance.COMPLETE,Occlusion4dAllowance.values());
-	public final IntModel<Orientation3d> orientation3d = 
-	new IntModel<Orientation3d>(Orientation3d.LEFTHANDED,Orientation3d.values());
-	public final IntModel<Orientation4d> orientation4d =
-	new IntModel<Orientation4d>(Orientation4d.RIGHTHANDED,Orientation4d.values());
 	public final BoolModel showGoal = new BoolModel(false,"Goal");
 	public final BoolModel showInternalFaces =	new BoolModel(
 	false, "Show internal faces");
@@ -196,11 +273,8 @@ public class Settings {
 	//public IntStringModel viewRotYAxis2 = new IntStringModel(3,axisNames);
 	
 	public final IntStringModel viewTransRot = new IntStringModel(1, new String[] { "trans", "rot"});
-	public final IntModel<ViewType> viewType = new IntModel<ViewType>(
-			ViewType.ANAGLYPH,
-			ViewType.values()
-	);
 	public final static DoubleModel zoom = new DoubleModel(1,0.2);
+
 	public final IntModel<DSignedAxis> perspectiveAxis = new IntModel<DSignedAxis>(
 			0,
 			new String[] {
@@ -225,8 +299,7 @@ public class Settings {
 			}
 	);
 	public final IntModel<Objectives> objectives = new IntModel<Objectives>(Objectives.values());
-	public final IntModel<Camera4d> perspective = new Settings.PerspectiveEnum();
-	public final IntModel<Settings.GameStatus> gameStatus = new IntModel<Settings.GameStatus>(Settings.GameStatus.PENDING, Settings.GameStatus.values());
+	public final IntModel<Camera4d> perspective = new PerspectiveEnum();
 	public static final BoolModel soundOn = new BoolModel(true,"Sound on");
 
 	public void screenDefaults(Container window) {

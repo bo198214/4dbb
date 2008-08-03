@@ -40,11 +40,11 @@ public class Scene4d extends Model implements MyChangeListener {
 		new AChangeListener() {
 			public void stateChanged() {
 				Camera4d prev = camera4d;
-				camera4d = ss.perspective.getSelectedObject();
+				camera4d = ss.perspective.sel();
 				if (camera4d==prev) return;
 				assert camera4d.changeListeners.isEmpty() : camera4d + ":" + camera4d.changeListeners;
 				//following lines do not cause propagation of changes
-				camera4d.setOrientation(ss.orientation4d.getSelectedObject().value);
+				camera4d.setOrientation(ss.orientation4d.sel().value);
 				camera4d.setZoom(ss.zoom.getDouble());
 				if (prev!=null) { 
 					//move ChangeListeners to new camera4d
@@ -68,13 +68,13 @@ public class Scene4d extends Model implements MyChangeListener {
 		
 		new AChangeListener() {
 			public void stateChanged() {
-				camera4d.setOrientation(ss.orientation4d.getSelectedObject().value);
+				camera4d.setOrientation(ss.orientation4d.sel().value);
 			}}.addTo(ss.orientation4d);
 			
 		new AChangeListener() {
 			public void stateChanged() {
 				camera3d.setOrientation(
-						ss.orientation3d.getSelectedObject().value());
+						ss.orientation3d.sel().value());
 				changed();
 			}}.addTo(ss.orientation3d);
 			
@@ -91,7 +91,7 @@ public class Scene4d extends Model implements MyChangeListener {
 		new AChangeListener() {
 			@Override
 			public void stateChanged() {
-				occlusion4dAllowance = ss.occlusion4dAllowance.getSelectedObject();
+				occlusion4dAllowance = ss.occlusion4dAllowance.sel();
 				occlusion4dAllowanceInt = ss.occlusion4dAllowance.getInt();
 				changed();
 			}			

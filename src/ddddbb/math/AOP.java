@@ -17,6 +17,25 @@ public class AOP {
 		new Point3d(0,1,0),
 		new Point3d(0,0,1)
 	};
+	
+	/* Computes the angle (given in degree) in the range 0<= .. <360.
+	 *  Not fast.
+	 */
+	public static double angle0360(double ph) {
+		if (ph<0) { return angle0360(ph+360); }
+		if (ph>=360) { return angle0360(ph-360); }
+		return ph;
+	}
+	/* Computes the angle (given in rad) into the range 0<= .. < 2*pi.
+	 * Not fast.
+	 */
+	public static double angle02pi(double ph) {
+		double pi2 = Math.PI*2;
+		if (ph<0) { return angle02pi(ph+pi2); }
+		if (ph>=pi2) { return angle02pi(ph-pi2); }
+		return ph;
+	}
+	
 	public static Point4d X(Point4d a,Point4d b,Point4d c) {
 		return new Point4d(
 				a.x[1]*b.x[2] *c.x[3]+b.x[1]*c.x[2] *a.x[3]+c.x[1]*a.x[2] *b.x[3]-

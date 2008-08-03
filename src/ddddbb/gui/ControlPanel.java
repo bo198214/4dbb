@@ -3,10 +3,12 @@ package ddddbb.gui;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import ddddbb.game.Level;
 import ddddbb.game.Settings;
 import ddddbb.gui3d.DPanel;
+import ddddbb.gui3d.DRadioButton;
 
 
 @SuppressWarnings("serial")
@@ -38,7 +40,12 @@ public class ControlPanel extends DPanel {
 				mouseLabel.setText("Mouse");
 			}
 			mouseSelector.add(mouseLabel);
-			ss.dim34.addAsRadioButtons(mouseSelector);
+			//ss.dim34.addAsRadioButtons(mouseSelector);
+			JRadioButton radio0 = new JRadioButton();
+			mouseSelector.add(radio0);
+			ss.dim34.addButton(0, radio0);
+			DRadioButton radio1 = new DRadioButton();
+			ss.dim34.addButton(1,radio1);
 		}
 		{
 			mouseNCam3d = new DPanel();

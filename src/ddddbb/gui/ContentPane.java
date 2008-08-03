@@ -38,7 +38,7 @@ public class ContentPane extends JPanel {
 		showedScreen.addAsCards(this,mainPanelCardLayout);
 		new AChangeListener() {
 			public void stateChanged() {
-				if (showedScreen.getSelectedObject() == showedScreen.MAIN) {
+				if (showedScreen.sel() == showedScreen.MAIN) {
 					showedScreen.MAIN.setInputVerifier(new InputVerifier() {
 						@Override
 						public boolean verify(JComponent input) {
@@ -52,7 +52,7 @@ public class ContentPane extends JPanel {
 					showedScreen.MAIN.setInputVerifier(null);
 //					ShowedScreen.MAIN.panel().removeFocusListener(mainFocusListener);
 				}
-				showedScreen.getSelectedObject().requestFocusInWindow();
+				showedScreen.sel().requestFocusInWindow();
 			}
 		}.addTo(showedScreen);
 	}	

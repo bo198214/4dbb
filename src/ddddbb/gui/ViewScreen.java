@@ -76,7 +76,7 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		new AChangeListener() {
 			public void stateChanged() {
 				if (g3==null) { return; }
-				g3 = ss.viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
+				g3 = ss.viewType.sel().getD3Graphics(g2,scene.camera3d);
 				g4.setGraphics(g3);
 				repaint();
 			}}.addTo(ss.viewType);
@@ -123,7 +123,7 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 			g.translate(x0,y0);
 			if ( g2 == null ) {
 				g2 = new D2Graphics(g,ss.xdpcm.getDouble(),ss.ydpcm.getDouble());
-				g3 = ss.viewType.getSelectedObject().getD3Graphics(g2,scene.camera3d);
+				g3 = ss.viewType.sel().getD3Graphics(g2,scene.camera3d);
 				g4 = new D4Graphics(g3,ss.perspective);
 			}
 			else {

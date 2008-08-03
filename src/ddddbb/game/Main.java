@@ -65,8 +65,8 @@ public final class Main {
 		goalScene = scene.cloneCamRefs(ss);
 		new AChangeListener() {
 			public void stateChanged() {
-				scene.changeObjective(ss.objectives.getSelectedObject());
-				goalScene.setCompounds(new int[][][] {ss.objectives.getSelectedObject().goal});				
+				scene.changeObjective(ss.objectives.sel());
+				goalScene.setCompounds(new int[][][] {ss.objectives.sel().goal});				
 			}}.addTo(ss.objectives);
 
 		
@@ -77,7 +77,7 @@ public final class Main {
 		new AChangeListener() {
 			public void stateChanged() {
 				
-				if (ss.gameStatus.getSelectedObject() == Settings.GameStatus.REACHED) {
+				if (ss.gameStatus.sel() == Settings.GameStatus.REACHED) {
 					viewScreen.repaint(); //why does this not work?
 					SoundEnum.GOALREACHED.play();
 					if (ss.objectives.getInt() < ss.objectives.getSize()-1) { //before last level
@@ -89,7 +89,7 @@ public final class Main {
 					}
 					
 				}
-				if (ss.gameStatus.getSelectedObject() == Settings.GameStatus.MISSED) {
+				if (ss.gameStatus.sel() == Settings.GameStatus.MISSED) {
 					SoundEnum.GOALMISSED.play();
 					ss.objectives.setInt(ss.objectives.getInt());
 				}

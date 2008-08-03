@@ -5,12 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 
 import ddddbb.game.Settings;
 
@@ -22,12 +19,11 @@ public class DButton extends JButton {
 	public DButton(String _text) {
 		text = _text;
 		font = new Font(Font.DIALOG,Font.PLAIN,12);
-		System.out.println(getSize());
 		setPreferredSize(new Dimension(50,16));
 	}
 	public void paint(Graphics gc) {
 		Dimension d = getSize();
-		System.out.println(d.width + "x" + d.height);
+		//System.out.println(d.width + "x" + d.height);
 		//System.out.println(d.width + "," + d.height);
 		int w  = d.width - 1;
 		int h  = d.height - 1;
@@ -40,10 +36,10 @@ public class DButton extends JButton {
 		gc.setFont(font);
 		FontMetrics fm = gc.getFontMetrics();
 		Rectangle2D sb = fm.getStringBounds(text, gc);
-		System.out.println(d.height);
-		System.out.println(sb.getHeight());
+		//System.out.println(d.height);
+		//System.out.println(sb.getHeight());
 		double x = (d.width - sb.getWidth())/2;
-		double y = (d.height+ sb.getHeight())/2 ;
-		gc.drawString(text, (int)Math.round(x)+1, (int)Math.round(y)-1);
+		double y = (d.height+ sb.getHeight())/2 - fm.getDescent();
+		gc.drawString(text, (int)Math.round(x), (int)Math.round(y));
 	}
 }

@@ -1,33 +1,15 @@
 package ddddbb.gui3d;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JLabel;
 
 import ddddbb.game.Settings;
 
 @SuppressWarnings("serial")
-public class DLabel extends JLabel {
-
-	public DLabel() {
-		setHorizontalAlignment(CENTER);
-		float brightness = (float)Settings.brightness.getDouble();
-		setForeground(new Color(brightness,brightness,brightness));
-	}
-	public DLabel(int width, int height) {
-		setPreferredSize(new Dimension(width,height));
-		setHorizontalAlignment(CENTER);
-		
-		float brightness = (float)Settings.brightness.getDouble();
-		setForeground(new Color(brightness,brightness,brightness));
-	}
-	
-	
-	public DLabel(int width, int height, String label) {
-		setPreferredSize(new Dimension(width,height));
-		setText(label);
-		setHorizontalAlignment(CENTER);
+public class DDisplay extends JLabel {
+	public DDisplay(int width, int height) {
+		//setPreferredSize(new Dimension(width,height));
 		
 		float brightness = (float)Settings.brightness.getDouble();
 		setForeground(new Color(brightness,brightness,brightness));
@@ -48,5 +30,4 @@ public class DLabel extends JLabel {
 //		gc.drawLine(w, 0, w, 4);
 //		gc.drawLine(w, 0, w-4, 0);
 //	}
-
 }

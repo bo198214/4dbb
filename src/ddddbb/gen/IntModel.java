@@ -31,7 +31,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 //		defaultValue = value;
 //	}
 	
-	private static int obj2int(Object obj,Object[] objs) {
+	protected static int obj2int(Object obj,Object[] objs) {
 		int i=0;
 		for (;i<objs.length;i++) {
 			if ( obj == objs[i] ) { break; }
@@ -43,6 +43,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	protected void init(int _value,String[] _names,T[] _items) {
 		assert 0 <= _value && _value < _items.length;
 		assert _names == null || _names.length == _items.length;
+		defaultValue = _value;
 		value = _value;
 //		items = arr2Vec(_items);
 		for (int i=0;i<_items.length;i++) {
@@ -153,23 +154,22 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		
 	};
 
-	private class MyActionListener implements ActionListener {
-		private int i;
-		public MyActionListener(int _i) {
-			i=_i;
-		}
-		public void actionPerformed(ActionEvent e) {
-			setInt(i);
-		}		
-	}
-	
-	public void addButton(int index,AbstractButton b) {
+	public void addButton(final int index,AbstractButton b) {
 		buttons.get(index).add(b);
 		if (b.getText() == null | b.getText().length() == 0) {
 			b.setText(names.elementAt(index));
 		}
-		b.addActionListener(new MyActionListener(index));
-		updateButtonStates();
+		if (index==value) b.setSelected(true);
+		else b.setSelected(false);
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setInt(index);
+			}
+		});
+	}
+	
+	public void addButton(final T item,AbstractButton b) {
+		addButton(items.indexOf(item),b);
 	}
 	
 	public void setSelectedItem(Object anItem) {
@@ -181,7 +181,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		setInt(getNames().indexOf(name));
 	}
 	
-	public void setSelectedObject(T anObject) {
+	public void setSel(T anObject) {
 		setInt(getObjects().indexOf(anObject));
 	}
 	
@@ -207,7 +207,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		return names.get(i);
 	}
 	
-	public T getSelectedObject() {
+	public T sel() {
 		if (value == -1) { return null; }
 		return items.get(value);
 	}

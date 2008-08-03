@@ -31,24 +31,24 @@ public class Level extends Scene4d {
 
 	private void propagateGameStatus() {
 		if (goal == null) { 
-			gameStatus.setSelectedObject(Settings.GameStatus.NONE);
+			gameStatus.setSel(Settings.GameStatus.NONE);
 			return;
 		}
 		if (compounds.size() == 1) {
 			if (DOp.motionEqual(goal.cubes,compounds.getSelectedItem().cubes)) {
-				gameStatus.setSelectedObject(Settings.GameStatus.REACHED);
+				gameStatus.setSel(Settings.GameStatus.REACHED);
 			} 
 			else {
-				gameStatus.setSelectedObject(Settings.GameStatus.MISSED);
+				gameStatus.setSel(Settings.GameStatus.MISSED);
 			}
 			return;
 		}
 		if (!DOp.motionContained(compounds.getSelectedItem().cubes,goal.cubes)) {
-			gameStatus.setSelectedObject(Settings.GameStatus.MISSED);
+			gameStatus.setSel(Settings.GameStatus.MISSED);
 			return;
 		}
-		if (gameStatus.getSelectedObject() != Settings.GameStatus.PENDING ) {
-			gameStatus.setSelectedObject(Settings.GameStatus.PENDING);
+		if (gameStatus.sel() != Settings.GameStatus.PENDING ) {
+			gameStatus.setSel(Settings.GameStatus.PENDING);
 		}
 	}
 	

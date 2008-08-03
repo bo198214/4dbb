@@ -29,7 +29,7 @@ public class ViewPane extends JPanel {
 		objectiveLabel = new JLabel();
 		new AChangeListener() {
 			public void stateChanged() {
-				objectiveLabel.setText(ss.objectives.getSelectedObject().toString());
+				objectiveLabel.setText(ss.objectives.sel().toString());
 			}}.addTo(ss.objectives);
 		this.setSize(1002, 655);
 		setLayout(new BorderLayout());

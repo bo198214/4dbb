@@ -86,7 +86,7 @@ public class TestScreenCanvas extends JPanel implements MyChangeListener {
 		g.translate(width/2,height/2);
 		ocomposite = g.getComposite();
 		g2 = new D2Graphics(g,xdpcm.getDouble(),ydpcm.getDouble());
-		g3 = viewType.getSelectedObject().getD3Graphics(g2, new Camera3d(screenEyeDist,eyesDistHalf,barEyeFocusDelta));
+		g3 = viewType.sel().getD3Graphics(g2, new Camera3d(screenEyeDist,eyesDistHalf,barEyeFocusDelta));
 	}
 	
 	private void drawTestCube(double x0,double y0) {

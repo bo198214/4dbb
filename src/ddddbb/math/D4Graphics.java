@@ -14,7 +14,7 @@ public class D4Graphics {
 		g3 = _g;
 		new AChangeListener() {
 			public void stateChanged() {
-				c4 = perspective.getSelectedObject();
+				c4 = perspective.sel();
 			}}.addTo(perspective);
 	}
 	
