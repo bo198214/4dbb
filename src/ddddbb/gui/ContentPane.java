@@ -18,7 +18,7 @@ public class ContentPane extends JPanel {
 	//TODO remove debugging code
 	protected final FocusListener mainFocusListener; 
 
-	private CardLayout mainPanelCardLayout = null;
+	private final CardLayout mainPanelCardLayout;
 	/**
 	 * This is the default constructor
 	 */
@@ -32,6 +32,7 @@ public class ContentPane extends JPanel {
 				showedScreen.MAIN.requestFocusInWindow();
 			}
 		};
+		showedScreen.MAIN.requestFocusInWindow();
 		//this.setSize(300, 200);
 		mainPanelCardLayout = new CardLayout(); 
 		setLayout(mainPanelCardLayout);
@@ -46,11 +47,11 @@ public class ContentPane extends JPanel {
 							return false;
 						}
 					});
-//					ShowedScreen.MAIN.panel().addFocusListener(mainFocusListener);
+//					showedScreen.MAIN.addFocusListener(mainFocusListener);
 				}
 				else {
 					showedScreen.MAIN.setInputVerifier(null);
-//					ShowedScreen.MAIN.panel().removeFocusListener(mainFocusListener);
+//					showedScreen.MAIN.removeFocusListener(mainFocusListener);
 				}
 				showedScreen.sel().requestFocusInWindow();
 			}

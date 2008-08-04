@@ -116,7 +116,7 @@ public class Cam3dControlPanel extends DPanel {
 		String selToolTip = "<html><body>" +
 				"There are always 2 items from xy, xz and yz selected.<br/>" +
 				"The first one indicates the 3d camera rotation by the mouse moving left-right.<br/>" +
-				"The secon indicates the 3d rotation by the mouse moving up-down." +
+				"The second indicates the 3d rotation by the mouse moving down-up." +
 				"</body></html>";
 		{
 			DSelection xySel = new DSelection(20,16,Settings.DiAxis3d.XY+"");
@@ -240,13 +240,13 @@ public class Cam3dControlPanel extends DPanel {
 				DRadioButton d3 = new DRadioButton("3d");
 				misc.add(d3,gbc(0,0));
 				ss.dim34.addButton(0, d3);
-				d3.setToolTipText("Drawing the mouse rotates 3d camera.");
+				d3.setToolTipText("Dragging the mouse & CTRL cursor keys rotates 3d camera.");
 			}
 			{
 				DRadioButton d4 = new DRadioButton("4d");
 				misc.add(d4,gbc(0,1));
 				ss.dim34.addButton(1, d4);
-				d4.setToolTipText("Drawing the mouse rotates 4d camera.");
+				d4.setToolTipText("Dragging the mouse & CTRL cursor keys rotates 4d camera.");
 			}
 			{
 				DRadioButton cam = new DRadioButton("cam");

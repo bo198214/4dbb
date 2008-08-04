@@ -16,6 +16,7 @@ public class Application extends JFrame {
 		setContentPane(main.contentPane);
 		setTitle(Main.title);
 		pack();
+		main.afterPackHook();
 	}
 
 	/**

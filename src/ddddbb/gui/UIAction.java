@@ -45,8 +45,7 @@ public class UIAction {
 	}
 
 	/**
-	 * Camera is rotated opposite to the given direction. 
-	 * So that the system seems to rotate in the given direction.
+	 * Camera is rotated to the given direction. 
 	 */
 	public ActionListener rotCam(final int a1, final int a2) {
 		assert a1!=0 && a2!=0;

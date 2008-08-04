@@ -9,11 +9,17 @@ import ddddbb.comb.Cell;
 import ddddbb.comb.CellComplex;
 import ddddbb.comb.DCell;
 import ddddbb.comb.DOp;
+import ddddbb.game.Settings.Axis3d;
+import ddddbb.game.Settings.Axis4d;
+import ddddbb.game.Settings.DiAxis3d;
+import ddddbb.game.Settings.DiAxis4d;
 import ddddbb.gen.AChangeListener;
 import ddddbb.gen.BoolModel;
+import ddddbb.gen.DiIntModel;
 import ddddbb.gen.Model;
 import ddddbb.gen.MyChangeListener;
 import ddddbb.gen.SelectedListModel;
+import ddddbb.math.AOP;
 import ddddbb.math.Camera3d;
 import ddddbb.math.Camera4d;
 import ddddbb.math.D3Graphics;
@@ -34,8 +40,10 @@ public class Scene4d extends Model implements MyChangeListener {
 	private int occlusion4dAllowanceInt;
 
 	public final BoolModel viewAbsRel = new BoolModel(true,"Cam coords");;
+	private final Settings ss;
 	
 	public Scene4d(	final Settings ss) {
+		this.ss = ss;
 		camera3d = new Camera3d(ss.screenEyeDist,ss.eyesDistHalf,ss.barEyeFocusDelta);
 		new AChangeListener() {
 			public void stateChanged() {
@@ -107,12 +115,13 @@ public class Scene4d extends Model implements MyChangeListener {
 			}}.addTo(ss.showInternalFaces);		
 	}
 	
-	private Scene4d(Camera3d c3d) {
+	private Scene4d(Camera3d c3d,Settings ss) {
 		camera3d = c3d;
+		this.ss = ss;
 	}
 		
-	public Scene4d cloneCamRefs(final Settings ss) {
-		Scene4d res = new Scene4d(camera3d);
+	public Scene4d cloneCamRefs() {
+		Scene4d res = new Scene4d(camera3d,ss);
 		res.camera4d = camera4d;
 		res.showInternalFaces = showInternalFaces;
 		res.occlusion4dAllowance = occlusion4dAllowance;
@@ -223,6 +232,10 @@ public class Scene4d extends Model implements MyChangeListener {
 //		compounds.addChangeListener(l);
 //		camera3d.addChangeListener(l);
 //	}
+
+	private Point4d selectedCenter4d() {
+		return (Point4d)compounds.sel().center(); 
+	}
 	
 	public void rotCam3d(double ph, int a1, int a2) {
 		Point3d p3 = new Point3d();
@@ -234,10 +247,11 @@ public class Scene4d extends Model implements MyChangeListener {
 		camera4d.rot(ph, a1, a2, selectedCenter4d(), viewAbsRel.isSelected());
 	}
 
+	
 	public ActionListener rotCam3dAction(final int a1, final int a2) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rotCam3d(0.1,a1,a2);
+				rotCam3d(AOP.deg,a1,a2);
 			}
 		};
 	}
@@ -245,18 +259,63 @@ public class Scene4d extends Model implements MyChangeListener {
 	public ActionListener rotCam4dAction(final int a1, final int a2) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rotCam4d(0.1,a1,a2);
+				rotCam4d(AOP.deg,a1,a2);
 			}
 		};
 	}
 	
-	private Point4d selectedCenter4d() {
-		return (Point4d)compounds.sel().center(); 
-	}
 	public ActionListener transCam3dAction(final int axis) {
 		return camera3d.transAction(axis, viewAbsRel);
 	}
 	public ActionListener transCam4dAction(final int axis) {
 		return camera4d.transAction(axis, viewAbsRel);
+	}
+
+	public void rotCamByHoriz(double ph) {
+		int dim =ss.dim34.selInt()+3;
+		if (dim==3) {
+			DiAxis3d da = ss.mouseRotDiAxes3d.sel1();
+			rotCam3d(ph, da.axis1, da.axis2);
+		}
+		if (dim==4) {
+			DiAxis4d da = ss.mouseRotDiAxes4d.sel1();
+			rotCam4d(ph, da.axis1, da.axis2);
+		}
+	}
+	
+	public void rotCamByVertic(double ph) {
+		int dim =ss.dim34.selInt()+3; 
+		if (dim==3) {
+			DiAxis3d da = ss.mouseRotDiAxes3d.sel2();
+			rotCam3d(ph,da.axis1,da.axis2);
+		}
+		if (dim==4) {
+			DiAxis4d da = ss.mouseRotDiAxes4d.sel2();
+			rotCam4d(ph,da.axis1,da.axis2);
+		}
+	}
+	
+	public void transCamByHoriz(double d) {
+		int dim =ss.dim34.selInt()+3; 
+		if (dim==3) {
+			Axis3d a = ss.mouseTransAxes3d.sel1();
+			camera3d.trans(a.axis,d,viewAbsRel.isSelected());
+		}
+		if (dim==4) {
+			Axis4d a = ss.mouseTransAxes4d.sel1();
+			camera4d.trans(a.axis,d,viewAbsRel.isSelected());
+		}
+	}
+	
+	public void transCamByVertic(double d) {
+		int dim =ss.dim34.selInt()+3; 
+		if (dim==3) {
+			Axis3d a = ss.mouseTransAxes3d.sel2();
+			camera3d.trans(a.axis,d,viewAbsRel.isSelected());
+		}
+		if (dim==4) {
+			Axis4d a = ss.mouseTransAxes4d.sel2();
+			camera4d.trans(a.axis,d,viewAbsRel.isSelected());
+		}		
 	}
 }

@@ -94,14 +94,14 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 			
 		});
 		
-		addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-				System.out.println("ViewScreen gained focus");
-			}
-
-			public void focusLost(FocusEvent e) {
-				System.out.println("ViewScreen lost focus");
-			}});
+//		addFocusListener(new FocusListener() {
+//			public void focusGained(FocusEvent e) {
+//				System.out.println("ViewScreen gained focus");
+//			}
+//
+//			public void focusLost(FocusEvent e) {
+//				System.out.println("ViewScreen lost focus");
+//			}});
 	}
 	
 	public synchronized void updateGraphics() {

@@ -62,7 +62,7 @@ public final class Main {
 	public Main(Container _window) {
 		window = _window;
 		scene = new Level(ss);
-		goalScene = scene.cloneCamRefs(ss);
+		goalScene = scene.cloneCamRefs();
 		new AChangeListener() {
 			public void stateChanged() {
 				scene.changeObjective(ss.objectives.sel());
@@ -114,5 +114,9 @@ public final class Main {
 //		setSize(Main.opt.applicationWidth, Main.opt.applicationHeight);
 		window.setPreferredSize(new Dimension(applicationWidth, applicationHeight));
 		
+	}
+	
+	public void afterPackHook() {
+		showedScreen.MAIN.requestFocusInWindow();
 	}
 }

@@ -17,7 +17,7 @@ public class ViewPane extends JPanel {
 	public final ViewScreen viewScreen;
 
 	private final JPanel controlPanel;
-	protected final JLabel objectiveLabel;
+//	private final JLabel objectiveLabel;
 
 	public static DecimalFormat nf = new DecimalFormat("###");
 	public static DecimalFormat fnf = new DecimalFormat("#.#");
@@ -26,12 +26,12 @@ public class ViewPane extends JPanel {
 			final Settings ss, final Level scene, final Scene4d goalScene) {
 		viewScreen = new ViewScreen(ss,scene,goalScene);
 		controlPanel = new ControlPanel(ss,scene);
-		objectiveLabel = new JLabel();
-		new AChangeListener() {
-			public void stateChanged() {
-				objectiveLabel.setText(ss.objectives.sel().toString());
-			}}.addTo(ss.objectives);
-		this.setSize(1002, 655);
+//		objectiveLabel = new JLabel();
+//		new AChangeListener() {
+//			public void stateChanged() {
+//				objectiveLabel.setText(ss.objectives.sel().toString());
+//			}}.addTo(ss.objectives);
+//		this.setSize(1002, 655);
 		setLayout(new BorderLayout());
 		//add(getViewPanel(), BorderLayout.CENTER);
 		this.add(viewScreen, java.awt.BorderLayout.CENTER);

@@ -16,5 +16,6 @@ public class Applet extends JApplet {
 		setJMenuBar(new TheMenuBar(main));
 		setContentPane(main.contentPane);
 		invalidate();
+		main.afterPackHook();
 	}
 }  //  @jve:decl-index=0:visual-constraint="4,5"

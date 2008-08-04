@@ -202,7 +202,7 @@ public class Cam4dControlPanel extends DPanel {
 			"<html><body>" +
 			"There are always 2 items of xy,xz,xw,yz,yw and zw underlined.<br/>" +
 			"The first one indicates the 4d rotation performed by the mouse moving left-right.<br/>" +
-			"The second underlined item indicates the rotation by the mouse moving up-down.<br/>" +
+			"The second underlined item indicates the rotation by the mouse moving down-up.<br/>" +
 			"Find out yourself how to operate double selection." +
 			"</body></html>";
 		{
