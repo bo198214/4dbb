@@ -7,11 +7,12 @@ import ddddbb.comb.DLocation;
 import ddddbb.comb.DCell;
 import ddddbb.comb.DOp;
 import ddddbb.comb.DSignedAxis;
+import ddddbb.math.Point;
 
 public class Compound {
 	//read-only
 	public int[][] cubes; //origin of cubes
-	public DCenter center; //can be on halfGrid center[i]=2*origin[i]+1
+	private DCenter center; //can be on halfGrid center[i]=2*origin[i]+1
 	private DCell.Cube[] topLevelFacets;
 	@SuppressWarnings("unchecked")
 	private Vector<DLocation>[] allFaces = new Vector[] {
@@ -105,5 +106,15 @@ public class Compound {
 	
 	public Vector<DLocation>[] getAllFaces() {
 		return allFaces;
+	}
+	
+	public Point center() {
+//		Point res = Point.create(cubes[0]);
+//		for (int i=1;i<cubes.length;i++) {
+//			res.add(new DCenter(cubes[i]).loc());
+//		}
+//		res.multiply(1.0/cubes.length);
+//		return res;
+		return center.loc();
 	}
 }

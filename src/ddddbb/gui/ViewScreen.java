@@ -25,6 +25,7 @@ import ddddbb.gen.MyChangeListener;
 import ddddbb.math.D2Graphics;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.D4Graphics;
+import ddddbb.math.Point4d;
 
 @SuppressWarnings("serial")
 public class ViewScreen extends JPanel implements MyChangeListener, ItemListener {
@@ -166,7 +167,15 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		else {
 			scene.paint(g3);
 		}
-		g4.drawBlob(scene.compounds.sel().center);
+		for (int i=0;i<scene.compounds.size();i++) {
+			Point4d p = (Point4d)scene.compounds.get(i).center();
+			if (i==scene.compounds.selInt()) {
+				g4.drawMark(p,0.1);				
+			}
+			else {
+				g4.drawString(i+1+"", p);				
+			}
+		}
 
 		((Graphics2D)g0).drawImage(buffImg, null, 0, 0);
 		super.paintChildren(g0);

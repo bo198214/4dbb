@@ -251,7 +251,7 @@ public class Scene4d extends Model implements MyChangeListener {
 	}
 	
 	private Point4d selectedCenter4d() {
-		return (Point4d)compounds.sel().center.loc(); 
+		return (Point4d)compounds.sel().center(); 
 	}
 	public ActionListener transCam3dAction(final int axis) {
 		return camera3d.transAction(axis, viewAbsRel);

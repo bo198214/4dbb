@@ -3,6 +3,8 @@ package ddddbb.gui3d;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -52,36 +54,36 @@ public class DArrowButton extends BasicArrowButton {
 			public void mouseReleased(MouseEvent e) {}
 			
 		});
+		setPreferredSize(new Dimension(16,16));
 	}
 	
-	public void updateSize() {
-//		w = (int)(wd/Opt.xdpcm.getDouble());
-//		h = (int)(hd/Opt.ydpcm.getDouble());		
-	}
-	
-//	public Dimension getPreferredSize() {
-////		updateSize();
-////		return new Dimension(w,h);
-//	}
-
 	public static final int[] xWest = new int[] {8+2,4+2,8+2};
 	public static final int[] yWest = new int[] {4,8,12};
 	public static final int[] xEast = new int[] {8-2,12-2,8-2};
 	public static final int[] yEast = new int[] {4,8,12};
 	
-	public void paint(Graphics gc) {
-		Dimension d = getSize();
-		//System.out.println(d.width + "," + d.height + " inside:" + mouseInside);
-		gc.fillRect(0, 0, d.width, d.height);
-		d.width -= 1;
-		d.height -= 1;
+	public void paint(Graphics g) {
+		Graphics2D gc = (Graphics2D) g;
+		gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		gc.setRenderingHint( RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
+
 		gc.setColor(getBackground());
-		gc.fillRect(0, 0, d.width, d.height);
+		gc.fillRect(0, 0, getWidth(), getHeight());
+
+		w = getWidth() - 1;
+		h = getHeight() - 1;
+
 		gc.setColor(new Color(brightness,brightness,brightness));
-		gc.drawLine(0, 0, 0, d.height);
-		gc.drawLine(0, d.height, d.width, d.height);
-		gc.drawLine(d.width, d.height, d.width, 0);
-		gc.drawLine(d.width, 0, 0, 0);
+		if (mouseInside) {
+			gc.drawOval(0, 0, w, h);
+		}
+		else {
+			gc.drawRect(0, 0, w, h);
+		}
+		
+		
 		switch (direction) {
 		case SwingConstants.WEST:
 			if(mouseInside) {

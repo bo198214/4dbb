@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.color.ColorSpace;
 
-import javax.swing.AbstractButton;
 import javax.swing.JToggleButton;
 
 import ddddbb.game.Settings;
@@ -15,14 +13,17 @@ import ddddbb.game.Settings;
 @SuppressWarnings("serial")
 public class DRadioButton extends JToggleButton {
 
-	public DRadioButton() {
-		setPreferredSize(new Dimension(16,16));
-		setSize(new Dimension(16,16));
+	public DRadioButton(String text) {
+		setText(text);
+		setFont(Settings.font);
+		setPreferredSize(new Dimension(16+8*text.length()+2,16));
 	}
 	public void paint(Graphics g) {
 		Graphics2D gc = (Graphics2D) g;
 		gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
+		gc.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		gc.setRenderingHint( RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
 		Dimension d = getSize();
@@ -37,5 +38,6 @@ public class DRadioButton extends JToggleButton {
 		if (isSelected()) {
 			gc.fillArc(5, 5, 5, 5, 0, 360);
 		}
+		gc.drawString(getText(), 16+1, 12);
 	}
 }

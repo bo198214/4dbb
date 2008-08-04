@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 
 
 public class D2Graphics implements D2GraphicsIF {
@@ -83,11 +82,11 @@ public class D2Graphics implements D2GraphicsIF {
 		g.drawLine(ai.x1,ai.x2,bi.x1,bi.x2);
 	}
 	
-	private static int blobRadius = 4;
+	private static int blobRadius = 3;
 	public void drawBlob(Point2d a) {
 		D2Tupel ai = new D2Tupel();
 		proj(a,ai);
-		g.drawOval(ai.x1,ai.x2,blobRadius,blobRadius);
+		g.fillOval(ai.x1-blobRadius,ai.x2-blobRadius,2*blobRadius,2*blobRadius);
 	}
 	
 	public void drawLine(double ax,double ay,double bx,double by) {

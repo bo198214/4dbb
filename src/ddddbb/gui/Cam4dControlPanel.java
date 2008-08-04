@@ -76,7 +76,6 @@ public class Cam4dControlPanel extends DPanel {
 		{
 			DSelection xLabel = new DSelection(14,16,"x");
 			this.add(xLabel, gbc(0,0));
-			//xLabel.setText("x");
 		}
 		{
 			DSelection yLabel = new DSelection(14,16);
@@ -120,18 +119,22 @@ public class Cam4dControlPanel extends DPanel {
 		{
 			xPos = new DDisplay(3,true);
 			this.add(xPos, gbc(2,0));
+			xPos.setToolTipText("X-position of the 4d camera.");
 		}
 		{
 			yPos = new DDisplay(3,true);
 			this.add(yPos, gbc(2,1));
+			yPos.setToolTipText("Y-position of the 4d camera.");
 		}
 		{
 			zPos = new DDisplay(3,true);
 			this.add(zPos, gbc(2,2));
+			zPos.setToolTipText("Z-position of the 4d camera.");
 		}
 		{
 			wPos = new DDisplay(3,true);
 			this.add(wPos, gbc(2,3));
+			wPos.setToolTipText("W-position of the 4d camera.");
 		}
 		{
 			JButton xRight;
@@ -170,13 +173,14 @@ public class Cam4dControlPanel extends DPanel {
 					//Settings.zoom.setToDefault();
 				}
 			});
+			reset.setToolTipText("Reset camera location and position (zoom remains).");
 		}
 		{
 			JLabel zoomLabel;
 			zoomLabel = new DLabel();
 			this.add(zoomLabel, gbc(0,5));
 			zoomLabel.setText("zm");
-			zoomLabel.setToolTipText("zoom");
+			zoomLabel.setToolTipText("4d zoom.");
 		}
 		{
 			JButton zoomLeft;
@@ -194,47 +198,71 @@ public class Cam4dControlPanel extends DPanel {
 			this.add(zoomRight, gbc(3,5));
 			zoomRight.addActionListener(ss.zoom.increaseAction);
 		}
+		String diAxisSelector = 
+			"<html><body>" +
+			"There are always 2 items of xy,xz,xw,yz,yw and zw underlined.<br/>" +
+			"The first one indicates the 4d rotation performed by the mouse moving left-right.<br/>" +
+			"The second underlined item indicates the rotation by the mouse moving up-down.<br/>" +
+			"Find out yourself how to operate double selection." +
+			"</body></html>";
 		{
 			DSelection xySel = new DSelection(30,16);
 			this.add(xySel, gbc(5,0));
 			xySel.setText("xy");
 			Settings.mouseRotDiAxes4d.addButton(0, xySel);
+			xySel.setToolTipText(diAxisSelector);
 		}
 		{
 			DSelection xzSel = new DSelection(30,16);
 			this.add(xzSel, gbc(5,1));
 			xzSel.setText("xz");
 			Settings.mouseRotDiAxes4d.addButton(1, xzSel);
+			xzSel.setToolTipText(diAxisSelector);
 		}
 		{
 			DSelection xwSel = new DSelection(30,16);
 			this.add(xwSel, gbc(5,2));
 			xwSel.setText("xw");
 			Settings.mouseRotDiAxes4d.addButton(2, xwSel);
+			xwSel.setToolTipText(diAxisSelector);
 		}
 		{
 			DSelection yzSel = new DSelection(30,16);
 			this.add(yzSel, gbc(5,3));
 			yzSel.setText("yz");
 			Settings.mouseRotDiAxes4d.addButton(3, yzSel);
+			yzSel.setToolTipText(diAxisSelector);
 		}
 		{
 			DSelection ywSel = new DSelection(30,16);
 			this.add(ywSel, gbc(5,4));
 			ywSel.setText("yw");
 			Settings.mouseRotDiAxes4d.addButton(4, ywSel);
+			ywSel.setToolTipText(diAxisSelector);
 		}
 		{
 			DSelection zwSel = new DSelection(30,16);
 			this.add(zwSel, gbc(5,5));
 			zwSel.setText("zw");
 			Settings.mouseRotDiAxes4d.addButton(5, zwSel);
+			zwSel.setToolTipText(diAxisSelector);
 		}
 
 		{
 			JButton xyLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xyLeft, gbc(6,0));
 			xyLeft.addActionListener(scene.rotCam4dAction(2, 1));
+			xyLeft.setToolTipText(
+					"<html><body>" +
+					"Rotating the y-Axis towards the x-Axis.<br/>" +
+					"Depending on sys/cam either the space axes or the camera axes are used.<br/>" +
+					"In a left handed 4d system the w-axis of the camera is your viewing direction.<br/>" +
+					"In a right handed 4d system the negative w-axis is the viewing direction.<br/>" +
+					"The camera's x-axis is projected towards your right.<br/>" +
+					"The camera's y-axis is projected upwards.<br/>" +
+					"The camera's z-axis is projected towards your front in a 3d left-handed system." +
+					"</body></html>"
+					);
 		}
 		{
 			JButton xzLeft = new DArrowButton(SwingConstants.WEST);
@@ -265,26 +293,32 @@ public class Cam4dControlPanel extends DPanel {
 		{
 			xyVal = new DDisplay(3,false);
 			this.add(xyVal, gbc(7,0));
+			xyVal.setToolTipText("The angle of the camera direction in the projection to the xy-plane.");
 		}
 		{
 			xzVal = new DDisplay(3,false);
 			this.add(xzVal, gbc(7,1));
+			xzVal.setToolTipText("The angle of the camera direction in the projection to the xz-plane.");
 		}
 		{
 			xwVal = new DDisplay(3,false);
 			this.add(xwVal, gbc(7,2));
+			xwVal.setToolTipText("The angle of the camera direction in the projection to the xw-plane.");
 		}
 		{
 			yzVal = new DDisplay(3,false);
 			this.add(yzVal, gbc(7,3));
+			yzVal.setToolTipText("The angle of the camera direction in the projection to the yz-plane.");
 		}
 		{
 			ywVal = new DDisplay(3,false);
 			this.add(ywVal, gbc(7,4));
+			ywVal.setToolTipText("The angle of the camera direction in the projection to the yw-plane.");
 		}
 		{
 			zwVal = new DDisplay(3,false);
 			this.add(zwVal, gbc(7,5));
+			zwVal.setToolTipText("The angle of the camera direction in the projection to the zw-plane.");
 		}
 
 		{

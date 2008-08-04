@@ -42,9 +42,9 @@ public class Cam3dControlPanel extends DPanel {
 	private DDisplay yzVal;
 	private DDisplay xzVal;
 	private DDisplay xyVal;
-	private DDisplay yPos;
-	private DDisplay zPos;
-	private DDisplay xPos;
+	private DDisplay yLoc;
+	private DDisplay zLoc;
+	private DDisplay xLoc;
 
 	public Cam3dControlPanel(
 			final Scene4d scene,
@@ -111,26 +111,39 @@ public class Cam3dControlPanel extends DPanel {
 			this.add(zRight, gbc(3,2));
 			zRight.addActionListener(scene.transCam3dAction(3));
 		}
+		String selToolTip = "<html><body>" +
+				"There are always 2 items from xy, xz and yz selected.<br/>" +
+				"The first one indicates the 3d camera rotation by the mouse moving left-right.<br/>" +
+				"The secon indicates the 3d rotation by the mouse moving up-down." +
+				"</body></html>";
 		{
 			DSelection xySel = new DSelection(20,16,Settings.DiAxis3d.XY+"");
 			Settings.mouseRotDiAxes3d.addButton(Settings.DiAxis3d.XY, xySel);
 			this.add(xySel, gbc(5,0));
+			xySel.setToolTipText(selToolTip);
 		}
 		{
 			DSelection xzSel = new DSelection(20,16,Settings.DiAxis3d.XZ+"");
 			Settings.mouseRotDiAxes3d.addButton(Settings.DiAxis3d.XZ, xzSel);
 			this.add(xzSel, gbc(5,1));
+			xzSel.setToolTipText(selToolTip);
 		}
 		{
 			DSelection yzSel = new DSelection(20,16,Settings.DiAxis3d.YZ+"");
 			Settings.mouseRotDiAxes3d.addButton(Settings.DiAxis3d.YZ, yzSel);
 			this.add(yzSel, gbc(5,2));
+			yzSel.setToolTipText(selToolTip);
 		}
 		{
 			JButton xyLeft;
 			xyLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xyLeft, gbc(6,0));
 			xyLeft.addActionListener(scene.rotCam3dAction(2, 1));
+			xyLeft.setToolTipText("<html><body>" +
+					"Rotates the camera y-Axis towards x-axis.<br/>" +
+					"Depending on sys/rot these are the space axes or the camera axes.<br/>" +
+					"This is a rotation around the z-Axis." +
+					"</body></html>");
 		}
 		{
 			JButton xzLeft;
@@ -178,52 +191,43 @@ public class Cam3dControlPanel extends DPanel {
 					scene.camera3d.setOrientation(ss.orientation3d.sel().value());
 					
 				}});
-			
-		}
-//		{
-//			DRadioButton xy = new DRadioButton();
-//			Settings.mouseRotDiAxes3d.addButton(Settings.DiAxis3d.XY, xy);
-//			this.add(xy,gbc(9,0));
-//		}
-//		{
-//			DRadioButton xz = new DRadioButton();
-//			Settings.mouseRotDiAxes3d.addButton(Settings.DiAxis3d.XZ, xz);
-//			this.add(xz,gbc(9,1));
-//		}
-//		{
-//			DRadioButton yz = new DRadioButton();
-//			Settings.mouseRotDiAxes3d.addButton(Settings.DiAxis3d.YZ, yz);
-//			this.add(yz,gbc(9,2));
-//		}
-		{
-			xPos = new DDisplay(4,true);
-			this.add(xPos, gbc(2,0));
-			xPos.setText("nan");
+			reset.setText("Resets the 3d camera's location and position.");
 		}
 		{
-			yPos = new DDisplay(4,true);
-			this.add(yPos, gbc(2,1));
-			yPos.setText("nan");
+			xLoc = new DDisplay(4,true);
+			this.add(xLoc, gbc(2,0));
+			xLoc.setText("nan");
+			xLoc.setToolTipText("X-location of the 3d camera.");
 		}
 		{
-			zPos = new DDisplay(4,true);
-			this.add(zPos, gbc(2,2));
-			zPos.setText("nan");
+			yLoc = new DDisplay(4,true);
+			this.add(yLoc, gbc(2,1));
+			yLoc.setText("nan");
+			yLoc.setToolTipText("Y-location of the 3d camera.");
+		}
+		{
+			zLoc = new DDisplay(4,true);
+			this.add(zLoc, gbc(2,2));
+			zLoc.setText("nan");
+			zLoc.setToolTipText("Z-location of the 3d camera.");
 		}
 		{
 			xyVal = new DDisplay(3,false);
 			this.add(xyVal, gbc(7,0));
 			xyVal.setText("nan");
+			xyVal.setToolTipText("Angle of the projection of the 3d camera viewing direction to the xy-plane");
 		}
 		{
 			xzVal = new DDisplay(3,false);
 			this.add(xzVal, gbc(7,1));
 			xzVal.setText("nan");
+			xzVal.setToolTipText("Angle of the projection of the 3d camera viewing direction to the xz-plane");
 		}
 		{
 			yzVal = new DDisplay(3,false);
 			this.add(yzVal, gbc(7,2));
 			yzVal.setText("nan");
+			yzVal.setToolTipText("Angle of the projection of the 3d camera viewing direction to the yz-plane");
 		}
 		{
 			DPanel misc = new DPanel();
@@ -231,40 +235,28 @@ public class Cam3dControlPanel extends DPanel {
 			GridBagLayout layout = new GridBagLayout();
 			misc.setLayout(layout);
 			{
-				DRadioButton d3 = new DRadioButton();
+				DRadioButton d3 = new DRadioButton("3d");
 				misc.add(d3,gbc(0,0));
 				ss.dim34.addButton(0, d3);
+				d3.setToolTipText("Drawing the mouse rotates 3d camera.");
 			}
 			{
-				DLabel d3 = new DLabel(16,16,"3d");
-				misc.add(d3,gbc(1,0));
-			}
-			{
-				DRadioButton d4 = new DRadioButton();
+				DRadioButton d4 = new DRadioButton("4d");
 				misc.add(d4,gbc(0,1));
 				ss.dim34.addButton(1, d4);
+				d4.setToolTipText("Drawing the mouse rotates 4d camera.");
 			}
 			{
-				DLabel d4 = new DLabel(16,16,"4d");
-				misc.add(d4,gbc(1,1));
-			}
-			{
-				DRadioButton cam = new DRadioButton();
-				misc.add(cam,gbc(2,0));
+				DRadioButton cam = new DRadioButton("cam");
+				misc.add(cam,gbc(1,0));
 				scene.viewAbsRel.addTrueButton(cam);
+				cam.setToolTipText("Rotating and shifting camera is with respect to camera axes.");
 			}
 			{
-				DLabel cam = new DLabel("cam");
-				misc.add(cam,gbc(3,0));
-			}
-			{
-				DRadioButton sys = new DRadioButton();
-				misc.add(sys,gbc(2,1));
+				DRadioButton sys = new DRadioButton("sys");
+				misc.add(sys,gbc(1,1));
 				scene.viewAbsRel.addFalseButton(sys);
-			}
-			{
-				DLabel sys = new DLabel("sys");
-				misc.add(sys,gbc(3,1));
+				sys.setToolTipText("Rotating and shifting camera is with respect to space axes (shown by the tetrahedral).");
 			}
 		}
 		{
@@ -274,6 +266,7 @@ public class Cam3dControlPanel extends DPanel {
 			gbc.anchor = gbc.CENTER;
 			this.add(goal,gbc);
 			ss.showGoal.addButton(goal);
+			goal.setToolTipText("Shows the goal to be achievied by combining the objects in the space." );
 		}
 		{
 			JSeparator vSeparator;
@@ -284,9 +277,9 @@ public class Cam3dControlPanel extends DPanel {
 		new AChangeListener() {
 			public void stateChanged() {
 				double[] o = scene.camera3d.eye.x;
-				xPos.setText(ViewPane.fnf.format(o[0]));
-				yPos.setText(ViewPane.fnf.format(o[1]));
-				zPos.setText(ViewPane.fnf.format(o[2]));
+				xLoc.setText(ViewPane.fnf.format(o[0]));
+				yLoc.setText(ViewPane.fnf.format(o[1]));
+				zLoc.setText(ViewPane.fnf.format(o[2]));
 				
 				Point3d v = scene.camera3d.viewingDirection();
 				Point3d x = AOP.unitVector3(0);

@@ -2,6 +2,7 @@ package ddddbb.game;
 
 import java.awt.Container;
 import java.awt.DisplayMode;
+import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.Toolkit;
@@ -30,6 +31,7 @@ import ddddbb.math.PhotoPerspective;
 
 public class Settings {
 
+	public final static Font font = new Font(Font.DIALOG,Font.PLAIN,12);
 	public final static DoubleModel	brightness = 
 		new DoubleModel(0.75,0,1);
 

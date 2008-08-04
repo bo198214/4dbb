@@ -17,18 +17,6 @@ import ddddbb.gui3d.DDisplay;
 import ddddbb.gui3d.DLabel;
 import ddddbb.gui3d.DPanel;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 @SuppressWarnings("serial")
 public class ObjectControlPanel extends DPanel {
 
@@ -47,10 +35,10 @@ public class ObjectControlPanel extends DPanel {
 	}
 
 	private DDisplay nPos;
-	private DDisplay xPos;
-	private DDisplay yPos;
-	private DDisplay zPos;
-	private DDisplay wPos;
+	private DDisplay xLoc;
+	private DDisplay yLoc;
+	private DDisplay zLoc;
+	private DDisplay wLoc;
 	private DDisplay nCount;
 
 	public ObjectControlPanel(
@@ -139,46 +127,55 @@ public class ObjectControlPanel extends DPanel {
 			wRight.addActionListener(scene.transSelectedAction(4));
 		}
 		{
-			xPos = new DDisplay(3,false);
-			this.add(xPos, gbc(2,0));
+			xLoc = new DDisplay(3,false);
+			this.add(xLoc, gbc(2,0));
+			xLoc.setToolTipText("X-location of the currently selected object.");
 		}
 		{
-			yPos = new DDisplay(3,false);
-			this.add(yPos, gbc(2,1));
+			yLoc = new DDisplay(3,false);
+			this.add(yLoc, gbc(2,1));
+			yLoc.setToolTipText("Y-location of the currently selected object.");
 		}
 		{
-			zPos = new DDisplay(3,false);
-			this.add(zPos, gbc(2,2));
+			zLoc = new DDisplay(3,false);
+			this.add(zLoc, gbc(2,2));
+			zLoc.setToolTipText("Z-location of the currently selected object.");
 		}
 		{
-			wPos = new DDisplay(3,false);
-			this.add(wPos, gbc(2,3));
+			wLoc = new DDisplay(3,false);
+			this.add(wLoc, gbc(2,3));
+			wLoc.setToolTipText("W-location of the currently selected object.");
 		}
 		{
 			JButton combine;
 			combine = new DButton(60,16,"combine");
 			this.add(combine, gbc(1, 4, 3));
 			combine.addActionListener(scene.combineAction);
+			combine.setToolTipText("Combines the currently selected object with all orthogonally touching objects.");
 		}
 		{
 			nCount = new DDisplay(1,false);
 			this.add(nCount, gbc(0,5));
+			nCount.setToolTipText("The number of objects in the space.");
 		}
 		{
 			JButton nLeft;
 			nLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(nLeft, gbc(1,5));
 			nLeft.addActionListener(scene.compounds.prevAction);
+			nLeft.setToolTipText("Cyclically select the predecessor object.");
 		}
 		{
 			nPos = new DDisplay(3,false);
 			this.add(nPos, gbc(2,5));
+			nPos.setToolTipText("The number of the currently selected object. It is marked with a solid dot.");
 		}
 		{
 			JButton nRight;
 			nRight = new DArrowButton(SwingConstants.EAST);
 			this.add(nRight, gbc(3,5));
 			nRight.addActionListener(scene.compounds.nextAction);
+			nRight.setToolTipText("Cyclically select the successor object in order.");
 		}
 //		{
 //			JToggleButton goal;
@@ -193,36 +190,42 @@ public class ObjectControlPanel extends DPanel {
 			xyLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(xyLeftRot, gbc(5,0));
 			xyLeftRot.addActionListener(scene.rotSelectedAction(2, 1));
+			xyLeftRot.setToolTipText("Rotate the currently selected object by y-Axis passing over to x-Axis.");
 		}
 		{
 			JButton xzLeftRot;
 			xzLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(xzLeftRot, gbc(5,1));
 			xzLeftRot.addActionListener(scene.rotSelectedAction(3, 1));
+			xzLeftRot.setToolTipText("Rotate the currently selected object by z-Axis passing over to x-Axis.");
 		}
 		{
 			JButton xwLeftRot;
 			xwLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(xwLeftRot, gbc(5,2));
 			xwLeftRot.addActionListener(scene.rotSelectedAction(4, 1));
+			xwLeftRot.setToolTipText("Rotate the currently selected object by w-Axis passing over to x-Axis.");
 		}
 		{
 			JButton yzLeftRot;
-			yzLeftRot = new DArrowButton(SwingConstants.WEST);;
+			yzLeftRot = new DArrowButton(SwingConstants.WEST);
 			this.add(yzLeftRot, gbc(5,3));
 			yzLeftRot.addActionListener(scene.rotSelectedAction(3, 2));
+			yzLeftRot.setToolTipText("Rotate the currently selected object by z-Axis passing over to y-Axis.");
 		}
 		{
 			JButton ywLeftRot;
 			ywLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(ywLeftRot, gbc(5,4));
 			ywLeftRot.addActionListener(scene.rotSelectedAction(4, 2));
+			ywLeftRot.setToolTipText("Rotate the currently selected object by w-Axis passing over to y-Axis.");
 		}
 		{
 			JButton zwLeftRot;
 			zwLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(zwLeftRot, gbc(5,5));
 			zwLeftRot.addActionListener(scene.rotSelectedAction(4, 3));
+			zwLeftRot.setToolTipText("Rotate the currently selected object by w-Axis passing over to z-Axis.");
 		}
 
 		{
@@ -263,36 +266,42 @@ public class ObjectControlPanel extends DPanel {
 			xyRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(xyRightRot, gbc(7,0));
 			xyRightRot.addActionListener(scene.rotSelectedAction(1, 2));
+			xyRightRot.setToolTipText("Rotate the currently selected object by x-Axis passing over to y-Axis.");
 		}
 		{
 			JButton xzRightRot;
 			xzRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(xzRightRot, gbc(7,1));
 			xzRightRot.addActionListener(scene.rotSelectedAction(1, 3));
+			xzRightRot.setToolTipText("Rotate the currently selected object by x-Axis passing over to z-Axis.");
 		}
 		{
 			JButton xwRightRot;
 			xwRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(xwRightRot, gbc(7,2));
 			xwRightRot.addActionListener(scene.rotSelectedAction(1, 4));
+			xwRightRot.setToolTipText("Rotate the currently selected object by x-Axis passing over to w-Axis.");
 		}
 		{
 			JButton yzRightRot;
 			yzRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(yzRightRot, gbc(7,3));
 			yzRightRot.addActionListener(scene.rotSelectedAction(2, 3));
+			yzRightRot.setToolTipText("Rotate the currently selected object by y-Axis passing over to z-Axis.");
 		}
 		{
 			JButton ywRightRot;
 			ywRightRot = new DArrowButton(SwingConstants.EAST);
 			this.add(ywRightRot, gbc(7,4));
 			ywRightRot.addActionListener(scene.rotSelectedAction(2, 4));
+			ywRightRot.setToolTipText("Rotate the currently selected object by y-Axis passing over to w-Axis.");
 		}
 		{
 			JButton zwRightRot;
 			zwRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(zwRightRot, gbc(7,5));
 			zwRightRot.addActionListener(scene.rotSelectedAction(3, 4));
+			zwRightRot.setToolTipText("Rotate the currently selected object by z-Axis passing over to w-Axis.");
 		}
 
 
@@ -303,18 +312,18 @@ public class ObjectControlPanel extends DPanel {
 				nCount.setText(scene.compounds.size()+"");
 				Compound co = scene.compounds.sel();
 				if (co==null) {
-					xPos.setText("n/a");
-					yPos.setText("n/a");
-					zPos.setText("n/a");
-					wPos.setText("n/a");	
+					xLoc.setText("n/a");
+					yLoc.setText("n/a");
+					zLoc.setText("n/a");
+					wLoc.setText("n/a");	
 					return;
 				}
 
-				int[] c = co.center.origin();
-				xPos.setText(ViewPane.nf.format(c[0]));
-				yPos.setText(ViewPane.nf.format(c[1]));
-				zPos.setText(ViewPane.nf.format(c[2]));
-				wPos.setText(ViewPane.nf.format(c[3]));
+				double[] c = co.center().x;
+				xLoc.setText(ViewPane.nf.format(c[0]));
+				yLoc.setText(ViewPane.nf.format(c[1]));
+				zLoc.setText(ViewPane.nf.format(c[2]));
+				wLoc.setText(ViewPane.nf.format(c[3]));
 			}}.addTo(scene.compounds);
 		
 		

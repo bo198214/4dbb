@@ -19,15 +19,25 @@ public class D4Graphics {
 	}
 	
 	/** dot is a center (i.e c=2*o+1) */
-	public void drawBlob(DCenter dot) {
+	public void drawBlob(Point4d p) {
 		Point3d dot3 = new Point3d();
-		c4.proj3d((Point4d)dot.loc(),dot3);
+		c4.proj3d(p,dot3);
 		g3.drawBlob(dot3);
+
+//		D2Tupel l = new D2Tupel();
+//		D2Tupel r = new D2Tupel();
+//		proj(dot[0]+0.5,dot[1]+0.5,dot[2]+0.5,dot[3]+0.5,l,r);
+//		g.setColor(lColor);
+//		g.draw
+//		g.setColor(rColor);
+		
+	}
+	
+	public void drawMark(Point4d p,double r) {
 //		for (int i=0;i<4;i++) {
-//			double[] a = new double[4], b= new double[4];
+//			double[] a = new double[4];
 //			for (int ix=0;ix<4;ix++) {
-//				a[ix]=dot.loc().x[ix];
-//				b[ix]=a[ix];
+//				a[ix]=0;
 ////				if (((i >> ix) & 1) == 1) {
 ////					a[ix] -= blobRadius;
 ////					b[ix] += blobRadius; 
@@ -37,19 +47,14 @@ public class D4Graphics {
 ////					b[ix] -= blobRadius;
 ////				}
 //				if (ix==i) {
-//					a[ix]-=blobRadius;
-//					b[ix]+=blobRadius;
+//					a[ix]=r;
 //				}
 //			}
-//			drawLine(new Point4d(a[0],a[1],a[2],a[3]),new Point4d(b[0],b[1],b[2],b[3]));
+//			drawLine(
+//					new Point4d(p.x[0]-a[0],p.x[1]-a[1],p.x[2]-a[2],p.x[3]-a[3]),
+//					new Point4d(p.x[0]+a[0],p.x[1]+a[1],p.x[2]+a[2],p.x[3]+a[3]));
 //		}
-//		D2Tupel l = new D2Tupel();
-//		D2Tupel r = new D2Tupel();
-//		proj(dot[0]+0.5,dot[1]+0.5,dot[2]+0.5,dot[3]+0.5,l,r);
-//		g.setColor(lColor);
-//		g.draw
-//		g.setColor(rColor);
-		
+		drawBlob(p);
 	}
 	
 	public void drawLine(int[] a,int[] b) {
