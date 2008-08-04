@@ -39,7 +39,7 @@ public class UIAction {
 	public ActionListener set3dRotAxis(final int a) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				d3ViewRotAxis.setInt(a-1);
+				d3ViewRotAxis.setSelInt(a-1);
 			}
 		};
 	}
@@ -50,7 +50,7 @@ public class UIAction {
 	 */
 	public ActionListener rotCam(final int a1, final int a2) {
 		assert a1!=0 && a2!=0;
-		int dim = 3+dim34.getInt(); 
+		int dim = 3+dim34.selInt(); 
 		if (a1<-dim || a1>dim || a2<-dim || a2>dim) {
 			//null action if outside range
 			return new ActionListener() {
@@ -68,7 +68,7 @@ public class UIAction {
 	 */
 	public ActionListener transCam(final int axis) {
 		assert axis!=0;
-		int dim = 3+dim34.getInt(); 
+		int dim = 3+dim34.selInt(); 
 		if (axis<-dim || axis>dim) {
 			//null action if outside range
 			return new ActionListener() {

@@ -72,26 +72,27 @@ public final class Main {
 		
 		showedScreen = new ShowedScreenEnum(ss,scene, goalScene,window);
 		viewScreen = ((ViewPane)showedScreen.MAIN).viewScreen;
+		scene.viewScreen = viewScreen;
 		contentPane = new ContentPane(showedScreen);
 
 		new AChangeListener() {
 			public void stateChanged() {
 				
 				if (ss.gameStatus.sel() == Settings.GameStatus.REACHED) {
-					viewScreen.repaint(); //why does this not work?
+					//viewScreen.repaint(); //why does this not work?
 					SoundEnum.GOALREACHED.play();
-					if (ss.objectives.getInt() < ss.objectives.getSize()-1) { //before last level
-						ss.objectives.setInt(ss.objectives.getInt()+1);
+					if (ss.objectives.selInt() < ss.objectives.getSize()-1) { //before last level
+						ss.objectives.setSelInt(ss.objectives.selInt()+1);
 										
 					}
-					if (ss.objectives.getInt() == ss.objectives.getSize()-1) {
+					if (ss.objectives.selInt() == ss.objectives.getSize()-1) {
 						//TODO: last level completed congratulations
 					}
 					
 				}
 				if (ss.gameStatus.sel() == Settings.GameStatus.MISSED) {
 					SoundEnum.GOALMISSED.play();
-					ss.objectives.setInt(ss.objectives.getInt());
+					ss.objectives.setSelInt(ss.objectives.selInt());
 				}
 			}
 		

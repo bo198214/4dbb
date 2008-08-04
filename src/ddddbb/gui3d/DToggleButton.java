@@ -38,10 +38,10 @@ public class DToggleButton extends JToggleButton {
 			gc.drawRect(0, 0, w, h);
 		}
 		else {
-			gc.drawPolygon(new int[] {0,0,3}, new int[] {3,0,0},3);
-			gc.drawPolygon(new int[] {0,0,3}, new int[] {h-3,h,h},3);
-			gc.drawPolygon(new int[] {w-3,w,w}, new int[] {h,h,h-3},3);
-			gc.drawPolygon(new int[] {w,w,w-3}, new int[] {3,0,0},3);
+			gc.drawPolyline(new int[] {0,0,3}, new int[] {3,0,0},3);
+			gc.drawPolyline(new int[] {0,0,3}, new int[] {h-3,h,h},3);
+			gc.drawPolyline(new int[] {w-3,w,w}, new int[] {h,h,h-3},3);
+			gc.drawPolyline(new int[] {w,w,w-3}, new int[] {3,0,0},3);
 			
 		}
 		//gc.setFont(font);

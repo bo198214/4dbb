@@ -51,6 +51,7 @@ public class ObjectControlPanel extends DPanel {
 	private DDisplay yPos;
 	private DDisplay zPos;
 	private DDisplay wPos;
+	private DDisplay nCount;
 
 	public ObjectControlPanel(
 			final Level scene,
@@ -160,10 +161,8 @@ public class ObjectControlPanel extends DPanel {
 			combine.addActionListener(scene.combineAction);
 		}
 		{
-			JLabel nLabel;
-			nLabel = new DLabel();
-			this.add(nLabel, gbc(0,5));
-			nLabel.setText("n");
+			nCount = new DDisplay(1,false);
+			this.add(nCount, gbc(0,5));
 		}
 		{
 			JButton nLeft;
@@ -300,12 +299,9 @@ public class ObjectControlPanel extends DPanel {
 		new AChangeListener() {
 			@Override
 			public void stateChanged() {
-				nPos.setText((scene.compounds.getSelected()+1)+"");
-			}}.addTo(scene.compounds);
-		new AChangeListener() {
-			@Override
-			public void stateChanged() {
-				Compound co = scene.compounds.getSelectedItem();
+				nPos.setText((scene.compounds.selInt()+1)+"");
+				nCount.setText(scene.compounds.size()+"");
+				Compound co = scene.compounds.sel();
 				if (co==null) {
 					xPos.setText("n/a");
 					yPos.setText("n/a");

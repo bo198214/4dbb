@@ -6,6 +6,8 @@ import java.util.Vector;
 
 import javax.swing.event.ChangeListener;
 
+import ddddbb.game.Main;
+
 /** A class for supporting the Model View paradigm.
  * Basically it has a changed() method that notifies all the registered 
  * ChangeListeners (which are the viewers).
@@ -41,8 +43,10 @@ public abstract class Model implements MyChangeListener {
 
 	/** invokes stateChanged of all listeners */
 	public void changed() {
+		if (Main.debug.isSelected()) System.out.println(this + " changed");
 		if (!notify) return;
 		for (MyChangeListener l : changeListeners) {
+			if (Main.debug.isSelected()) System.out.println(this + " delegating to: " + l);
 			l.stateChanged();
 		}		
 	}

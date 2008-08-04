@@ -166,7 +166,7 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		else {
 			scene.paint(g3);
 		}
-		g4.drawBlob(scene.compounds.getSelectedItem().center);
+		g4.drawBlob(scene.compounds.sel().center);
 
 		((Graphics2D)g0).drawImage(buffImg, null, 0, 0);
 		super.paintChildren(g0);

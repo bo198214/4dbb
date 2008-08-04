@@ -67,7 +67,7 @@ public class MouseControl implements MouseListener, MouseMotionListener, MyChang
 		if (shiftPressed && transrot==1) {
 			ss.zoom.setDouble(ss.zoom.getDouble()+(e.getY()-mouseY)*fry);
 		}
-		else switch (ss.dim34.getInt()) {
+		else switch (ss.dim34.selInt()) {
 		case 0: { //3d
 			switch (transrot) {
 			case 0: // translate

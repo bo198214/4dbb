@@ -16,12 +16,18 @@ import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.event.ListDataListener;
 
-public class IntModel<T> extends Model implements ComboBoxModel {
-	protected int defaultValue;
-	protected int value = -1;
+/** This class represents a fixed length list (array) of type T, 
+ * in which one element is changeably selected.
+ * Also an array of associated names (String) is maintained.  
+ *  
+ * @author bo198214
+ */
+public class IntModel<T> extends Model implements ComboBoxModel, SelArray<T> {
+	protected int selDefault;
+	protected int sel = -1;
 	
-	protected Vector<T> items = new Vector<T>();
-	protected Vector<String> names = new Vector<String>();
+	protected T[] items;
+	protected String[] names;
 	protected Vector<Vector<AbstractButton>> buttons = new Vector<Vector<AbstractButton>>();
 	protected boolean enabled = true;
 	
@@ -31,28 +37,19 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 //		defaultValue = value;
 //	}
 	
-	protected static int obj2int(Object obj,Object[] objs) {
-		int i=0;
-		for (;i<objs.length;i++) {
-			if ( obj == objs[i] ) { break; }
-		}		
-		return i;
-	}
-	
 	protected IntModel() {}
 	protected void init(int _value,String[] _names,T[] _items) {
 		assert 0 <= _value && _value < _items.length;
 		assert _names == null || _names.length == _items.length;
-		defaultValue = _value;
-		value = _value;
+		selDefault = _value;
+		sel = _value;
 //		items = arr2Vec(_items);
+		names = _names;
+		items = _items;
+		if (names==null) names = new String[items.length];
 		for (int i=0;i<_items.length;i++) {
-			items.add(i,_items[i]);
 			if ( _names == null ) {
-				names.add(i,_items[i].toString());
-			}
-			else {
-				names.add(i,_names[i]);
+				names[i]=items[i].toString();
 			}
 			buttons.add(i,new Vector<AbstractButton>());
 		}
@@ -64,7 +61,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		init(_selectedItem,_values);
 	}
 	protected void init(T _selectedItem,T[] _values) {
-		init(obj2int(_selectedItem,_values),null,_values);
+		init(indexOf(_selectedItem,_values),null,_values);
 	}
 
 	public IntModel(int i,T[] _values) {
@@ -93,7 +90,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	}
 	
 	public void setToDefault() {
-		setInt(defaultValue);
+		setSelInt(selDefault);
 	}
 
 //	public static <X> Vector<X> arr2Vec(X[] a) {
@@ -113,87 +110,118 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 //		items = arr2Vec(_objects);
 //	}
 
-	public int getInt() {
-		return value;
+	/* (non-Javadoc)
+	 * @see ddddbb.gen.SelArray#selInt()
+	 */
+	public int selInt() {
+		return sel;
 	}
 
-	public void setInt(int i) {
+	/* (non-Javadoc)
+	 * @see ddddbb.gen.SelArray#setSelInt(int)
+	 */
+	public void setSelInt(int i) {
 		//if (i==value) { return; }
-		int n=items.size();
-		if (i<n) { value = i; }
-		else { value = n-1; }
-		if (i<0) { value = 0; }
+		int n=items.length;
+		if (i<n) { sel = i; }
+		else { sel = n-1; }
+		if (i<0) { sel = 0; }
 		changed();
 	}
 	
 	public ActionListener nextAction  = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			setInt(getInt()+1);
+			setSelInt(selInt()+1);
 		}
 	};
 	
 	public ActionListener prevAction = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			setInt(getInt()-1);
+			setSelInt(selInt()-1);
 		}
 		
 	};
 	
 	public ActionListener cyclicNextAction  = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			setInt((getInt()+1)%items.size());
+			setSelInt((selInt()+1)%items.length);
 		}
 	};
 	
 	public ActionListener cyclicPrevAction = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			setInt((getInt()-1)%items.size());
+			setSelInt((selInt()-1)%items.length);
 		}
 		
 	};
 
+	/* (non-Javadoc)
+	 * @see ddddbb.gen.SelArray#addButton(int, javax.swing.AbstractButton)
+	 */
 	public void addButton(final int index,AbstractButton b) {
 		buttons.get(index).add(b);
 		if (b.getText() == null | b.getText().length() == 0) {
-			b.setText(names.elementAt(index));
+			b.setText(names[index]);
 		}
-		if (index==value) b.setSelected(true);
+		if (index==sel) b.setSelected(true);
 		else b.setSelected(false);
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setInt(index);
+				setSelInt(index);
 			}
 		});
 	}
 	
+	/* (non-Javadoc)
+	 * @see ddddbb.gen.SelArray#addButton(T, javax.swing.AbstractButton)
+	 */
 	public void addButton(final T item,AbstractButton b) {
-		addButton(items.indexOf(item),b);
+		int i;
+		for (i=0;i<items.length;i++) if (items[i]==item) break;
+		addButton(i,b);
 	}
 	
-	public void setSelectedItem(Object anItem) {
-		assert (anItem instanceof String);
-		setInt(getItems().indexOf(anItem));
+	public static <S> int indexOf(S item,S[] items) {
+		int i;
+		for (i=0;i<items.length;i++) if (item==items[i]) break;
+		return i;
+	}
+	public static <S> int indexEqualOf(S item, S[] items) {
+		int i;
+		for (i=0;i<items.length;i++) if (item.equals(items[i])) break;
+		return i;
+	}
+	
+	
+	/**
+	 * This selects the first item with its name equal to object.toString().
+	 */
+	public void setSelectedItem(Object object) {
+		setSelInt(indexEqualOf(object.toString(),names));
 	}
 
-	public void setSelectedName(String name) {
-		setInt(getNames().indexOf(name));
-	}
-	
+	/* (non-Javadoc)
+	 * @see ddddbb.gen.SelArray#setSel(T)
+	 */
 	public void setSel(T anObject) {
-		setInt(getObjects().indexOf(anObject));
+		setSelInt(indexOf(anObject,items));
 	}
 	
+	/**
+	 * Returns the name of the selected item.
+	 */
 	public String getSelectedItem() {
-		if ( value == -1 ) { return null; }
-		return getItems().get(value);
+		if ( sel == -1 ) { return null; }
+		return names[sel];
 	}
 	public int getSize() {
-		return getItems().size();
+		return items.length;
 	}
 	public String getElementAt(int index) {
-		return getItems().get(index);
+		if (sel == -1) { return null; }
+		return names[index];
 	}
 	public void addListDataListener(ListDataListener l) {
 		// items is fixed
@@ -202,30 +230,19 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		// items is fixed
 	}
 	
-	public String getName(int i) {
-		if (value == -1) { return null; }
-		return names.get(i);
-	}
-	
+	/* (non-Javadoc)
+	 * @see ddddbb.gen.SelArray#sel()
+	 */
 	public T sel() {
-		if (value == -1) { return null; }
-		return items.get(value);
+		if (sel == -1) { return null; }
+		return items[sel];
 	}
 	
-	public String getSelectedName() {
-		if (value == -1) { return null; }
-		return names.get(value);
-	}
-	
-	public Vector<String> getItems() {
-		return names;
-	}
-	
-	public Vector<T> getObjects() {
+	public T[] getItems() {
 		return items;
 	}
 	
-	public Vector<String> getNames() {
+	public String[] getNames() {
 		return names;
 	}
 	
@@ -233,7 +250,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	public void addAsRadioButtonMenuItems(Container c) {
 		JRadioButtonMenuItem[] menuItems = new JRadioButtonMenuItem[getSize()];
 		for (int i=0;i<getSize();i++) {
-			menuItems[i] = new JRadioButtonMenuItem(getName(i));
+			menuItems[i] = new JRadioButtonMenuItem(names[i]);
 			addButton(i,menuItems[i]);
 			c.add(menuItems[i]);
 		}
@@ -242,7 +259,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	public void addAsMenuItems(Container c) {
 		JMenuItem[] menuItems = new JMenuItem[getSize()];
 		for (int i=0;i<getSize();i++) {
-			menuItems[i] = new JMenuItem(getName(i));
+			menuItems[i] = new JMenuItem(names[i]);
 			addButton(i,menuItems[i]);
 			c.add(menuItems[i]);
 		}
@@ -251,7 +268,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	public void addAsRadioButtons(Container c) {
 		JRadioButton[] menuItems = new JRadioButton[getSize()];
 		for (int i=0;i<getSize();i++) {
-			menuItems[i] = new JRadioButton(getName(i));
+			menuItems[i] = new JRadioButton(names[i]);
 			addButton(i,menuItems[i]);
 			c.add(menuItems[i]);
 		}
@@ -260,7 +277,7 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	public void addAsCheckBoxMenuItems(Container c) {
 		JCheckBoxMenuItem[] menuItems = new JCheckBoxMenuItem[getSize()];
 		for (int i=0;i<getSize();i++) {
-			menuItems[i] = new JCheckBoxMenuItem(getName(i));
+			menuItems[i] = new JCheckBoxMenuItem(names[i]);
 			addButton(i,menuItems[i]);
 			c.add(menuItems[i]);
 		}
@@ -274,11 +291,11 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 	
 	public void addAsCards(final Container c, final CardLayout l) {
 		for (int i=0;i<getSize();i++) {
-			c.add((JPanel)getObjects().get(i),names.get(i));
+			c.add((JPanel)items[i],names[i]);
 		}
 		new AChangeListener() {
 			public void stateChanged() {
-				l.show(c,getSelectedName());			
+				l.show(c,names[sel]);			
 			}			
 		}.addTo(this);
 	}
@@ -298,9 +315,9 @@ public class IntModel<T> extends Model implements ComboBoxModel {
 		for (Vector<AbstractButton> bs:buttons) for (AbstractButton b:bs) {
 			b.setSelected(false); //triggers no action event
 		}
-		if (-1 < value && value < buttons.size()) { 
+		if (-1 < sel && sel < buttons.size()) { 
 			//does not fire actionEvent
-			for (AbstractButton b:buttons.get(value)) {
+			for (AbstractButton b:buttons.get(sel)) {
 				b.setSelected(true); //triggers no action event
 			}
 		}

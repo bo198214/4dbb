@@ -8,9 +8,17 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
+import javax.swing.AbstractButton;
+import javax.swing.ComboBoxModel;
 
-public class SelectedListModel<T> extends Model implements List<T> {
-	private int selected;
+/** This class is more flexible than {@link IntModel} as it allows
+ * to add and remove items. It implements List<T>. 
+ * List changes are additionally propagated to the ChangeListeners.  
+ * 
+ * @author bo198214
+ */
+public class SelectedListModel<T> extends Model implements SelArray<T>, List<T> {
+	private int sel;
 	private List<T> items;
 	
 	public SelectedListModel() {
@@ -18,34 +26,40 @@ public class SelectedListModel<T> extends Model implements List<T> {
 	}
 	
 	public void setToDefault() {
-		selected = -1;
+		sel = -1;
 		items = new Vector<T>();
 	}
 	
-	public int getSelected() {
-		return selected;
+	public int selInt() {
+		return sel;
 	}
-	public void setSelected(int i) {
-		selected = i;
+	public void setSelInt(int i) {
+		sel = i;
 		changed();
 	}
 	public ActionListener setSelectedAction(final int i) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setSelected(i);
+				setSelInt(i);
 			}
 			
 		};
 	}
 
-	public T getSelectedItem() {
-		if (selected == -1) { return null; }
-		return items.get(selected);
+	@Override
+	public T sel() {
+		if (sel == -1) { return null; }
+		return items.get(sel);
+	}
+
+	@Override
+	public void setSel(T item) {
+		setSelInt(items.indexOf(item));
 	}
 
 	public void nextSelected() {
-		if (selected == items.size()-1 ) { setSelected(0); }
-		else { setSelected(selected+1); }
+		if (sel == items.size()-1 ) { setSelInt(0); }
+		else { setSelInt(sel+1); }
 		changed();
 	}
 
@@ -56,8 +70,8 @@ public class SelectedListModel<T> extends Model implements List<T> {
 	};
 
 	public void prevSelected() {
-		if (selected == 0) { setSelected(items.size()-1); }
-		else { setSelected(selected-1); }
+		if (sel == 0) { setSelInt(items.size()-1); }
+		else { setSelInt(sel-1); }
 		changed();
 	}
 	
@@ -71,32 +85,32 @@ public class SelectedListModel<T> extends Model implements List<T> {
 	
 	public void clear() {
 		items.clear();
-		selected = -1;
+		sel = -1;
 		changed();
 	}
 	public boolean retainAll(Collection<?> c) {
-		Object origSel = getSelectedItem();
+		Object origSel = sel();
 		boolean res = items.retainAll(c);
 		if (res) { //changed
-			selected = items.indexOf(origSel);
+			sel = items.indexOf(origSel);
 			changed();
 		}
 		return res;
 	}
 	public boolean remove(Object o) {
-		Object origSel = getSelectedItem();
+		Object origSel = sel();
 		boolean res = items.remove(o);
 		if (res) { //changed
-			selected = items.indexOf(origSel);
+			sel = items.indexOf(origSel);
 			changed();
 		}
 		return res;
 	}
 	public boolean removeAll(Collection<?> c) {
-		Object origSel = getSelectedItem();
+		Object origSel = sel();
 		boolean res = items.removeAll(c);
 		if (res) { //changed
-			selected = items.indexOf(origSel);
+			sel = items.indexOf(origSel);
 			changed();
 		}
 		return res;
@@ -104,9 +118,9 @@ public class SelectedListModel<T> extends Model implements List<T> {
 	public T remove(int index) {
 		T res = items.remove(index);
 		if (items.size()==0) { index = -1; }
-		else if (index == selected) {
-			if (index>0) { selected = index-1; }
-			else         { selected = index+1; }
+		else if (index == sel) {
+			if (index>0) { sel = index-1; }
+			else         { sel = index+1; }
 		}
 		changed();
 		return res;
@@ -117,32 +131,32 @@ public class SelectedListModel<T> extends Model implements List<T> {
 		return res;
 	}
 	public void add(int index, T element) {
-		Object origSel = getSelectedItem();
+		Object origSel = sel();
 		items.add(index, element);
-		selected = items.indexOf(origSel);
-		if (selected == -1) { selected = 0; }
+		sel = items.indexOf(origSel);
+		if (sel == -1) { sel = 0; }
 		changed();
 	}
 	public boolean add(T o) {
 		boolean res = items.add(o);
-		if (selected == -1) { selected = 0; }
+		if (sel == -1) { sel = 0; }
 		changed();
 		return res;
 	}
 	public boolean addAll(Collection<? extends T> c) {
 		boolean res = items.addAll(c);
 		if (res) { //changed
-			if (selected == -1) { selected = 0; }
+			if (sel == -1) { sel = 0; }
 			changed();
 		}
 		return res;
 	}
 	public boolean addAll(int index, Collection<? extends T> c) {
-		Object origSel = getSelectedItem();
+		Object origSel = sel();
 		boolean res = items.addAll(index, c);
 		if (res) { //changed
-			selected = items.indexOf(origSel);
-			if (selected == -1) { selected = 0; }			
+			sel = items.indexOf(origSel);
+			if (sel == -1) { sel = 0; }			
 			changed();
 		}
 		return res;
@@ -188,4 +202,5 @@ public class SelectedListModel<T> extends Model implements List<T> {
 	public <S> S[] toArray(S[] a) {
 		return items.toArray(a);
 	}
+
 }

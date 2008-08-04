@@ -18,7 +18,7 @@ public class DiAxisModel extends IntStringModel {
 	}
 
 	public int getAxis1() {
-		switch (getInt()) {
+		switch (selInt()) {
 		case 0: return 0;
 		case 1: return 0;
 		case 2: return 0;
@@ -30,7 +30,7 @@ public class DiAxisModel extends IntStringModel {
 	}
 	
 	public int getAxis2() {
-		switch (getInt()) {
+		switch (selInt()) {
 		case 0: return 1;
 		case 1: return 2;
 		case 2: return 3;
@@ -65,15 +65,15 @@ public class DiAxisModel extends IntStringModel {
 	}
 	
 	public void setAxis1(int axis1) {
-		setInt(axis12(axis1,getAxis2()));
+		setSelInt(axis12(axis1,getAxis2()));
 	}
 	
 	public void setAxis2(int axis2) {
-		setInt(axis12(getAxis1(),axis2));
+		setSelInt(axis12(getAxis1(),axis2));
 	}
 	
 	public void setAxis12(int axis1, int axis2) {
-		setInt(axis12(axis1,axis2));
+		setSelInt(axis12(axis1,axis2));
 	}
 
 }

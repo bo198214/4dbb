@@ -17,14 +17,18 @@ import ddddbb.game.Settings;
 
 @SuppressWarnings("serial")
 public class DButton extends JButton {
-	class RolloverIcon implements Icon {
+	static class RolloverIcon implements Icon {
+		Component c;
+		RolloverIcon(Component c) {
+			this.c = c;
+		}
 		@Override
 		public int getIconHeight() {
-			return getHeight()-1;
+			return c.getHeight()-1;
 		}
 		@Override
 		public int getIconWidth() {
-			return getWidth()-1;
+			return c.getWidth()-1;
 		}
 		@Override
 		public void paintIcon(Component c, Graphics g, int x, int y) {
@@ -38,7 +42,7 @@ public class DButton extends JButton {
 	
 	public final String text;
 	public final Font font;
-	private RolloverIcon rolloverIcon = new RolloverIcon();
+	private final RolloverIcon rolloverIcon;
 		
 	public DButton(int width, int height, String _text) {
 		text = _text;
@@ -47,6 +51,7 @@ public class DButton extends JButton {
 		setPreferredSize(new Dimension(width,height));
 		//setRolloverEnabled(false);
 		setRolloverEnabled(true);
+		rolloverIcon = new RolloverIcon(this);
 		setRolloverIcon(rolloverIcon);
 		//setOpaque(false);
 	}
@@ -64,22 +69,15 @@ public class DButton extends JButton {
 		int w  = d.width - 1;
 		int h  = d.height - 1;
 		float brightness = (float) Settings.brightness.getDouble();
+		gc.setColor(Color.black);
+		gc.fillRect(0,0,w,h);
+		
 		gc.setColor(new Color(brightness,brightness,brightness));
-//		if (this.isSelected()) {
-			gc.drawRect(0, 0, w, h);
-//		}
-//		else {
-//			gc.drawPolygon(new int[] {0,0,3}, new int[] {3,0,0},3);
-//			gc.drawPolygon(new int[] {0,0,3}, new int[] {h-3,h,h},3);
-//			gc.drawPolygon(new int[] {w-3,w,w}, new int[] {h,h,h-3},3);
-//			gc.drawPolygon(new int[] {w,w,w-3}, new int[] {3,0,0},3);
-//			
-//		}
-		//gc.setFont(font);
+		
+		gc.drawRoundRect(0, 0, w, h, 4, 4);
+		//gc.drawRect(0, 0, w, h);
 		FontMetrics fm = gc.getFontMetrics();
 		Rectangle2D sb = fm.getStringBounds(text, gc);
-		//System.out.println(d.height);
-		//System.out.println(sb.getHeight());
 		double x = (d.width - sb.getWidth())/2;
 		double y = (d.height+ sb.getHeight())/2 - fm.getDescent();
 		gc.drawString(text, (int)Math.round(x), (int)Math.round(y));

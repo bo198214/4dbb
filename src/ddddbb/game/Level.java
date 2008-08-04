@@ -7,7 +7,9 @@ import java.util.Vector;
 import ddddbb.comb.DLocation;
 import ddddbb.comb.DOp;
 import ddddbb.comb.DSignedAxis;
-import ddddbb.gen.IntModel;
+import ddddbb.game.Settings.GameStatus;
+import ddddbb.gen.SelArray;
+import ddddbb.gui.ViewScreen;
 import ddddbb.math.Camera4dParallel;
 import ddddbb.math.D4Tupel;
 import ddddbb.math.Point;
@@ -16,10 +18,11 @@ import ddddbb.math.Point4d;
 import ddddbb.sound.SoundEnum;
 
 public class Level extends Scene4d {
-	public final IntModel<Settings.GameStatus> gameStatus;
+	public final SelArray<GameStatus> gameStatus;
 	//	public Vector<Facet> allFacets = new Vector<Facet>();
 	public String name;
 	public Compound goal;
+	public ViewScreen viewScreen;
 
 	public D4Tupel cursor = new D4Tupel(0,0,0,0);
 	//public BoolModel showGoal;
@@ -35,7 +38,7 @@ public class Level extends Scene4d {
 			return;
 		}
 		if (compounds.size() == 1) {
-			if (DOp.motionEqual(goal.cubes,compounds.getSelectedItem().cubes)) {
+			if (DOp.motionEqual(goal.cubes,compounds.sel().cubes)) {
 				gameStatus.setSel(Settings.GameStatus.REACHED);
 			} 
 			else {
@@ -43,7 +46,7 @@ public class Level extends Scene4d {
 			}
 			return;
 		}
-		if (!DOp.motionContained(compounds.getSelectedItem().cubes,goal.cubes)) {
+		if (!DOp.motionContained(compounds.sel().cubes,goal.cubes)) {
 			gameStatus.setSel(Settings.GameStatus.MISSED);
 			return;
 		}
@@ -71,8 +74,8 @@ public class Level extends Scene4d {
 //	}
 	
 	public boolean transSelected(DSignedAxis v) {
-		if ( compounds.getSelected() == -1 ) { return false; }
-		Compound compound = compounds.getSelectedItem(); 
+		if ( compounds.selInt() == -1 ) { return false; }
+		Compound compound = compounds.sel(); 
 		compound.translate(v);
 		if (isOverlapping()) {
 			compound.translate(new DSignedAxis(-v.human()));
@@ -93,8 +96,8 @@ public class Level extends Scene4d {
 	}
 	
 	public boolean rotSelected(int v, int w) {
-		if ( compounds.getSelected() == -1 ) { return false; }
-		Compound compound = compounds.getSelectedItem();
+		if ( compounds.selInt() == -1 ) { return false; }
+		Compound compound = compounds.sel();
 		compound.rotate(v,w);
 		if (isOverlapping()) { 
 			compound.rotate(w,v);
@@ -139,6 +142,7 @@ public class Level extends Scene4d {
 	}
 	
 	private void combine(Compound c0,Vector<Compound> cs) {
+		compounds.notify = false;
 		c0.combine(cs);
 		for (Compound c : cs) {
 			compounds.remove(c);
@@ -146,19 +150,20 @@ public class Level extends Scene4d {
 		c0.setBaryCenter();
 		updateFaces3d(compounds);
 		updateFacing();
+		compounds.notify = true;
 	}
 	
 	public void combine() {
-		Compound c0 = compounds.getSelectedItem();
+		Compound c0 = compounds.sel();
 		Vector<Compound> bordering = combinables(c0); 
 		if (
 			compounds.size() != 1 &&
 			bordering.size() > 0
 		) {
 			combine(c0,bordering);
-			compounds.changed();			
 			SoundEnum.SNAPPINGCOMPOUNDS.play();
-			System.out.println("sound played");
+			//the redraw from a normal changed() does not suffice, thats why we force it
+			viewScreen.paint(viewScreen.getGraphics());	
 		}
 		propagateGameStatus();
 	}

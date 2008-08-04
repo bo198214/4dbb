@@ -94,7 +94,7 @@ public class Scene4d extends Model implements MyChangeListener {
 			@Override
 			public void stateChanged() {
 				occlusion4dAllowance = ss.occlusion4dAllowance.sel();
-				occlusion4dAllowanceInt = ss.occlusion4dAllowance.getInt();
+				occlusion4dAllowanceInt = ss.occlusion4dAllowance.selInt();
 				changed();
 			}			
 		}.addTo(ss.occlusion4dAllowance);
@@ -126,12 +126,15 @@ public class Scene4d extends Model implements MyChangeListener {
 	}
 
 	protected void setCompounds(int[][][] cs) {
+		compounds.notify = false;
 		compounds.clear();
 		for (int i=0;i<cs.length;i++) {
 			compounds.add(new Compound(DOp.clone(cs[i])));
 		}
 		updateFaces3d(compounds);
 		updateFacing();
+		compounds.notify = true;
+		compounds.changed();
 	}
 
 	public void updateCompoundGrid() {
@@ -248,7 +251,7 @@ public class Scene4d extends Model implements MyChangeListener {
 	}
 	
 	private Point4d selectedCenter4d() {
-		return (Point4d)compounds.getSelectedItem().center.loc(); 
+		return (Point4d)compounds.sel().center.loc(); 
 	}
 	public ActionListener transCam3dAction(final int axis) {
 		return camera3d.transAction(axis, viewAbsRel);
