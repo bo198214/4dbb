@@ -311,6 +311,8 @@ public class Settings {
 	public static final BoolModel soundOn = new BoolModel(true,"Sound on");
 
 	public void screenDefaults(Container window) {
+		brightness.setToDefault();
+
 		GraphicsConfiguration gconf = window.getGraphicsConfiguration();
 		assert gconf != null;
 		GraphicsDevice gdev = gconf.getDevice();
@@ -319,7 +321,6 @@ public class Settings {
 		dm.getWidth();
 		//Toolkit.getDefaultToolkit().getScreenInsets(gc);
 		Toolkit.getDefaultToolkit().getScreenSize();//pixels
-
 		
 		int dotsPerInch = Toolkit.getDefaultToolkit().getScreenResolution();//dots per inch
 		if (dotsPerInch == 0) { dotsPerInch = 96; }

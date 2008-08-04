@@ -10,17 +10,18 @@ import ddddbb.game.Settings;
 
 @SuppressWarnings("serial")
 public class DLabel extends JLabel {
-	public static final Font font = new Font(Font.DIALOG,Font.PLAIN,12); 
+	private boolean sizeFixed = false;
 	public DLabel() {
 		setHorizontalAlignment(CENTER);
 		float brightness = (float)Settings.brightness.getDouble();
 		setForeground(new Color(brightness,brightness,brightness));
-		setFont(font);
+		setFont(Settings.font);
 		setOpaque(false);
 	}
 	public DLabel(int width, int height) {
 		this();
 		setPreferredSize(new Dimension(width,height));
+		sizeFixed = true;
 	}
 	
 	public DLabel(String label) {
@@ -34,7 +35,9 @@ public class DLabel extends JLabel {
 	}
 	public void setText(String label) {
 		super.setText(label);
-		setPreferredSize(new Dimension(label.length()*8+2,font.getSize()+2));		
+		if (!sizeFixed) {
+			setPreferredSize(new Dimension(label.length()*8+2,Settings.font.getSize()+2));
+		}
 	}
 
 //	@Override

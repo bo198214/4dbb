@@ -47,7 +47,7 @@ public class Cam3dControlPanel extends DPanel {
 	private DDisplay yLoc;
 	private DDisplay zLoc;
 	private DDisplay xLoc;
-
+	private DLabel objectiveDisplay;
 	public Cam3dControlPanel(
 			final Scene4d scene,
 			final Settings ss
@@ -261,6 +261,15 @@ public class Cam3dControlPanel extends DPanel {
 				sys.setToolTipText("Rotating and shifting camera is with respect to space axes (shown by the tetrahedral).");
 			}
 		}
+//		{
+//			objectiveDisplay = new DLabel(64,16);
+//			this.add(objectiveDisplay,gbc(5,3,3,1));
+//			new AChangeListener() {
+//				public void stateChanged() {
+//					objectiveDisplay.setText(ss.objectives.sel().name());
+//				}
+//			}.addTo(ss.objectives);
+//		}
 		{
 			DToggleButton goal = new DToggleButton(50,24,"goal");
 			goal.setAlignmentX(CENTER_ALIGNMENT);
