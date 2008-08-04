@@ -48,7 +48,7 @@ public class ObjectControlPanel extends DPanel {
 		GridBagLayout thisLayout = new GridBagLayout();
 		//this.setPreferredSize(new java.awt.Dimension(186, 154));
 		//setMinimumSize(new Dimension(169,154));
-		this.setBorder(BorderFactory.createTitledBorder("object control"));
+		this.setBorder(Cam3dControlPanel.border("object control"));
 		thisLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.rowHeights = new int[] {18, 18, 18, 18, 18, 18};
 		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};

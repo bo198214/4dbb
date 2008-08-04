@@ -1,5 +1,6 @@
 package ddddbb.game;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.DisplayMode;
 import java.awt.Font;
@@ -34,6 +35,11 @@ public class Settings {
 	public final static Font font = new Font(Font.DIALOG,Font.PLAIN,12);
 	public final static DoubleModel	brightness = 
 		new DoubleModel(0.75,0,1);
+	
+	public static Color fgColor() {
+		float brightness = (float) Settings.brightness.getDouble();
+		return new Color(brightness,brightness,brightness);
+	}
 
 	public static enum ResolutionUnit implements Unit {
 		DotsPerCM("dots/cm",1.0),

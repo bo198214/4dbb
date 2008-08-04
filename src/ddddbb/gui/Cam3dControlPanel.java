@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import ddddbb.game.Scene4d;
 import ddddbb.game.Settings;
@@ -56,7 +58,7 @@ public class Cam3dControlPanel extends DPanel {
 		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.columnWidths = new int[] {16, 16, 0, 16, 3, 20, 16, 0, 16};
 		this.setLayout(thisLayout);
-		this.setBorder(BorderFactory.createTitledBorder("3d camera control & misc"));
+		this.setBorder(border("3d camera control & misc"));
 		{
 			JLabel xLabel;
 			xLabel = new DLabel();
@@ -191,7 +193,7 @@ public class Cam3dControlPanel extends DPanel {
 					scene.camera3d.setOrientation(ss.orientation3d.sel().value());
 					
 				}});
-			reset.setText("Resets the 3d camera's location and position.");
+			reset.setToolTipText("Resets the 3d camera's location and position.");
 		}
 		{
 			xLoc = new DDisplay(4,true);
@@ -319,5 +321,14 @@ public class Cam3dControlPanel extends DPanel {
 		res.gridwidth = width;
 		res.gridheight = height;
 		return res;
+	}
+	
+	public static TitledBorder border(String title) {
+		Border lb = BorderFactory.createLineBorder(Settings.fgColor());
+		TitledBorder tb = BorderFactory.createTitledBorder(lb);
+		tb.setTitle(title);
+		tb.setTitleColor(Settings.fgColor());
+		tb.setTitleFont(Settings.font);
+		return tb;
 	}
 }

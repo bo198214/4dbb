@@ -43,10 +43,10 @@ public abstract class Model implements MyChangeListener {
 
 	/** invokes stateChanged of all listeners */
 	public void changed() {
-		if (Main.debug.isSelected()) System.out.println(this + " changed");
+		//if (Main.debug.isSelected()) System.out.println(this + " changed");
 		if (!notify) return;
 		for (MyChangeListener l : changeListeners) {
-			if (Main.debug.isSelected()) System.out.println(this + " delegating to: " + l);
+			//if (Main.debug.isSelected()) System.out.println(this + " delegating to: " + l);
 			l.stateChanged();
 		}		
 	}

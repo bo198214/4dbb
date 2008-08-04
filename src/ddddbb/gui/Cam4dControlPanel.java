@@ -71,7 +71,7 @@ public class Cam4dControlPanel extends DPanel {
 		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.columnWidths = new int[] {0, 16, 0, 16, 3, 30, 16, 0, 16};
 		this.setLayout(thisLayout);
-		this.setBorder(BorderFactory.createTitledBorder("4d camera control"));
+		this.setBorder(Cam3dControlPanel.border("4d camera control"));
 
 		{
 			DSelection xLabel = new DSelection(14,16,"x");
