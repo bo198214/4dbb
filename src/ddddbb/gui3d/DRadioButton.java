@@ -3,6 +3,8 @@ package ddddbb.gui3d;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
 
 import javax.swing.AbstractButton;
@@ -17,7 +19,12 @@ public class DRadioButton extends JToggleButton {
 		setPreferredSize(new Dimension(16,16));
 		setSize(new Dimension(16,16));
 	}
-	public void paint(Graphics gc) {
+	public void paint(Graphics g) {
+		Graphics2D gc = (Graphics2D) g;
+		gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		gc.setRenderingHint( RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
 		Dimension d = getSize();
 		//System.out.println(d);
 		d.width -= 1;

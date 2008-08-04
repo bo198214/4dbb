@@ -84,6 +84,8 @@ public class Scene4d extends Model implements MyChangeListener {
 				changed();
 			}}.addTo(ss.showGoal);
 			
+		camera3d.addChangeListener(this);
+		compounds.addChangeListener(this);
 		initCompounds(ss);
 	}
 
@@ -213,11 +215,11 @@ public class Scene4d extends Model implements MyChangeListener {
 			}
 		}
 
-	public void addChangeListener(MyChangeListener l) {
-		super.addChangeListener(l);
-		compounds.addChangeListener(l);
-		camera3d.addChangeListener(l);
-	}
+//	public void addChangeListener(MyChangeListener l) {
+//		super.addChangeListener(l);
+//		compounds.addChangeListener(l);
+//		camera3d.addChangeListener(l);
+//	}
 	
 	public void rotCam3d(double ph, int a1, int a2) {
 		Point3d p3 = new Point3d();

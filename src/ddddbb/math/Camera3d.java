@@ -27,11 +27,13 @@ public class Camera3d extends Camera {
 		new AChangeListener() {
 			public void stateChanged() {
 				eyesDistHalf = _eyesDistHalf.getDouble();
+				changed();
 			}
 		}.addTo(_eyesDistHalf);
 		new AChangeListener() {
 			public void stateChanged() {
 				barEyeFocusDelta = _barEyeFocusDelta.getDouble();
+				changed();
 			}
 		}.addTo(_barEyeFocusDelta);
 		
@@ -50,6 +52,7 @@ public class Camera3d extends Camera {
 	}
 	
 	public void setToDefault() {
+		notify=false; setOrientation(1); notify=true;
 		for (int i=0;i<v.length;i++) v[i] = AOP.unitVector3(i);
 		eye = new Point3d(0,0,-screenEyeDist);
 		//takes coordinate origin in the center of the screen

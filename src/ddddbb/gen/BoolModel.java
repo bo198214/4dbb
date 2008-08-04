@@ -19,6 +19,8 @@ public class BoolModel extends Model {
 	public boolean enabled = true;
 	
 	public Vector<AbstractButton> buttons = new Vector<AbstractButton>();
+	public Vector<AbstractButton> trueButtons = new Vector<AbstractButton>();
+	public Vector<AbstractButton> falseButtons = new Vector<AbstractButton>();
 
 	public BoolModel(boolean _defaultValue,String _name) {
 		defaultValue = _defaultValue;
@@ -43,7 +45,29 @@ public class BoolModel extends Model {
 				value = ((AbstractButton)e.getSource()).isSelected();
 				changed();
 			}});
-		changed();
+		b.setSelected(value);
+	}
+	
+	public void addTrueButton(AbstractButton b) {
+		trueButtons.add(b);
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				value = true;
+				changed();
+			}
+		});
+		b.setSelected(value);		
+	}
+	
+	public void addFalseButton(AbstractButton b) {
+		falseButtons.add(b);
+		b.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				value = false;
+				changed();
+			}
+		});
+		b.setSelected(!value);
 	}
 	
 	public void addAsCheckBoxMenuItem(Container c) {
@@ -70,12 +94,24 @@ public class BoolModel extends Model {
 		setSelected(defaultValue);
 	}
 	
-	public void changed() {
-		super.changed();
+	protected void updateButtons() {
 		for (AbstractButton b:buttons) {
 			b.setSelected(value);
 			b.setEnabled(enabled);
 		}
+		for (AbstractButton b:trueButtons) {
+			b.setSelected(value);
+			b.setEnabled(enabled);
+		}
+		for (AbstractButton b:falseButtons) {
+			b.setSelected(!value);
+			b.setEnabled(enabled);
+		}		
+	}
+	
+	public void changed() {
+		super.changed();
+		updateButtons();
 	}
 
 	public ActionListener toggleAction  = new ActionListener()  {

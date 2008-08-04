@@ -17,8 +17,8 @@ public class SoundEnum {
 	public static final Sound MOVINGCOMPOUND = new Sound("3060_SpeedY_UFOblip.wav",false);
 	public static final Sound ROTATINGCOMPOUND = new Sound("rotatingCompound.wav",false);
 	public static final Sound BARRINGCOMPOUND = new Sound("barringCompound.wav",false);
-//	public static final Sound SNAPPINGCOMPOUNDS = new Sound("39762_altemark_cmb5.wav",true);
-	public static final Sound SNAPPINGCOMPOUNDS = new Sound("38500_Corsica_S_blip12.flac",true);
+	public static final Sound SNAPPINGCOMPOUNDS = new Sound("39762_altemark_cmb5.wav",true);
+//	public static final Sound SNAPPINGCOMPOUNDS = new Sound("38500_Corsica_S_blip12.flac",true);
 	public static final Sound GOALREACHED = new Sound("goalReached.wav",true);
 	public static final Sound GOALMISSED = new Sound("goalMissed.wav",true);
 	public static final Sound SHOWGOAL = new Sound("showGoal.wav",false);

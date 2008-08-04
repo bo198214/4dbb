@@ -1,6 +1,8 @@
 package ddddbb.gui3d;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 
@@ -8,11 +10,22 @@ import ddddbb.game.Settings;
 
 @SuppressWarnings("serial")
 public class DDisplay extends JLabel {
-	public DDisplay(int width, int height) {
+	public static final Font font = new Font(Font.DIALOG,Font.PLAIN,12);
+	public DDisplay(int digits, boolean isFloat) {
 		//setPreferredSize(new Dimension(width,height));
-		
+		//FontMetrics fm = getGraphics().getFontMetrics(font);
+		//double numberWidth = fm.stringWidth("1");
+		double numberWidth = 8;
+		double commaWidth;
+		if (isFloat) commaWidth=2;
+		else commaWidth=0;
+		int height = font.getSize();
+		setPreferredSize(new Dimension(
+				(int)Math.round(digits*numberWidth+commaWidth)+2,height+2));
+		this.setHorizontalAlignment(CENTER);
 		float brightness = (float)Settings.brightness.getDouble();
 		setForeground(new Color(brightness,brightness,brightness));
+		setFont(font);
 	}
 
 //	@Override

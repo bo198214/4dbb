@@ -146,13 +146,11 @@ public abstract class Camera4d extends Camera {
 	}
 
 	public void setToDefault() {
+		notify=false;
+		setOrientation(1);
 		initAxes();
-//		if (orientation != 1) {
-//			orientation = 1;
-//			swapOrientation();
-//			assert orientation == -1;
-//		}
-//		zoom = 1;
+		zoom = 1;
+		notify=true;
 		changed();
 	}
 

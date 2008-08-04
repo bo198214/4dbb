@@ -52,16 +52,11 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		goalScene = _goalScene;
 		
 		scene.addChangeListener(this);
-		ss.eyesDistHalf.addChangeListener(this);
-		ss.screenEyeDist.addChangeListener(this);
-		ss.xdpcm.addChangeListener(this);
-		ss.ydpcm.addChangeListener(this);
-		ss.barEyeFocusDelta.addChangeListener(this);
+		//ss.xdpcm.addChangeListener(this);
+		//ss.ydpcm.addChangeListener(this);
 		ss.drawTetrahedral.addChangeListener(this);
 		//Opt.drawTrihedral.addChangeListener(this);
-		ss.showInternalFaces.addChangeListener(this);
-		ss.zoom.addChangeListener(this);
-
+		
 		new AChangeListener() {
 			public void stateChanged() {
 				updateAlias();
