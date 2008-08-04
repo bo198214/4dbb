@@ -166,14 +166,14 @@ public class ViewScreen extends JPanel implements MyChangeListener, ItemListener
 		}
 		else {
 			scene.paint(g3);
-		}
-		for (int i=0;i<scene.compounds.size();i++) {
-			Point4d p = (Point4d)scene.compounds.get(i).center();
-			if (i==scene.compounds.selInt()) {
-				g4.drawMark(p,0.1);				
-			}
-			else {
-				g4.drawString(i+1+"", p);				
+			for (int i=0;i<scene.compounds.size();i++) {
+				Point4d p = (Point4d)scene.compounds.get(i).center();
+				if (i==scene.compounds.selInt()) {
+					g4.drawMark(p,0.1);				
+				}
+				else {
+					g4.drawString(i+1+"", p);				
+				}
 			}
 		}
 

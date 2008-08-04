@@ -98,10 +98,14 @@ public class KeyControl implements KeyListener {
 		s.put(0,39,scene.transSelectedAction(+1)); // ->
 		s.put(0,40,scene.transSelectedAction(-2)); // v
 		s.put(0,38,scene.transSelectedAction(+2)); // ^
-		s.put(SHIFT,37,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByHoriz(-0.1);}}); 
-		s.put(SHIFT,39,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByHoriz(+0.1);}}); 
-		s.put(SHIFT,40,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByVertic(-0.1);}});
-		s.put(SHIFT,38,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByVertic(+0.1);}});
+		s.put(SHIFT,37,scene.transSelectedAction(-4)); // <-
+		s.put(SHIFT,39,scene.transSelectedAction(+4)); // ->
+		s.put(SHIFT,40,scene.transSelectedAction(-3)); // v
+		s.put(SHIFT,38,scene.transSelectedAction(+3)); // ^
+		s.put(SHIFT|CTRL,37,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByHoriz(-0.1);}}); 
+		s.put(SHIFT|CTRL,39,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByHoriz(+0.1);}}); 
+		s.put(SHIFT|CTRL,40,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByVertic(-0.1);}});
+		s.put(SHIFT|CTRL,38,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByVertic(+0.1);}});
 		s.put(CTRL,37,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.rotCamByHoriz(-AOP.deg);}});
 		s.put(CTRL,39,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.rotCamByHoriz(+AOP.deg);}});
 		s.put(CTRL,40,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.rotCamByVertic(-AOP.deg);}});
