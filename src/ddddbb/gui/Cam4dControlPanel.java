@@ -75,23 +75,27 @@ public class Cam4dControlPanel extends DPanel {
 		this.setBorder(Cam3dControlPanel.border("4d camera control"));
 
 		{
-			DSelection xLabel = new DSelection(14,16,"x");
-			this.add(xLabel, gbc(0,0));
+			DSelection xSel = new DSelection(14,16,"x");
+			this.add(xSel, gbc(0,0));
+			ss.mouseTransAxes4d.addButton(Settings.Axis4d.X, xSel);
 		}
 		{
-			DSelection yLabel = new DSelection(14,16);
-			this.add(yLabel, gbc(0,1));
-			yLabel.setText("y");
+			DSelection ySel = new DSelection(14,16);
+			this.add(ySel, gbc(0,1));
+			ySel.setText("y");
+			ss.mouseTransAxes4d.addButton(Settings.Axis4d.Y, ySel);
 		}
 		{
-			DSelection zLabel = new DSelection(14,16);
-			this.add(zLabel, gbc(0,2));
-			zLabel.setText("z");
+			DSelection zSel = new DSelection(14,16);
+			this.add(zSel, gbc(0,2));
+			zSel.setText("z");
+			ss.mouseTransAxes4d.addButton(Settings.Axis4d.Z, zSel);
 		}
 		{
-			DSelection wLabel = new DSelection(14,16);
-			this.add(wLabel, gbc(0,3));
-			wLabel.setText("w");
+			DSelection wSel = new DSelection(14,16);
+			this.add(wSel, gbc(0,3));
+			wSel.setText("w");
+			ss.mouseTransAxes4d.addButton(Settings.Axis4d.W, wSel);
 		}
 		{	
 			JButton xLeft;

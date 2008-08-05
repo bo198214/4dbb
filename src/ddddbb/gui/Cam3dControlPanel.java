@@ -61,22 +61,19 @@ public class Cam3dControlPanel extends DPanel {
 		this.setLayout(thisLayout);
 		this.setBorder(border("3d camera control & misc"));
 		{
-			JLabel xLabel;
-			xLabel = new DLabel();
-			this.add(xLabel, gbc(0,0));
-			xLabel.setText("x");
+			DSelection xSel = new DSelection(16,16,"x");
+			this.add(xSel, gbc(0,0));
+			ss.mouseTransAxes3d.addButton(Settings.Axis3d.X, xSel);
 		}
 		{
-			JLabel yLabel;
-			yLabel = new DLabel();
-			this.add(yLabel, gbc(0,1));
-			yLabel.setText("y");
+			DSelection ySel = new DSelection(16,16,"y");
+			this.add(ySel, gbc(0,1));
+			ss.mouseTransAxes3d.addButton(Settings.Axis3d.Y, ySel);
 		}
 		{
-			JLabel zLabel;
-			zLabel = new DLabel();
-			this.add(zLabel, gbc(0,2));
-			zLabel.setText("z");
+			DSelection zSel = new DSelection(16,16,"z");
+			this.add(zSel, gbc(0,2));
+			ss.mouseTransAxes3d.addButton(Settings.Axis3d.Z, zSel);
 		}
 		{
 			JButton xLeft;
