@@ -65,6 +65,7 @@ public class Cam4dControlPanel extends DPanel {
 			final Scene4d scene, 
 			final Settings ss
 	) {
+		UIAction ua = new UIAction(ss,scene);
 		GridBagLayout thisLayout = new GridBagLayout();
 		thisLayout.rowWeights = new double[] {0.00, 0.00, 0.00, 0.0, 0, 0};
 		thisLayout.rowHeights = new int[] {18, 18, 18, 18, 18, 18};
@@ -96,25 +97,25 @@ public class Cam4dControlPanel extends DPanel {
 			JButton xLeft;
 			xLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xLeft, gbc(1,0));
-			xLeft.addActionListener(scene.transCam4dAction(-1));
+			xLeft.addActionListener(ua.transCam4dAction(-1));
 		}
 		{
 			JButton yLeft;
 			yLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(yLeft, gbc(1,1));
-			yLeft.addActionListener(scene.transCam4dAction(-2));
+			yLeft.addActionListener(ua.transCam4dAction(-2));
 		}
 		{
 			JButton zLeft;
 			zLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(zLeft, gbc(1,2));
-			zLeft.addActionListener(scene.transCam4dAction(-3));
+			zLeft.addActionListener(ua.transCam4dAction(-3));
 		}
 		{
 			JButton wLeft;
 			wLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(wLeft, gbc(1,3));
-			wLeft.addActionListener(scene.transCam4dAction(-4));
+			wLeft.addActionListener(ua.transCam4dAction(-4));
 		}
 		{
 			xPos = new DDisplay(3,true);
@@ -140,39 +141,32 @@ public class Cam4dControlPanel extends DPanel {
 			JButton xRight;
 			xRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xRight, gbc(3,0));
-			xRight.addActionListener(scene.transCam4dAction(1));
+			xRight.addActionListener(ua.transCam4dAction(1));
 		}
 		{
 			JButton yRight;
 			yRight = new DArrowButton(SwingConstants.EAST);
 			this.add(yRight, gbc(3,1));
-			yRight.addActionListener(scene.transCam4dAction(2));
+			yRight.addActionListener(ua.transCam4dAction(2));
 		}
 		{
 			JButton zRight;
 			zRight = new DArrowButton(SwingConstants.EAST);
 			this.add(zRight, gbc(3,2));
-			zRight.addActionListener(scene.transCam4dAction(3));
+			zRight.addActionListener(ua.transCam4dAction(3));
 		}
 		{
 			JButton wRight;
 			wRight = new DArrowButton(SwingConstants.EAST);
 			this.add(wRight, gbc(3,3));
-			wRight.addActionListener(scene.transCam4dAction(4));
+			wRight.addActionListener(ua.transCam4dAction(4));
 		}
 		{
 			DButton reset;
 			reset = new DButton(60,16,"reset");
 			reset.setSize(50,16);
 			this.add(reset, gbc(1,4,4));
-			reset.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					scene.camera4d.setToDefault();
-					scene.camera4d.setOrientation(ss.orientation4d.sel().value());
-					scene.camera4d.setZoom(ss.zoom.getDouble());
-					//Settings.zoom.setToDefault();
-				}
-			});
+			reset.addActionListener(ua.resetCam4d);
 			reset.setToolTipText("Reset camera location and position (zoom remains).");
 		}
 		{
@@ -203,7 +197,7 @@ public class Cam4dControlPanel extends DPanel {
 			"There are always 2 items of xy,xz,xw,yz,yw and zw underlined.<br/>" +
 			"The first one indicates the 4d rotation performed by the mouse moving left-right.<br/>" +
 			"The second underlined item indicates the rotation by the mouse moving down-up.<br/>" +
-			"Find out yourself how to operate double selection." +
+			"Find out yourself how to operate the double selection." +
 			"</body></html>";
 		{
 			DSelection xySel = new DSelection(30,16);
@@ -251,7 +245,7 @@ public class Cam4dControlPanel extends DPanel {
 		{
 			JButton xyLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xyLeft, gbc(6,0));
-			xyLeft.addActionListener(scene.rotCam4dAction(2, 1));
+			xyLeft.addActionListener(ua.rotCam4dAction(2, 1));
 			xyLeft.setToolTipText(
 					"<html><body>" +
 					"Rotating the y-Axis towards the x-Axis.<br/>" +
@@ -267,27 +261,27 @@ public class Cam4dControlPanel extends DPanel {
 		{
 			JButton xzLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xzLeft, gbc(6,1));
-			xzLeft.addActionListener(scene.rotCam4dAction(2, 1));
+			xzLeft.addActionListener(ua.rotCam4dAction(2, 1));
 		}
 		{
 			JButton xwLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xwLeft, gbc(6,2));
-			xwLeft.addActionListener(scene.rotCam4dAction(2, 1));
+			xwLeft.addActionListener(ua.rotCam4dAction(2, 1));
 		}
 		{
 			JButton yzLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(yzLeft, gbc(6,3));
-			yzLeft.addActionListener(scene.rotCam4dAction(2, 1));
+			yzLeft.addActionListener(ua.rotCam4dAction(2, 1));
 		}
 		{
 			JButton ywLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(ywLeft, gbc(6,4));
-			ywLeft.addActionListener(scene.rotCam4dAction(2, 1));
+			ywLeft.addActionListener(ua.rotCam4dAction(2, 1));
 		}
 		{
 			JButton zwLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(zwLeft, gbc(6,5));
-			zwLeft.addActionListener(scene.rotCam4dAction(2, 1));
+			zwLeft.addActionListener(ua.rotCam4dAction(2, 1));
 		}
 
 		{
@@ -324,34 +318,34 @@ public class Cam4dControlPanel extends DPanel {
 		{
 			JButton xyRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xyRight, gbc(8,0));
-			xyRight.addActionListener(scene.rotCam4dAction(1, 2));
+			xyRight.addActionListener(ua.rotCam4dAction(1, 2));
 		}
 		{
 			JButton xzRight;
 			xzRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xzRight, gbc(8,1));
-			xzRight.addActionListener(scene.rotCam4dAction(1, 3));
+			xzRight.addActionListener(ua.rotCam4dAction(1, 3));
 		}
 		{
 			JButton xwRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xwRight, gbc(8,2));
-			xwRight.addActionListener(scene.rotCam4dAction(1, 4));
+			xwRight.addActionListener(ua.rotCam4dAction(1, 4));
 		}
 		{
 			JButton yzRight = new DArrowButton(SwingConstants.EAST);
 			this.add(yzRight, gbc(8,3));
-			yzRight.addActionListener(scene.rotCam4dAction(2, 3));
+			yzRight.addActionListener(ua.rotCam4dAction(2, 3));
 		}
 		{
 			JButton ywRight;
 			ywRight = new DArrowButton(SwingConstants.EAST);
 			this.add(ywRight, gbc(8,4));
-			ywRight.addActionListener(scene.rotCam4dAction(2, 4));
+			ywRight.addActionListener(ua.rotCam4dAction(2, 4));
 		}
 		{
 			JButton zwRight = new DArrowButton(SwingConstants.EAST);
 			this.add(zwRight, gbc(8,5));
-			zwRight.addActionListener(scene.rotCam4dAction(3, 4));
+			zwRight.addActionListener(ua.rotCam4dAction(3, 4));
 		}
 
 //		{

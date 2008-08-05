@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import ddddbb.game.Level;
+import ddddbb.game.Settings;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.DiAxisModel;
 import ddddbb.gen.IntStringModel;
@@ -84,114 +85,101 @@ public class KeyControl implements KeyListener {
 		}
 	}
 
-	public KeyControl(final Level scene, BoolModel showGoal, DiAxisModel viewRotXAxis12, IntStringModel d3ViewRotAxis, IntStringModel dim34) {
-		int maxMod = 4;
+	public KeyControl(final Settings ss, final Level scene) {
+		int maxMod = 16;
 		int maxKey = 100;
 		singleKeyAssignment = new LookupTable2int<ActionListener>(maxMod,maxKey);
 		LookupTable2int<ActionListener> s = singleKeyAssignment;
 		int SHIFT = InputEvent.SHIFT_MASK;
 		int CTRL = InputEvent.CTRL_MASK;
+		int ALT = InputEvent.ALT_MASK;
 
-		UIAction ua = new UIAction(viewRotXAxis12,d3ViewRotAxis,dim34,scene);
+		UIAction ua = new UIAction(ss,scene);
 		
-		s.put(0,37,scene.transSelectedAction(-1)); // <-
-		s.put(0,39,scene.transSelectedAction(+1)); // ->
-		s.put(0,40,scene.transSelectedAction(-2)); // v
-		s.put(0,38,scene.transSelectedAction(+2)); // ^
-		s.put(SHIFT,37,scene.transSelectedAction(-4)); // <-
-		s.put(SHIFT,39,scene.transSelectedAction(+4)); // ->
-		s.put(SHIFT,40,scene.transSelectedAction(-3)); // v
-		s.put(SHIFT,38,scene.transSelectedAction(+3)); // ^
-		s.put(SHIFT|CTRL,37,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByHoriz(-0.1);}}); 
-		s.put(SHIFT|CTRL,39,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByHoriz(+0.1);}}); 
-		s.put(SHIFT|CTRL,40,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByVertic(-0.1);}});
-		s.put(SHIFT|CTRL,38,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.transCamByVertic(+0.1);}});
-		s.put(CTRL,37,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.rotCamByHoriz(-AOP.deg);}});
-		s.put(CTRL,39,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.rotCamByHoriz(+AOP.deg);}});
-		s.put(CTRL,40,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.rotCamByVertic(-AOP.deg);}});
-		s.put(CTRL,38,new ActionListener() { public void actionPerformed(ActionEvent e) {scene.rotCamByVertic(+AOP.deg);}});
-		
-//		s.put(CTRL,85,ua.transCam(1)); //u
-//		s.put(CTRL,73,ua.transCam(2)); //i
-//		s.put(CTRL,79,ua.transCam(3)); //o
-//		s.put(CTRL,80,ua.transCam(4)); //p
-//
-//		s.put(CTRL|SHIFT,85,ua.transCam(-1)); //u
-//		s.put(CTRL|SHIFT,73,ua.transCam(-2)); //i
-//		s.put(CTRL|SHIFT,79,ua.transCam(-3)); //o
-//		s.put(CTRL|SHIFT,80,ua.transCam(-4)); //p
-//		
-//		s.put(CTRL,77,ua.transCam(-1)); //m
-//		s.put(CTRL,44,ua.transCam(-2)); //,
-//		s.put(CTRL,46,ua.transCam(-3)); //.
-//		s.put(CTRL,47,ua.transCam(-4)); ///
-		
-		s.put(0,85,scene.transSelectedAction(1)); //u
-		s.put(0,73,scene.transSelectedAction(2)); //i
-		s.put(0,79,scene.transSelectedAction(3)); //o
-		s.put(0,80,scene.transSelectedAction(4)); //p
+		s.put(0,37,scene.transSelectedA(-1)); // <-
+		s.put(0,39,scene.transSelectedA(+1)); // ->
+		s.put(0,40,scene.transSelectedA(-2)); // v
+		s.put(0,38,scene.transSelectedA(+2)); // ^
+		s.put(SHIFT,37,scene.transSelectedA(-4)); // <-
+		s.put(SHIFT,39,scene.transSelectedA(+4)); // ->
+		s.put(SHIFT,40,scene.transSelectedA(-3)); // v
+		s.put(SHIFT,38,scene.transSelectedA(+3)); // ^
 
-		s.put(0,77,scene.transSelectedAction(-1)); //m
-		s.put(0,44,scene.transSelectedAction(-2)); //,
-		s.put(0,46,scene.transSelectedAction(-3)); //.
-		s.put(0,47,scene.transSelectedAction(-4)); ///
+		//ALT corresponds to right mouse button
+		s.put(ALT,37,ua.transCamByHorizA(-0.1)); 
+		s.put(ALT,39,ua.transCamByHorizA(+0.1)); 
+		s.put(ALT,40,ua.transCamByVerticA(-0.1));
+		s.put(ALT,38,ua.transCamByVerticA(+0.1));
+		s.put(SHIFT|ALT,37,ua.transCam(-4));
+		s.put(SHIFT|ALT,39,ua.transCam(+4));
+		s.put(SHIFT|ALT,40,ua.transCam(-3));
+		s.put(SHIFT|ALT,38,ua.transCam(+3));
 		
-		s.put(0,49,scene.compounds.setSelectedAction(0)); //1
-		s.put(0,50,scene.compounds.setSelectedAction(1)); //2
-		s.put(0,51,scene.compounds.setSelectedAction(2)); //3
-		s.put(0,52,scene.compounds.setSelectedAction(3)); //4
-		s.put(0,53,scene.compounds.setSelectedAction(4)); //5
-		s.put(0,54,scene.compounds.setSelectedAction(5)); //6
-		s.put(0,55,scene.compounds.setSelectedAction(6)); //7
-		s.put(0,56,scene.compounds.setSelectedAction(7)); //8
-		s.put(0,57,scene.compounds.setSelectedAction(8)); //9
-		s.put(0,71,scene.compounds.nextAction); //g
-		s.put(SHIFT,71,scene.compounds.prevAction); //G
-		s.put(0,32,showGoal.toggleAction); //SPACE
-		s.put(0,66,scene.combineAction); //b
-		s.put(0,20,dim34.cyclicNextAction);//caps lock
+		//CTRL corresponds to left mouse button
+		s.put(CTRL,37,ua.rotCamByHorizA(-0.1));
+		s.put(CTRL,39,ua.rotCamByHorizA(+0.1));
+		s.put(CTRL,40,ua.rotCamByVerticA(-0.1));
+		s.put(CTRL,38,ua.rotCamByVerticA(+0.1));
+		
+		s.put(0,70,scene.transSelectedA(1)); //f
+		s.put(0,68,scene.transSelectedA(2)); //d
+		s.put(0,83,scene.transSelectedA(3)); //s
+		s.put(0,65,scene.transSelectedA(4)); //a
+		s.put(SHIFT,70,scene.transSelectedA(-1)); //f
+		s.put(SHIFT,68,scene.transSelectedA(-2)); //d
+		s.put(SHIFT,83,scene.transSelectedA(-3)); //s
+		s.put(SHIFT,65,scene.transSelectedA(-4)); //a
+
+		s.put(0,74,ua.transCam(1)); //j
+		s.put(0,75,ua.transCam(2)); //k
+		s.put(0,76,ua.transCam(3)); //l
+		s.put(0,59,ua.transCam(4)); //;
+		s.put(SHIFT,74,ua.transCam(-1)); //j
+		s.put(SHIFT,75,ua.transCam(-2)); //k
+		s.put(SHIFT,76,ua.transCam(-3)); //l
+		s.put(SHIFT,59,ua.transCam(-4)); //;
+		
+		s.put(0, 89, ss.zoom.increaseAction); //z
+		s.put(SHIFT, 89, ss.zoom.decreaseAction); //Z
+		
+		s.put(0, 72, ua.resetCam); //h
+
+		s.put(0,51,ua.setTo3d); //3
+		s.put(0,52,ua.setTo4d); //4
+		s.put(0,86,scene.compounds.nextAction); //v
+		s.put(0,88,scene.compounds.prevAction); //x
+		s.put(0,67,scene.combineAction); //c
+		s.put(0,71,ss.showGoal.toggleAction); //g
+		s.put(0,20,ss.dim34.cyclicNextAction);//caps lock
 
 		doubleKeyAssignment = new LookupTable3int<ActionListener>(maxMod,maxKey,maxKey);
 		LookupTable3int<ActionListener> d = doubleKeyAssignment;
 		
-		d.put(0,70,68,scene.rotSelectedAction(1,2)); //f,d
-		d.put(0,70,83,scene.rotSelectedAction(1,3)); //f,s
-		d.put(0,70,65,scene.rotSelectedAction(1,4)); //f,a
-		d.put(0,68,83,scene.rotSelectedAction(2,3)); //d,s
-		d.put(0,68,65,scene.rotSelectedAction(2,4)); //d,a
-		d.put(0,83,65,scene.rotSelectedAction(3,4)); //s,a
-		d.put(0,68,70,scene.rotSelectedAction(2,1)); //d,f
-		d.put(0,83,70,scene.rotSelectedAction(3,1)); //s,f
-		d.put(0,65,70,scene.rotSelectedAction(4,1)); //a,f
-		d.put(0,83,68,scene.rotSelectedAction(3,2)); //s,d
-		d.put(0,65,68,scene.rotSelectedAction(4,2)); //a,d
-		d.put(0,65,83,scene.rotSelectedAction(4,3)); //a,s
-		
-		d.put(0,74,75,ua.rotCam(1,2)); //j,k
-		d.put(0,74,76,ua.rotCam(1,3)); //j,l
-		d.put(0,74,59,ua.rotCam(1,4)); //j,;
-		d.put(0,75,76,ua.rotCam(2,3)); //k,l
-		d.put(0,75,59,ua.rotCam(2,4)); //k,;
-		d.put(0,76,59,ua.rotCam(3,4)); //l,;
-		d.put(0,75,74,ua.rotCam(2,1)); //k,j
-		d.put(0,76,74,ua.rotCam(3,1)); //l,j
-		d.put(0,59,74,ua.rotCam(4,1)); //;,j
-		d.put(0,76,75,ua.rotCam(3,2)); //l,k
-		d.put(0,59,75,ua.rotCam(4,2)); //;,k
-		d.put(0,59,76,ua.rotCam(4,3)); //;,l
+		d.put(0,82,69,scene.rotSelectedA(1,2)); //r,e
+		d.put(0,69,82,scene.rotSelectedA(1,3)); //e,r
+		d.put(0,82,87,scene.rotSelectedA(1,4)); //r,w
+		d.put(0,87,82,scene.rotSelectedA(2,3)); //w,r
+		d.put(0,82,81,scene.rotSelectedA(2,4)); //r,q
+		d.put(0,81,82,scene.rotSelectedA(3,4)); //q,r
+		d.put(0,69,87,scene.rotSelectedA(2,1)); //e,w
+		d.put(0,87,69,scene.rotSelectedA(3,1)); //w,e
+		d.put(0,69,81,scene.rotSelectedA(4,1)); //e,q
+		d.put(0,81,69,scene.rotSelectedA(3,2)); //q,e
+		d.put(0,87,81,scene.rotSelectedA(4,2)); //w,q
+		d.put(0,81,87,scene.rotSelectedA(4,3)); //q,w
 
-		d.put(0,82,69,ua.set4dRotAxes(1,2)); //r,e
-		d.put(0,69,82,ua.set4dRotAxes(1,2)); //r,e
-		d.put(0,82,87,ua.set4dRotAxes(1,3)); //r,w
-		d.put(0,87,82,ua.set4dRotAxes(1,3)); //r,w
-		d.put(0,82,81,ua.set4dRotAxes(1,4)); //r,q
-		d.put(0,81,82,ua.set4dRotAxes(1,4)); //r,q
-		d.put(0,69,87,ua.set4dRotAxes(2,3)); //e,w
-		d.put(0,87,69,ua.set4dRotAxes(2,3)); //e,w
-		d.put(0,69,81,ua.set4dRotAxes(2,4)); //e,q
-		d.put(0,81,69,ua.set4dRotAxes(2,4)); //e,q
-		d.put(0,87,81,ua.set4dRotAxes(3,4)); //w,q
-		d.put(0,81,87,ua.set4dRotAxes(3,4)); //w,q
+		d.put(0,85,73,ua.rotCamA(1,2)); //u,i
+		d.put(0,85,79,ua.rotCamA(1,3)); //u,o
+		d.put(0,85,80,ua.rotCamA(1,4)); //u,p
+		d.put(0,73,79,ua.rotCamA(2,3)); //i,o
+		d.put(0,73,80,ua.rotCamA(2,4)); //i,p
+		d.put(0,79,80,ua.rotCamA(3,4)); //o,p
+		d.put(0,73,85,ua.rotCamA(2,1)); //i,u
+		d.put(0,79,85,ua.rotCamA(3,1)); //o,u
+		d.put(0,80,85,ua.rotCamA(4,1)); //p,u
+		d.put(0,79,73,ua.rotCamA(3,2)); //o,i
+		d.put(0,80,73,ua.rotCamA(4,2)); //p,i
+		d.put(0,80,79,ua.rotCamA(4,3)); //p,o
 
 	}
 	

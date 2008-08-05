@@ -39,7 +39,7 @@ public final class Main {
 			ADJUSTMENT = new AdjustmentPane(ss, window); 
 			//KEYCONTROL = new KeyControlPanel();
 			MAIN = new ViewPane(ss,scene,goalScene);
-			MAIN.addKeyListener(new KeyControl(scene,ss.showGoal,ss.viewRotXAxis12,ss.d3ViewRotAxis,ss.dim34));
+			MAIN.addKeyListener(new KeyControl(ss,scene));
 			DOCUMENTATION = new DocumentationPane();
 			ABOUT = new AboutPane();
 			super.init(MAIN,new String[] {"adjustment", "main", "doc", "about"}, 

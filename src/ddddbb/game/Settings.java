@@ -89,6 +89,24 @@ public class Settings {
 	barEyeFocusDelta = new	DoubleModel(0,1,LengthUnit.CM);
 	
 
+	public static enum Dim {
+		D3("3d",3),
+		D4("4d",4);
+		String name; int dim;
+		Dim(String name, int dim) {
+			this.name = name;
+			this.dim = dim;
+		}
+		public String toString() {
+			return name;
+		}
+		public int dim() {
+			return dim;
+		}
+	}
+	public final IntModel<Dim> dim34 = new IntModel<Dim>(Dim.D3,Dim.values());
+
+	
 	public static enum Axis4d {
 		X(1,"x"),
 		Y(2,"y"),
@@ -267,7 +285,6 @@ public class Settings {
 	public final String[] d3axisNames = {"x","y","z"};
 	public final IntStringModel d3ViewRotAxis = new IntStringModel(0,new String[] {"yz", "xz", "xy"});
 	public final IntStringModel d3ViewTransAxis = new IntStringModel(1,d3axisNames);
-	public final IntStringModel dim34 = new IntStringModel(0,new String[] {"3d","4d"});
 	//public final BoolModel drawTrihedral = new BoolModel(false,"Trihedral");
 	public final BoolModel drawTetrahedral = new BoolModel(true,"Tetrahedral");
 	public final BoolModel showGoal = new BoolModel(false,"Goal");

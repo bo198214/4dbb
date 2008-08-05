@@ -87,7 +87,7 @@ public class Level extends Scene4d {
 		return true;
 	}
 	
-	public ActionListener transSelectedAction(final int direc) {
+	public ActionListener transSelectedA(final int direc) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				transSelected(new DSignedAxis(direc));
@@ -114,7 +114,7 @@ public class Level extends Scene4d {
 		return true;
 	}
 	
-	public ActionListener rotSelectedAction(final int a1, final int a2) {
+	public ActionListener rotSelectedA(final int a1, final int a2) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rotSelected(a1-1, a2-1);

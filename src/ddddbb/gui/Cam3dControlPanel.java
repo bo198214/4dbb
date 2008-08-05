@@ -57,6 +57,7 @@ public class Cam3dControlPanel extends DPanel {
 		thisLayout.rowHeights = new int[] {18, 18, 18, 18, 18, 18};
 		thisLayout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		thisLayout.columnWidths = new int[] {16, 16, 0, 16, 3, 20, 16, 0, 16};
+		UIAction ua = new UIAction(ss,scene);
 		this.setLayout(thisLayout);
 		this.setBorder(border("3d camera control & misc"));
 		{
@@ -81,37 +82,37 @@ public class Cam3dControlPanel extends DPanel {
 			JButton xLeft;
 			xLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xLeft, gbc(1,0));
-			xLeft.addActionListener(scene.transCam3dAction(-1));
+			xLeft.addActionListener(ua.transCam3dAction(-1));
 		}
 		{
 			JButton yLeft;
 			yLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(yLeft, gbc(1,1));
-			yLeft.addActionListener(scene.transCam3dAction(-2));
+			yLeft.addActionListener(ua.transCam3dAction(-2));
 		}
 		{
 			JButton zLeft;
 			zLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(zLeft, gbc(1,2));
-			zLeft.addActionListener(scene.transCam3dAction(-3));
+			zLeft.addActionListener(ua.transCam3dAction(-3));
 		}
 		{
 			JButton xRight;
 			xRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xRight, gbc(3,0));
-			xRight.addActionListener(scene.transCam3dAction(1));
+			xRight.addActionListener(ua.transCam3dAction(1));
 		}
 		{
 			JButton yRight;
 			yRight = new DArrowButton(SwingConstants.EAST);
 			this.add(yRight, gbc(3,1));
-			yRight.addActionListener(scene.transCam3dAction(2));
+			yRight.addActionListener(ua.transCam3dAction(2));
 		}
 		{
 			JButton zRight;
 			zRight = new DArrowButton(SwingConstants.EAST);
 			this.add(zRight, gbc(3,2));
-			zRight.addActionListener(scene.transCam3dAction(3));
+			zRight.addActionListener(ua.transCam3dAction(3));
 		}
 		String selToolTip = "<html><body>" +
 				"There are always 2 items from xy, xz and yz selected.<br/>" +
@@ -140,7 +141,7 @@ public class Cam3dControlPanel extends DPanel {
 			JButton xyLeft;
 			xyLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xyLeft, gbc(6,0));
-			xyLeft.addActionListener(scene.rotCam3dAction(2, 1));
+			xyLeft.addActionListener(ua.rotCam3dAction(2, 1));
 			xyLeft.setToolTipText("<html><body>" +
 					"Rotates the camera y-Axis towards x-axis.<br/>" +
 					"Depending on sys/rot these are the space axes or the camera axes.<br/>" +
@@ -151,48 +152,39 @@ public class Cam3dControlPanel extends DPanel {
 			JButton xzLeft;
 			xzLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xzLeft, gbc(6,1));
-			xzLeft.addActionListener(scene.rotCam3dAction(3, 1));
+			xzLeft.addActionListener(ua.rotCam3dAction(3, 1));
 		}
 		{
 			JButton yzLeft;
 			yzLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(yzLeft, gbc(6,2));
-			yzLeft.addActionListener(scene.rotCam3dAction(3, 2));
+			yzLeft.addActionListener(ua.rotCam3dAction(3, 2));
 		}
 		{
 			JButton xyRight;
 			xyRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xyRight, gbc(8,0));
 			
-			xyRight.addActionListener(scene.rotCam3dAction(1, 2));
+			xyRight.addActionListener(ua.rotCam3dAction(1, 2));
 		}
 		{
 			JButton xzRight;
 			xzRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xzRight, gbc(8,1));
-			xzRight.addActionListener(scene.rotCam3dAction(1, 3));
+			xzRight.addActionListener(ua.rotCam3dAction(1, 3));
 		}
 		{
 			JButton yzRight;
 			yzRight = new DArrowButton(SwingConstants.EAST);
 			this.add(yzRight, gbc(8,2));
-			yzRight.addActionListener(scene.rotCam3dAction(2, 3));
+			yzRight.addActionListener(ua.rotCam3dAction(2, 3));
 			
 		}
 		{
 			JButton reset;
 			reset = new DButton(60,16,"reset");
 			this.add(reset, gbc(1, 3, 4));
-			
-			reset.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					scene.camera3d.notify = false;
-					scene.camera3d.setToDefault();
-					scene.camera3d.notify = true;
-					scene.camera3d.setOrientation(ss.orientation3d.sel().value());
-					
-				}});
+			reset.addActionListener(ua.resetCam3d);
 			reset.setToolTipText("Resets the 3d camera's location and position.");
 		}
 		{
@@ -239,13 +231,13 @@ public class Cam3dControlPanel extends DPanel {
 			{
 				DRadioButton d3 = new DRadioButton("3d");
 				misc.add(d3,gbc(0,0));
-				ss.dim34.addButton(0, d3);
+				ss.dim34.addButton(Settings.Dim.D3, d3);
 				d3.setToolTipText("Dragging the mouse & CTRL cursor keys rotates 3d camera.");
 			}
 			{
 				DRadioButton d4 = new DRadioButton("4d");
 				misc.add(d4,gbc(0,1));
-				ss.dim34.addButton(1, d4);
+				ss.dim34.addButton(Settings.Dim.D4, d4);
 				d4.setToolTipText("Dragging the mouse & CTRL cursor keys rotates 4d camera.");
 			}
 			{

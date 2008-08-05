@@ -19,6 +19,7 @@ public class MouseControl implements MouseListener, MouseMotionListener, MyChang
 	
 	private final Settings ss;
 	private final Level scene;
+	private final UIAction ua;
 	
 	public MouseControl(
 			Settings _ss,
@@ -26,6 +27,7 @@ public class MouseControl implements MouseListener, MouseMotionListener, MyChang
 		) {
 		ss = _ss;
 		scene = _scene;
+		ua = new UIAction(ss,scene);
 
 		ss.xdpcm.addChangeListener(this);
 		ss.ydpcm.addChangeListener(this);
@@ -68,16 +70,17 @@ public class MouseControl implements MouseListener, MouseMotionListener, MyChang
 		else switch (transrot) {
 			case 0: // translate
 				if (shiftPressed) {
-					scene.camera3d.trans(3,-(e.getY()-mouseY)*fty, scene.viewAbsRel.isSelected());
+					ua.transCam(4,(e.getX()-mouseX)*ftx);
+					ua.transCam(3,-(e.getY()-mouseY)*fty);
 				}
 				else {
-					scene.transCamByHoriz((e.getX()-mouseX)*ftx);
-					scene.transCamByVertic(-(e.getY()-mouseY)*fty);
+					ua.transCamByHoriz((e.getX()-mouseX)*ftx);
+					ua.transCamByVertic(-(e.getY()-mouseY)*fty);
 				}
 				break;
 			case 1: // rotate
-				scene.rotCamByHoriz((e.getX()-mouseX)*frx);
-				scene.rotCamByVertic(-(e.getY()-mouseY)*fry);
+				ua.rotCamByHoriz((e.getX()-mouseX)*frx);
+				ua.rotCamByVertic(-(e.getY()-mouseY)*fry);
 				break;
 			}
 

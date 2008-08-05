@@ -82,49 +82,49 @@ public class ObjectControlPanel extends DPanel {
 			JButton xLeft;
 			xLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(xLeft, gbc(1,0));
-			xLeft.addActionListener(scene.transSelectedAction(-1));
+			xLeft.addActionListener(scene.transSelectedA(-1));
 		}
 		{
 			JButton yLeft;
 			yLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(yLeft, gbc(1,1));
-			yLeft.addActionListener(scene.transSelectedAction(-2));
+			yLeft.addActionListener(scene.transSelectedA(-2));
 		}
 		{
 			JButton zLeft;
 			zLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(zLeft, gbc(1,2));
-			zLeft.addActionListener(scene.transSelectedAction(-3));
+			zLeft.addActionListener(scene.transSelectedA(-3));
 		}
 		{
 			JButton wLeft;
 			wLeft = new DArrowButton(SwingConstants.WEST);
 			this.add(wLeft, gbc(1,3));
-			wLeft.addActionListener(scene.transSelectedAction(-4));
+			wLeft.addActionListener(scene.transSelectedA(-4));
 		}
 		{
 			JButton xRight;
 			xRight = new DArrowButton(SwingConstants.EAST);
 			this.add(xRight, gbc(3,0));
-			xRight.addActionListener(scene.transSelectedAction(1));
+			xRight.addActionListener(scene.transSelectedA(1));
 		}
 		{
 			JButton yRight;
 			yRight = new DArrowButton(SwingConstants.EAST);
 			this.add(yRight, gbc(3,1));
-			yRight.addActionListener(scene.transSelectedAction(2));
+			yRight.addActionListener(scene.transSelectedA(2));
 		}
 		{
 			JButton zRight;
 			zRight = new DArrowButton(SwingConstants.EAST);
 			this.add(zRight, gbc(3,2));
-			zRight.addActionListener(scene.transSelectedAction(3));
+			zRight.addActionListener(scene.transSelectedA(3));
 		}
 		{
 			JButton wRight;
 			wRight = new DArrowButton(SwingConstants.EAST);
 			this.add(wRight, gbc(3,3));
-			wRight.addActionListener(scene.transSelectedAction(4));
+			wRight.addActionListener(scene.transSelectedA(4));
 		}
 		{
 			xLoc = new DDisplay(3,false);
@@ -189,42 +189,42 @@ public class ObjectControlPanel extends DPanel {
 			JButton xyLeftRot;
 			xyLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(xyLeftRot, gbc(5,0));
-			xyLeftRot.addActionListener(scene.rotSelectedAction(2, 1));
+			xyLeftRot.addActionListener(scene.rotSelectedA(2, 1));
 			xyLeftRot.setToolTipText("Rotate the currently selected object by y-Axis passing over to x-Axis.");
 		}
 		{
 			JButton xzLeftRot;
 			xzLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(xzLeftRot, gbc(5,1));
-			xzLeftRot.addActionListener(scene.rotSelectedAction(3, 1));
+			xzLeftRot.addActionListener(scene.rotSelectedA(3, 1));
 			xzLeftRot.setToolTipText("Rotate the currently selected object by z-Axis passing over to x-Axis.");
 		}
 		{
 			JButton xwLeftRot;
 			xwLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(xwLeftRot, gbc(5,2));
-			xwLeftRot.addActionListener(scene.rotSelectedAction(4, 1));
+			xwLeftRot.addActionListener(scene.rotSelectedA(4, 1));
 			xwLeftRot.setToolTipText("Rotate the currently selected object by w-Axis passing over to x-Axis.");
 		}
 		{
 			JButton yzLeftRot;
 			yzLeftRot = new DArrowButton(SwingConstants.WEST);
 			this.add(yzLeftRot, gbc(5,3));
-			yzLeftRot.addActionListener(scene.rotSelectedAction(3, 2));
+			yzLeftRot.addActionListener(scene.rotSelectedA(3, 2));
 			yzLeftRot.setToolTipText("Rotate the currently selected object by z-Axis passing over to y-Axis.");
 		}
 		{
 			JButton ywLeftRot;
 			ywLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(ywLeftRot, gbc(5,4));
-			ywLeftRot.addActionListener(scene.rotSelectedAction(4, 2));
+			ywLeftRot.addActionListener(scene.rotSelectedA(4, 2));
 			ywLeftRot.setToolTipText("Rotate the currently selected object by w-Axis passing over to y-Axis.");
 		}
 		{
 			JButton zwLeftRot;
 			zwLeftRot = new DArrowButton(SwingConstants.WEST);;
 			this.add(zwLeftRot, gbc(5,5));
-			zwLeftRot.addActionListener(scene.rotSelectedAction(4, 3));
+			zwLeftRot.addActionListener(scene.rotSelectedA(4, 3));
 			zwLeftRot.setToolTipText("Rotate the currently selected object by w-Axis passing over to z-Axis.");
 		}
 
@@ -265,42 +265,42 @@ public class ObjectControlPanel extends DPanel {
 			JButton xyRightRot;
 			xyRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(xyRightRot, gbc(7,0));
-			xyRightRot.addActionListener(scene.rotSelectedAction(1, 2));
+			xyRightRot.addActionListener(scene.rotSelectedA(1, 2));
 			xyRightRot.setToolTipText("Rotate the currently selected object by x-Axis passing over to y-Axis.");
 		}
 		{
 			JButton xzRightRot;
 			xzRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(xzRightRot, gbc(7,1));
-			xzRightRot.addActionListener(scene.rotSelectedAction(1, 3));
+			xzRightRot.addActionListener(scene.rotSelectedA(1, 3));
 			xzRightRot.setToolTipText("Rotate the currently selected object by x-Axis passing over to z-Axis.");
 		}
 		{
 			JButton xwRightRot;
 			xwRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(xwRightRot, gbc(7,2));
-			xwRightRot.addActionListener(scene.rotSelectedAction(1, 4));
+			xwRightRot.addActionListener(scene.rotSelectedA(1, 4));
 			xwRightRot.setToolTipText("Rotate the currently selected object by x-Axis passing over to w-Axis.");
 		}
 		{
 			JButton yzRightRot;
 			yzRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(yzRightRot, gbc(7,3));
-			yzRightRot.addActionListener(scene.rotSelectedAction(2, 3));
+			yzRightRot.addActionListener(scene.rotSelectedA(2, 3));
 			yzRightRot.setToolTipText("Rotate the currently selected object by y-Axis passing over to z-Axis.");
 		}
 		{
 			JButton ywRightRot;
 			ywRightRot = new DArrowButton(SwingConstants.EAST);
 			this.add(ywRightRot, gbc(7,4));
-			ywRightRot.addActionListener(scene.rotSelectedAction(2, 4));
+			ywRightRot.addActionListener(scene.rotSelectedA(2, 4));
 			ywRightRot.setToolTipText("Rotate the currently selected object by y-Axis passing over to w-Axis.");
 		}
 		{
 			JButton zwRightRot;
 			zwRightRot = new DArrowButton(SwingConstants.EAST);;
 			this.add(zwRightRot, gbc(7,5));
-			zwRightRot.addActionListener(scene.rotSelectedAction(3, 4));
+			zwRightRot.addActionListener(scene.rotSelectedA(3, 4));
 			zwRightRot.setToolTipText("Rotate the currently selected object by z-Axis passing over to w-Axis.");
 		}
 

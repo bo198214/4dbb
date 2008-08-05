@@ -35,12 +35,6 @@ public abstract class Model implements MyChangeListener {
 //		}
 //	}
 
-	public ActionListener resetAction = new ActionListener()  {
-		public void actionPerformed(ActionEvent e) {
-			setToDefault();
-		}
-	};
-
 	/** invokes stateChanged of all listeners */
 	public void changed() {
 		//if (Main.debug.isSelected()) System.out.println(this + " changed");
