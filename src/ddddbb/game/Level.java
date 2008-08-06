@@ -38,7 +38,7 @@ public class Level extends Scene4d {
 			return;
 		}
 		if (compounds.size() == 1) {
-			if (DOp.motionEqual(goal.cubes,compounds.sel().cubes)) {
+			if (DOp.motionEqual(goal.locations,compounds.sel().locations)) {
 				gameStatus.setSel(Settings.GameStatus.REACHED);
 			} 
 			else {
@@ -46,7 +46,7 @@ public class Level extends Scene4d {
 			}
 			return;
 		}
-		if (!DOp.motionContained(compounds.sel().cubes,goal.cubes)) {
+		if (!DOp.motionContained(compounds.sel().locations,goal.locations)) {
 			gameStatus.setSel(Settings.GameStatus.MISSED);
 			return;
 		}
@@ -59,7 +59,7 @@ public class Level extends Scene4d {
 		goal = new Compound(c);
 	}
 	
-	public void changeObjective(Objectives objective) {
+	public void changeObjective(Objective objective) {
 		setGoal(objective.goal);
 		setCompounds(objective.compounds);
 		propagateGameStatus();
@@ -126,7 +126,7 @@ public class Level extends Scene4d {
 	private boolean isOverlapping() {
 		int[][][] cs = new int[compounds.size()][][];
 		for (int i=0;i<cs.length;i++) {
-			cs[i]=compounds.get(i).cubes;
+			cs[i]=compounds.get(i).locations;
 		}
 		return DOp.intersecting(cs);
 	}
@@ -134,7 +134,7 @@ public class Level extends Scene4d {
 	private Vector<Compound> combinables(Compound c0) {
 		Vector<Compound> res = new Vector<Compound>();
 		for (Compound c : compounds) {
-			if (c0!=c && DOp.d3adjacent(c.cubes,c0.cubes)) {
+			if (c0!=c && DOp.d3adjacent(c.locations,c0.locations)) {
 				res.add(c);
 			}
 		}
@@ -215,6 +215,14 @@ public class Level extends Scene4d {
 			if ( v.p2r.x1 > b.x1) { b.x1 = v.p2r.x1; }				
 			if ( v.p2r.x2 > b.x2) { b.x2 = v.p2r.x2; }				
 		}
+	}
+
+	public Objective asObjective() {
+		int[][][] cmpnds = new int[compounds.size()][][];
+		for (int i=0;i<cmpnds.length;i++) {
+			cmpnds[i] = compounds.get(i).locations;
+		}
+		return new Objective(ss.objectives.sel().name + " modified",goal.locations,cmpnds);
 	}
 	
 //	public void paint(D3Graphics g3) {

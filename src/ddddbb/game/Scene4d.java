@@ -32,7 +32,7 @@ public class Scene4d extends Model implements MyChangeListener {
 	private int occlusion4dAllowanceInt;
 
 	public final BoolModel viewAbsRel = new BoolModel(true,"Cam coords");;
-	private final Settings ss;
+	protected final Settings ss;
 	
 	public Scene4d(	final Settings ss) {
 		this.ss = ss;
@@ -126,7 +126,7 @@ public class Scene4d extends Model implements MyChangeListener {
 		//init(0);
 	}
 
-	protected void setCompounds(int[][][] cs) {
+	public void setCompounds(int[][][] cs) {
 		compounds.notify = false;
 		compounds.clear();
 		for (int i=0;i<cs.length;i++) {

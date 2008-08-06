@@ -9,16 +9,18 @@ import java.io.IOException;
 import java.util.prefs.BackingStoreException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import ddddbb.game.Main;
+import ddddbb.game.Objective;
 import ddddbb.game.PersistentPreferences;
 import ddddbb.game.Settings;
 
@@ -38,43 +40,24 @@ import ddddbb.game.Settings;
 public class TheMenuBar extends JMenuBar {
 	private static final long serialVersionUID = -8486348229885411290L;
 
-	private JMenu fileMenu = null;
-
-	private JMenu screenMenu = null;
-	
-	private JMenuItem exitMenuItem = null;
-
-	private JMenuItem jLoadSceneMenuItem = null;
-
-	private JMenuItem jSaveSceneMenuItem = null;
-
-	private JMenuItem jSavePsMenuItem = null;
-
-	private JMenu objectivesMenu = null;
-
-	private JMenu viewMenu = null;
-
-	private JMenuItem garbageCollectMenuItem = null;
-
 //	private JMenuItem printMenuItem = null;
 
 	protected JMenuItem savePdfMenuItem = null;
 
-	private JFrame selectFileFrame = null;  //  @jve:decl-index=0:visual-constraint="293,84"
-
 	protected JMenuItem savePngMenuItem = null;
 
-	protected JMenuItem saveJpgMenuItem = null;
-	private JMenu projMenu;
-
-	private JMenu saveCanvasMenu = null;
-
 	private final Main main;
+
+	private JMenuItem saveObjective;
+
+	private JMenuItem loadObjective;
 	
+	private final JFileChooser objectiveFileChooser;
+
 	public TheMenuBar(Main _main) {
 		main = _main;
 		{
-			fileMenu = new JMenu();
+			JMenu fileMenu = new JMenu();
 			fileMenu.setText("File");
 			{
 				JMenuItem savePrefs = new JMenuItem();
@@ -93,20 +76,34 @@ public class TheMenuBar extends JMenuBar {
 					}});
 				fileMenu.add(savePrefs);
 			}
+			{
+				objectiveFileChooser = new JFileChooser();
+				FileFilter filter = new FileFilter() {
+					@Override
+					public boolean accept(File f) {
+						if (f.getPath().endsWith(".xml")) { return true; }
+						if (f.isDirectory()) { return true; }
+						return false;
+					}
+
+					@Override
+					public String getDescription() {
+						return "XML Files";
+					}
+				};
+				objectiveFileChooser.setFileFilter(filter);
+			}
+
+			{
+			    fileMenu.add(getLoadObjective(objectiveFileChooser));
+				loadObjective.setText("Load scene (simple)...");
+			}
+			{
+			    fileMenu.add(getSaveObjective(objectiveFileChooser));
+				saveObjective.setText("Save scene (simple)...");
+			}
 //			{
-//				jLoadSceneMenuItem = new JMenuItem();
-//				jLoadSceneMenuItem.setText("Load scene ...");
-//				jLoadSceneMenuItem.setEnabled(false);
-//			    fileMenu.add(jLoadSceneMenuItem);
-//			}
-//			{
-//				jSaveSceneMenuItem = new JMenuItem();
-//				jSaveSceneMenuItem.setText("Save scene ...");
-//				jSaveSceneMenuItem.setEnabled(false);
-//			    fileMenu.add(jSaveSceneMenuItem);
-//			}
-//			{
-//				saveCanvasMenu = new JMenu();
+//			    JMenu saveCanvasMenu = new JMenu();
 //				saveCanvasMenu.setText("Save screen as ...");
 //				saveCanvasMenu.add(getSavePngMenuItem());
 //				saveCanvasMenu.add(getSaveJpgMenuItem());
@@ -127,7 +124,7 @@ public class TheMenuBar extends JMenuBar {
 			}
 //			fileMenu.add(getPrintMenuItem());
 			{
-				garbageCollectMenuItem = new JMenuItem();
+				JMenuItem garbageCollectMenuItem = new JMenuItem();
 				garbageCollectMenuItem.setText("Collect garbage");
 				garbageCollectMenuItem.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -137,7 +134,7 @@ public class TheMenuBar extends JMenuBar {
 				fileMenu.add(garbageCollectMenuItem);
 			}
 			{
-				exitMenuItem = new JMenuItem();
+				JMenuItem exitMenuItem = new JMenuItem();
 				exitMenuItem.setText("Exit");
 				exitMenuItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -149,12 +146,12 @@ public class TheMenuBar extends JMenuBar {
 			add(fileMenu);
 		}
 		{
-			objectivesMenu = new JMenu("Objectives");
+			JMenu objectivesMenu = new JMenu("Objectives");
 			main.ss.objectives.addAsRadioButtonMenuItems(objectivesMenu);
 			add(objectivesMenu);
 		}
 		{
-			viewMenu = new JMenu();
+			JMenu viewMenu = new JMenu();
 			viewMenu.setText("View");
 			main.ss.viewType.addAsRadioButtonMenuItems(viewMenu);
 			viewMenu.addSeparator();
@@ -170,7 +167,7 @@ public class TheMenuBar extends JMenuBar {
 			add(viewMenu);
 		}
 		{
-			projMenu = new JMenu();
+			JMenu projMenu = new JMenu();
 			projMenu.setText("Projection");
 			projMenu.setBounds(0, 0, 19, 18);
 			main.ss.perspective.addAsRadioButtonMenuItems(projMenu);
@@ -181,7 +178,7 @@ public class TheMenuBar extends JMenuBar {
 			add(projMenu);
 		}
 		{
-			screenMenu = new JMenu();
+			JMenu screenMenu = new JMenu();
 			screenMenu.setText("Screen/Help");
 			main.showedScreen.addAsRadioButtonMenuItems(screenMenu);			
 			add(screenMenu);
@@ -276,98 +273,94 @@ public class TheMenuBar extends JMenuBar {
 		return savePdfMenuItem;
 	}
 
-	/**
-	 * This method initializes selectFileFrame	
-	 * 	
-	 * @return javax.swing.JFrame	
-	 */
-	protected JFrame getSelectFileFrame() {
-		if (selectFileFrame == null) {
-			selectFileFrame = new JFrame();
-			selectFileFrame.setSize(new java.awt.Dimension(316,144));
-			
-			//selectFileFrame.setContentPane(getSelectPdfFileContentPane());
-		}
-		return selectFileFrame;
-	}
-
-	/**
-	 * This method initializes savePngMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */
+	private JFileChooser savePngFileChooser;
 	private JMenuItem getSavePngMenuItem() {
-		if (savePngMenuItem == null) {
-			savePngMenuItem = new JMenuItem();
-			savePngMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-					Event.CTRL_MASK, true));
-			savePngMenuItem.setText(".png");
-			savePngMenuItem.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					JFileChooser chooser = new JFileChooser();
-				    chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-				    FileFilter filter = new FileFilter() {
-						@Override
-						public boolean accept(File f) {
-							if (f.getPath().endsWith(".png")) { return true; }
-							return false;
-						}
+		if (savePngMenuItem != null) return savePngMenuItem;
+		savePngMenuItem = new JMenuItem();
+		savePngMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				Event.CTRL_MASK, true));
+		savePngMenuItem.setText(".png");
+		savePngFileChooser = new JFileChooser();
+		savePngFileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+		FileFilter filter = new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				if (f.getPath().endsWith(".png")) { return true; }
+				if (f.isDirectory()) { return true; }
+				return false;
+			}
 
-						@Override
-						public String getDescription() {
-							return "PNG Images";
-						}};
-				    chooser.setFileFilter(filter);
-				    //chooser.setApproveButtonToolTipText("")
-				    int returnVal = chooser.showOpenDialog(savePngMenuItem);
-				    if(returnVal == JFileChooser.APPROVE_OPTION) {
-				    	try {
-				    		ImageIO.write(main.viewScreen.buffImg,"png",chooser.getSelectedFile());
-				    	} catch (IOException e1) {
-				    		// TODO Auto-generated catch block
-				    		e1.printStackTrace();
-				    	}
-				    }
-				}
-			});
-		}
+			@Override
+			public String getDescription() {
+				return "PNG Images";
+			}
+		};
+		savePngFileChooser.setFileFilter(filter);
+		
+		savePngMenuItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+					//chooser.setApproveButtonToolTipText("")
+					int returnVal = savePngFileChooser.showSaveDialog(savePngMenuItem);
+					if(returnVal == JFileChooser.APPROVE_OPTION) {
+						try {
+							ImageIO.write(main.viewScreen.buffImg,"png",savePngFileChooser.getSelectedFile());
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+			}
+		});
 		return savePngMenuItem;
 	}
 
-	private JMenuItem getSaveJpgMenuItem() {
-		if (saveJpgMenuItem == null) {
-			saveJpgMenuItem = new JMenuItem();
-			saveJpgMenuItem.setText(".jpg");
-			saveJpgMenuItem.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					JFileChooser chooser = new JFileChooser();
-				    chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-				    chooser.setDialogTitle("Save JPEG file");
-				    FileFilter filter = new FileFilter() {
-						@Override
-						public boolean accept(File f) {
-							if (f.getPath().endsWith(".jpg")) { return true; }
-							return false;
-						}
-
-						@Override
-						public String getDescription() {
-							return "JPEG Images";
-						}};
-				    chooser.setFileFilter(filter);
-				    //chooser.setApproveButtonToolTipText("")
-				    int returnVal = chooser.showOpenDialog(saveJpgMenuItem);
-				    if(returnVal == JFileChooser.APPROVE_OPTION) {
-				    	try {
-				    		ImageIO.write(main.viewScreen.buffImg,"jpg",chooser.getSelectedFile());
-				    	} catch (IOException e1) {
-				    		// TODO Auto-generated catch block
-				    		e1.printStackTrace();
-				    	}
-				    }
+	private JMenuItem getSaveObjective(final JFileChooser objectiveFileChooser) {
+		if (saveObjective!=null) return saveObjective;
+		saveObjective = new JMenuItem();
+		saveObjective.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				objectiveFileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+				objectiveFileChooser.setDialogTitle("Save current objective to file"); 
+				int returnVal = objectiveFileChooser.showSaveDialog(saveObjective);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						main.scene.asObjective().save(objectiveFileChooser.getSelectedFile());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
-			});
-		}
-		return saveJpgMenuItem;
+			}});
+		
+		return saveObjective;
+	}
+	
+	private JMenuItem getLoadObjective(final JFileChooser objectiveFileChooser) {
+		if (loadObjective!=null) return loadObjective;
+		
+		loadObjective = new JMenuItem();
+		loadObjective.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				objectiveFileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+				objectiveFileChooser.setDialogTitle("Load objective from file");
+				int returnVal = objectiveFileChooser.showOpenDialog(loadObjective);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					try {
+						Objective objective = new Objective(objectiveFileChooser.getSelectedFile());
+						main.scene.changeObjective(objective);
+						main.goalScene.setCompounds(new int[][][] {objective.goal});
+					} catch (ParserConfigurationException e1) {
+						e1.printStackTrace();
+					} catch (SAXException e1) {
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}});
+		
+		
+		return loadObjective;
 	}
 }

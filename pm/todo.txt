@@ -1,0 +1,16 @@
+* datum of releases into CHANGELOG.txt
+
+* adapt initial magnification to initial screen resolution/size
+* 
+* editor mode:
+    select cubes by moving over with ctrl
+* mark edges/faces to see rotations, or adjunct a small tetrahedral
+* EPS, PDF, dpi value
+* animated goal achieved and game over (jumping&rotating cubes)
+* save workspace into xml
+* 3d glass mode (3d faces or 2d facets are glass like in 3d), slitting 2d facets
+* 4d glass mode 
+* skeleton mode
+
+* add red/green glasses
+* random generation of levels

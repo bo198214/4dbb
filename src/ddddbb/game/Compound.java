@@ -11,7 +11,7 @@ import ddddbb.math.Point;
 
 public class Compound {
 	//read-only
-	public int[][] cubes; //origin of cubes
+	public int[][] locations; //origin of cubes
 	private DCenter center; //can be on halfGrid center[i]=2*origin[i]+1
 	private DCell.Cube[] topLevelFacets;
 	@SuppressWarnings("unchecked")
@@ -23,14 +23,14 @@ public class Compound {
 			new Vector<DLocation>(),
 	};
 	
-	Compound(int[][] _cubes) {
-		cubes = _cubes;
+	Compound(int[][] locations) {
+		this.locations = locations;
 		setBaryCenter();
 		createTopLevelFacets();
 	}
 	
 	public void translate(DSignedAxis v) {
-		DOp.translate(cubes,v);
+		DOp.translate(locations,v);
 
 		center.translate(v);
 
@@ -40,8 +40,8 @@ public class Compound {
 	}
 	
 	public void rotate(int v, int w) {
-		for (int i=0;i<cubes.length;i++) {
-			DOp.rotateAsCenters(cubes[i],center,v,w);
+		for (int i=0;i<locations.length;i++) {
+			DOp.rotateAsCenters(locations[i],center,v,w);
 		}
 		
 		for (int d=0;d<=4;d++) for (DLocation f : allFaces[d]) {
@@ -54,39 +54,39 @@ public class Compound {
 	}
 	
 	protected void setBaryCenter() {
-		center = new DCenter(cubes,true);
+		center = new DCenter(locations,true);
 	}
 	
 	public void combine(Vector<Compound> cs) {
-		int l = cubes.length;
+		int l = locations.length;
 		for (Compound c:cs) {
-			l+=c.cubes.length;
+			l+=c.locations.length;
 		}
 		int[][] res = new int[l][];
 		int i;
-		for (i=0;i<cubes.length;i++) {
-			res[i] = cubes[i];
+		for (i=0;i<locations.length;i++) {
+			res[i] = locations[i];
 		}
 		for (Compound c:cs) {
-			for (int j=0;j<c.cubes.length;j++) {
-				res[i] = c.cubes[j];
+			for (int j=0;j<c.locations.length;j++) {
+				res[i] = c.locations[j];
 				i++;
 			}
 		}
-		cubes = res;
+		locations = res;
 		createTopLevelFacets();
 		setBaryCenter();
 	}
 
 	private void createTopLevelFacets() {
-		topLevelFacets = new DCell.Cube[cubes.length];
+		topLevelFacets = new DCell.Cube[locations.length];
 		allFaces[0].clear();
 		allFaces[1].clear();
 		allFaces[2].clear();
 		allFaces[3].clear();
 		allFaces[4].clear();
-		for (int i=0;i<cubes.length;i++) {
-			topLevelFacets[i] = new DCell.Cube(cubes[i],allFaces);
+		for (int i=0;i<locations.length;i++) {
+			topLevelFacets[i] = new DCell.Cube(locations[i],allFaces);
 		}
 		setShowGrid(false);
 	}
@@ -116,5 +116,9 @@ public class Compound {
 //		res.multiply(1.0/cubes.length);
 //		return res;
 		return center.loc();
+	}
+	
+	public int[][] locations() {
+		return locations;
 	}
 }

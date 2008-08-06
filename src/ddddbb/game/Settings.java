@@ -306,7 +306,7 @@ public class Settings {
 					new DSignedAxis(-4),
 			}
 	);
-	public final IntModel<Objectives> objectives = new IntModel<Objectives>(Objectives.values());
+	public final IntModel<Objective> objectives = new IntModel<Objective>(ObjectiveEnum.values());
 	public final IntModel<Camera4d> perspective = new PerspectiveEnum();
 	public static final BoolModel soundOn = new BoolModel(true,"Sound on");
 
