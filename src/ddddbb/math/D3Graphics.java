@@ -288,7 +288,7 @@ public abstract class D3Graphics {
 //	}
 	
 	public void draw3dFacet(DCell f3) {
-		for (DCell f:f3.getDOFaces(1,false)) {
+		for (DCell f:f3.getFaces(1,false)) {
 			if (f.isInternal()) { continue; }
 			draw1dFacet(f);
 //			drawLine(new PE3d1d(f));

@@ -15,6 +15,7 @@ import ddddbb.game.Settings;
 
 public class SoundEnum {
 	public static final Sound MOVINGCOMPOUND = new Sound("3060_SpeedY_UFOblip.wav",false);
+//	public static final Sound MOVINGCOMPOUND = new Sound("movingCompound_22050.wav",false); //it can not read this
 	public static final Sound ROTATINGCOMPOUND = new Sound("rotatingCompound.wav",false);
 	public static final Sound BARRINGCOMPOUND = new Sound("barringCompound.wav",false);
 	public static final Sound SNAPPINGCOMPOUNDS = new Sound("39762_altemark_cmb5.wav",false);

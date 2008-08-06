@@ -138,21 +138,7 @@ public class DCell extends BCell {
 		return normal.direc(spaceDim());
 	}
 
-	//didnt get this to work, together with rotate2
 	private void originUpdate() {
-//		dim = location.spat.length;
-
-//		boolean locationExisting = false;
-//		if (locations.contains(location)) { 
-//			location = locations.get(locations.indexOf(location));
-//			locationExisting = true;
-//		}
-//		else { 
-//			location.faces = new Facet[2*dim];
-//			locations.add(location); 
-//		}
-//		assert(locationExisting);
-
 		if (dim==0) { return; }
 		for (int s=0;s<2;s++) {
 			for (int ai=0;ai<dim;ai++) {
@@ -166,15 +152,9 @@ public class DCell extends BCell {
 				faceOrigin[location.spat[ai]] += s;
 				DCell f = facets[s][ai]; 
 				f.normal =new DSignedAxis(s,location.spat[ai]); 
-//					f.locations = locations;
 				f.location.origin = faceOrigin;
 				f.location.spat = faceSpat;
 				f.originUpdate();
-
-//					if (! locationExisting) {
-//						location.faces[2*ai+s].origin = faces[s][ai].location.origin;
-//						location.faces[2*ai+s].spat = faces[s][ai].location.spat;
-//					}
 			}
 		}
 	}
@@ -215,44 +195,16 @@ public class DCell extends BCell {
 //		return res;
 //	}
 //	
-	/** computes the vertex v of a facet
+	/** gets the vertex v of a facet
 	 *  such that v+0.5*spat() is the center of that facet
 	 */ 
 	public int[] origin() {
 		return location.origin;
-////		Vector v = new Vector();
-//		int[] res = new int[dim];
-//		
-//		if (parent==null) {
-//			for (int a=0;a<dim;a++) {
-//				res[a]=faces[0][a].coord;
-//			}
-//		}
-//		else {
-//			res = parent.origin();
-//			if (sign==1) {
-//				res[axis()]+=coord;
-//			}
-//		}
-//		return res;
 	}
 	
 	/** returns the axes which span the facet */
 	public int[] spat() {
 		return location.spat;
-//		int[] res = new int[dim];
-//		if (parent==null) {
-//			for (int a=0;a<dim;a++) {
-//				res[a]=a;
-//			}
-//			return res;
-//		}
-//		int[] ps = parent.spat();
-//		for (int a=0;a<res.length;a++) {
-//			if (a<axisIndex) { res[a] = ps[a]; }
-//			else        { res[a] = ps[a+1]; }
-//		}
-//		return res;
 	}
 	
 	/** returns the axes which are orthogonal to the facet */
@@ -297,21 +249,6 @@ public class DCell extends BCell {
 		}
 		return v;
 	}
-	
-//	public List<Point> vertices(Projection t) {
-//		Vector<Point> v = new Vector<Point>();
-//		if (dim==0) { v.add(t.proj(vertex())); return v; }
-//		for (int s=0;s<2;s++) {
-//			v.addAll(faces[s][0].vertices(t));
-//		}
-//		return v;
-//	}
-	
-//	private Point origin(Projection t) {
-//		Point res = Point.create(t.toDim());  
-//		t.proj(origin(),res);
-//		return res;
-//	}
 	
 	public int spaceDim() {
 		if (parent==null) { return dim; }
@@ -365,43 +302,13 @@ public class DCell extends BCell {
 //		return parent.location.spat[axisIndex];
 //	}
 	
-	/** computes the vertex of an 0 dimensional Facet */
+	/** returns the vertex of an 0 dimensional Facet */
 	public int[] vertex() {
 		return location.origin;
-//		Vector v = new Vector();
-//		if ( dim > 0 ) { return faces[0][0].vertex(); } 
-//		
-//		OFacet f = this;
-//		while (f.parent!=null) {
-//			v.add(f.axisIndex,new Integer(f.coord));
-//			f = f.parent;
-//		}
-//		
-//		int[] res = new int[v.size()];
-//		for (int i=0;i<res.length;i++) {
-//			res[i] = ((Integer)v.get(i)).intValue();
-//		}
-//		return res;
 	}
 	
 	public static boolean positionEqual(DCell f1,DCell f2) {
 		return f1.location == f2.location;
-//		return f1.location.equals(f2.location);
-
-//		if (f1.dim!=f2.dim) { return false; }
-//		if (f1.coord!=f2.coord) { return false; }
-//		if (f1.dim==0) {
-//			return true;
-//		}
-//		//it should suffice to test this for s=0 only
-//		for (int s=0;s<2;s++) {
-//			for (int axis=0;axis<f1.dim;axis++) {
-//				if (!positionEqual(f1.faces[s][axis],f2.faces[s][axis])) {
-//					return false;
-//				}
-//			}
-//		}
-//		return true;
 	}
 		
 	public static int signum(int direction ) {
@@ -413,22 +320,14 @@ public class DCell extends BCell {
 		return location.origin[normal.axis]-eye[normal.axis];
 	}
 	
-	public Collection<DCell> getFaces(boolean all) {
-		return getDOFaces(dim-1,all);
-//		Collection res = new Vector();
-//		
-//		if (hidden) { return res; }
-//		for (int s=0;s<2;s++) for (int a=0;a<dim;a++) {
-//			Facet f = faces[s][a]; 
-//			if ( f!=null && !f.hidden) { res.add(f); }
-//		}
-//		return res;
+	public Collection<DCell> getFacets(boolean all) {
+		return getFaces(dim-1,all);
 	}
 	
-	public static Collection<DCell> getFaces(Collection<DCell> v,boolean withInternalFaces) {
+	public static Collection<DCell> getFacets(Collection<DCell> v,boolean withInternalFaces) {
 		if (v.isEmpty()) { return v; }
 		DCell f = v.iterator().next();
-		return getFacets(f.dim-1,v,withInternalFaces);
+		return getFaces(f.dim-1,v,withInternalFaces);
 	}
 	
 	/**
@@ -436,7 +335,7 @@ public class DCell extends BCell {
 	 * @param d dimension
 	 * @return Collection of facets
 	 */
-	public Collection<DCell> getDOFaces(int d,boolean withInternalFaces) {
+	public Collection<DCell> getFaces(int d,boolean withInternalFaces) {
 		Collection<DCell> res = new Vector<DCell>();
 		if (!withInternalFaces && isInternal()) { return res; }
 		if (d>dim) { return res; }
@@ -446,25 +345,25 @@ public class DCell extends BCell {
 		}
 		for (int s=0;s<2;s++) for (int a=0;a<dim;a++) {
 			DCell f = facets[s][a];
-			res.addAll( f.getDOFaces(d,withInternalFaces));
+			res.addAll( f.getFaces(d,withInternalFaces));
 		}
 		return res;
 	}
 	
 	
-	public static Collection<DCell> getFacets(int d,Collection<DCell> v,boolean all) {
+	public static Collection<DCell> getFaces(int d,Collection<DCell> v,boolean all) {
 		Collection<DCell> res = new Vector<DCell>();
 		for (DCell f : v) {
-			res.addAll(f.getDOFaces(d,all));
+			res.addAll(f.getFaces(d,all));
 		}
 		return res;
 	}
 
 	/* 
-	 * returns the facets of all dimensions
+	 * returns the faces of all dimensions
 	 * untested and unused
 	 */
-	public Collection<DCell> getAllFacets() {
+	public Collection<DCell> getAllFaces() {
 		Collection<DCell> res = new Vector<DCell>();
 		if (dim==0) {
 			return res;
@@ -472,36 +371,12 @@ public class DCell extends BCell {
 		for (int s=0;s<2;s++) for (int a=0;a<dim;a++) {
 			DCell f = facets[s][a];
 			res.add(f);
-			res.addAll(f.getAllFacets());
+			res.addAll(f.getAllFaces());
 		}
 		return res;
 	}
 	
-//	private class CounterMap extends HashMap<Integer,Integer> {
-//		private static final long serialVersionUID = 1177064665843327829L;
-//
-//		public void inc(int i) {
-//			put(i,get(i)+1);
-//		}
-//		public void dec(int i) {
-//			put(i,get(i)-1);
-//		}
-//		
-//		public int get(int i) {
-//			Integer index = new Integer(i);
-//			Integer val = get(index);
-//			if (val == null ) { return 0; }
-//			return val.intValue();
-//		}
-//		
-//		public void put(int i,int v) {
-//			Integer index = new Integer(i);
-//			Integer val = new Integer(v);
-//			put(index,val);
-//		}
-//	}
-
-	public static class FacetVectorByInt extends HashMap<Integer,Vector<DCell>> {
+	private static class FacetVectorByInt extends HashMap<Integer,Vector<DCell>> {
 		private static final long serialVersionUID = 3005137881365448845L;
 
 		public void add(int i,DCell f) {
@@ -562,33 +437,6 @@ public class DCell extends BCell {
 		return true;
 	}
 
-//	public static void hideOposites2(OFacet[] facets) {
-//		Vector<OFacet> allFacets = new Vector<OFacet>();
-//		for (int i=0;i<facets.length;i++) {
-//			allFacets.addAll(facets[i].getAllFacets());
-//		}
-//		for (int i=0;i<allFacets.size();i++) {
-//			int testMulti = 0;
-//			OFacet last = null;
-//			for (int j=i+1;j<allFacets.size();j++) {
-//				OFacet a = allFacets.get(i);
-//				OFacet b = allFacets.get(j);
-//				if (opposite(a,b)) {
-//					a.setHidden();
-//					b.setHidden();
-//					testMulti++;
-//					assert testMulti==1 :
-//						"d: "+last.dim+"-"+b.dim+"\n"+
-//						positionEqual(last,b)+"\n"+
-//						(last.sign==b.sign)+"\n"+
-//						(last.axis==b.axis)+"\n"+
-//						(last.parent==b.parent);
-//					last = b;
-//					break;
-//				}
-//			}
-//		}
-//	}
 	/** top-down hides opposite facets
 	 * all subfacets of a hidden made facet remain untouched 
 	 */
@@ -646,32 +494,6 @@ public class DCell extends BCell {
 					markInternalFacets(subFacets);
 				}
 			}
-			
-//			for (int s=0;s<2;s++) {
-//				OFacet[] subfacets = new OFacet[facets.length-removed];
-//				for (int i=0,n=0;i<facets.length;i++) {
-//					int sameCoordCount=0;
-//					for (int j=i+1;j<facets.length;j++)
-//						if (facets[i].coord==facets[j].coord) {
-//							sameCoordCount++;
-//					}
-//					
-//					OFacet f = facets[i].faces[s][a];
-//					if (
-//							f!=null &&
-//							!f.hidden
-//					) {
-//						if (n>=facets.length-removed) {
-//							System.out.println("aaahhh!");
-//						}
-//						subfacets[n]=f;
-//						n++;
-//					}
-//				}
-//				hideOposites(
-////						dim-1,
-//						subfacets);
-//			}
 		}
 	}
 	
@@ -737,23 +559,6 @@ public class DCell extends BCell {
 		return parent;
 	}
 
-	//	public boolean equals(Object o) {
-//		Facet f = (Facet) o;
-//		return positionEqual(this,f);
-//	}
-	
-//	public GFacet proj(Camera c) {
-//		Facet res = new Facet(3,1,0,0,new int[3],null);
-//		for (int s=0;s<2;s++) for (int a=0;a<dim;a++) {
-//			c.proj(Gop.UNITVECTOR[faces[s][a].axis]);
-//		}
-//		c.proj(vertex);
-//	}
-	
-//	public Vector<HalfSpace> halfSpaces() {
-//		return location.halfSpaces;
-//	}
-	
 	public String toString() {
 //		if (dim()==0) {
 //			String res = "(";

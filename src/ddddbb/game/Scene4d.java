@@ -1,7 +1,5 @@
 package ddddbb.game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
@@ -9,17 +7,11 @@ import ddddbb.comb.Cell;
 import ddddbb.comb.CellComplex;
 import ddddbb.comb.DCell;
 import ddddbb.comb.DOp;
-import ddddbb.game.Settings.Axis3d;
-import ddddbb.game.Settings.Axis4d;
-import ddddbb.game.Settings.DiAxis3d;
-import ddddbb.game.Settings.DiAxis4d;
 import ddddbb.gen.AChangeListener;
 import ddddbb.gen.BoolModel;
-import ddddbb.gen.DiIntModel;
 import ddddbb.gen.Model;
 import ddddbb.gen.MyChangeListener;
 import ddddbb.gen.SelectedListModel;
-import ddddbb.math.AOP;
 import ddddbb.math.Camera3d;
 import ddddbb.math.Camera4d;
 import ddddbb.math.D3Graphics;
@@ -173,59 +165,59 @@ public class Scene4d extends Model implements MyChangeListener {
 		for (Compound c : cs) {
 			DCell[] facets4d = c.getTopLevelFacets();
 			for (int i=0;i<facets4d.length;i++) {
-				faces3d.addAll(facets4d[i].getFaces(false));
+				faces3d.addAll(facets4d[i].getFacets(false));
 			}
 		}		
 	}
 	
 	public void paint(D3Graphics g3) {
-			g3.clear();
-			//not in front faces:
-			
-			List<DCell> ffaces3d;
-			try {
-				for (DCell dc : faces3d) dc.proj3d2dIN(g3,camera4d);
-				ffaces3d = faces3d;
+		g3.clear();
+		//not in front faces:
+
+		List<DCell> ffaces3d;
+		try {
+			for (DCell dc : faces3d) dc.proj3d2dIN(g3,camera4d);
+			ffaces3d = faces3d;
+		}
+		catch (ProjectionException e) {
+			ffaces3d = new Vector<DCell>();
+			for (DCell dc : faces3d) {
+				try {
+					dc.proj3d2dIN(g3,camera4d);
+					ffaces3d.add(dc);
+				} catch (ProjectionException ee) {}
+			}			
+		}
+		//		for (Compound c: cs) for (DLocation v : c.getAllFaces()[0]) {
+		//			v.proj3d2dIN(g3,camera4d);
+		//		}
+
+		Settings.Occlusion4dAllowance oa = occlusion4dAllowance;
+
+		if (oa == Settings.Occlusion4dAllowance.NONE) {
+			for (DCell df3 : ffaces3d) g3.render3dFacet(df3);
+		}
+		else if (oa==Settings.Occlusion4dAllowance.BACKFACE) {
+			for (DCell df3 : ffaces3d) {
+				if (df3.facing) g3.render3dFacet(df3);
 			}
-			catch (ProjectionException e) {
-				ffaces3d = new Vector<DCell>();
-				for (DCell dc : faces3d) {
-					try {
-						dc.proj3d2dIN(g3,camera4d);
-						ffaces3d.add(dc);
-					} catch (ProjectionException ee) {}
-				}			
+		}
+		else if (oa==Settings.Occlusion4dAllowance.COMPLETE) {
+			Vector<DCell> dvisibles3 = new Vector<DCell>();
+			for (DCell df3 : ffaces3d) {
+				if (df3.facing) dvisibles3.add(df3);
 			}
-	//		for (Compound c: cs) for (DLocation v : c.getAllFaces()[0]) {
-	//			v.proj3d2dIN(g3,camera4d);
-	//		}
-	
-			Settings.Occlusion4dAllowance oa = occlusion4dAllowance;
-			
-			if (oa == Settings.Occlusion4dAllowance.NONE) {
-				for (DCell df3 : ffaces3d) g3.render3dFacet(df3);
-			}
-			else if (oa==Settings.Occlusion4dAllowance.BACKFACE) {
-				for (DCell df3 : ffaces3d) {
-					if (df3.facing) g3.render3dFacet(df3);
-				}
-			}
-			else if (oa==Settings.Occlusion4dAllowance.COMPLETE) {
-				Vector<DCell> dvisibles3 = new Vector<DCell>();
-				for (DCell df3 : ffaces3d) {
-					if (df3.facing) dvisibles3.add(df3);
-				}
-				CellComplex visibles3 = CellComplex.occlusionCreate(dvisibles3,camera4d);
-				assert visibles3.checkSnap();
-				assert visibles3.outsideReferrers().size() == 0;
-	
-				for (Cell f1 : visibles3.getFacesOfDim(1, Main.debug.isSelected())) {
-					if (!f1.isInternal()) {
-						g3.drawLine((Point3d)f1.a().o(), (Point3d)f1.b().o());
-					}
+			CellComplex occlusionComplex = CellComplex.occlusionCreate(dvisibles3,camera4d);
+			assert occlusionComplex.checkSnap();
+			assert occlusionComplex.outsideReferrers().size() == 0;
+
+			for (Cell f1 : occlusionComplex.getFacesOfDim(1, Main.debug.isSelected())) {
+				if (!f1.isInternal()) {
+					g3.drawLine((Point3d)f1.a().o(), (Point3d)f1.b().o());
 				}
 			}
 		}
+	}
 
 //	public void addChangeListener(MyChangeListener l) {
 //		super.addChangeListener(l);

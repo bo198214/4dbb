@@ -3,16 +3,16 @@ package ddddbb.game;
 import ddddbb.comb.DOp;
 
 public enum Objectives {
-	Trivial( 
-			new int[][] {
-					new int[] { 1,0,0,0 },
-					new int[] { 0,0,0,0 }
-			},
-			new int[][][]  { 
-					new int[][] { new int[] {  1,0,0,0 } },
-					new int[][] { new int[] { 0,0,-1,-2 } },
-			}
-	),
+//	Trivial( 
+//			new int[][] {
+//					new int[] { 1,0,0,0 },
+//					new int[] { 0,0,0,0 }
+//			},
+//			new int[][][]  { 
+//					new int[][] { new int[] {  1,0,0,0 } },
+//					new int[][] { new int[] { 0,0,-1,-2 } },
+//			}
+//	),
 	Bar(
 			new int[][] {
 					new int[] { 2,0,0,0 },
@@ -25,22 +25,6 @@ public enum Objectives {
 							new int[] { -1, 1, 0 , 0}
 					},
 					new int[][] { new int[] {1,0,0,0} }
-			}
-	),
-	Worm(
-			new int[][] {
-					new int[] { 0,0,0,0 },
-					new int[] { 1,0,0,0 },
-					new int[] { 1,1,0,0 },
-					new int[] { 1,1,1,0 },
-					new int[] { 1,1,1,-1 },
-			},
-			new int[][][] {
-					new int[][] { new int[] { 1,1,0,0 } },
-					new int[][] { new int[] { 0,0,0,0 } },
-					new int[][] { new int[] { 2,0,0,0 } },
-					new int[][] { new int[] { 0,2,0,0 } },
-					new int[][] { new int[] { 2,2,0,0 } },
 			}
 	),
 	Two_Cuboids("Two Cuboids",
@@ -67,6 +51,22 @@ public enum Objectives {
 						new int[] { 1,1,1,1 },
 				}, new int[] {3,0,0,-1}),
 		}				
+	),
+	Worm(
+			new int[][] {
+					new int[] { 0,0,0,0 },
+					new int[] { 1,0,0,0 },
+					new int[] { 1,1,0,0 },
+					new int[] { 1,1,1,0 },
+					new int[] { 1,1,1,-1 },
+			},
+			new int[][][] {
+					new int[][] { new int[] { 1,1,0,0 } },
+					new int[][] { new int[] { 0,0,0,0 } },
+					new int[][] { new int[] { 2,0,0,0 } },
+					new int[][] { new int[] { 0,2,0,0 } },
+					new int[][] { new int[] { 2,2,0,0 } },
+			}
 	),
 	Star(
 			DOp.create4dStar(),
@@ -107,6 +107,76 @@ public enum Objectives {
 				},new int[] {3,0,0,0})
 			}
 			
+	),
+	D3Box(
+			"3D Box",
+			new int[][] {
+					new int[] { 0,0,0,0 },
+					new int[] { 1,0,0,0 },
+					new int[] { 2,0,0,0 },
+					new int[] { 0,1,0,0 },
+					new int[] { 1,1,0,0 },
+					new int[] { 2,1,0,0 },
+					new int[] { 0,2,0,0 },
+					new int[] { 1,2,0,0 },
+					new int[] { 2,2,0,0 },
+
+					new int[] { 0,0,1,0 },
+					new int[] { 1,0,1,0 },
+					new int[] { 2,0,1,0 },
+					new int[] { 0,1,1,0 },
+					new int[] { 1,1,1,0 },
+					new int[] { 2,1,1,0 },
+					new int[] { 0,2,1,0 },
+					new int[] { 1,2,1,0 },
+					new int[] { 2,2,1,0 },
+
+					new int[] { 0,0,2,0 },
+					new int[] { 1,0,2,0 },
+					new int[] { 2,0,2,0 },
+					new int[] { 0,1,2,0 },
+					new int[] { 1,1,2,0 },
+					new int[] { 2,1,2,0 },
+					new int[] { 0,2,2,0 },
+					new int[] { 1,2,2,0 },
+					new int[] { 2,2,2,0 },
+			},
+			new int[][][] {
+					new int[][] {
+							new int[] { 0,0,0,0 },
+							new int[] { 1,0,0,0 },
+							new int[] { 2,0,0,0 },
+							new int[] { 0,1,0,0 },
+							new int[] { 1,1,0,0 },
+							new int[] { 2,1,0,0 },
+							new int[] { 0,2,0,0 },
+							new int[] { 1,2,0,0 },
+							new int[] { 2,2,0,0 },
+
+							new int[] { 0,0,1,0 },
+							new int[] { 1,0,1,0 },
+							new int[] { 2,0,1,0 },
+							new int[] { 0,1,1,0 },
+							
+							new int[] { 2,1,1,0 },
+							new int[] { 0,2,1,0 },
+							new int[] { 1,2,1,0 },
+							new int[] { 2,2,1,0 },
+
+							new int[] { 0,0,2,0 },
+							new int[] { 1,0,2,0 },
+							new int[] { 2,0,2,0 },
+							new int[] { 0,1,2,0 },
+							new int[] { 1,1,2,0 },
+							new int[] { 2,1,2,0 },
+							new int[] { 0,2,2,0 },
+							new int[] { 1,2,2,0 },
+							new int[] { 2,2,2,0 },
+					},
+					new int[][] {
+							new int[] { 4,1,1,0 },
+					}
+			}
 	),
 	Mirrored_Worms("Mirrored Worms",
 			new int[][] {
@@ -164,7 +234,195 @@ public enum Objectives {
 				},new int[] {3,0,0,0}),
 		}				
 	),
-	Exam(
+	TwoRings("Two Rings",			
+			new int[][] {
+					new int[] {0,0,0,0},
+					new int[] {1,0,0,0},
+					new int[] {2,0,0,0},
+					new int[] {2,1,0,0},
+					new int[] {2,2,0,0},
+					new int[] {1,2,0,0},
+					new int[] {0,2,0,0},
+					new int[] {0,1,0,0},
+					
+					new int[] {0,0,0,1},
+					new int[] {1,0,0,1},
+					new int[] {2,0,0,1},
+					new int[] {2,1,0,1},
+					new int[] {2,2,0,1},
+					new int[] {1,2,0,1},
+					new int[] {0,2,0,1},
+					new int[] {0,1,0,1}
+			},
+			new int[][][] {
+					new int[][] {
+							new int[] {0,0,0,0},
+							new int[] {1,0,0,0},
+							new int[] {2,0,0,0},
+							new int[] {2,1,0,0},
+							new int[] {2,2,0,0},
+							new int[] {1,2,0,0},
+							new int[] {0,2,0,0},
+							new int[] {0,1,0,0}
+					},
+					new int[][] {
+							new int[] {1,1,-1,0},
+							new int[] {1,1,0,0},
+							new int[] {1,1,1,0},
+							new int[] {2,1,1,0},
+							new int[] {3,1,1,0},
+							new int[] {3,1,0,0},
+							new int[] {3,1,-1,0},
+							new int[] {2,1,-1,0},
+					}
+			}
+	),
+	
+	Clamp(
+			"4D Clamp",
+			new int[][] {
+					new int[] { 0,0,0,0 },
+					new int[] { 1,0,0,0 },
+					new int[] { 2,0,0,0 },
+					new int[] { 0,1,0,0 },
+					new int[] { 1,1,0,0 },
+					new int[] { 2,1,0,0 },
+					new int[] { 0,2,0,0 },
+					new int[] { 1,2,0,0 },
+					new int[] { 2,2,0,0 },
+
+					new int[] { 0,0,1,0 },
+					new int[] { 1,0,1,0 },
+					new int[] { 2,0,1,0 },
+					new int[] { 0,1,1,0 },
+					new int[] { 1,1,1,0 },
+					new int[] { 2,1,1,0 },
+					new int[] { 0,2,1,0 },
+					new int[] { 1,2,1,0 },
+					new int[] { 2,2,1,0 },
+
+					new int[] { 0,0,2,0 },
+					new int[] { 1,0,2,0 },
+					new int[] { 2,0,2,0 },
+					new int[] { 0,1,2,0 },
+					new int[] { 1,1,2,0 },
+					new int[] { 2,1,2,0 },
+					new int[] { 0,2,2,0 },
+					new int[] { 1,2,2,0 },
+					new int[] { 2,2,2,0 },
+			},
+			new int[][][] {
+					new int[][] {
+							new int[] { 0,0,0,0 },
+							new int[] { 1,0,0,0 },
+							new int[] { 2,0,0,0 },
+							new int[] { 0,1,0,0 },
+							new int[] { 1,1,0,0 },
+							new int[] { 2,1,0,0 },
+							new int[] { 0,2,0,0 },
+							new int[] { 1,2,0,0 },
+							new int[] { 2,2,0,0 },
+
+							new int[] { 0,0,1,0 },
+
+							new int[] { 2,0,1,0 },
+							new int[] { 0,1,1,0 },
+							new int[] { 1,1,1,0 }, 
+							new int[] { 2,1,1,0 },
+							new int[] { 0,2,1,0 },
+
+							new int[] { 2,2,1,0 },
+
+							new int[] { 0,0,2,0 },
+							new int[] { 1,0,2,0 },
+							new int[] { 2,0,2,0 },
+							new int[] { 0,1,2,0 },
+							new int[] { 1,1,2,0 },
+							new int[] { 2,1,2,0 },
+							new int[] { 0,2,2,0 },
+							new int[] { 1,2,2,0 },
+							new int[] { 2,2,2,0 },
+					},
+					new int[][] {
+							new int[] { 4,0,1,0 },
+							new int[] { 4,2,1,0 },
+					}
+			}
+	),
+	TriClamp(
+			"Triclamp",
+			new int[][] {
+					new int[] { 0,0,0,0 },
+					new int[] { 1,0,0,0 },
+					new int[] { 2,0,0,0 },
+					new int[] { 0,1,0,0 },
+					new int[] { 1,1,0,0 },
+					new int[] { 2,1,0,0 },
+					new int[] { 0,2,0,0 },
+					new int[] { 1,2,0,0 },
+					new int[] { 2,2,0,0 },
+
+					new int[] { 0,0,1,0 },
+					new int[] { 1,0,1,0 },
+					new int[] { 2,0,1,0 },
+					new int[] { 0,1,1,0 },
+					new int[] { 1,1,1,0 },
+					new int[] { 2,1,1,0 },
+					new int[] { 0,2,1,0 },
+					new int[] { 1,2,1,0 },
+					new int[] { 2,2,1,0 },
+
+					new int[] { 0,0,2,0 },
+					new int[] { 1,0,2,0 },
+					new int[] { 2,0,2,0 },
+					new int[] { 0,1,2,0 },
+					new int[] { 1,1,2,0 },
+					new int[] { 2,1,2,0 },
+					new int[] { 0,2,2,0 },
+					new int[] { 1,2,2,0 },
+					new int[] { 2,2,2,0 },
+			},
+			new int[][][] {
+					new int[][] {
+							new int[] { 0,0,0,0 },
+							new int[] { 1,0,0,0 },
+							new int[] { 2,0,0,0 },
+							new int[] { 0,1,0,0 },
+
+							new int[] { 2,1,0,0 },
+							new int[] { 0,2,0,0 },
+							new int[] { 1,2,0,0 },
+							new int[] { 2,2,0,0 },
+
+							new int[] { 0,0,1,0 },
+
+							new int[] { 2,0,1,0 },
+							new int[] { 1,1,1,0 }, 
+
+							new int[] { 0,2,1,0 },
+
+							new int[] { 2,2,1,0 },
+
+							new int[] { 0,0,2,0 },
+							new int[] { 1,0,2,0 },
+							new int[] { 2,0,2,0 },
+							new int[] { 0,1,2,0 },
+							new int[] { 2,1,2,0 },
+							new int[] { 0,2,2,0 },
+							new int[] { 1,2,2,0 },
+							new int[] { 2,2,2,0 },
+					},
+					new int[][] {
+							new int[] { 5,1,0,0 },
+							new int[] { 5,0,1,0 },
+							new int[] { 5,2,1,0 },
+							new int[] { 6,1,1,0 },
+							new int[] { 4,1,1,0 },
+							new int[] { 5,1,2,0 },
+					}
+			}
+	),
+	Exam("4 Tesseract Pieces",
 			DOp.create4dCube(2),
 			new int[][][] {
 				new int[][] {
