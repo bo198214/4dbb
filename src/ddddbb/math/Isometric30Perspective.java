@@ -25,7 +25,7 @@ public class Isometric30Perspective extends Camera4dOrthographic {
 		changed();
 	}
 
-	public String toString() { return "Isometric 30\uc2b0 (orthographic)"; }
+	public String toString() { return "Isometric (orthographic)"; }
 	
 //	public void setToDefault() {
 //		initAxes();

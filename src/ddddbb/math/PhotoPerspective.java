@@ -11,7 +11,7 @@ public class PhotoPerspective extends Camera4dCentral {
 			//super(new Point4d(3,3,2,0),defaultInitialV(),1);
 		}
 		
-		public String toString() { return "photo/perspective"; }
+		public String toString() { return "Photo/Perspective"; }
 		
 	
 	}

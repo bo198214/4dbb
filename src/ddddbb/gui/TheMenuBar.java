@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.prefs.BackingStoreException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,6 +19,7 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import ddddbb.game.Main;
+import ddddbb.game.PersistentPreferences;
 import ddddbb.game.Settings;
 
 
@@ -40,8 +43,6 @@ public class TheMenuBar extends JMenuBar {
 	private JMenu screenMenu = null;
 	
 	private JMenuItem exitMenuItem = null;
-
-	private JMenuItem saveMenuItem = null;
 
 	private JMenuItem jLoadSceneMenuItem = null;
 
@@ -76,53 +77,65 @@ public class TheMenuBar extends JMenuBar {
 			fileMenu = new JMenu();
 			fileMenu.setText("File");
 			{
-				saveMenuItem = new JMenuItem();
-				saveMenuItem.setText("Save");
-				saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				JMenuItem savePrefs = new JMenuItem();
+				savePrefs.setText("Save Preferences");
+				savePrefs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 						Event.CTRL_MASK, true));
-				saveMenuItem.setEnabled(false);				
+				savePrefs.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							new PersistentPreferences.User(main.ss).save();
+						} catch (BackingStoreException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}});
+				fileMenu.add(savePrefs);
 			}
-			fileMenu.add(saveMenuItem);
+//			{
+//				jLoadSceneMenuItem = new JMenuItem();
+//				jLoadSceneMenuItem.setText("Load scene ...");
+//				jLoadSceneMenuItem.setEnabled(false);
+//			    fileMenu.add(jLoadSceneMenuItem);
+//			}
+//			{
+//				jSaveSceneMenuItem = new JMenuItem();
+//				jSaveSceneMenuItem.setText("Save scene ...");
+//				jSaveSceneMenuItem.setEnabled(false);
+//			    fileMenu.add(jSaveSceneMenuItem);
+//			}
+//			{
+//				saveCanvasMenu = new JMenu();
+//				saveCanvasMenu.setText("Save screen as ...");
+//				saveCanvasMenu.add(getSavePngMenuItem());
+//				saveCanvasMenu.add(getSaveJpgMenuItem());
+//				saveCanvasMenu.add(getSavePdfMenuItem());
+//				{
+//					jSavePsMenuItem = new JMenuItem();
+//					jSavePsMenuItem.setText(".eps");
+//					
+//					jSavePsMenuItem.setToolTipText("Not yet available.");
+//					jSavePsMenuItem.setEnabled(false);
+//				}
+//				saveCanvasMenu.add(jSavePsMenuItem);				
+//				fileMenu.add(saveCanvasMenu);
+//			}
 			{
-				jLoadSceneMenuItem = new JMenuItem();
-				jLoadSceneMenuItem.setText("Load scene ...");
-				jLoadSceneMenuItem.setEnabled(false);
+				getSavePngMenuItem().setText("Save Screen as PNG ...");
+				fileMenu.add(getSavePngMenuItem());
 			}
-			fileMenu.add(jLoadSceneMenuItem);
-			{
-				jSaveSceneMenuItem = new JMenuItem();
-				jSaveSceneMenuItem.setText("Save scene ...");
-				jSaveSceneMenuItem.setEnabled(false);
-			}
-			fileMenu.add(jSaveSceneMenuItem);
-			{
-				saveCanvasMenu = new JMenu();
-				saveCanvasMenu.setText("Save Canvas as ...");
-				saveCanvasMenu.add(getSavePngMenuItem());
-				saveCanvasMenu.add(getSaveJpgMenuItem());
-				saveCanvasMenu.add(getSavePdfMenuItem());
-				{
-					jSavePsMenuItem = new JMenuItem();
-					jSavePsMenuItem.setText(".eps");
-					
-					jSavePsMenuItem.setToolTipText("Not yet available.");
-					jSavePsMenuItem.setEnabled(false);
-				}
-				saveCanvasMenu.add(jSavePsMenuItem);				
-			}
-			fileMenu.add(saveCanvasMenu);
-			
 //			fileMenu.add(getPrintMenuItem());
 			{
 				garbageCollectMenuItem = new JMenuItem();
-				garbageCollectMenuItem.setText("collect garbage");
+				garbageCollectMenuItem.setText("Collect garbage");
 				garbageCollectMenuItem.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						System.gc();
 					}
 				});				
+				fileMenu.add(garbageCollectMenuItem);
 			}
-			fileMenu.add(garbageCollectMenuItem);
 			{
 				exitMenuItem = new JMenuItem();
 				exitMenuItem.setText("Exit");
@@ -131,15 +144,15 @@ public class TheMenuBar extends JMenuBar {
 						System.exit(0);
 					}
 				});
+				fileMenu.add(exitMenuItem);			
 			}
-			fileMenu.add(exitMenuItem);			
+			add(fileMenu);
 		}
-		add(fileMenu);
 		{
 			objectivesMenu = new JMenu("Objectives");
 			main.ss.objectives.addAsRadioButtonMenuItems(objectivesMenu);
+			add(objectivesMenu);
 		}
-		add(objectivesMenu);
 		{
 			viewMenu = new JMenu();
 			viewMenu.setText("View");
@@ -153,10 +166,9 @@ public class TheMenuBar extends JMenuBar {
 			main.ss.antiAliased.addAsCheckBoxMenuItem(viewMenu);
 			viewMenu.addSeparator();
 			Settings.soundOn.addAsCheckBoxMenuItem(viewMenu);
-			Main.debug.addAsCheckBoxMenuItem(viewMenu);
-
+//			Main.debug.addAsCheckBoxMenuItem(viewMenu);
+			add(viewMenu);
 		}
-		add(viewMenu);
 		{
 			projMenu = new JMenu();
 			projMenu.setText("Projection");
@@ -166,14 +178,14 @@ public class TheMenuBar extends JMenuBar {
 			main.ss.orientation3d.addAsRadioButtonMenuItems(projMenu);
 			projMenu.addSeparator();
 			main.ss.orientation4d.addAsRadioButtonMenuItems(projMenu);
+			add(projMenu);
 		}
-		add(projMenu);
 		{
 			screenMenu = new JMenu();
-			screenMenu.setText("Screen");
+			screenMenu.setText("Screen/Help");
 			main.showedScreen.addAsRadioButtonMenuItems(screenMenu);			
+			add(screenMenu);
 		}
-		add(screenMenu);
 	}
 	
 //	/**
@@ -287,6 +299,8 @@ public class TheMenuBar extends JMenuBar {
 	private JMenuItem getSavePngMenuItem() {
 		if (savePngMenuItem == null) {
 			savePngMenuItem = new JMenuItem();
+			savePngMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+					Event.CTRL_MASK, true));
 			savePngMenuItem.setText(".png");
 			savePngMenuItem.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {

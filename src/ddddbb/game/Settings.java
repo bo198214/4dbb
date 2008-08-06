@@ -186,8 +186,8 @@ public class Settings {
 		new IntModel<Occlusion4dAllowance>(Occlusion4dAllowance.COMPLETE,Occlusion4dAllowance.values());
 
 	public static enum Orientation3d {
-		LEFTHANDED("3d left handed",+1),
-		RIGHTHANDED("3d right handed",-1);
+		LEFTHANDED("3D Left Handed",+1),
+		RIGHTHANDED("3D Right Handed",-1);
 		String name;
 		int value;
 		Orientation3d(String _name, int _value ) {
@@ -203,8 +203,8 @@ public class Settings {
 		new IntModel<Orientation3d>(Orientation3d.LEFTHANDED,Orientation3d.values());
 
 	public static enum Orientation4d {
-		LEFTHANDED("4d left handed",+1),
-		RIGHTHANDED("4d right handed",-1);
+		LEFTHANDED("4D Left Handed",+1),
+		RIGHTHANDED("4D Right Handed",-1);
 		String name;
 		int value;
 		private Orientation4d(String _name, int _value) { 
@@ -218,22 +218,22 @@ public class Settings {
 		new IntModel<Orientation4d>(Orientation4d.RIGHTHANDED,Orientation4d.values());
 
 	public static enum ViewType {
-		FLAT("flat") {
+		FLAT("Flat") {
 			public D3Graphics getD3Graphics(D2GraphicsIF g,Camera3d c) {
 				return new Flat3dGraphics(g,c);
 			}
 		},
-		CROSSED("crossed eyes") {
+		CROSSED("Crossed Eyes") {
 			public D3Graphics getD3Graphics(D2GraphicsIF g,Camera3d c) {
 				return new CrossEyedGraphics(g,c);
 			}
 		},
-		PARALLEL("parallel eyes") {
+		PARALLEL("Parallel Eyes") {
 			public D3Graphics getD3Graphics(D2GraphicsIF g,Camera3d c) {
 				return new ParallelEyedGraphics(g,c);
 			}
 		},
-		ANAGLYPH("red/cyan") {
+		ANAGLYPH("Red/Cyan") {
 			public D3Graphics getD3Graphics(D2GraphicsIF g,Camera3d c) {
 				return new AnaglyphGraphics(g,c);
 			}
@@ -252,7 +252,7 @@ public class Settings {
 		public final Camera4d LINEAR;
 		public final Camera4d ISOMETRIC30;
 		public final Camera4d CAVALIER;
-		public final Camera4d ORTHOGRAPHIC;
+//		public final Camera4d ORTHOGRAPHIC;
 		public final Camera4d DIMETRIC;
 		
 		public Camera4d[] values;
@@ -261,13 +261,13 @@ public class Settings {
 			LINEAR = new PhotoPerspective();
 			ISOMETRIC30 = new Isometric30Perspective();
 			CAVALIER = new CavalierPerspective();
-			ORTHOGRAPHIC = new OrthographicPerspective();
+//			ORTHOGRAPHIC = new OrthographicPerspective();
 			DIMETRIC = new Camera4dOrthographic.Dimetric();
 			values = new Camera4d[] {
 					LINEAR,
 					ISOMETRIC30,
 					CAVALIER,
-					ORTHOGRAPHIC,
+//					ORTHOGRAPHIC,
 					DIMETRIC
 			};
 			super.init(CAVALIER, values);

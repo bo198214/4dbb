@@ -42,7 +42,7 @@ public final class Main {
 			MAIN.addKeyListener(new KeyControl(ss,scene));
 			DOCUMENTATION = new DocumentationPane();
 			ABOUT = new AboutPane();
-			super.init(MAIN,new String[] {"adjustment", "main", "doc", "about"}, 
+			super.init(MAIN,new String[] {"Adjustment", "Scene", "Documentation", "About"}, 
 					new JPanel[] { ADJUSTMENT, MAIN, DOCUMENTATION, ABOUT });
 		}
     }

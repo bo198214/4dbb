@@ -143,9 +143,12 @@ public class KeyControl implements KeyListener {
 		s.put(SHIFT, 89, ss.zoom.decreaseAction); //Z
 		
 		s.put(0, 72, ua.resetCam); //h
-
 		s.put(0,51,ua.setTo3d); //3
 		s.put(0,52,ua.setTo4d); //4
+		s.put(0,84,ss.drawTetrahedral.toggleAction); //t
+		s.put(0, 66, ss.occlusion4dAllowance.cyclicNextAction); //b
+		
+		
 		s.put(0,86,scene.compounds.nextAction); //v
 		s.put(0,88,scene.compounds.prevAction); //x
 		s.put(0,67,scene.combineAction); //c

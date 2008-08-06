@@ -7,9 +7,9 @@ import ddddbb.gen.BoolModel;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
 
-public class Prefs {
-	public static class Screen extends Prefs {
-		public Screen(Settings ss) {
+public class PersistentPreferences {
+	public static class User extends PersistentPreferences {
+		public User(Settings ss) {
 			super(ss,
 					"4dbb/screen",
 					new String[] {
@@ -20,7 +20,16 @@ public class Prefs {
 					"xdpcm",
 					"ydpcm",
 					"resolutionUnit",
-					"lengthUnit"
+					"lengthUnit",
+					"mouseRotSens",
+					"mouseTransSens",
+					"viewType",
+					"orientation3d",
+					"orientation4d",
+					"perspective",
+					"drawTetrahedral",
+					"soundOn",
+					
 			});
 		}
 	}
@@ -31,7 +40,7 @@ public class Prefs {
 		
 	private final Settings ss;
 
-	protected Prefs(Settings ss, String node, String[] keys) {
+	protected PersistentPreferences(Settings ss, String node, String[] keys) {
 		this.ss = ss;
 		this.node = node;
 		this.keys = keys;
@@ -129,11 +138,11 @@ public class Prefs {
 		}
 	}
 	
-	public static void main(String[] args) throws BackingStoreException {
-		Settings ss = new Settings();
-		assert ss != null;
-		Prefs prefs = new Prefs.Screen(ss);
-		
-		prefs.load();
-	}
+//	public static void main(String[] args) throws BackingStoreException {
+//		Settings ss = new Settings();
+//		assert ss != null;
+//		PersistentPreferences prefs = new PersistentPreferences.Screen(ss);
+//		
+//		prefs.load();
+//	}
 }

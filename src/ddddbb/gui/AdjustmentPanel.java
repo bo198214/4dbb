@@ -15,14 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 
-import ddddbb.game.Prefs;
+import ddddbb.game.PersistentPreferences;
 import ddddbb.game.Settings;
 import ddddbb.gen.DoubleSpinner;
 import ddddbb.gen.DoubleUnitModel;
 
 @SuppressWarnings("serial")
 public class AdjustmentPanel extends JPanel {
-	private final Prefs.Screen prefs;
+	private final PersistentPreferences.User prefs;
 
 	private JLabel eyesDistLabel = null;
 	private JSpinner eyesDistSpinner = null;
@@ -64,7 +64,7 @@ public class AdjustmentPanel extends JPanel {
 	public AdjustmentPanel(Settings _sv, Container _window) {
 		sv = _sv;
 		window = _window;
-		prefs = new Prefs.Screen(sv);
+		prefs = new PersistentPreferences.User(sv);
 		prefs.load();
 		initialize();
 	}
@@ -130,18 +130,6 @@ public class AdjustmentPanel extends JPanel {
 		add(brightnessLabel, new GBC(0,10));
 
 		add(getDefaultValuesButton(), new GBC(1,11));
-		JButton save = new JButton("Save");
-		add(save,new GBC(2,11));
-		save.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					new Prefs.Screen(sv).save();
-				} catch (BackingStoreException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}});
 	}
 	
 	private JButton getDefaultValuesButton() {
