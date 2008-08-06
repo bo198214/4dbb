@@ -1,47 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="jar" name="4dbb">
-    <property name="4dbb.location" value="C:/projects/4dbb"/>
-    <property name="dest" value="C:\projects\web_ee\server\html\math\4dbb"/>
+	
+	<property name="version" value="1.2"/>
 
 	<property name="server_url" value="http://math.eretrandre.org"/>
-	
+	<property name="jar_url" value="${server_url}/4dbb/${jar}"/>
+
+	<!-- no need to modify the following -->
 	<property name="src_dir" value="src"/>
 	<property name="extsrc_dir" value="extsrc"/>
-    <property name="html_dir" value="html"/>
+    <property name="web_dir" value="web"/>
     <property name="release_dir" value="export"/>
 
     <property name="jar" value="4dbb.jar"/>
-	<property name="jar_url" value="${server_url}/4dbb/${jar}"/>
 	
 	<property name="application_properties" value="${src_dir}/ddddbb/game/application.properties"/>
 	<property file="${application_properties}"/>
     <tstamp>
         <format property="build_time" pattern="yyyyMMdd-HHmmss" locale="en"/>
-    	<format property="build_htime" pattern="yyyy-MM-dd HH:mm" locale="en"/>
+    	<format property="year" pattern="yyyy" locale="en"/>
     </tstamp>
 
 
     <property name="rproperties" value="${release_dir}/release.properties"/>
 	<delete file="${rproperties}"/>
 	
-	<echo file="${rproperties}">
-svn_number=</echo>
-	<exec executable="svnversion" append="true" output="${rproperties}">
-        <arg value="-n"/>
-    </exec>
 	<property file="${rproperties}"/>
 
-	<property name="applet_version" value="${version}.${svn_number}"/>
+	<property name="applet_version" value="${version}.${release_tag}"/>
     
-
     <echo file="${rproperties}">
 #This file is generated automaticly, do not edit!
 build_time=${build_time}
-build_htime=${build_htime}
 release_version=${version}
-svn_number=${svn_number}
 applet_version=${applet_version}
-copyright=${copyright_html}
+copyright=&#169; ${year} Henryk Trappmann, all rights reserved.
 email=${email}
 jar=${jar}
 jar_url=${jar_url}
@@ -88,7 +81,7 @@ jar_url=${jar_url}
 		<delete dir="${html_out}"/>
     	<mkdir dir="${html_out}"/>
         <copy todir="${html_out}" overwrite="true">
-            <fileset dir="${html_dir}">
+            <fileset dir="${web_dir}">
             	<exclude name="**/*.png"/>
             	<exclude name="**/*.jpg"/>
             	<exclude name="**/*.gif"/>
@@ -99,7 +92,7 @@ jar_url=${jar_url}
             </filterset>
         </copy>
         <copy todir="${html_out}" overwrite="true">
-            <fileset dir="${html_dir}">
+            <fileset dir="${web_dir}">
             	<include name="**/*.png"/>
             	<include name="**/*.jpg"/>
             	<include name="**/*.gif"/>

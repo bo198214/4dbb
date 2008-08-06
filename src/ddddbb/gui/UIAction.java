@@ -9,7 +9,6 @@ import ddddbb.game.Settings.Axis3d;
 import ddddbb.game.Settings.Axis4d;
 import ddddbb.game.Settings.DiAxis3d;
 import ddddbb.game.Settings.DiAxis4d;
-import ddddbb.gen.DiAxisModel;
 import ddddbb.gen.IntStringModel;
 import ddddbb.math.AOP;
 import ddddbb.math.Camera3d;
@@ -28,23 +27,6 @@ public class UIAction {
 		this.scene = scene;
 	}
 	
-	public ActionListener set4dRotAxes(final int a1, final int a2) {
-		return new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ss.viewRotXAxis12.setAxis12(a1-1,a2-1);
-			}
-		};
-		
-	}
-	public ActionListener set3dRotAxis(final int a) {
-		return new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ss.d3ViewRotAxis.setSelInt(a-1);
-			}
-		};
-	}
-
-
 	public void rotCam(double ph, int a1, int a2) {
 		assert a1!=0 && a2!=0;
 		int dim = ss.dim34.sel().dim();

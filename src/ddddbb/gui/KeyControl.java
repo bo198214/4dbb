@@ -1,6 +1,5 @@
 package ddddbb.gui;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -8,10 +7,6 @@ import java.awt.event.KeyListener;
 
 import ddddbb.game.Level;
 import ddddbb.game.Settings;
-import ddddbb.gen.BoolModel;
-import ddddbb.gen.DiAxisModel;
-import ddddbb.gen.IntStringModel;
-import ddddbb.math.AOP;
 
 public class KeyControl implements KeyListener {
 	public static class LookupTable3int<T> {

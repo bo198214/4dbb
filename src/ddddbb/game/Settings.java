@@ -10,11 +10,9 @@ import java.awt.Toolkit;
 
 import ddddbb.comb.DSignedAxis;
 import ddddbb.gen.BoolModel;
-import ddddbb.gen.DiAxisModel;
 import ddddbb.gen.DiIntModel;
 import ddddbb.gen.DoubleModel;
 import ddddbb.gen.IntModel;
-import ddddbb.gen.IntStringModel;
 import ddddbb.gen.Unit;
 import ddddbb.math.AnaglyphGraphics;
 import ddddbb.math.Camera3d;
@@ -26,7 +24,6 @@ import ddddbb.math.D2GraphicsIF;
 import ddddbb.math.D3Graphics;
 import ddddbb.math.Flat3dGraphics;
 import ddddbb.math.Isometric30Perspective;
-import ddddbb.math.OrthographicPerspective;
 import ddddbb.math.ParallelEyedGraphics;
 import ddddbb.math.PhotoPerspective;
 
@@ -279,25 +276,11 @@ public class Settings {
 	public final IntModel<GameStatus> gameStatus = new IntModel<Settings.GameStatus>(Settings.GameStatus.PENDING, Settings.GameStatus.values());
 
 	public final BoolModel antiAliased = new BoolModel(true,"Antialiased");
-	public final IntStringModel compRotAxis1 = new IntStringModel(0,Main.axisNames);
-	public final IntStringModel compRotAxis2 = new IntStringModel(1,Main.axisNames);
-	public final IntStringModel compTransAxis = new IntStringModel(0,Main.axisNames);
-	public final String[] d3axisNames = {"x","y","z"};
-	public final IntStringModel d3ViewRotAxis = new IntStringModel(0,new String[] {"yz", "xz", "xy"});
-	public final IntStringModel d3ViewTransAxis = new IntStringModel(1,d3axisNames);
 	//public final BoolModel drawTrihedral = new BoolModel(false,"Trihedral");
 	public final BoolModel drawTetrahedral = new BoolModel(true,"Tetrahedral");
 	public final BoolModel showGoal = new BoolModel(false,"Goal");
 	public final BoolModel showInternalFaces =	new BoolModel(
 	false, "Show internal faces");
-	//public final Frame main;
-	public final DiAxisModel viewRotXAxis12 = new DiAxisModel(0,1);
-	public final IntStringModel viewTransAxis = new IntStringModel(1, Main.axisNames);
-	//public IntStringModel viewRotXAxis2 = new IntStringModel(1,axisNames);
-	//public DiAxisModel viewRotYAxis12 = new DiAxisModel(2,3);
-	//public IntStringModel viewRotYAxis2 = new IntStringModel(3,axisNames);
-	
-	public final IntStringModel viewTransRot = new IntStringModel(1, new String[] { "trans", "rot"});
 	public final static DoubleModel zoom = new DoubleModel(1,0.2);
 
 	public final IntModel<DSignedAxis> perspectiveAxis = new IntModel<DSignedAxis>(

@@ -11,7 +11,7 @@ public class PersistentPreferences {
 	public static class User extends PersistentPreferences {
 		public User(Settings ss) {
 			super(ss,
-					"4dbb/screen",
+					"4dbb",
 					new String[] {
 					"barEyeFocusDelta",
 					"eyesDistHalf",
