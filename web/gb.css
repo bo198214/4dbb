@@ -1,0 +1,24 @@
+td.mainmenu {
+	text-align: left;
+}
+
+td.pagenavigation {
+	text-align: right;
+}
+
+td.entrymessage {
+	border: 1px solid #555555;
+}
+
+td.usericons {
+	border: 1px solid #555555;
+}
+td.userinfo {
+	border: 1px solid #555555;
+}
+div.commentdisplay {
+        border: 1px solid #555555;
+}
+
+
+

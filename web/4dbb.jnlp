@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jnlp PUBLIC "-//Sun Microsystems, Inc//DTD JNLP Descriptor 6.0//EN" "JNLP-6.0.dtd">
+<jnlp>
+	<information>
+		<title>4DBB - 4D Building Blocks</title>
+		<vendor>bo198214</vendor>
+		<description>A game to interactively explore 4 dimensional space.</description>
+		<offline-allowed /></information>
+	<resources >
+		<j2se version="1.5+"></j2se>
+		<jar href="@jar_url@" /></resources>
+	<application-desc/>
+</jnlp>

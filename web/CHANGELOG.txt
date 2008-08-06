@@ -1,0 +1,34 @@
+0.7 beta, 2006-01-22:
+  controlled startup window size
+  resizing window does no more result in heap overflow
+
+0.8 beta
+  fixed oversight, that caused rotated shapes showing wrong faces
+  rotating view now rotates around the center of
+    the selected compound
+  added zoom
+  
+0.8.1 beta
+  changing polar coordinates now centers camera on 0
+  added some tooltips in view control
+  
+0.9.1
+  level system
+  added sounds
+  two additional objectives
+  renamed v1,v2,v3,v4 into x,y,z,w
+  recognizes now non-reachable goal before only one compound is left
+  fixed that mouse had to be over the view screen for keyboard input being possbile
+  
+Planned:
+  core model mode: instead of displaying the cubes only
+    the centers are displayed and lines between adjacent centers
+  More, and more sophisticated objectives
+  Nicer Viewing Axes
+  Customizable keys
+  save configuration/state
+  4D covering surfaces (occlusion culling), at least for the axonometric projections
+  4D surface mode, fold surfaces like cube, torus and Klein-bottle
+  Documentation in docbook
+
+  

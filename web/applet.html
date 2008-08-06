@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <title> 4D Building Blocks APPLET </title>
+</head>
+<body>
+<p>
+<!--[if !IE]>-->
+<object 
+  classid="java:@applet_class@.class" 
+  type="application/x-java-applet"
+  width="@width@" 
+  height="@height@"
+  >
+  <!-- Konqueror browser needs the following param -->
+  <param name="archive" value="@jar@" />
+  <param name="cache_archive" value="@jar@"/>
+  <param name="cache_version" value="@applet_version@"/>
+<!--<![endif]-->
+  <object 
+    classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" 
+    height="@height@" width="@width@" 
+    codebase="http://java.sun.com/update/1.5.0/jinstall-1_5_0-windows-i586.cab"> 
+      <param name="code" value="@applet_class@" />
+      <param name="archive" value="@jar@" />
+      <param name="cache_archive" value="@jar@"/>
+      <param name="cache_version" value="@applet_version@"/>
+  </object> 
+<!--[if !IE]>-->
+Install at least @jre_html@ plugin to view the applet.
+</object>
+<!--<![endif]-->
+</p>
+</body>
+</html>
