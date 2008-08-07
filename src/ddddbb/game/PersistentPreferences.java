@@ -1,5 +1,7 @@
 package ddddbb.game;
 
+import java.awt.Container;
+import java.awt.Dimension;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -9,8 +11,8 @@ import ddddbb.gen.IntModel;
 
 public class PersistentPreferences {
 	public static class User extends PersistentPreferences {
-		public User(Settings ss) {
-			super(ss,
+		public User(Settings ss,Container window) {
+			super(ss, window,
 					"4dbb",
 					new String[] {
 					"barEyeFocusDelta",
@@ -34,14 +36,18 @@ public class PersistentPreferences {
 		}
 	}
 	
+	private static String widthKey = "applicationWidth";
+	private static String heightKey = "applicationHeight";
 	
 	public final String node;
 	public final String[] keys;
 		
 	private final Settings ss;
+	private final Container window;
 
-	protected PersistentPreferences(Settings ss, String node, String[] keys) {
+	protected PersistentPreferences(Settings ss, Container window, String node, String[] keys) {
 		this.ss = ss;
+		this.window = window;
 		this.node = node;
 		this.keys = keys;
 		checkPrefKeys(ss, keys);
@@ -128,6 +134,8 @@ public class PersistentPreferences {
 		for (int i=0;i<keys.length;i++) {
 			put(prefs, keys[i]);
 		}
+		prefs.put(widthKey,Integer.toString(window.getWidth()));
+		prefs.put(heightKey,Integer.toString(window.getHeight()));
 		prefs.flush();
 	}
 	
@@ -136,6 +144,9 @@ public class PersistentPreferences {
 		for (int i=0;i<keys.length;i++) {
 			get(prefs, keys[i]);
 		}
+		int w = Integer.parseInt(prefs.get(widthKey, Integer.toString(Settings.defaultWidth)));
+		int h = Integer.parseInt(prefs.get(heightKey, Integer.toString(Settings.defaultHeight)));
+		window.setPreferredSize(new Dimension(w,h));
 	}
 	
 //	public static void main(String[] args) throws BackingStoreException {

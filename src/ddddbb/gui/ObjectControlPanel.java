@@ -2,7 +2,6 @@ package ddddbb.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -319,7 +318,7 @@ public class ObjectControlPanel extends DPanel {
 					return;
 				}
 
-				double[] c = co.center().x;
+				int[] c = co.centerOrigin();
 				xLoc.setText(ViewPane.nf.format(c[0]));
 				yLoc.setText(ViewPane.nf.format(c[1]));
 				zLoc.setText(ViewPane.nf.format(c[2]));

@@ -117,6 +117,9 @@ public class Compound {
 //		return res;
 		return center.loc();
 	}
+	public int[] centerOrigin() {
+		return center.origin();
+	}
 	
 	public int[][] locations() {
 		return locations;

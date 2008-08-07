@@ -6,6 +6,8 @@
 		<vendor>bo198214</vendor>
 		<description>A game to interactively explore 4 dimensional space.</description>
 		<offline-allowed /></information>
+	<security>
+		<all-permissions /></security>
 	<resources >
 		<j2se version="1.5+"></j2se>
 		<jar href="@jar_url@" /></resources>

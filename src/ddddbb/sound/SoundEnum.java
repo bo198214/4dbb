@@ -1,5 +1,6 @@
 package ddddbb.sound;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -28,7 +29,7 @@ public class SoundEnum {
 	public static final Sound GOALREACHED = new Sound("22125_Connum_bach2.wav",true);
 	public static final Sound GOALMISSED = new Sound("goalMissed.wav",true);
 //	public static final Sound SHOWGOAL = new Sound("showGoal.wav",false);
-	public static final Sound SHOWGOAL = new Sound("36742_zuben_Frenetic_3.wav",false);
+	public static final Sound SHOWGOAL = new Sound("36742_zuben_Frenetic_2.wav",false);
 //	public static final Sound MOUSEOVER = new Sound("39771_altemark_fx17.wav",false);
 	public static final Sound MOUSEOVER = new Sound("29042_junggle_btn232.wav",false);
 	public static final Sound SWITCH = new Sound("3061_SpeedY_beat.wav",false);
@@ -45,7 +46,7 @@ public class SoundEnum {
 			try {
 
 				InputStream istream = getClass().getResourceAsStream(filename);
-				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(istream);
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(istream));
 				
 				clip = AudioSystem.getClip();
 				clip.open(audioInputStream);

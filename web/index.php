@@ -13,6 +13,7 @@
   content="4dbb, 4d, visualization, game, 4d space, 4th dimension, 4 dimensional, flatland, fourth dimension, four dimensional, hypercube, hyperspace, tesseract"/>
   <meta name="distribution" content="global"/>
   <link href="4dbb.css" rel="stylesheet" type="text/css"/>
+  <link href="gb.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -30,22 +31,24 @@ src="nswpat80x15.gif" style="border-width: 0;" />
 <p>
 4D Building Blocks is a game to interactively explore 4 dimensional space<br/>
  like a child with building blocks.<br/>
-The aim is to reassemble given pieces to the goal shape.<br/>
-</p><p>
+The aim is to reassemble given pieces to the goal shape.</p>
+<p>
 Have a look at some <a href="screenshots.html">screenshots</a>,<br/>
-see the <a href="documentation.html">documentation</a><br/> or immediately start the 
-<a href="4dbb.jnlp">game as Java web application</a> or as <a href="applet.html">Java applet</a>.<br/>
-</p><p>
-To start you need @jre_html@ installed.<br/>
-
-You can also <a href="download.php">download</a> the application and play
-locally.<br/>
+see the <a href="documentation.html">documentation</a> or <a href="about.html">about page</a>.
+You have 3 choices to start the game:</p>
+<ul>
+<li> <a href="4dbb.jnlp">with Java web start</a></li>
+<li> <a href="applet.html">as Java applet</a>.</li>
+<li> <a href="download.php">after download</a></li>
+</ul>
+<p>
+To start either way you need @jre_html@ installed.<br/>
 Discuss 4D Building Blocks <a href="@feedback_url@">here</a> (at the Tetraspace forum). </p>
 <p>Actual Version: <a href="CHANGELOG.txt">@release_version@</a>, Build:
 @build_time@.<br/>
-</p>
 And you are encouraged to support further development by making a <a
 href="donation.html">donation</a>.
+</p>
 
 <?php
 $PHP_SELF='/phpbook/guestbook.php';

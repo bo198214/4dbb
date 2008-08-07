@@ -1,5 +1,6 @@
 package ddddbb.gui;
 
+import java.applet.Applet;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,6 @@ import org.xml.sax.SAXException;
 
 import ddddbb.game.Main;
 import ddddbb.game.Objective;
-import ddddbb.game.PersistentPreferences;
 import ddddbb.game.Settings;
 
 
@@ -48,9 +48,9 @@ public class TheMenuBar extends JMenuBar {
 
 	private final Main main;
 
-	private JMenuItem saveObjective;
+	private final JMenuItem saveObjective;
 
-	private JMenuItem loadObjective;
+	private final JMenuItem loadObjective;
 	
 	private final JFileChooser objectiveFileChooser;
 
@@ -64,16 +64,22 @@ public class TheMenuBar extends JMenuBar {
 				savePrefs.setText("Save Preferences");
 				savePrefs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
 						Event.CTRL_MASK, true));
-				savePrefs.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try {
-							new PersistentPreferences.User(main.ss).save();
-						} catch (BackingStoreException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}});
+				if (main.window instanceof Applet) {
+					savePrefs.setEnabled(false);
+					savePrefs.setToolTipText("Disabled in the applet version only.");
+				}
+				else {
+					savePrefs.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							try {
+								main.prefs.save();
+							} catch (BackingStoreException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}});
+				}
 				fileMenu.add(savePrefs);
 			}
 			{
@@ -95,11 +101,27 @@ public class TheMenuBar extends JMenuBar {
 			}
 
 			{
-			    fileMenu.add(getLoadObjective(objectiveFileChooser));
+				loadObjective = new JMenuItem();
+				if (main.window instanceof Applet) {
+					loadObjective.setEnabled(false);
+					loadObjective.setToolTipText("Disabled in the applet version only.");
+				}
+				else {
+					initLoadObjective(objectiveFileChooser);
+				}
+			    fileMenu.add(loadObjective);
 				loadObjective.setText("Load scene (simple)...");
 			}
 			{
-			    fileMenu.add(getSaveObjective(objectiveFileChooser));
+				saveObjective = new JMenuItem();
+				if (main.window instanceof Applet) {
+					saveObjective.setEnabled(false);
+					saveObjective.setToolTipText("Disabled in the applet version only.");
+				}
+				else {
+					initSaveObjective(objectiveFileChooser);
+				}
+			    fileMenu.add(saveObjective);
 				saveObjective.setText("Save scene (simple)...");
 			}
 //			{
@@ -314,9 +336,7 @@ public class TheMenuBar extends JMenuBar {
 		return savePngMenuItem;
 	}
 
-	private JMenuItem getSaveObjective(final JFileChooser objectiveFileChooser) {
-		if (saveObjective!=null) return saveObjective;
-		saveObjective = new JMenuItem();
+	private void initSaveObjective(final JFileChooser objectiveFileChooser) {
 		saveObjective.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -332,13 +352,10 @@ public class TheMenuBar extends JMenuBar {
 				}
 			}});
 		
-		return saveObjective;
+		return;
 	}
 	
-	private JMenuItem getLoadObjective(final JFileChooser objectiveFileChooser) {
-		if (loadObjective!=null) return loadObjective;
-		
-		loadObjective = new JMenuItem();
+	private void initLoadObjective(final JFileChooser objectiveFileChooser) {
 		loadObjective.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -359,8 +376,5 @@ public class TheMenuBar extends JMenuBar {
 					}
 				}
 			}});
-		
-		
-		return loadObjective;
 	}
 }

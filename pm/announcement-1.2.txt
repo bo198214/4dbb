@@ -5,14 +5,15 @@ Now it is exclusively able to cull 4d occlusions (not just backface)
 in arbitrary scenes made up of unit tesseracts and has fancy transparent
 display controls. 
 
-Some cool new levels are added too.
 If you ever wanted to know how to get an item out of a closed 3d box in 4d,
 or why in 4d there can be no (1d) knots, make your own experience in this game!
+Some cool new levels and superb sound are added.
 
-And tell me about your ideas for objectives to be added. 
+Tell me about your ideas for objectives to be added. 
 You can easily create your own levels by specifying the integer locations
 of the unit tesseracts. 
-The game is able to load and save levels, look into a saved file for the format.  
+The game (non-applet version) is able to load and save levels,
+look into a saved file for the format.  
 
 You can find the game here:
 http://math.eretrandre.org/4dbb/index.php

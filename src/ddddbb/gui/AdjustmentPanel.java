@@ -4,8 +4,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.prefs.BackingStoreException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -22,8 +20,6 @@ import ddddbb.gen.DoubleUnitModel;
 
 @SuppressWarnings("serial")
 public class AdjustmentPanel extends JPanel {
-	private final PersistentPreferences.User prefs;
-
 	private JLabel eyesDistLabel = null;
 	private JSpinner eyesDistSpinner = null;
 	private JComboBox unitComboBox = null;
@@ -64,8 +60,6 @@ public class AdjustmentPanel extends JPanel {
 	public AdjustmentPanel(Settings _sv, Container _window) {
 		sv = _sv;
 		window = _window;
-		prefs = new PersistentPreferences.User(sv);
-		prefs.load();
 		initialize();
 	}
 

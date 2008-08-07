@@ -29,6 +29,8 @@ import ddddbb.math.PhotoPerspective;
 
 public class Settings {
 
+	public final static int defaultWidth = 800;
+	public final static int defaultHeight = 600;
 	public final static Font font = new Font(Font.DIALOG,Font.PLAIN,12);
 	public final static DoubleModel	brightness = 
 		new DoubleModel(0.75,0,1);

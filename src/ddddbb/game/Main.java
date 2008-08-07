@@ -1,5 +1,6 @@
 package ddddbb.game;
 
+import java.applet.Applet;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.io.FileNotFoundException;
@@ -11,11 +12,10 @@ import javax.swing.JPanel;
 import ddddbb.gen.AChangeListener;
 import ddddbb.gen.BoolModel;
 import ddddbb.gen.IntModel;
-import ddddbb.gui.AboutPane;
 import ddddbb.gui.AdjustmentPane;
 import ddddbb.gui.ContentPane;
-import ddddbb.gui.DocumentationPane;
 import ddddbb.gui.KeyControl;
+import ddddbb.gui.LinkEnabledTextPane;
 import ddddbb.gui.ViewPane;
 import ddddbb.gui.ViewScreen;
 import ddddbb.sound.SoundEnum;
@@ -26,22 +26,18 @@ public final class Main {
 	public static final String[] axisNames = { "x", "y", "z", "w" };
 	public static final BoolModel debug = new BoolModel(true,"Debug");
 	
-	public int applicationHeight;
-	public int applicationWidth;
-	
-	
 	public static class ShowedScreenEnum extends IntModel<JPanel> {
 		public final AdjustmentPane ADJUSTMENT;
 		public final ViewPane MAIN;
-		public final DocumentationPane DOCUMENTATION;
-		public final AboutPane ABOUT;
+		public final JPanel DOCUMENTATION;
+		public final JPanel ABOUT;
 		ShowedScreenEnum(Settings ss, Level scene, Scene4d goalScene, Container window) {
 			ADJUSTMENT = new AdjustmentPane(ss, window); 
 			//KEYCONTROL = new KeyControlPanel();
 			MAIN = new ViewPane(ss,scene,goalScene);
 			MAIN.addKeyListener(new KeyControl(ss,scene));
-			DOCUMENTATION = new DocumentationPane();
-			ABOUT = new AboutPane();
+			DOCUMENTATION = new LinkEnabledTextPane(LinkEnabledTextPane.class.getResource("documentation.html"),window);
+			ABOUT = new LinkEnabledTextPane(LinkEnabledTextPane.class.getResource("about.html"),window);
 			super.init(MAIN,new String[] {"Adjustment", "Scene", "Documentation", "About"}, 
 					new JPanel[] { ADJUSTMENT, MAIN, DOCUMENTATION, ABOUT });
 		}
@@ -57,10 +53,20 @@ public final class Main {
 	
 	public final ViewScreen viewScreen;
 	public final Settings ss =new Settings();
-	private final Container window;
+	public final Container window;
+	public final PersistentPreferences prefs;
 	
 	public Main(Container _window) {
 		window = _window;
+		if (window instanceof Applet) {
+			prefs = null;
+			window.setPreferredSize(new Dimension(Settings.defaultWidth, Settings.defaultHeight));
+		}
+		else {
+			prefs = new PersistentPreferences.User(ss,window);
+			prefs.load();
+		}
+
 		scene = new Level(ss);
 		goalScene = scene.cloneCamRefs();
 		new AChangeListener() {
@@ -104,21 +110,16 @@ public final class Main {
 		
 		}.addTo(ss.gameStatus);
 		
-		Properties props = new Properties();
-		try {
-			props.load(Main.class.getResourceAsStream("application.properties"));
-		} catch (FileNotFoundException e) {
-			assert false;
-			e.printStackTrace();
-		} catch (IOException e) {
-			assert false;
-			e.printStackTrace();
-		}
-		applicationWidth = Integer.parseInt(props.getProperty("width"));
-		applicationHeight = Integer.parseInt(props.getProperty("height"));
-		
-//		setSize(Main.opt.applicationWidth, Main.opt.applicationHeight);
-		window.setPreferredSize(new Dimension(applicationWidth, applicationHeight));
+//		Properties props = new Properties();
+//		try {
+//			props.load(Main.class.getResourceAsStream("application.properties"));
+//		} catch (FileNotFoundException e) {
+//			assert false;
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			assert false;
+//			e.printStackTrace();
+//		}
 		
 	}
 	
