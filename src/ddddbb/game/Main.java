@@ -3,9 +3,6 @@ package ddddbb.game;
 import java.applet.Applet;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
 
 import javax.swing.JPanel;
 

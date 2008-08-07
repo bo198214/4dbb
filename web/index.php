@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <!-- browsers should not cache this document -->
   <meta http-equiv="Pragma" content="no-cache"/>
@@ -19,7 +19,7 @@
 <body>
 
 <div style="text-align: right;">
-<a href="http://noepatents.eu.org/"><img alt="NO SOFTWARE PATENTS"
+<a href="http://www.nosoftwarepatents.com/"><img alt="NO SOFTWARE PATENTS"
 src="nswpat80x15.gif" style="border-width: 0;" />
 </a></div>
 
@@ -43,10 +43,14 @@ You have 3 choices to start the game:</p>
 </ul>
 <p>
 To start either way you need @jre_html@ installed.<br/>
+Another highly recommended prerequisite are red-cyan 3D anaglyph glasses.<br/>
+They are of negligible expense and you can use them to see<br/>
+the wealth of 3d anaglyph pictures out there in the web.</p>
+<p>
 Discuss 4D Building Blocks <a href="@feedback_url@">here</a> (at the Tetraspace forum). </p>
 <p>Actual Version: <a href="CHANGELOG.txt">@release_version@</a>, Build:
 @build_time@.<br/>
-And you are encouraged to support further development by making a <a
+You are encouraged to support further development by making a <a
 href="donation.html">donation</a>.
 </p>
 

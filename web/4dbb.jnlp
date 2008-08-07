@@ -4,6 +4,7 @@
 	<information>
 		<title>4DBB - 4D Building Blocks</title>
 		<vendor>bo198214</vendor>
+		<homepage href="@homepage@" />
 		<description>A game to interactively explore 4 dimensional space.</description>
 		<offline-allowed /></information>
 	<security>

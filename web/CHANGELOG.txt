@@ -20,9 +20,10 @@
   recognizes now non-reachable goal before only one compound is left
   fixed that mouse had to be over the view screen for keyboard input being possbile
   
-1.2 2008-08
+1.2 2008-08-07
   Complete 4D occlusion culling works now!
   4 new cool levels
+  New sounds from freesound.org
   Ability to save and load levels/creation of own levels.
   Completely reworked control panels, discarding standard elements,
   Adjustable orientation in 3d and 4d.

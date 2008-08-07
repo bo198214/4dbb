@@ -3,7 +3,7 @@
 	
 	<property name="version" value="1.2"/>
 
-	<property name="web_path" value="web"/>
+	<property name="web_path" value="4dbb"/>
 	<property name="server_url" value="http://math.eretrandre.org"/>
 	
 	<!-- no need to modify the following -->
@@ -12,8 +12,10 @@
     <property name="web_dir" value="web"/>
     <property name="release_dir" value="export"/>
     <property name="jar" value="4dbb.jar"/>
-	<property name="jar_url" value="${server_url}/${web_path}/${jar}"/>
+	<property name="homepage" value="${server_url}/${web_path}"/>
+	<property name="jar_url" value="${homepage}/${jar}"/>
 
+	<mkdir dir="${release_dir}"/>
 
 	
 	<property name="application_properties" value="${src_dir}/ddddbb/game/application.properties"/>
@@ -39,6 +41,7 @@ applet_version=${applet_version}
 copyright=&amp;copy; ${year} Henryk Trappmann, all rights reserved.
 email=${email}
 jar=${jar}
+homepage=${homepage}/
 jar_url=${jar_url}
 	</echo>
 	

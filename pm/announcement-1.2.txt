@@ -18,7 +18,7 @@ look into a saved file for the format.
 You can find the game here:
 http://math.eretrandre.org/4dbb/index.php
 
-You can either download, play as applet or Java web start the application.
+You can either download, play as applet, or Java web start the application.
 Let me know what you think.
 
 Sincerely yours,
