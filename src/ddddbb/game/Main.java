@@ -80,13 +80,19 @@ public final class Main {
 				
 				if (ss.gameStatus.sel() == Settings.GameStatus.REACHED) {
 					//viewScreen.repaint(); //why does this not work?
-					SoundEnum.GOALREACHED.play();
 					if (ss.objectives.selInt() < ss.objectives.getSize()-1) { //before last level
 						ss.objectives.setSelInt(ss.objectives.selInt()+1);
-										
+						SoundEnum.GOALREACHED.play();										
 					}
-					if (ss.objectives.selInt() == ss.objectives.getSize()-1) {
-						//TODO: last level completed congratulations
+					else  {
+						assert ss.objectives.selInt() == ss.objectives.getSize()-1;
+						try {
+							Thread.sleep(1500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						SoundEnum.GAMECOMPLETED.play();
 					}
 					
 				}

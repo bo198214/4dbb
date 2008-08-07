@@ -5,10 +5,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JToggleButton;
 
 import ddddbb.game.Settings;
+import ddddbb.sound.SoundEnum;
 
 @SuppressWarnings("serial")
 public class DRadioButton extends JToggleButton {
@@ -17,6 +20,13 @@ public class DRadioButton extends JToggleButton {
 		setText(text);
 		setFont(Settings.font);
 		setPreferredSize(new Dimension(16+8*text.length()+2,16));
+		addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SoundEnum.SWITCH.play();
+			}
+			
+		});
 	}
 	public void paint(Graphics g) {
 		Graphics2D gc = (Graphics2D) g;

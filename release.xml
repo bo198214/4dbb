@@ -34,7 +34,7 @@
 build_time=${build_time}
 release_version=${version}
 applet_version=${applet_version}
-copyright=&#169; ${year} Henryk Trappmann, all rights reserved.
+copyright=&amp;copy; ${year} Henryk Trappmann, all rights reserved.
 email=${email}
 jar=${jar}
 jar_url=${jar_url}

@@ -12,7 +12,7 @@
   changing polar coordinates now centers camera on 0
   added some tooltips in view control
   
-0.9.1
+0.9.1 2007-02-04
   level system
   added sounds
   two additional objectives
@@ -20,15 +20,18 @@
   recognizes now non-reachable goal before only one compound is left
   fixed that mouse had to be over the view screen for keyboard input being possbile
   
-Planned:
-  core model mode: instead of displaying the cubes only
-    the centers are displayed and lines between adjacent centers
-  More, and more sophisticated objectives
-  Nicer Viewing Axes
-  Customizable keys
-  save configuration/state
-  4D covering surfaces (occlusion culling), at least for the axonometric projections
-  4D surface mode, fold surfaces like cube, torus and Klein-bottle
-  Documentation in docbook
-
+1.2 2008-08
+  Complete 4D occlusion culling works now!
+  4 new cool levels
+  Ability to save and load levels/creation of own levels.
+  Completely reworked control panels, discarding standard elements,
+  Adjustable orientation in 3d and 4d.
+  Dimetric projection
+  Saving of preferences now possible
+  Unified keyboard control
+  Viewing axes have now arrows and labels are drawn to the side
+  More convincing blob indicating the selected object
+  Java web start
+  
+  
   

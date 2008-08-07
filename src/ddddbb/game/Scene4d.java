@@ -3,6 +3,8 @@ package ddddbb.game;
 import java.util.List;
 import java.util.Vector;
 
+import javax.sound.sampled.Clip;
+
 import ddddbb.comb.Cell;
 import ddddbb.comb.CellComplex;
 import ddddbb.comb.DCell;
@@ -80,7 +82,16 @@ public class Scene4d extends Model implements MyChangeListener {
 			
 		new AChangeListener() {
 			public void stateChanged() {
-				if (ss.showGoal.isSelected()) SoundEnum.SHOWGOAL.play();
+				Clip clip = SoundEnum.SHOWGOAL.clip; 
+				if (ss.showGoal.isSelected()) {
+					clip.setFramePosition(0);
+					clip.start();
+				}
+				else {
+//					//SoundEnum.SHOWGOAL.clip.drain();
+//					if (clip.isRunning()) 
+//						SoundEnum.SHOWGOAL.clip.stop();
+				}
 				changed();
 			}}.addTo(ss.showGoal);
 			
