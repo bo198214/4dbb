@@ -1,3 +1,4 @@
+<?php header('Content-type: text/html; charset=us-ascii'); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -5,7 +6,6 @@
   <meta http-equiv="Pragma" content="no-cache"/>
   <!-- date for search engines to revisit, or for caching to refresh -->
   <meta http-equiv="Expires" content="-1"/>
-  <meta http-equiv="content-type" content="text/html; charset=us-ascii"/>
   <title>4DBB - 4D Building Blocks</title>
   <meta name="description"
   content="   4DBB is an interactive game to explore 4 (spatial) dimensional space.   You can train your intuition to visualize and manipulate four dimensional   shapes built of 4d cubes (tesseracts).   See the hyperspace with the tetronians eye!"/>
@@ -42,7 +42,7 @@ You have 3 choices to start the game:</p>
 <li> <a href="download.php">after download</a></li>
 </ul>
 <p>
-To start either way you need @jre_html@ installed.<br/>
+To start either way you need at least @jre_html@ installed.<br/>
 Another highly recommended prerequisite are red-cyan 3D anaglyph glasses.<br/>
 They are of negligible expense and you can use them to see<br/>
 the wealth of 3d anaglyph pictures out there in the web.</p>
