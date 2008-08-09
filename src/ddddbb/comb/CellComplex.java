@@ -110,7 +110,7 @@ public class CellComplex {
 		assert c.dim() == 3;
 		Vector<OHalfSpace> hyperPlanes = new Vector<OHalfSpace>();
 		for (OCell f:c.facets ) {
-			OHalfSpace s = new OHalfSpace(f.cell().halfSpace(),f.orientation);
+			OHalfSpace s = new OHalfSpace(f.cell().spaceId,f.orientation);
 			hyperPlanes.add(s);
 		}
 		cutOut(hyperPlanes);

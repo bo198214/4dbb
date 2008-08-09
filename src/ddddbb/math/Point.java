@@ -222,7 +222,7 @@ public class Point implements Comparable<Point>{
 	}
 	
 	/** scales this Point to having length 1 */
-	protected Point normalize() {
+	public Point normalize() {
 		double l = len();
 		if (l >= AOP.ERR) {
 			for (int i=0;i<x.length;i++) {

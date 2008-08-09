@@ -2,16 +2,18 @@ package ddddbb.comb;
 
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 
+import ddddbb.math.AOP;
 import ddddbb.math.HalfSpace;
 import ddddbb.math.OHalfSpace;
+import ddddbb.math.Point;
+import ddddbb.math.Point3d;
 
 /** We want to have the same SpaceId for equal spaces */
-public class SpaceId {
-	private HalfSpace halfSpace;
-
+public class SpaceId extends HalfSpace {
 	static Hashtable<DSpace, SpaceId> dspaceMemo = new Hashtable<DSpace, SpaceId>(); 
 	
 	HashMap<HalfSpace,SpaceId> memo = new HashMap<HalfSpace,SpaceId>();
@@ -30,7 +32,7 @@ public class SpaceId {
 		else {
 			res = dspaceMemo.get(dspace);
 		}
-		res.halfSpace = null;
+		res.spaceComputed = false;
 		return res;
 	}
 	
@@ -60,12 +62,27 @@ public class SpaceId {
 		return res;
 	}
 	
-	public HalfSpace halfSpace() {
-		return halfSpace;
-	}
-	
-	public void setHalfSpace(HalfSpace _halfSpace) {
-		halfSpace = _halfSpace;
+	boolean spaceComputed = false;
+	public void setHalfSpace(List<? extends OCell> facets) {
+		assert facets.size() >= 2 : facets.size();
+		Point3d[] d= new Point3d[2];
+		Point a = null;
+		int i=0;
+		for (OCell fc1:facets) {
+			Cell f1 = fc1.cell();
+			assert f1.location().dim() == 1;
+			Point3d f1a,f1b;
+			f1a = (Point3d)f1.a().location().o().clone();
+			f1b = (Point3d)f1.b().location().o().clone();
+			if (i>=2) { break; }
+			if (i==0) { a = f1a; }
+			d[i] = (Point3d)f1b.subtract(f1a).normalize();
+			i++;
+		}
+		normal = AOP.X(d[0],d[1]).normalize();
+		normal.multiply(normal.positivity());
+		length = a.sc(normal);
+		spaceComputed = true;
 	}
 	
 	public static void main(String[] args) {

@@ -11,7 +11,6 @@ import ddddbb.math.HalfSpace;
 import ddddbb.math.OHalfSpace;
 import ddddbb.math.Point;
 import ddddbb.math.Point3d;
-import ddddbb.math.Space2d;
 
 public class Cell extends ACell {
 	protected Vector<OCell> facets = new Vector<OCell>(); //dim-1
@@ -220,8 +219,8 @@ public class Cell extends ACell {
 
 	/** returns a copy of the normal of this Cell */
 	public Point normal() {
-		assert halfSpace().normal.isNormal();
-		return halfSpace().normal.clone();
+		assert spaceId.normal.isNormal();
+		return spaceId.normal.clone();
 	}
 	
 	public ALocation location() {
@@ -242,7 +241,7 @@ public class Cell extends ACell {
 			if (f2.orientation != 0) { continue; }
 			f2.orientation = +1;
 			for ( ALocation l : locations ) {
-				if ( f2.cell().halfSpace().side(l.o()) == 1 ) {
+				if ( f2.cell().spaceId.side(l.o()) == 1 ) {
 					f2.orientation = -1;
 					break;
 				}
@@ -253,9 +252,8 @@ public class Cell extends ACell {
 	public void computeSpace2dIN() {
 		assert spaceDim() == 3;
 		assert dim() == 2;
-		if (halfSpace()!=null) { return; }
-		Space2d s = new Space2d(facets);
-		spaceId.setHalfSpace(s);
+		if (spaceId.spaceComputed) { return; }
+		spaceId.setHalfSpace(facets);
 	}
 
 	private Point cutPoint(OHalfSpace e) {
@@ -464,13 +462,7 @@ public class Cell extends ACell {
 		inner = create(inner_facets,spaceId);
 		outer = create(outer_facets,spaceId);
 		
-		if (dim()+1==spaceDim()) {
-			inner.spaceId.setHalfSpace(halfSpace());
-			outer.spaceId.setHalfSpace(halfSpace());
-		}
-
 		if (dim()==spaceDim()) {
-			cut.spaceId.setHalfSpace(e.space());
 			outerCut.orientation = -e.orientation();
 			innerCut.orientation = e.orientation();
 		}
@@ -732,17 +724,10 @@ public class Cell extends ACell {
 		return true;
 	}
 
-	public HalfSpace halfSpace() {
-		assert dim()+1==spaceDim();
-		//assert halfSpaces().size() == 1;
-		
-		return spaceId.halfSpace();
-	}
-
-	public HashSet<HalfSpace> halfSpaces() {
-		HashSet<HalfSpace> res = new HashSet<HalfSpace>();
+	public HashSet<SpaceId> halfSpaces() {
+		HashSet<SpaceId> res = new HashSet<SpaceId>();
 		if (dim()==spaceDim()) { return res; }
-		if (dim()+1==spaceDim()) { res.add(halfSpace()); return res; }
+		if (dim()+1==spaceDim()) { res.add(spaceId); return res; }
 		for (OCell oc:referrers) {
 			res.addAll(oc.parent().halfSpaces());
 		}

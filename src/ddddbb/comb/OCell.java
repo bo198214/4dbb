@@ -333,7 +333,7 @@ public class OCell extends BCell implements Iterable<OCell> {
 		return orientation;
 	}
 
-	public HashSet<HalfSpace> halfSpaces() {
+	public HashSet<SpaceId> halfSpaces() {
 		return cell.halfSpaces();
 	}
 
