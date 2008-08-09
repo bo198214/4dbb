@@ -257,29 +257,6 @@ public abstract class ACell {
 	}
 	
 	
-	public static void removeInvisibleParallel(Collection<DCell> v,Point d) {
-		assert d.isNormal();
-		Vector<DCell> toRemove = new Vector<DCell>();
-		for (DCell f : v) {
-			assert f != null;
-			if ( f.isInternal() || ! f.ortographicallyFacing(d) ) {
-				toRemove.add(f);
-			}
-		}
-		v.removeAll(toRemove);
-	}
-	
-	public static void removeInvisibleCentral(Collection<DCell> v,Point eye) {
-		Vector<DCell> toRemove = new Vector<DCell>();
-		for (DCell f : v) {
-			assert f != null;
-			if ( f.isInternal() || ! f.centrallyFacing(eye) ) {
-				toRemove.add(f);
-			}
-		}
-		v.removeAll(toRemove);
-	}
-	
 	public boolean isFacing(Camera4d c4) {
 		return c4.facedBy(this);
 	}

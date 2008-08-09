@@ -115,15 +115,6 @@ public class DCell extends BCell {
 		}
 	}
 
-	protected boolean centrallyFacing(Point eye) {
-		return (location.origin[normal.axis]-eye.x[normal.axis])*normal.pmSign()<0;
-	}
-	
-	protected boolean ortographicallyFacing(Point v) {
-		assert v.isNormal();
-		return v.x[normal.axis]*normal.pmSign() < 0;
-	}
-	
 	@Override
 	public Point normal() {
 		if (dim()+1==spaceDim()) {
