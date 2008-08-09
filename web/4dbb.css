@@ -1,6 +1,14 @@
-body { background-color: #FFFF80; }
-table
-{ 
-margin-left: auto;
-margin-right: auto;
+body { 
+    background-color: #FFFF80;
+    font-family: Verdana,Arial,Helvetica;
+}
+div.main {
+	width: 610px;
+    margin-left: auto;
+    margin-right: auto;
+}
+table { 
+    width: 610px;
+    margin-left: auto;
+    margin-right: auto;
 }
