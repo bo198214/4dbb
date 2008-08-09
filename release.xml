@@ -15,41 +15,33 @@
 	<property name="homepage" value="${server_url}/${web_path}"/>
 	<property name="jar_url" value="${homepage}/${jar}"/>
 
-	<mkdir dir="${release_dir}"/>
+    <property name="bin_out" value="${release_dir}/bin"/>
+	<property name="html_out" value="${release_dir}/${web_path}"/>
+    <property name="jar_out" value="${release_dir}/${jar}"/>
+    <property name="rproperties" value="${release_dir}/release.properties"/>
 
-	
 	<property name="application_properties" value="${src_dir}/ddddbb/game/application.properties"/>
 	<property file="${application_properties}"/>
-    <tstamp>
-        <format property="build_time" pattern="yyyyMMdd-HHmmss" locale="en"/>
-    	<format property="year" pattern="yyyy" locale="en"/>
-    </tstamp>
-
-
-    <property name="rproperties" value="${release_dir}/release.properties"/>
-	<delete file="${rproperties}"/>
-	
-	<property file="${rproperties}"/>
-
-	<property name="applet_version" value="${version}.${release_tag}"/>
     
-    <echo file="${rproperties}">
+	<mkdir dir="${release_dir}"/>
+    
+ 	<target name="jar">
+ 	    <tstamp>
+ 	        <format property="build_time" pattern="yyyyMMdd-HHmmss" locale="en"/>
+ 	    	<format property="year" pattern="yyyy" locale="en"/>
+ 	    </tstamp>
+ 		<delete file="${rproperties}"/>
+ 	    <echo file="${rproperties}">
 #This file is generated automaticly, do not edit!
 build_time=${build_time}
 release_version=${version}
-applet_version=${applet_version}
+applet_version=${version}_${build_time}
 copyright=&amp;copy; ${year} Henryk Trappmann, all rights reserved.
 email=${email}
 jar=${jar}
 homepage=${homepage}/
 jar_url=${jar_url}
-	</echo>
-	
-    <property name="bin_out" value="${release_dir}/bin"/>
-	<property name="html_out" value="${release_dir}/${web_path}"/>
-    <property name="jar_out" value="${release_dir}/${jar}"/>
-    
- 	<target name="jar">
+</echo>
  		<delete file="${jar_out}"/>
 		<delete dir="${bin_out}"/> 		
  		<mkdir dir="${bin_out}"/>
@@ -81,9 +73,10 @@ jar_url=${jar_url}
                 <attribute name="Main-Class" value="${application_class}"/>
             </manifest>
         </jar> 		
+		<signjar jar="${jar_out}" keystore="myKeys" alias="4dbb" storepass="Mantras finde ich doof"/>
  	</target>
 	
-	<target name="web" depends="jar">
+	<target name="web">
 		<delete dir="${html_out}"/>
     	<mkdir dir="${html_out}"/>
         <copy todir="${html_out}" overwrite="true">
@@ -107,10 +100,15 @@ jar_url=${jar_url}
         <copy todir="${html_out}" file="${bin_out}/ddddbb/gui/documentation.html"/>
         <copy todir="${html_out}" file="${bin_out}/ddddbb/gui/about.html"/>
 		<copy todir="${html_out}" file="${jar_out}"/>
-		<signjar jar="${html_out}/${jar}" keystore="myKeys" alias="4dbb" storepass="Mantras finde ich doof"/>
 		<tar basedir="${release_dir}" destfile="${release_dir}/4dbbweb.tar.gz" compression="gzip">
 			<include name="${web_path}/**"/>
 		</tar>
-    </target>
-    
+		<mkdir dir="${release_dir}/html"/>
+		<copy todir="${release_dir}/html" overwrite="true">
+			<fileset dir="${html_out}"/>
+		</copy>
+		<exec executable="php" output="${release_dir}/html/index.html" append="false">
+			<arg value="${html_out}/index.php"/>
+		</exec>
+    </target> 
  </project>
