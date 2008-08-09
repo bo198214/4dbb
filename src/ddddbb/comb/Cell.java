@@ -348,14 +348,14 @@ public class Cell extends ACell {
 			int sideA = e.outer(a);
 			int sideB = e.outer(b);
 			if      (sideA==-1 && sideB== 1) {
-				cut = new Cell(cutPoint(e),spaceId.cut(e));
+				cut = new Cell(cutPoint(e),spaceId.cut(e.space()));
 				inner_facets.add(af);
 				outer_facets.add(bf);
 				splitCellIs = SPLITTED;
 				//continue below
 			}
 			else if (sideA== 1 && sideB==-1) {
-				cut = new Cell(cutPoint(e),spaceId.cut(e));
+				cut = new Cell(cutPoint(e),spaceId.cut(e.space()));
 				inner_facets.add(bf);
 				outer_facets.add(af);
 				splitCellIs = SPLITTED;
@@ -442,7 +442,7 @@ public class Cell extends ACell {
 				return;
 			}
 			else if ((! inner_facets.isEmpty()) && (! outer_facets.isEmpty())) {
-				cut = new Cell(cut_facets,spaceId.cut(e));
+				cut = new Cell(cut_facets,spaceId.cut(e.space()));
 				splitCellIs = SPLITTED;
 				//continue below
 			}

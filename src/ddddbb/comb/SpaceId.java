@@ -5,16 +5,17 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 
+import ddddbb.math.HalfSpace;
 import ddddbb.math.OHalfSpace;
 
 /** We want to have the same SpaceId for equal spaces */
 public class SpaceId {
 	static Hashtable<DSpace, SpaceId> dspaceMemo = new Hashtable<DSpace, SpaceId>(); 
 	
-	HashMap<OHalfSpace,SpaceId> memo = new HashMap<OHalfSpace,SpaceId>();
+	HashMap<HalfSpace,SpaceId> memo = new HashMap<HalfSpace,SpaceId>();
 	
 	//for debuggin purpose only
-	Vector<OHalfSpace> halfSpaces;
+	Vector<HalfSpace> halfSpaces;
 	SpaceId base;
 	DSpace dspace;
 	
@@ -26,21 +27,21 @@ public class SpaceId {
 	}
 	
 	private SpaceId(DSpace _dspace) {
-		halfSpaces = new Vector<OHalfSpace>();
+		halfSpaces = new Vector<HalfSpace>();
 		dspace = _dspace.clone(); 
 	}
 	
 	protected SpaceId() {
 		System.out.println("n:" + dspace);
-		halfSpaces = new Vector<OHalfSpace>();
+		halfSpaces = new Vector<HalfSpace>();
 		base = null;
 	}
-	private SpaceId(SpaceId b, Vector<OHalfSpace> hs) {
+	private SpaceId(SpaceId b, Vector<HalfSpace> hs) {
 		base = b;
-		halfSpaces = new Vector<OHalfSpace>(hs);
+		halfSpaces = new Vector<HalfSpace>(hs);
 	}
 	
-	public SpaceId cut(OHalfSpace e) {
+	public SpaceId cut(HalfSpace e) {
 		if (memo.containsKey(e)) {
 			return memo.get(e);
 		}
