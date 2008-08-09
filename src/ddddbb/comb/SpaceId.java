@@ -10,6 +10,8 @@ import ddddbb.math.OHalfSpace;
 
 /** We want to have the same SpaceId for equal spaces */
 public class SpaceId {
+	private HalfSpace halfSpace;
+
 	static Hashtable<DSpace, SpaceId> dspaceMemo = new Hashtable<DSpace, SpaceId>(); 
 	
 	HashMap<HalfSpace,SpaceId> memo = new HashMap<HalfSpace,SpaceId>();
@@ -20,10 +22,16 @@ public class SpaceId {
 	DSpace dspace;
 	
 	static SpaceId from(DSpace dspace) {
+		SpaceId res;
 		if (!dspaceMemo.containsKey(dspace)) {
-			dspaceMemo.put(dspace, new SpaceId(dspace));
+			res = new SpaceId(dspace);
+			dspaceMemo.put(dspace, res);
 		}
-		return dspaceMemo.get(dspace);
+		else {
+			res = dspaceMemo.get(dspace);
+		}
+		res.halfSpace = null;
+		return res;
 	}
 	
 	private SpaceId(DSpace _dspace) {
@@ -50,6 +58,14 @@ public class SpaceId {
 		
 		memo.put(e, res);
 		return res;
+	}
+	
+	public HalfSpace halfSpace() {
+		return halfSpace;
+	}
+	
+	public void setHalfSpace(HalfSpace _halfSpace) {
+		halfSpace = _halfSpace;
 	}
 	
 	public static void main(String[] args) {

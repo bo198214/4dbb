@@ -11,8 +11,6 @@ public class Location extends ALocation {
 		protected int dim;
 		protected int spaceDim;
 		protected Point origin = null;
-		private HalfSpace halfSpace;
-
 		public boolean equals(Object o) {
 			Location l = (Location) o;
 			if (dim != l.dim) return false;
@@ -90,15 +88,5 @@ public class Location extends ALocation {
 			return o().toString();
 		}
 
-		public HalfSpace halfSpace() {
-			return halfSpace;
-		}
-		
-		public void setHalfSpace(HalfSpace _halfSpace) {
-			assert dim + 1 == spaceDim;
-			assert origin==null || halfSpace.side(origin) == 0;
-			halfSpace = _halfSpace;
-		}
-		
 		DLocation _src;
 	}

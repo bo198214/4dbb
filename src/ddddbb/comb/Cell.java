@@ -254,7 +254,8 @@ public class Cell extends ACell {
 		assert spaceDim() == 3;
 		assert dim() == 2;
 		if (halfSpace()!=null) { return; }
-		location.setHalfSpace(new Space2d(facets));
+		Space2d s = new Space2d(facets);
+		spaceId.setHalfSpace(s);
 	}
 
 	private Point cutPoint(OHalfSpace e) {
@@ -464,12 +465,12 @@ public class Cell extends ACell {
 		outer = create(outer_facets,spaceId);
 		
 		if (dim()+1==spaceDim()) {
-			inner.location.setHalfSpace(halfSpace());
-			outer.location.setHalfSpace(halfSpace());
+			inner.spaceId.setHalfSpace(halfSpace());
+			outer.spaceId.setHalfSpace(halfSpace());
 		}
 
 		if (dim()==spaceDim()) {
-			cut.location.setHalfSpace(e.space());
+			cut.spaceId.setHalfSpace(e.space());
 			outerCut.orientation = -e.orientation();
 			innerCut.orientation = e.orientation();
 		}
@@ -734,7 +735,8 @@ public class Cell extends ACell {
 	public HalfSpace halfSpace() {
 		assert dim()+1==spaceDim();
 		//assert halfSpaces().size() == 1;
-		return location.halfSpace();
+		
+		return spaceId.halfSpace();
 	}
 
 	public HashSet<HalfSpace> halfSpaces() {

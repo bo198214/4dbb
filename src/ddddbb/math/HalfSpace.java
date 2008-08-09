@@ -82,8 +82,8 @@ public class HalfSpace {
 	}
 		
 	public boolean equals(HalfSpace e) {
-		return normal.clone().subtract(e.normal).len() == 0 &&
-			     length == e.length;
+		return AOP.eq(normal.clone().subtract(e.normal).len(),0) &&
+			     AOP.eq(length,e.length);
 	}
 	
 	/** returns one of Cell.CONTAINED, Cell.INNER, Cell.OUTER, Cell.SPLITTED */
