@@ -3,7 +3,6 @@
  */
 package ddddbb.comb;
 
-import ddddbb.math.HalfSpace;
 import ddddbb.math.Point;
 import ddddbb.math.Point3d;
 

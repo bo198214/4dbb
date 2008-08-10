@@ -34,5 +34,7 @@
   More convincing blob indicating the selected object
   Java web start
   
-  
+1.2.1 2008-08-10
+  Fixed a bug with visible edges in occlusion culling
+  Fixed swapped object rotation keys
   

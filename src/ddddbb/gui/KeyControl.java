@@ -154,16 +154,16 @@ public class KeyControl implements KeyListener {
 		LookupTable3int<ActionListener> d = doubleKeyAssignment;
 		
 		d.put(0,82,69,scene.rotSelectedA(1,2)); //r,e
-		d.put(0,69,82,scene.rotSelectedA(1,3)); //e,r
-		d.put(0,82,87,scene.rotSelectedA(1,4)); //r,w
-		d.put(0,87,82,scene.rotSelectedA(2,3)); //w,r
-		d.put(0,82,81,scene.rotSelectedA(2,4)); //r,q
-		d.put(0,81,82,scene.rotSelectedA(3,4)); //q,r
-		d.put(0,69,87,scene.rotSelectedA(2,1)); //e,w
-		d.put(0,87,69,scene.rotSelectedA(3,1)); //w,e
-		d.put(0,69,81,scene.rotSelectedA(4,1)); //e,q
-		d.put(0,81,69,scene.rotSelectedA(3,2)); //q,e
-		d.put(0,87,81,scene.rotSelectedA(4,2)); //w,q
+		d.put(0,69,82,scene.rotSelectedA(2,1)); //e,r
+		d.put(0,82,87,scene.rotSelectedA(1,3)); //r,w
+		d.put(0,87,82,scene.rotSelectedA(3,1)); //w,r
+		d.put(0,82,81,scene.rotSelectedA(1,4)); //r,q
+		d.put(0,81,82,scene.rotSelectedA(4,1)); //q,r
+		d.put(0,69,87,scene.rotSelectedA(2,3)); //e,w
+		d.put(0,87,69,scene.rotSelectedA(3,2)); //w,e
+		d.put(0,69,81,scene.rotSelectedA(2,4)); //e,q
+		d.put(0,81,69,scene.rotSelectedA(4,2)); //q,e
+		d.put(0,87,81,scene.rotSelectedA(3,4)); //w,q
 		d.put(0,81,87,scene.rotSelectedA(4,3)); //q,w
 
 		d.put(0,85,73,ua.rotCamA(1,2)); //u,i

@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
-import javax.swing.AbstractButton;
-import javax.swing.ComboBoxModel;
-
 /** This class is more flexible than {@link IntModel} as it allows
  * to add and remove items. It implements List<T>. 
  * List changes are additionally propagated to the ChangeListeners.  

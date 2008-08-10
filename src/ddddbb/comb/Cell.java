@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.Vector;
 
 import ddddbb.math.D3Graphics;
-import ddddbb.math.HalfSpace;
 import ddddbb.math.OHalfSpace;
 import ddddbb.math.Point;
 import ddddbb.math.Point3d;

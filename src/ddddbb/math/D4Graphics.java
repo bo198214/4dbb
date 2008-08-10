@@ -1,7 +1,6 @@
 package ddddbb.math;
 
 import ddddbb.comb.DCell;
-import ddddbb.comb.DCenter;
 import ddddbb.gen.AChangeListener;
 import ddddbb.gen.IntModel;
 

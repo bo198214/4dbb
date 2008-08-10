@@ -5,10 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-
 import ddddbb.math.AOP;
 import ddddbb.math.HalfSpace;
-import ddddbb.math.OHalfSpace;
 import ddddbb.math.Point;
 import ddddbb.math.Point3d;
 

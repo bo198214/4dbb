@@ -2,7 +2,6 @@ package ddddbb.math;
 
 import java.awt.Color;
 import java.awt.Composite;
-import java.awt.FontMetrics;
 
 
 public interface D2GraphicsIF {

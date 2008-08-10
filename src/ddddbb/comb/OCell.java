@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import ddddbb.game.Main;
 import ddddbb.math.D3Graphics;
-import ddddbb.math.HalfSpace;
 import ddddbb.math.Point;
 import ddddbb.math.Point3d;
 
